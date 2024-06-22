@@ -203,3 +203,22 @@ class HiddenPrints:
                 self.console.print(f'{self.model_name} loaded ')
             import tqdm
             tqdm.tqdm = self.tqdm_aux
+
+
+# NEW FUNCTION
+def complete_code(text):
+    code = text.split('\n')
+    text_= text
+    last_line = code[-1]
+    tabulate_list = ['      return','           return','               return']
+    if 'return' in last_line:
+        for line in tabulate_list:
+            if  line in last_line:
+                text_+='\n'
+                text_+='    return None'
+                return text_
+    else:
+        text_+='\n'
+        text_+='    return None'
+        return text_
+    return text

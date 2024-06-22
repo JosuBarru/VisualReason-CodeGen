@@ -45,7 +45,7 @@ class BaseModel(abc.ABC):
     seconds_collect_data = 1.5  # Window of seconds to group inputs, if to_batch is True
     max_batch_size = 10  # Maximum batch size, if to_batch is True. Maximum allowed by OpenAI
     requires_gpu = True
-    num_gpus = 1  # Number of required GPUs
+    num_gpus = 2  # Number of required GPUs
     load_order = 0  # Order in which the model is loaded. Lower is first. By default, models are loaded alphabetically
 
     def __init__(self, gpu_number):
@@ -108,7 +108,7 @@ class ObjectDetector(BaseModel):
 class DepthEstimationModel(BaseModel):
     name = 'depth'
 
-    def __init__(self, gpu_number=0, model_type='DPT_Large'):
+    def __init__(self, gpu_number=1, model_type='MiDaS_small'):
         super().__init__(gpu_number)
         with HiddenPrints('DepthEstimation'):
             warnings.simplefilter("ignore")
@@ -412,7 +412,7 @@ class OwlViTModel(BaseModel):
 class GLIPModel(BaseModel):
     name = 'glip'
 
-    def __init__(self, model_size='large', gpu_number=0, *args):
+    def __init__(self, model_size='large', gpu_number=2, *args):
         BaseModel.__init__(self, gpu_number)
 
         with contextlib.redirect_stderr(open(os.devnull, "w")):  # Do not print nltk_data messages when importing
@@ -443,7 +443,7 @@ class GLIPModel(BaseModel):
 
                 # manual override some options
                 cfg.local_rank = 0
-                cfg.num_gpus = 1
+                cfg.num_gpus = 2
                 cfg.merge_from_file(config_file)
                 cfg.merge_from_list(["MODEL.WEIGHT", weight_file])
                 cfg.merge_from_list(["MODEL.DEVICE", self.dev])
@@ -1020,32 +1020,46 @@ class CodexModel(BaseModel):
             with open(config.fixed_code_file) as f:
                 self.fixed_code = f.read()
 
-    def forward(self, prompt, input_type='image', prompt_file=None, base_prompt=None, extra_context=None):
-        if config.use_fixed_code:  # Use the same program for every sample, like in socratic models
-            return [self.fixed_code] * len(prompt) if isinstance(prompt, list) else self.fixed_code
+    def forward(self, prompt, process_name = 'codeLlama_Q', input_type='image', prompt_file=None, base_prompt=None, extra_context=None):
+        if process_name == 'codeLlama_Q':
+            if config.use_fixed_code:  # Use the same program for every sample, like in socratic models
+                return [self.fixed_code] * len(prompt) if isinstance(prompt, list) else self.fixed_code
 
-        if prompt_file is not None and base_prompt is None:  # base_prompt takes priority
-            with open(prompt_file) as f:
-                base_prompt = f.read().strip()
-        elif base_prompt is None:
-            base_prompt = self.base_prompt
-
-        if isinstance(prompt, list):
-            extended_prompt = [base_prompt.replace("INSERT_QUERY_HERE", p).
-                               replace('INSERT_TYPE_HERE', input_type).
-                               replace('EXTRA_CONTEXT_HERE', str(ec))
-                               for p, ec in zip(prompt, extra_context)]
-        elif isinstance(prompt, str):
-            extended_prompt = [base_prompt.replace("INSERT_QUERY_HERE", prompt).
-                               replace('INSERT_TYPE_HERE', input_type).
-                               replace('EXTRA_CONTEXT_HERE', extra_context)]
-        else:
-            raise TypeError("prompt must be a string or a list of strings")
-
-        result = self.forward_(extended_prompt)
-        if not isinstance(prompt, list):
-            result = result[0]
-
+            if prompt_file is not None and base_prompt is None:  # base_prompt takes priority
+                with open(prompt_file) as f:
+                    base_prompt = f.read().strip()
+            elif base_prompt is None:
+                base_prompt = self.base_prompt
+            if isinstance(extra_context,list):
+                for i, ec in enumerate(extra_context):
+                    if ec is None:
+                        extra_context[i]=""
+            elif extra_context is None:
+                extra_context = ""
+            else: 
+                with open(extra_context) as f:
+                    extra_prompt = f.read().strip()
+                extra_context = extra_prompt
+            if isinstance(prompt, list):
+                extended_prompt = [base_prompt.replace("INSERT_QUERY_HERE", p).
+                                    replace('INSERT_TYPE_HERE', input_type).
+                                    replace('EXTRA_CONTEXT_HERE', str(ec))
+                                    for p, ec in zip(prompt, extra_context)]
+            elif isinstance(prompt, str):
+                extended_prompt = [base_prompt.replace("INSERT_QUERY_HERE", prompt).
+                                    replace('INSERT_TYPE_HERE', input_type).
+                                    replace('EXTRA_CONTEXT_HERE', extra_context)]
+            else:
+                raise TypeError("prompt must be a string or a list of strings")
+            self.query = prompt
+            result = self.forward_(extended_prompt)
+            if not isinstance(prompt, list):
+                if not isinstance(result, str):
+                    result = result[0]
+        elif process_name == 'llm_query':
+            with open(config.gpt3.qa_prompt) as f:
+                self.qa_prompt = f.read().strip()
+            result = self.get_qa(prompt=prompt, max_tokens=5)
         return result
 
     def forward_(self, extended_prompt):
@@ -1079,8 +1093,20 @@ class CodexModel(BaseModel):
             print(e)
             response = self.forward_(extended_prompt)
         return response
+    
+    def get_qa(self,prompt, prompt_base: str = None, max_tokens=5):
+        if prompt_base is None:
+            prompt_base = self.qa_prompt
+        prompts_total = []
+        prompts_total.append(prompt_base.format(prompt))
+        input_ids = self.tokenizer(prompts_total, return_tensors="pt", padding=True, truncation=True)["input_ids"]
+        generated_ids = self.model.generate(input_ids.to("cuda"), max_new_tokens=max_tokens)
+        generated_ids = generated_ids[:, input_ids.shape[-1]:]
+        generated_text = [self.tokenizer.decode(gen_id, skip_special_tokens=False) for gen_id in generated_ids]
+        generated_text = generated_text
 
-
+        return generated_text
+    
 class CodeLlama(CodexModel):
     name = 'codellama'
     requires_gpu = True
@@ -1149,7 +1175,75 @@ class CodeLlama(CodexModel):
         # Clear GPU memory
         torch.cuda.empty_cache()
         return response
+    
+class codeLlamaQ(CodexModel):
+    name = 'codellama_Q'
+    def __init__(self, gpu_number=0):
+        super().__init__(gpu_number=gpu_number)
+        from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig, pipeline
+        token_id_name = config.codex.codellama_tokenizer_name
 
+        if token_id_name.startswith('/'):
+            assert os.path.exists(token_id_name), \
+                f'Model path {token_id_name} does not exist. If you use the model ID it will be downloaded automatically'
+        else:
+            assert token_id_name in ['codellama/CodeLlama-7b-hf', 'codellama/CodeLlama-13b-hf', 'codellama/CodeLlama-34b-hf',
+                                    'codellama/CodeLlama-7b-Python-hf', 'codellama/CodeLlama-13b-Python-hf',
+                                    'codellama/CodeLlama-34b-Python-hf', 'codellama/CodeLlama-7b-Instruct-hf',
+                                    'codellama/CodeLlama-13b-Instruct-hf', 'codellama/CodeLlama-34b-Instruct-hf']
+        ## Tokenizatzailearen Tokia -> Zein erabili?
+        quantization_config = BitsAndBytesConfig(llm_int8_has_fp16_weight=True, bnb_4bit_compute_dtype=torch.bfloat16)
+        self.tokenizer = AutoTokenizer.from_pretrained(token_id_name, max_length=10000)
+        self.tokenizer.pad_token = self.tokenizer.eos_token
+        self.tokenizer.padding_side = 'left'
+
+        # for gpu_number in range(torch.cuda.device_count()):
+        #     mem_available = torch.cuda.mem_get_info(f'cuda:{gpu_number}')[0]
+        #     if mem_available <= leave_empty * torch.cuda.get_device_properties(gpu_number).total_memory:
+        #         mem_available = 0 
+        #         max_memory[gpu_number] = mem_available * usage_ratio
+        #     if gpu_number == 0:
+        #         max_memory[gpu_number] /= 10
+
+        ## Modelu preentrenatuaren Tokia 
+        self.model = AutoModelForCausalLM.from_pretrained(
+            token_id_name, 
+            quantization_config = quantization_config,
+            #attn_implementation="flash_attention_2",
+            device_map='auto'
+        )
+        self.model.eval()
+        # self.pipe = pipeline("text-generation", model=self.model, tokenizer=self.tokenizer)
+    def run_code_Quantized_llama(self, prompt):
+        from utils import complete_code
+        input_ids = self.tokenizer(prompt, return_tensors="pt", padding=True, truncation=True)["input_ids"]
+        generated_ids = self.model.generate(input_ids.to("cuda"), max_new_tokens=220)
+        generated_ids = generated_ids[:, input_ids.shape[-1]:]
+        generated_text = [self.tokenizer.decode(gen_id, skip_special_tokens=False) for gen_id in generated_ids]
+        generated_text = [text.split('\n\n')[0] for text in generated_text]
+        # generated_text = self.pipe(prompt, max_new_tokens = 128)
+        # output = generated_text[0][0]['generated_text']
+        # text = output.split("\n\n\n")[-3:]
+        # isget_it = False
+        # for i in range(len(text)):
+        #     if text[i].__contains__(self.query) and not isget_it:
+        #         erantzuna = text[i]
+        #         isget_it = True
+        generated_text = [complete_code(generated_text[0])]
+
+        return generated_text
+    
+    def forward_(self, extended_prompt):
+        if len(extended_prompt) > self.max_batch_size:
+            response = []
+            for i in range(0, len(extended_prompt), self.max_batch_size):
+                response += self.forward_(extended_prompt[i:i + self.max_batch_size])
+            return response
+        with torch.no_grad():
+            response = self.run_code_Quantized_llama(extended_prompt)
+        # Clear GPU memory
+        torch.cuda.empty_cache()
+        return response
 
 class BLIPModel(BaseModel):
     name = 'blip'
@@ -1162,8 +1256,7 @@ class BLIPModel(BaseModel):
         super().__init__(gpu_number)
 
         # from lavis.models import load_model_and_preprocess
-        from transformers import Blip2Processor, Blip2ForConditionalGeneration
-
+        from transformers import Blip2Processor, Blip2ForConditionalGeneration, BitsAndBytesConfig
         # https://huggingface.co/models?sort=downloads&search=Salesforce%2Fblip2-
         assert blip_v2_model_type in ['blip2-flan-t5-xxl', 'blip2-flan-t5-xl', 'blip2-opt-2.7b', 'blip2-opt-6.7b',
                                       'blip2-opt-2.7b-coco', 'blip2-flan-t5-xl-coco', 'blip2-opt-6.7b-coco']
@@ -1174,10 +1267,10 @@ class BLIPModel(BaseModel):
             self.processor = Blip2Processor.from_pretrained(f"Salesforce/{blip_v2_model_type}")
             # Device_map must be sequential for manual GPU selection
             try:
+                quantization_config = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_compute_dtype=torch.bfloat16,llm_int8_enable_fp32_cpu_offload=True)
                 self.model = Blip2ForConditionalGeneration.from_pretrained(
-                    f"Salesforce/{blip_v2_model_type}", load_in_8bit=half_precision,
-                    torch_dtype=torch.float16 if half_precision else "auto",
-                    device_map="sequential", max_memory=max_memory
+                    f"Salesforce/{blip_v2_model_type}", quantization_config = quantization_config, device_map="sequential", 
+                    # attn_implementation="flash_attention_2"
                 )
             except Exception as e:
                 # Clarify error message. The problem is that it tries to load part of the model to disk.
@@ -1223,11 +1316,12 @@ class BLIPModel(BaseModel):
         inputs = self.processor(images=image, text=question, return_tensors="pt", padding="longest").to(self.dev)
         if self.half_precision:
             inputs['pixel_values'] = inputs['pixel_values'].half()
-        generated_ids = self.model.generate(**inputs, length_penalty=-1, num_beams=5, max_length=10, min_length=1,
+        generated_ids = self.model.generate(**inputs, length_penalty=-1, num_beams=5,# max_length=10,
+                                             min_length=1,
                                             do_sample=False, top_p=0.9, repetition_penalty=1.0,
-                                            num_return_sequences=1, temperature=1)
+                                            num_return_sequences=1, temperature=1, max_new_tokens=10)
         generated_text = self.processor.batch_decode(generated_ids, skip_special_tokens=True)
-
+        # Buscame a traves de internet informacion sobre este error en el Blip2Processor: 
         return generated_text
 
     def forward(self, image, question=None, task='caption'):

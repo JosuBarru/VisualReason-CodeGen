@@ -39,11 +39,12 @@ def make_fn(model_class, process_name, counter):
     different tasks
     """
     # We initialize each one on a separate GPU, to make sure there are no out of memory errors
+
     num_gpus = torch.cuda.device_count()
-    gpu_number = counter % num_gpus
-
+    if num_gpus == 0: gpu_number = 0 
+    else: gpu_number = counter % num_gpus
     model_instance = model_class(gpu_number=gpu_number)
-
+    print("modelo:", model_class, ", proceso: ", process_name)
     def _function(*args, **kwargs):
         if process_name != model_class.name:
             kwargs['process_name'] = process_name
