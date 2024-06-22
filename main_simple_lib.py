@@ -32,7 +32,7 @@ mp.set_start_method('spawn', force=True)
 from vision_processes import forward, finish_all_consumers  # This import loads all the models. May take a while
 from image_patch import *
 from video_segment import *
-from datasets.dataset import MyDataset
+from datasets.my_dataset import MyDataset
 
 console = Console(highlight=False, force_terminal=False)
 
@@ -253,8 +253,13 @@ def load_image(path):
 
 
 def get_code(query):
-    model_name_codex = 'codellama' if config.codex.model == 'codellama' else 'codex'
-    code = forward(model_name_codex, prompt=query, input_type="image")
+    if config.codex.model == 'codellama':
+        model_name_codex = 'codellama'
+    elif config.codex.model == 'codellama_Q':
+        model_name_codex  = 'codellama_Q'
+    else:
+        model_name_codex = 'codex'
+    code = forward(model_name_codex, prompt=query, input_type="image", extra_context = None)
     if config.codex.model not in ('gpt-3.5-turbo', 'gpt-4'):
         code = f'def execute_command(image, my_fig, time_wait_between_lines, syntax):' + code # chat models give execute_command due to system behaviour
     code_for_syntax = code.replace("(image, my_fig, time_wait_between_lines, syntax)", "(image)")
@@ -307,6 +312,7 @@ def execute_code(code, im, show_intermediate_steps=True):
 
     console.rule(f"[bold]Final Result[/bold]", style="chartreuse2")
     show_all(None, result, 'Result', fig=f, usefig=usefig, disp=False, console_in=console, time_wait_between_lines=0)
+    return result
 
 
 def show_single_image(im):
@@ -314,3 +320,92 @@ def show_single_image(im):
     im.copy()
     im.thumbnail((400, 400))
     display(im)
+
+    def taking_results(dataset):
+        ground_truths_list, predictions_list, code_list= [], [], []
+        for i in range(dataset.n_samples):
+            query, image, ground_truth = get_items(dataset,i)
+            code = get_code(query)
+            prediction = execute_code(code, image, show_intermediate_steps=False)
+            code_list.append(copy(code))
+            predictions_list.append(copy(prediction))
+            ground_truths_list.append(copy(ground_truth))
+            if config.clear_cache:
+                cache.clear()
+        if config.dataset.dataset_name=='RefCOCO':
+            score_result, all_IoUs = dataset.accuracy(prediction=predictions_list, ground_truth=ground_truths_list)
+            return score_result, all_IoUs, predictions_list, code_list
+        elif config.dataset.dataset_name=='GQA':
+            score_result = dataset.accuracy(prediction=predictions_list, ground_truth=ground_truths_list)
+        return score_result, predictions_list, code_list
+
+def get_items(dataset, index):
+    element = dataset.__getitem__(index)
+    return element['query'], element['image'], element['answer']
+
+def save_results(dataset_name, dataset, results):
+    try:
+        if dataset_name in ['RefCOCO', 'GQA', 'OKVQA']:
+            print(f"{dataset_name} dataset, saving results in {config.results_dir}")
+        if dataset_name == 'refCOCO':
+            score_result, all_IoUs, all_answers, all_codes = results
+        elif dataset_name == 'GQA':
+            score_result, all_answers, all_codes = results
+        if config.save:
+            results_dir = pathlib.Path(config['results_dir'])
+            results_dir = results_dir / config.dataset.split
+            results_dir.mkdir(parents=True, exist_ok=True)
+            if not config.save_new_results:
+                filename = 'results.csv'
+            else:
+                existing_files = list(results_dir.glob('results_*.csv'))
+                if len(existing_files) == 0:
+                    filename = 'results_0.csv'
+                else:
+                    filename = 'results_' + str(max([int(ef.stem.split('_')[-1]) for ef in existing_files if
+                                                    str.isnumeric(ef.stem.split('_')[-1])]) + 1) + '.csv'
+            print('Saving results to', filename)
+            all_items = dataset.get_all_items()
+            all_splits = [dataset.split for _ in range(dataset.max_samples)]
+            all_accuracies = ['-' for _ in range(dataset.max_samples)] #  all columns empty score_result (IoUs' AVG and accuracy)
+            all_queries, all_sample_ids, all_truth_answers, all_img_paths, all_images = get_features_lists(all_items)
+
+            df = pd.DataFrame([all_sample_ids, all_queries, all_answers, all_img_paths, all_truth_answers,all_codes, all_images, 
+                               all_splits ,all_IoUs, all_accuracies]).T
+            df.columns = ['sample_id','query', 'Answer', 'image_path', 'truth_answers', 'code',' image', 'split', 'IoU', 'accuracy']
+            df['Answer'] = df['Answer'].apply(str) # some answers can be numbers
+            global_score_line = {'sample_id':'-','query': '-' , 'Answer': '-', 'image_path':'-', 'truth_answers':'-', 'code': '-',' image': '-', 'split':'- ', 'IoU': score_result[0], 'accuracy': score_result[1]}
+            last_line = pd.Series(global_score_line)
+            df = pd.concat([df, last_line], ignore_index=True)
+            df.to_csv(results_dir / filename, header=True, index=False, encoding='utf-8')
+
+    except NameError:
+        print("Error in dataset name. Expected: {}, name received: {}".format(["REFCOCO", "GQA", "OKVQA"], dataset_name))
+
+
+# 'possible_answers' and 'query_type' skipped FOR NOW...
+def get_features_lists(all_items):
+    all_queries = []
+    all_sample_ids = []
+    all_truth_answers = [] 
+    all_img_paths = []
+    all_images = [] 
+    for elem in all_items:
+        all_queries.append(elem['query'])
+        all_sample_ids.append(elem['sample_id'])
+        all_truth_answers.append(elem['answer'])
+        all_img_paths.append(elem['img_path'])
+        all_images.append(elem['image'])
+    return all_queries, all_sample_ids, all_truth_answers, all_img_paths, all_images
+    # return {'query': text, 'image': img, 'sample_id': index, 'answer': answer, 'index': index,
+    #             'possible_answers': [], 'info_to_prompt': text, "query_type": -1, 'extra_context': ''}
+# def cargar_datos(dataset_name):
+#   if dataset_name not in ["REFCOCO", "GQA", "OKVQA"]:
+#     raise ValueError("Error de nombre de conjunto de datos. Se esperaba: {}, nombre recibido: {}".format(["REFCOCO", "GQA", "OKVQA"], dataset_name))
+#   # ... resto del código para cargar datos ...
+
+# try:
+#   cargar_datos("MI_DATASET")  # <- Aquí se produce el error si el nombre del conjunto de datos no es válido
+# except ValueError as e:
+#   print(e)
+
