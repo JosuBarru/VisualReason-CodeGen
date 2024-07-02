@@ -17,11 +17,11 @@ load_models:
     glip: False
     owlvit: False
     tcl: False
-    gpt3_list: True
-    gpt3_qa: True
-    gpt3_guess: True
+    gpt3_list: False
+    gpt3_qa: False
+    gpt3_guess: False
     depth: False
-    blip: True
+    blip: False
     saliency: False
     xvlm: False
 

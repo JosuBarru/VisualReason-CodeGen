@@ -1,0 +1,21 @@
+load_models:                                        # Which pretrained models to load
+    maskrcnn: False
+    clip: False
+    glip: False # E* : Default -> True
+    owlvit: False
+    tcl: False
+    gpt3_qa: False # E* : Default -> True
+    gpt3_general: False # E* : Default -> True
+    gpt3_list: False # Ez dakit noiz erabiltzen den
+    gpt3_guess: False
+    depth: False # E* : Default -> True #MiDaS
+    blip: False # E* : Default -> True
+    saliency: False
+    xvlm: False # E* : Default -> True
+    codex: False # E* : Default -> True
+    codellama: False
+    codellama_Q: True # New model inserted
+
+save: False
+save_codex: True
+use_cache_codex: False

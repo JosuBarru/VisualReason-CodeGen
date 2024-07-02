@@ -17,10 +17,20 @@ from rich.console import Console
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 
+
+import sys
+
+os.environ['CUDA_VISIBLE_DEVICES'] = '0,1,2'
+os.environ['CODEX_QUANTIZED'] = '1'
+os.environ['LOAD_MODELS'] = '0'
+os.environ['DATASET'] = 'okvqa'
+os.environ['EXEC_MODE'] = 'codex'
+script_dir = os.path.abspath('/sorgin1/users/jbarrutia006/viper')
+sys.path.append(script_dir)
+
 from configs import config
 from utils import seed_everything
 import datasets
-
 # See https://github.com/pytorch/pytorch/issues/11201, https://github.com/pytorch/pytorch/issues/973
 # Not for dataloader, but for multiprocessing batches
 mp.set_sharing_strategy('file_system')
@@ -104,8 +114,82 @@ def worker_init(queue_results_):
     index_queue = mp.current_process()._identity[0] % len(queue_results_)
     queue_results = queue_results_[index_queue]
 
+def save_results(all_data,dataset):
+    results_dir = pathlib.Path(config['results_dir'])
+    results_dir = results_dir / config.dataset.split
+    results_dir.mkdir(parents=True, exist_ok=True)
+    if config.save_codex:
+        if not config.save_new_results:
+            filename = 'codex_results.csv'
+        else:
+            existing_files = list(results_dir.glob('codex_results_*.csv'))
+            if len(existing_files) == 0:
+                filename = 'codex_results_0.csv'
+            else:
+                filename = 'codex_results_' + str(max([int(ef.stem.split('_')[-1]) for ef in existing_files if
+                                                str.isnumeric(ef.stem.split('_')[-1])]) + 1) + '.csv'
+        print('Saving results to', filename)
+        all_sample_ids, all_queries, all_codes = all_data
+        if config.dataset.dataset_name == 'RefCOCO':
+            all_versions = [config.dataset.version for _ in range(config.dataset.max_samples)]
+            all_splits = [str(f'{config.dataset.split} by {config.dataset.split_by}') for _ in range(config.dataset.max_samples)]
+            data = [all_sample_ids, all_queries, all_splits, all_versions, all_codes]
+            columns = ['sample_id','query','split', 'version', 'generated_code']
+        else:
+            all_splits = [config.dataset.split for _ in range(config.dataset.max_samples)]
+            data = [all_sample_ids, all_queries,all_splits, all_codes]
+            columns = ['sample_id','query','split', 'generated_code']
+        df = pd.DataFrame(data).T
+        df.columns = columns
+        df.to_csv(results_dir / filename, header=True, index=False, encoding='utf-8')
+
+    elif config.save:
+        if not config.save_new_results:
+            filename = 'results.csv'
+        else:
+            existing_files = list(results_dir.glob('results_*.csv'))
+            if len(existing_files) == 0:
+                filename = 'results_0.csv'
+            else:
+                filename = 'results_' + str(max([int(ef.stem.split('_')[-1]) for ef in existing_files if
+                                                str.isnumeric(ef.stem.split('_')[-1])]) + 1) + '.csv'
+        print('Saving results to', filename)
+        
+        all_accuracies = ['-' for _ in range(dataset.n_samples)] #  all columns empty score_result (IoUs' AVG and accuracy)
+        if config.dataset.dataset_name == 'RefCOCO':
+            all_sample_ids, all_queries, all_results, all_img_paths, all_images, all_truth_answers, all_codes, all_IoUs, score_result = all_data
+            all_versions = [config.dataset.version for _ in range(config.dataset.max_samples)]
+            all_splits = [str(f'{config.dataset.split} by {config.dataset.split_by}') for _ in range(config.dataset.max_samples)]
+            data = [all_sample_ids, all_queries, all_results, all_img_paths, all_truth_answers,all_codes, all_images, 
+                    all_splits,all_versions,all_IoUs, all_accuracies]
+            columns = ['sample_id','query', 'Answer', 'image_path', 'truth_answers', 'code',' image', 'split','version', 'IoU', 'accuracy']
+            global_score_line = {'sample_id':'-','query': '-' , 'Answer': '-', 'image_path':'-', 'truth_answers':'-', 'code': '-',' image': '-', 'split':'-', 'version':'-', 'IoU': score_result[0], 'accuracy': score_result[1]}
+        else:
+            all_sample_ids, all_queries, all_results, all_img_paths, all_images, all_truth_answers, all_codes, score_result = all_data
+            all_splits = [config.dataset.split for _ in range(config.dataset.max_samples)]
+            data = [all_sample_ids, all_queries, all_results, all_img_paths, all_truth_answers,all_codes, all_images, 
+                    all_splits, all_accuracies]
+            columns =  ['sample_id','query', 'Answer', 'image_path', 'truth_answers', 'code',' image', 'split', 'accuracy']
+            global_score_line = {'sample_id':'-','query': '-' , 'Answer': '-', 'image_path':'-', 'truth_answers':'-', 'code': '-',' image': '-', 'split':'-', 'accuracy': score_result}
+        
+        df = pd.DataFrame(data).T
+        df.columns = columns
+        df['Answer'] = df['Answer'].apply(str) # some answers can be numbers
+        last_line = pd.Series(global_score_line)
+        df = pd.concat([df, last_line], ignore_index=True)
+        df.to_csv(results_dir / filename, header=True, index=False, encoding='utf-8')
 
 def main():
+
+    ''' To run this script: "CONFIG_NAMES=your_config_name python main_batch.py"
+        Or
+        Adding this code-lines at the beginning of the function:
+
+        "   os.environ['CONFIG_NAMES'] = your_config_name
+            os.environ['CUDA_VISIBLE_DEVICES'] = '0' # For example
+            script_dir = os.path.abspath('path/to/your_project')    "
+    '''
+
     mp.set_start_method('spawn')
 
     from vision_processes import queues_in, finish_all_consumers, forward, manager
@@ -121,7 +205,13 @@ def main():
         queue_results_main = None
         queues_results = [None for _ in range(batch_size)]
 
-    model_name_codex = 'codellama' if config.codex.model == 'codellama' else 'codex'
+    # Added codeLLama Quantized  
+    if config.codex.model == 'codellama':
+        model_name_codex = 'codellama'
+    elif config.codex.model == 'codellama_Q':
+        model_name_codex  = 'codellama_Q'
+    else:
+        model_name_codex = 'codex'
     codex = partial(forward, model_name=model_name_codex, queues=[queues_in, queue_results_main])
 
     if config.clear_cache:
@@ -135,13 +225,16 @@ def main():
 
     dataset = get_dataset(config.dataset)
 
-    with open(config.codex.prompt) as f:
+    # with open(config.codex.prompt) as f:
+    #     base_prompt = f.read().strip()
+    with open(config.prompt) as f:
         base_prompt = f.read().strip()
 
     codes_all = None
     if config.use_cached_codex:
         results = pd.read_csv(config.cached_codex_path)
-        codes_all = [r.split('# Answer is:')[1] for r in results['code']]
+        # codes_all = [r.split('# Answer is:')[1] for r in results['code']]
+        codes_all = [r for r in results['generated_code']]
     # python -c "from joblib import Memory; cache = Memory('cache/', verbose=0); cache.clear()"
     dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=False, num_workers=0, pin_memory=True,
                             collate_fn=my_collate)
@@ -150,12 +243,13 @@ def main():
     all_results = []
     all_answers = []
     all_codes = []
-    all_ids = []
+    all_sample_ids = []
     all_queries = []
     all_img_paths = []
     all_possible_answers = []
     all_query_types = []
-
+    all_images = []
+    all_IoUs = []
     with mp.Pool(processes=num_processes, initializer=worker_init, initargs=(queues_results,)) \
             if config.multiprocessing else open(os.devnull, "w") as pool:
         try:
@@ -169,7 +263,6 @@ def main():
                 if not config.use_cached_codex:
                     codes = codex(prompt=batch['query'], base_prompt=base_prompt, input_type=input_type,
                                   extra_context=batch['extra_context'])
-
                 else:
                     codes = codes_all[i * batch_size:(i + 1) * batch_size]  # If cache
 
@@ -195,19 +288,24 @@ def main():
 
                 all_results += [r[0] for r in results]
                 all_codes += [r[1] for r in results]
-                all_ids += batch['sample_id']
+                all_sample_ids += batch['sample_id']
                 all_answers += batch['answer']
                 all_possible_answers += batch['possible_answers']
                 all_query_types += batch['query_type']
                 all_queries += batch['query']
                 all_img_paths += [dataset.get_sample_path(idx) for idx in batch['index']]
+                all_images.append(batch['image']) 
+                
                 if i % config.log_every == 0:
                     try:
-                        accuracy = dataset.accuracy(all_results, all_answers, all_possible_answers, all_query_types)
+                        if config.dataset.dataset_name=='RefCOCO':
+                            accuracy, IoUs = dataset.accuracy(prediction=all_results, ground_truth=all_answers)
+                            all_IoUs += IoUs
+                        else:
+                            accuracy = dataset.accuracy(prediction=all_results, ground_truth=all_answers)
                         console.print(f'Accuracy at Batch {i}/{n_batches}: {accuracy}')
                     except Exception as e:
                         console.print(f'Error computing accuracy: {e}')
-
         except Exception as e:
             # print full stack trace
             traceback.print_exc()
@@ -215,36 +313,25 @@ def main():
             console.print("Completing logging and exiting...")
 
     try:
-        accuracy = dataset.accuracy(all_results, all_answers, all_possible_answers, all_query_types)
+        if config.dataset.dataset_name!='RefCOCO':
+            accuracy = dataset.accuracy(all_results, all_answers, all_possible_answers, all_query_types)
+        else:
+            accuracy, all_IoUs = dataset.accuracy(all_results, all_answers, all_possible_answers, all_query_types)
         console.print(f'Final accuracy: {accuracy}')
     except Exception as e:
         print(f'Error computing accuracy: {e}')
 
-    if config.save:
-        results_dir = pathlib.Path(config['results_dir'])
-        results_dir = results_dir / config.dataset.split
-        results_dir.mkdir(parents=True, exist_ok=True)
-        if not config.save_new_results:
-            filename = 'results.csv'
+    if config.save_codex:
+        all_data = [all_sample_ids, all_queries, all_codes]
+    elif config.save:
+        if config.dataset.dataset_name=='GQA':
+            all_data = [all_sample_ids, all_queries, all_results, all_img_paths, all_images, all_answers, all_codes, accuracy]
         else:
-            existing_files = list(results_dir.glob('results_*.csv'))
-            if len(existing_files) == 0:
-                filename = 'results_0.csv'
-            else:
-                filename = 'results_' + str(max([int(ef.stem.split('_')[-1]) for ef in existing_files if
-                                                 str.isnumeric(ef.stem.split('_')[-1])]) + 1) + '.csv'
-        print('Saving results to', filename)
-        df = pd.DataFrame([all_results, all_answers, all_codes, all_ids, all_queries, all_img_paths,
-                           all_possible_answers]).T
-        df.columns = ['result', 'answer', 'code', 'id', 'query', 'img_path', 'possible_answers']
-        # make the result column a string
-        df['result'] = df['result'].apply(str)
-        df.to_csv(results_dir / filename, header=True, index=False, encoding='utf-8')
-        # torch.save([all_results, all_answers, all_codes, all_ids, all_queries, all_img_paths], results_dir/filename)
-
-        if config.wandb:
-            wandb.log({'accuracy': accuracy})
-            wandb.log({'results': wandb.Table(dataframe=df, allow_mixed_types=True)})
+            all_data = [all_sample_ids, all_queries, all_results, all_img_paths, all_images, all_answers, all_codes,all_IoUs, accuracy]
+    save_results(all_data, dataset)
+    #     if config.wandb:
+    #         wandb.log({'accuracy': accuracy})
+    #         wandb.log({'results': wandb.Table(dataframe=df, allow_mixed_types=True)})
 
     finish_all_consumers()
 

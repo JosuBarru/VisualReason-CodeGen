@@ -1,0 +1,7 @@
+SELECTED CONFIG FILES: config_codellama_Q,gqa/general_config,gqa/save_codex
+LOADING MODEL: DISABLED
+modelo: <class 'vision_models.codeLlamaQ'> , proceso:  codellama_Q
+batchsize:  12
+Accuracy at Batch 0/1049: 0.16666666666666666
+Final accuracy: 0.16666666666666666
+Saving results to codex_results_1.csv

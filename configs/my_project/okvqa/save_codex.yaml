@@ -1,0 +1,4 @@
+results_dir: ./results/okvqa/codex_results/
+save_codex: True
+execute_code: False
+save: False

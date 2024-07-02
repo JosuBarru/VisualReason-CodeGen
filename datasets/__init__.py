@@ -17,12 +17,13 @@ def get_dataset(config_dataset):
                                  image_transforms=transforms.Compose([transforms.ToTensor()]))
     elif dataset_name == 'GQA':
         from datasets.gqa import GQADataset
-        dataset = GQADataset(**config_dataset,
-                             balanced=True,
-                             image_transforms=transforms.Compose([transforms.ToTensor()]))
+        dataset = GQADataset(data_path=config_dataset.data_path, split=config_dataset.split, max_samples=config_dataset.max_samples,
+                            balanced=True,
+                            image_transforms=transforms.Compose([transforms.ToTensor()]))
+
     elif dataset_name == 'OKVQA':
         from datasets.okvqa import OKVQADataset
-        dataset = OKVQADataset(**config_dataset,
+        dataset = OKVQADataset(data_path=config_dataset.data_path, split=config_dataset.split, max_samples=config_dataset.max_samples,
                                image_transforms=transforms.Compose([transforms.ToTensor()]))
     elif dataset_name == 'NExTQA':
         from datasets.nextqa import NExTQADataset
