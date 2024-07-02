@@ -157,7 +157,7 @@ class OKVQADataset(Dataset):
                       '(', ')', '=', '+', '\\', '_', '-',
                       '>', '<', '@', '`', ',', '?', '!']
 
-    def get_img_path(self, index):
+    def get_sample_path(self, index):
         image_id = self.df.iloc[index]["image_path"]
         image_path = os.path.expanduser(os.path.join(self.data_path, image_id))
         return image_path
@@ -200,14 +200,17 @@ class OKVQADataset(Dataset):
             question = self.tokenize(question)
 
         # Return
+
+        # CHANGES: We will rename 'question', 'question_type', 'img' to 'query', 'query_type' and 'image'
+        # in order to maintain the cohesion of the structure  of all datasets (RefCOCO, OKVQA, GQA)
         if self.testing:
-            return {"sample_id": question_id, "img": img, "question": question, 'pil_img': pil_img, 'index': index,
-                    'possible_answers': [], 'info_to_prompt': question, 'question_type': -1}
+            return {"sample_id": question_id, "image": img, "query": question, 'pil_img': pil_img, 'index': index,
+                    'possible_answers': [], 'info_to_prompt': question, 'query_type': -1, 'extra_context': None}
 
         else:
-            return {"sample_id": question_id, 'answer': selected_answers, "img": img, "question": question,
+            return {"sample_id": question_id, 'answer': selected_answers, "image": img, "query": question,
                     'pil_img': pil_img, 'index': index, 'possible_answers': [], 'info_to_prompt': question,
-                    "question_type": -1}
+                    "query_type": -1,'extra_context': None}
 
     def post_process(self, prediction, stem=True):
         """

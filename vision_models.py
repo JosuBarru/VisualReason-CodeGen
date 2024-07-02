@@ -412,7 +412,7 @@ class OwlViTModel(BaseModel):
 class GLIPModel(BaseModel):
     name = 'glip'
 
-    def __init__(self, model_size='large', gpu_number=2, *args):
+    def __init__(self, model_size='tiny', gpu_number=2, *args):
         BaseModel.__init__(self, gpu_number)
 
         with contextlib.redirect_stderr(open(os.devnull, "w")):  # Do not print nltk_data messages when importing
@@ -968,6 +968,7 @@ def codex_helper(extended_prompt):
                 {"role": "system", "content": "Only answer with a function starting def execute_command."},
                 {"role": "user", "content": prompt}
             ],
+            stream = True, # añadido
             temperature=config.codex.temperature,
             max_tokens=config.codex.max_tokens,
             top_p=1.,
@@ -1006,7 +1007,7 @@ def codex_helper(extended_prompt):
 
 class CodexModel(BaseModel):
     name = 'codex'
-    requires_gpu = False
+    requires_gpu = True
     max_batch_size = 5
 
     # Not batched, but every call will probably be a batch (coming from the same process)
@@ -1020,8 +1021,8 @@ class CodexModel(BaseModel):
             with open(config.fixed_code_file) as f:
                 self.fixed_code = f.read()
 
-    def forward(self, prompt, process_name = 'codeLlama_Q', input_type='image', prompt_file=None, base_prompt=None, extra_context=None):
-        if process_name == 'codeLlama_Q':
+    def forward(self, prompt, process_name = 'codellama_Q', input_type='image', prompt_file=None, base_prompt=None, extra_context=None):
+        if process_name == 'codellama_Q':
             if config.use_fixed_code:  # Use the same program for every sample, like in socratic models
                 return [self.fixed_code] * len(prompt) if isinstance(prompt, list) else self.fixed_code
 
@@ -1060,6 +1061,10 @@ class CodexModel(BaseModel):
             with open(config.gpt3.qa_prompt) as f:
                 self.qa_prompt = f.read().strip()
             result = self.get_qa(prompt=prompt, max_tokens=5)
+        elif process_name == 'llm_guess':
+            with open(config.gpt3.guess_prompt) as f:
+                self.guess_prompt = f.read().strip()
+            result = self.process_guesses(prompt=prompt, max_tokens=16) 
         return result
 
     def forward_(self, extended_prompt):
@@ -1103,14 +1108,37 @@ class CodexModel(BaseModel):
         generated_ids = self.model.generate(input_ids.to("cuda"), max_new_tokens=max_tokens)
         generated_ids = generated_ids[:, input_ids.shape[-1]:]
         generated_text = [self.tokenizer.decode(gen_id, skip_special_tokens=False) for gen_id in generated_ids]
-        generated_text = generated_text
 
         return generated_text
     
+    def process_guesses(self ,prompt, prompt_base:str = None, max_tokens=16):
+        if prompt_base is None:
+            prompt_base = self.guess_prompt
+        prompts_total = []
+        if len(prompt)==3:
+            question, guess1, _ = prompt
+            if len(guess1)==1:
+                guess1 = [guess1[0], guess1[0]]
+            prompts_total.append(prompt_base.format(question, guess1[0], guess1[1]))
+        else:
+            for p in prompt:
+                question, guess1 = p
+                if len(guess1) == 1:
+                    # In case only one option is given as a guess
+                    guess1 = [guess1[0], guess1[0]]
+                prompts_total.append(prompt_base.format(question, guess1[0], guess1[1]))
+        input_ids = self.tokenizer(prompts_total, return_tensors="pt", padding=True, truncation=True)["input_ids"]
+        generated_ids = self.model.generate(input_ids.to("cuda"), max_new_tokens=max_tokens)
+        generated_ids = generated_ids[:, input_ids.shape[-1]:]
+        generated_text = [self.tokenizer.decode(gen_id, skip_special_tokens=False) for gen_id in generated_ids]
+        generated_text = generated_text
+        return generated_text
+
+
 class CodeLlama(CodexModel):
     name = 'codellama'
     requires_gpu = True
-    max_batch_size = 3
+    max_batch_size = 4
     load_order = 1  # Load this model last
 
     # Not batched, but every call will probably be a batch (coming from the same process)
@@ -1178,6 +1206,7 @@ class CodeLlama(CodexModel):
     
 class codeLlamaQ(CodexModel):
     name = 'codellama_Q'
+    max_batch_size=12
     def __init__(self, gpu_number=0):
         super().__init__(gpu_number=gpu_number)
         from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig, pipeline
@@ -1192,7 +1221,7 @@ class codeLlamaQ(CodexModel):
                                     'codellama/CodeLlama-34b-Python-hf', 'codellama/CodeLlama-7b-Instruct-hf',
                                     'codellama/CodeLlama-13b-Instruct-hf', 'codellama/CodeLlama-34b-Instruct-hf']
         ## Tokenizatzailearen Tokia -> Zein erabili?
-        quantization_config = BitsAndBytesConfig(llm_int8_has_fp16_weight=True, bnb_4bit_compute_dtype=torch.bfloat16)
+        quantization_config = BitsAndBytesConfig(load_in_4bit=True,bnb_4bit_compute_dtype=torch.float16)
         self.tokenizer = AutoTokenizer.from_pretrained(token_id_name, max_length=10000)
         self.tokenizer.pad_token = self.tokenizer.eos_token
         self.tokenizer.padding_side = 'left'
@@ -1215,9 +1244,9 @@ class codeLlamaQ(CodexModel):
         self.model.eval()
         # self.pipe = pipeline("text-generation", model=self.model, tokenizer=self.tokenizer)
     def run_code_Quantized_llama(self, prompt):
-        from utils import complete_code
+        #from utils import complete_code
         input_ids = self.tokenizer(prompt, return_tensors="pt", padding=True, truncation=True)["input_ids"]
-        generated_ids = self.model.generate(input_ids.to("cuda"), max_new_tokens=220)
+        generated_ids = self.model.generate(input_ids.to("cuda"), max_new_tokens=256)
         generated_ids = generated_ids[:, input_ids.shape[-1]:]
         generated_text = [self.tokenizer.decode(gen_id, skip_special_tokens=False) for gen_id in generated_ids]
         generated_text = [text.split('\n\n')[0] for text in generated_text]
@@ -1229,8 +1258,6 @@ class codeLlamaQ(CodexModel):
         #     if text[i].__contains__(self.query) and not isget_it:
         #         erantzuna = text[i]
         #         isget_it = True
-        generated_text = [complete_code(generated_text[0])]
-
         return generated_text
     
     def forward_(self, extended_prompt):

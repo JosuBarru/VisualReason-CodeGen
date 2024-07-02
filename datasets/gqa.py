@@ -152,8 +152,8 @@ class GQADataset(Dataset):
                 outText[wordId] = self.contractions[word]
         outText = ' '.join(outText)
         return outText
-
-    def get_img_path(self, index):
+    # CHANGES: Renamed get_img_path to get_sample_path in order to the fact that we want to generalize the three datasets
+    def get_sample_path(self, index):
         if "imageId" in self.df.columns:
             image_id = self.df.iloc[index]["imageId"]
         else:
@@ -199,14 +199,16 @@ class GQADataset(Dataset):
         if self.testing:
             if (sample_id is None) or (img is None) or (question is None):
                 raise Exception(f"Error in GQA Dataset: sample_id={sample_id}, img={img}, question={question}")
-            out_dict = {"sample_id": sample_id, "img": img, "question": question, 'index': index}
+            out_dict = {"sample_id": sample_id, "img": img, "query": question, 'index': index}
             if self.return_pil:
                 out_dict["pil_img"] = pil_img
             return out_dict
         else:
-            out_dict = {"sample_id": sample_id, "answer": answer, "img": img, "question": question, 'pil_img': pil_img,
-                        "question_type": question_type, 'index': index, 'possible_answers': [],
-                        'info_to_prompt': question}
+            # CHANGES: We will rename 'question', 'question_type', 'img' to 'query', 'query_type' and 'image'
+            # in order to maintain the cohesion of the structure  of all datasets (RefCOCO, OKVQA, GQA)
+            out_dict = {"sample_id": sample_id, "answer": answer, "image": img, "query": question, 'pil_img': pil_img,
+                        "query_type": question_type, 'index': index, 'possible_answers': [],
+                        'info_to_prompt': question, 'extra_context': None}
             return out_dict
 
     def post_process(self, prediction, stem=True):
@@ -232,7 +234,7 @@ class GQADataset(Dataset):
         Returns:
             score (float): Score of the prediction.
         """
-        if len(prediction) == 0:  # if no prediction, return 0
+        if len(prediction) == 0 or (len(prediction)==1 and prediction[0]==None):  # if no prediction, return 0
             return 0
         assert len(prediction) == len(ground_truth)
         score = 0
@@ -244,3 +246,11 @@ class GQADataset(Dataset):
     # we can call len(dataset) to return the size
     def __len__(self):
         return self.n_samples
+    
+    def search_by_sample_id(self, sample_id):
+        for i in range(self.__len__()):
+            if self.__getitem__(i)['sample_id']==sample_id:
+                return self.__getitem__(i)
+        return None
+    def get_all_items(self):
+        return [self.__getitem__(i) for i in range(self.n_samples)]
