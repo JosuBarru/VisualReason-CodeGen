@@ -275,5 +275,5 @@ def execute_command(image)->str:
                 return "yes"
     return "no"
 
-# INSERT_PROMPT_HERE
+# INSERT_QUERY_HERE
 def execute_command(image)->str:

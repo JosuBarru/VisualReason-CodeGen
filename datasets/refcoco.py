@@ -19,7 +19,7 @@ class RefCOCODataset(Dataset):
 
         self.split = split
         self.data_path = data_path
-        self.max_samples = max_samples
+        self.n_samples = max_samples
         self.image_transforms = image_transforms
         self.question_transforms = question_transforms
         self.tokenize = tokenize
@@ -222,7 +222,7 @@ class RefCOCODataset(Dataset):
         answer = self.refToAnn[ref_id]['bbox']
 
         return {'query': text, 'image': img, 'sample_id': index, 'answer': answer, 'index': index,
-                'possible_answers': [], 'info_to_prompt': text, "query_type": -1, 'extra_context': ''}
+                'possible_answers': [], 'info_to_prompt': text, "query_type": -1, 'extra_context': '', 'img_path': img_path}
 
     def __len__(self):
         return len(self.samples)
@@ -235,12 +235,17 @@ class RefCOCODataset(Dataset):
             prediction (list): List of predicted answers.
             ground_truth (list): List of ground truth answers.
         Returns:
-            score (float): Score of the prediction. It is an IoU score
+            score (float): Score of the prediction. It is an IoU score (total score)
+            all_IoUs (list): List of IoU scores, one element for each sample
         """
         assert len(prediction) == len(ground_truth)
         num_samples = 0
         iou = 0
         acc = 0
+        # New variable added
+        from copy import copy
+        all_IoUs = []
+
         for p, g in zip(prediction, ground_truth):
             try:
                 if p is None:
@@ -257,11 +262,16 @@ class RefCOCODataset(Dataset):
                     g = [float(x) for x in g.split('[')[1].split(']')[0].split(',')]
                 g = torch.tensor([g[0], g[1], g[2], g[3]])[None]
                 iou_ = box_iou(p, g).item()  # Expects (x1, y1, x2, y2) format. So (left, lower, right, upper)
+                all_IoUs.append(copy(iou_))# New line added
                 iou += iou_
                 if iou_ > 0.7:
                     acc += 1
             except Exception as e:
                 pass  # If the prediction is not a box, we consider iou = 0
             num_samples += 1
-        return iou / max(num_samples, 1), acc / max(num_samples, 1)
+        # New code lines
+        score_result = (iou / max(num_samples, 1), acc / max(num_samples, 1))
+        return score_result, all_IoUs
 
+    def get_all_items(self):
+        return [self.__getitem__(i) for i in range(self.n_samples)]
