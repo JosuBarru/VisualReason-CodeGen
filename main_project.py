@@ -20,7 +20,7 @@ from tqdm import tqdm
 
 import sys
 
-#os.environ['CUDA_VISIBLE_DEVICES'] = '3'
+# os.environ['CUDA_VISIBLE_DEVICES'] = '0,1,2'
 # os.environ['CODEX_QUANTIZED'] = '1'
 # os.environ['LOAD_MODELS'] = '0'
 # os.environ['DATASET'] = 'gqa'
@@ -179,7 +179,6 @@ def main():
     from datasets import get_dataset
 
     batch_size = config.dataset.batch_size
-    print("batchsize: ", batch_size)
     num_processes = min(batch_size, 50)
     if config.multiprocessing:
         queue_results_main = manager.Queue()
@@ -287,9 +286,6 @@ def main():
                         console.print(f'Accuracy at Batch {i}/{n_batches}: {accuracy}')
                     except Exception as e:
                         console.print(f'Error computing accuracy: {e}')
-                
-                if i > 2:
-                    break
 
         except Exception as e:
             # print full stack trace

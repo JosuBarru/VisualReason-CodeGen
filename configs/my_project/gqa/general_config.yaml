@@ -3,7 +3,7 @@ dataset:
     dataset_name: GQA
     split: testdev
     testing: False
-    max_samples: 
+    max_samples: 8
     batch_size: 12 #for testdev set number 2
     start_sample: 0
 codex:
@@ -17,9 +17,9 @@ load_models:
     glip: True
     owlvit: False
     tcl: False
-    gpt3_list: False
-    gpt3_qa: False
-    gpt3_guess: False
+    gpt3_list: False 
+    qa: False
+    guess: False
     depth: False
     blip: True
     saliency: False
@@ -28,5 +28,5 @@ load_models:
 save: True
 save_codex: False
 use_cached_codex: False
-execute_code: False
+execute_code: True
 

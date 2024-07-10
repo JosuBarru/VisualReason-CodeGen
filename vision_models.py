@@ -1008,7 +1008,7 @@ def codex_helper(extended_prompt):
 class CodexModel(BaseModel):
     name = 'codex'
     requires_gpu = True
-    max_batch_size = 5
+    max_batch_size = 12
 
     # Not batched, but every call will probably be a batch (coming from the same process)
 
@@ -1098,7 +1098,6 @@ class CodexModel(BaseModel):
             print(e)
             response = self.forward_(extended_prompt)
         return response
-    
     def get_qa(self,prompt, prompt_base: str = None, max_tokens=5):
         if prompt_base is None:
             prompt_base = self.qa_prompt
@@ -1109,7 +1108,7 @@ class CodexModel(BaseModel):
         generated_ids = generated_ids[:, input_ids.shape[-1]:]
         generated_text = [self.tokenizer.decode(gen_id, skip_special_tokens=False) for gen_id in generated_ids]
 
-        return generated_text
+        return generated_text[0]
     
     def process_guesses(self ,prompt, prompt_base:str = None, max_tokens=16):
         if prompt_base is None:
@@ -1131,10 +1130,7 @@ class CodexModel(BaseModel):
         generated_ids = self.model.generate(input_ids.to("cuda"), max_new_tokens=max_tokens)
         generated_ids = generated_ids[:, input_ids.shape[-1]:]
         generated_text = [self.tokenizer.decode(gen_id, skip_special_tokens=False) for gen_id in generated_ids]
-        generated_text = generated_text
-        return generated_text
-
-
+        return generated_text[0]
 class CodeLlama(CodexModel):
     name = 'codellama'
     requires_gpu = True
@@ -1210,19 +1206,19 @@ class codeLlamaQ(CodexModel):
     def __init__(self, gpu_number=0):
         super().__init__(gpu_number=gpu_number)
         from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig, pipeline
-        token_id_name = config.codex.codellama_tokenizer_name
+        model_name = config.codex.model_name
 
-        if token_id_name.startswith('/'):
-            assert os.path.exists(token_id_name), \
-                f'Model path {token_id_name} does not exist. If you use the model ID it will be downloaded automatically'
+        if model_name.startswith('/'):
+            assert os.path.exists(model_name), \
+                f'Model path {model_name} does not exist. If you use the model ID it will be downloaded automatically'
         else:
-            assert token_id_name in ['codellama/CodeLlama-7b-hf', 'codellama/CodeLlama-13b-hf', 'codellama/CodeLlama-34b-hf',
+            assert model_name in ['codellama/CodeLlama-7b-hf', 'codellama/CodeLlama-13b-hf', 'codellama/CodeLlama-34b-hf',
                                     'codellama/CodeLlama-7b-Python-hf', 'codellama/CodeLlama-13b-Python-hf',
                                     'codellama/CodeLlama-34b-Python-hf', 'codellama/CodeLlama-7b-Instruct-hf',
                                     'codellama/CodeLlama-13b-Instruct-hf', 'codellama/CodeLlama-34b-Instruct-hf']
         ## Tokenizatzailearen Tokia -> Zein erabili?
         quantization_config = BitsAndBytesConfig(load_in_4bit=True,bnb_4bit_compute_dtype=torch.float16)
-        self.tokenizer = AutoTokenizer.from_pretrained(token_id_name, max_length=10000)
+        self.tokenizer = AutoTokenizer.from_pretrained(model_name, max_length=10000)
         self.tokenizer.pad_token = self.tokenizer.eos_token
         self.tokenizer.padding_side = 'left'
 
@@ -1236,7 +1232,7 @@ class codeLlamaQ(CodexModel):
 
         ## Modelu preentrenatuaren Tokia 
         self.model = AutoModelForCausalLM.from_pretrained(
-            token_id_name, 
+            model_name, 
             quantization_config = quantization_config,
             #attn_implementation="flash_attention_2",
             device_map='auto'
