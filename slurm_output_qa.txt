@@ -1,3 +1,2 @@
 SELECTED CONFIG FILES: config_codellama_Q,refcoco/general_config,refcoco/save_codex
 LOADING MODEL: DISABLED
-modelo: <class 'vision_models.codeLlamaQ'> , proceso:  codellama_Q

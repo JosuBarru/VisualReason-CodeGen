@@ -1202,7 +1202,7 @@ class CodeLlama(CodexModel):
     
 class codeLlamaQ(CodexModel):
     name = 'codellama_Q'
-    max_batch_size=12
+    max_batch_size=24
     def __init__(self, gpu_number=0):
         super().__init__(gpu_number=gpu_number)
         from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig, pipeline
@@ -1212,7 +1212,7 @@ class codeLlamaQ(CodexModel):
             assert os.path.exists(model_name), \
                 f'Model path {model_name} does not exist. If you use the model ID it will be downloaded automatically'
         else:
-            assert model_name in ['codellama/CodeLlama-7b-hf', 'codellama/CodeLlama-13b-hf', 'codellama/CodeLlama-34b-hf',
+            assert model_name in ['codellama/CodeLlama-7b-hf', 'codellama/CodeLlama-34b-hf', 'codellama/CodeLlama-70b-hf', 'codellama/CodeLlama-13b-hf', 'codellama/CodeLlama-34b-hf',
                                     'codellama/CodeLlama-7b-Python-hf', 'codellama/CodeLlama-13b-Python-hf',
                                     'codellama/CodeLlama-34b-Python-hf', 'codellama/CodeLlama-7b-Instruct-hf',
                                     'codellama/CodeLlama-13b-Instruct-hf', 'codellama/CodeLlama-34b-Instruct-hf']
@@ -1238,9 +1238,11 @@ class codeLlamaQ(CodexModel):
             device_map='auto'
         )
         self.model.eval()
+        print('aqui')
         # self.pipe = pipeline("text-generation", model=self.model, tokenizer=self.tokenizer)
     def run_code_Quantized_llama(self, prompt):
         #from utils import complete_code
+        print('run quant')
         input_ids = self.tokenizer(prompt, return_tensors="pt", padding=True, truncation=True)["input_ids"]
         generated_ids = self.model.generate(input_ids.to("cuda"), max_new_tokens=256)
         generated_ids = generated_ids[:, input_ids.shape[-1]:]

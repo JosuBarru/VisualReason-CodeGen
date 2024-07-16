@@ -6,8 +6,8 @@
 #SBATCH --ntasks-per-node=1
 #SBATCH --mem=18GB
 #SBATCH --gres=gpu:1
-#SBATCH --output=/sorgin1/users/jbarrutia006/viper/slurm_output_qa.txt
-#SBATCH --error=/sorgin1/users/jbarrutia006/viper/slurm_output_qa.err
+#SBATCH --output=/sorgin1/users/jbarrutia006/viper/refcoco_slurm.txt
+#SBATCH --error=/sorgin1/users/jbarrutia006/viper/refcoco_slurm.err
 
 source /sorgin1/users/jbarrutia006/venvs/viper_tximista/bin/activate
 

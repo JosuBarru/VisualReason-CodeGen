@@ -3,9 +3,9 @@ dataset:
   dataset_name: RefCOCO
   split_by: unc  # [google, unc]
   split: testA
-  version: refcoco
-  batch_size: 24 # set to number 3 
-  max_samples: 48
+  version: refcoco+
+  batch_size: 6 # 12 24 cudaoutofmemo
+  max_samples: 
 
 codex:
   prompt: ./prompts/benchmarks/refcoco.prompt
