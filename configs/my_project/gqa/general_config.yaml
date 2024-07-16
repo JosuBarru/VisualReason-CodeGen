@@ -3,7 +3,7 @@ dataset:
     dataset_name: GQA
     split: testdev
     testing: False
-    max_samples: 8
+    max_samples: 
     batch_size: 12 #for testdev set number 2
     start_sample: 0
 codex:

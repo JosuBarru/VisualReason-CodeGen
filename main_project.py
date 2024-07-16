@@ -75,7 +75,7 @@ def run_program(parameters, queues_in_, input_type_, retrying=False):
             exec(compile(code, 'Codex', 'exec'), globals())
         except Exception as e2:
             print(f'Not even the fixed code worked. Sample {sample_id} failed at compilation time with error: {e2}')
-            return None, code
+            return None, code #En vez de None se puede poner "Compilation error" y el error, devolver esto como answer
 
     queues = [queues_in_, queue_results]
 
@@ -95,7 +95,7 @@ def run_program(parameters, queues_in_, input_type_, retrying=False):
         # print full traceback
         traceback.print_exc()
         if retrying:
-            return None, code
+            return None, code #En vez de None se puede poner "Execution error" y el error, devolver esto como answer
         print(f'Sample {sample_id} failed with error: {e}. Next you will see an "expected an indented block" error. ')
         # Retry again with fixed code
         new_code = "["  # This code will break upon execution, and it will be caught by the except clause
@@ -132,8 +132,8 @@ def save_results(all_data,dataset):
         print('Saving results to', filename)
         all_sample_ids, all_queries, all_codes = all_data
         if config.dataset.dataset_name == 'RefCOCO':
-            data = [all_sample_ids, all_queries, all_versions, all_codes]
-            columns = ['sample_id','query', 'version', 'generated_code']
+            data = [all_sample_ids, all_queries, all_codes]
+            columns = ['sample_id','query', 'generated_code']
         else:
             data = [all_sample_ids, all_queries, all_codes]
             columns = ['sample_id','query', 'generated_code']
@@ -156,14 +156,14 @@ def save_results(all_data,dataset):
         all_accuracies = ['-' for _ in range(dataset.n_samples)] #  all columns empty score_result (IoUs' AVG and accuracy)
         if config.dataset.dataset_name == 'RefCOCO':
             all_sample_ids, all_queries, all_results, all_img_paths, all_images, all_truth_answers, all_codes, all_IoUs, score_result = all_data
-            data = [all_sample_ids, all_queries, all_results, all_img_paths, all_truth_answers,all_codes, all_images, all_versions,all_IoUs, all_accuracies]
-            columns = ['sample_id','query', 'Answer', 'image_path', 'truth_answers', 'code',' image','version', 'IoU', 'accuracy']
-            global_score_line = {'sample_id':'-','query': '-' , 'Answer': '-', 'image_path':'-', 'truth_answers':'-', 'code': '-',' image': '-', 'split':'-', 'version':'-', 'IoU': score_result[0], 'accuracy': score_result[1]}
+            data = [all_sample_ids, all_queries, all_results, all_img_paths, all_truth_answers,all_codes, all_images,all_IoUs, all_accuracies]
+            columns = ['sample_id','query', 'Answer', 'image_path', 'truth_answers', 'code',' image', 'IoU', 'accuracy']
+            global_score_line = {'sample_id':'-','query': '-' , 'Answer': '-', 'image_path':'-', 'truth_answers':'-', 'code': '-',' image': '-', 'IoU': score_result[0], 'accuracy': score_result[1]}
         else:
             all_sample_ids, all_queries, all_results, all_img_paths, all_images, all_truth_answers, all_codes, score_result = all_data
             data = [all_sample_ids, all_queries, all_results, all_img_paths, all_truth_answers,all_codes, all_images, all_accuracies]
             columns =  ['sample_id','query', 'Answer', 'image_path', 'truth_answers', 'code',' image', 'accuracy']
-            global_score_line = {'sample_id':'-','query': '-' , 'Answer': '-', 'image_path':'-', 'truth_answers':'-', 'code': '-',' image': '-', 'split':'-', 'accuracy': score_result}
+            global_score_line = {'sample_id':'-','query': '-' , 'Answer': '-', 'image_path':'-', 'truth_answers':'-', 'code': '-',' image': '-', 'accuracy': score_result}
         
         df = pd.DataFrame(data).T
         df.columns = columns

@@ -1,16 +1,16 @@
-Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:02<00:02,  2.74s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:03<00:00,  1.63s/it]Loading checkpoint shards: 100%|██████████| 2/2 [00:03<00:00,  1.80s/it]
-[Memory(location=cache/joblib)]: Flushing completely the cache
-Traceback (most recent call last):
-  File "/sorgin1/users/jbarrutia006/viper/main_project.py", line 318, in <module>
-    main()
-  File "/sorgin1/users/jbarrutia006/viper/main_project.py", line 208, in main
-    dataset = get_dataset(config.dataset)
-              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/sorgin1/users/jbarrutia006/viper/datasets/__init__.py", line 16, in get_dataset
-    dataset = RefCOCODataset(**config_dataset,
-              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/sorgin1/users/jbarrutia006/viper/datasets/refcoco.py", line 32, in __init__
-    with open(ref_file, 'rb') as f:
-         ^^^^^^^^^^^^^^^^^^^^
-PermissionError: [Errno 13] Permission denied: './data/refcoco/refcoco/refs(unc).p'
-srun: error: localhost: task 0: Exited with exit code 1
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd: error: *** JOB 11426 ON localhost CANCELLED AT 2024-07-15T19:24:08 ***
+Loading checkpoint shards:   0%|          | 0/29 [00:00<?, ?it/s]Loading checkpoint shards:   3%|▎         | 1/29 [00:01<00:34,  1.24s/it]Loading checkpoint shards:   7%|▋         | 2/29 [00:02<00:33,  1.23s/it]Loading checkpoint shards:  10%|█         | 3/29 [00:03<00:32,  1.26s/it]Loading checkpoint shards:  14%|█▍        | 4/29 [00:05<00:32,  1.31s/it]Loading checkpoint shards:  17%|█▋        | 5/29 [00:06<00:30,  1.28s/it]Loading checkpoint shards:  21%|██        | 6/29 [00:07<00:29,  1.28s/it]Loading checkpoint shards:  24%|██▍       | 7/29 [00:09<00:29,  1.33s/it]Loading checkpoint shards:  28%|██▊       | 8/29 [00:10<00:30,  1.48s/it]Loading checkpoint shards:  31%|███       | 9/29 [00:12<00:30,  1.51s/it]Loading checkpoint shards:  34%|███▍      | 10/29 [00:14<00:30,  1.58s/it]Loading checkpoint shards:  38%|███▊      | 11/29 [00:15<00:29,  1.62s/it]slurmstepd: error: *** STEP 11426.0 ON localhost CANCELLED AT 2024-07-15T19:24:08 ***
+  0%|          | 3/1049 [08:52<51:35:16, 177.55s/it]The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:2 for open-end generation.
+  0%|          | 4/1049 [11:50<51:31:19, 177.49s/it]The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:2 for open-end generation.
+  0%|          | 5/1049 [14:47<51:28:11, 177.48s/it]The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:2 for open-end generation.
+  1%|          | 6/1049 [17:44<51:24:31, 177.44s/it]The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:2 for open-end generation.
+  1%|          | 7/1049 [20:45<51:39:49, 178.49s/it]The attention mask and the pad token id were not set. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+Setting `pad_token_id` to `eos_token_id`:2 for open-end generation.
+srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
+slurmstepd: error: *** JOB 11425 ON localhost CANCELLED AT 2024-07-15T19:37:59 ***
+slurmstepd: error: *** STEP 11425.0 ON localhost CANCELLED AT 2024-07-15T19:37:59 ***
