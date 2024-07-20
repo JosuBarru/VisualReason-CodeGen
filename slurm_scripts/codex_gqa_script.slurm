@@ -8,6 +8,9 @@
 #SBATCH --gres=gpu:1
 #SBATCH --output=/sorgin1/users/jbarrutia006/viper/slurm_output_qa.txt
 #SBATCH --error=/sorgin1/users/jbarrutia006/viper/slurm_output_qa.err
+#SBATCH --mail-type=all
+#SBATCH --mail-user=jbarrutia006@ikasle.ehu.eus
+
 
 source /sorgin1/users/jbarrutia006/venvs/viper_tximista/bin/activate
 

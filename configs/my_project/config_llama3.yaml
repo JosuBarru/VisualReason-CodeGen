@@ -1,0 +1,10 @@
+cognition: 
+    model: llama3 # Mistral/gemma/codellama_Q (Remember to set True in "load_models" section)
+    model_name: 'meta-llama/Meta-Llama-3-8B'
+    access_token_file: 'access_tokens/llama3_access_token.key'
+    is_setted: True
+load_models:
+    llama3 : True
+    gemma: False
+    mistral: False
+    

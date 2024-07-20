@@ -1003,7 +1003,148 @@ def codex_helper(extended_prompt):
             resp = response['choices'][0]['text']
 
     return resp
+# New Model created to use in llm_query() method
+class CognitionModel(BaseModel):
+    name = 'cognition'
+    to_batch = False
+    requires_gpu = True
 
+    def __init__(self, gpu_number=0):
+        super().__init__(gpu_number=gpu_number)
+        with open(config.gpt3.qa_prompt) as f:
+            self.qa_prompt = f.read().strip()
+        with open(config.gpt3.guess_prompt) as f:
+            self.guess_prompt = f.read().strip()
+
+    def forward(self, prompt, process_name=None, prompt_file=None, base_prompt=None, extra_context=None):
+        if process_name == 'qa':
+            result = self.get_qa(prompt=prompt, max_tokens=150)
+        elif process_name == 'quess':
+            result = self.get_guess(prompt=prompt, max_tokens=150) 
+        return result
+    
+    def get_qa(self, prompt, prompt_base: str = None, max_tokens = 5):
+        if prompt_base is None:
+            prompt_base = self.qa_prompt
+        prompts_total = []
+        prompts_total.append(prompt_base.format(prompt))
+        input_ids = self.tokenizer(prompts_total, return_tensors="pt", padding=True, truncation=True)
+        input_ids = input_ids["input_ids"].to("cuda")
+        generated_ids = self.model.generate(input_ids, max_new_tokens=max_tokens)
+        # generated_text = self.tokenizer.decode(generated_ids[0], skip_special_tokens=False)
+        # generated_text = generated_text.split('\n\n')[1]
+        generated_ids = generated_ids[:, input_ids.shape[-1]:]
+        generated_text = [self.tokenizer.decode(gen_id, skip_special_tokens=False) for gen_id in generated_ids]
+        return generated_text[0].split('\n\n')[0]
+    
+    def get_guess(self,prompt, prompt_base:str = None, max_tokens=16):
+        if prompt_base is None:
+            prompt_base = self.guess_prompt
+        prompts_total = []
+        if len(prompt)==3:
+            question, guess1, _ = prompt
+            if len(guess1)==1:
+                guess1 = [guess1[0], guess1[0]]
+            prompts_total.append(prompt_base.format(question, guess1[0], guess1[1]))
+        else:
+            for p in prompt:
+                question, guess1 = p
+                if len(guess1) == 1:
+                    # In case only one option is given as a guess
+                    guess1 = [guess1[0], guess1[0]]
+                prompts_total.append(prompt_base.format(question, guess1[0], guess1[1]))
+        input_ids = self.tokenizer(prompts_total, return_tensors="pt", padding=True, truncation=True)["input_ids"]
+        generated_ids = self.model.generate(input_ids.to("cuda"), max_new_tokens=max_tokens)
+        generated_ids = generated_ids[:, input_ids.shape[-1]:]
+        generated_text = [self.tokenizer.decode(gen_id, skip_special_tokens=False) for gen_id in generated_ids]
+        generated_text = generated_text.split('\n\n')[1]
+        return generated_text
+    
+# REQUIRED ACCESS_TOKEN in order to access to the model
+class Mistral(CognitionModel):
+    name = 'mistral'
+    def __init__(self, gpu_number=0):
+        super().__init__(gpu_number=gpu_number)
+        from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
+        # Load Llama2
+        model_id = config.cognition.model_name
+        with open(config.cognition.access_token_file) as f:
+            self.token_access = f.read().strip()
+        
+        from huggingface_hub import login
+        login(token=self.token_access)
+
+        if model_id.startswith('/'):
+            assert os.path.exists(model_id), \
+                f'Model path {model_id} does not exist. If you use the model ID it will be downloaded automatically'
+        else:
+            assert model_id in ['mistralai/Mistral-7B-v0.3','mistralai/Mistral-7B-v0.2', 'mistralai/Mistral-7B-Instruct-v0.3']
+        quantization_config = BitsAndBytesConfig(load_in_4bit=True,bnb_4bit_compute_dtype=torch.float16)
+        self.tokenizer = AutoTokenizer.from_pretrained(model_id)
+        self.tokenizer.pad_token = self.tokenizer.eos_token
+        self.tokenizer.padding_side = 'left'
+        self.model = AutoModelForCausalLM.from_pretrained(
+            model_id, 
+            quantization_config = quantization_config,
+            #attn_implementation="flash_attention_2",
+            device_map='auto'
+        )
+        self.model.eval()
+# REQUIRED ACCESS_TOKEN in order to access to the model
+class Gemma(CognitionModel):
+    name = 'gemma'
+    def __init__(self, gpu_number=0):
+        super().__init__(gpu_number=gpu_number)
+        from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
+
+        model_id = config.cognition.model_name
+        with open(config.cognition.access_token_file) as f:
+            self.access_token = f.read().strip()
+        if model_id.startswith('/'):
+            assert os.path.exists(model_id), \
+                f'Model path {model_id} does not exist. If you use the model ID it will be downloaded automatically'
+        else:
+            assert model_id in ['google/gemma-7b']
+        quantization_config = BitsAndBytesConfig(load_in_4bit=True,bnb_4bit_compute_dtype=torch.float16)
+        self.tokenizer = AutoTokenizer.from_pretrained(model_id, token=self.access_token)
+        self.tokenizer.pad_token = self.tokenizer.eos_token
+        self.tokenizer.padding_side = 'left'
+        self.model = AutoModelForCausalLM.from_pretrained(
+            model_id, 
+            quantization_config = quantization_config,
+            #attn_implementation="flash_attention_2",
+            device_map='auto',
+            token=self.access_token
+        )
+        self.model.eval()
+        
+# REQUIRED ACCESS_TOKEN in order to access to the model
+class llama3(CognitionModel):
+    name = 'llama3'
+    def __init__(self, gpu_number=0):
+        super().__init__(gpu_number=gpu_number)
+        from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig
+
+        model_id = config.cognition.model_name
+        with open(config.cognition.access_token_file) as f:
+            self.access_token = f.read().strip()
+        if model_id.startswith('/'):
+            assert os.path.exists(model_id), \
+                f'Model path {model_id} does not exist. If you use the model ID it will be downloaded automatically'
+        else:
+            assert model_id in ['meta-llama/Meta-Llama-3-8B']
+        quantization_config = BitsAndBytesConfig(load_in_4bit=True,bnb_4bit_compute_dtype=torch.float16)
+        self.tokenizer = AutoTokenizer.from_pretrained(model_id, token=self.access_token)
+        self.tokenizer.pad_token = self.tokenizer.eos_token
+        self.tokenizer.padding_side = 'left'
+        self.model = AutoModelForCausalLM.from_pretrained(
+            model_id, 
+            quantization_config = quantization_config,
+            #attn_implementation="flash_attention_2",
+            device_map='auto',
+            token=self.access_token
+        )
+        self.model.eval()
 
 class CodexModel(BaseModel):
     name = 'codex'
@@ -1238,11 +1379,10 @@ class codeLlamaQ(CodexModel):
             device_map='auto'
         )
         self.model.eval()
-        print('aqui')
         # self.pipe = pipeline("text-generation", model=self.model, tokenizer=self.tokenizer)
     def run_code_Quantized_llama(self, prompt):
         #from utils import complete_code
-        print('run quant')
+        print("prompt: \n",  prompt)
         input_ids = self.tokenizer(prompt, return_tensors="pt", padding=True, truncation=True)["input_ids"]
         generated_ids = self.model.generate(input_ids.to("cuda"), max_new_tokens=256)
         generated_ids = generated_ids[:, input_ids.shape[-1]:]

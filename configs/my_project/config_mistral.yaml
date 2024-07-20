@@ -1,0 +1,8 @@
+cognition: 
+    model: mistral # Mistral/gemma/codellama_Q (Remember to set True in "load_models" section)
+    model_name: 'mistralai/Mistral-7B-Instruct-v0.3'
+    access_token_file: 'access_tokens/viper.key'
+    is_setted: True
+load_models:
+    mistral: True
+    gemma: False
