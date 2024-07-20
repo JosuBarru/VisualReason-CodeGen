@@ -1,4 +1,4 @@
-results_dir: ./results/refcoco/codex_results/
+results_dir: ./results/refcoco+/codex_results/
 save_codex: True
 execute_code: False
 save: False

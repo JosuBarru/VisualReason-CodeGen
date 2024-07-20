@@ -13,15 +13,15 @@ dataset:                                            # Dataset configuration
 load_models:                                        # Which pretrained models to load
     maskrcnn: False
     clip: False
-    glip: True # E* : Default -> True
+    glip: False # E* : Default -> True
     owlvit: False
     tcl: False
     gpt3_qa: False # E* : Default -> True
-    gpt3_general: True # E* : Default -> True
-    depth: True # E* : Default -> True #MiDaS
-    blip: True # E* : Default -> True
+    gpt3_general: False # E* : Default -> True
+    depth: False # E* : Default -> True #MiDaS
+    blip: False # E* : Default -> True
     saliency: False
-    xvlm: True # E* : Default -> True
+    xvlm: False # E* : Default -> True
     codex: False # E* : Default -> True
     codellama: False
     codellama_Q: False # New model inserted

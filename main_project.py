@@ -20,11 +20,12 @@ from tqdm import tqdm
 
 import sys
 
-# os.environ['CUDA_VISIBLE_DEVICES'] = '0,1,2'
-# os.environ['CODEX_QUANTIZED'] = '1'
-# os.environ['LOAD_MODELS'] = '0'
-# os.environ['DATASET'] = 'gqa'
-# os.environ['EXEC_MODE'] = 'codex'
+os.environ['CUDA_VISIBLE_DEVICES'] = '0,1,2,3'
+os.environ['CODEX_QUANTIZED'] = '1'
+os.environ['LOAD_MODELS'] = '1'
+os.environ['DATASET'] = 'gqa'
+os.environ['EXEC_MODE'] = 'cache'
+os.environ['COGNITION_MODEL'] = 'config_mistral'
 script_dir = os.path.abspath('/sorgin1/users/jbarrutia006/viper')
 sys.path.append(script_dir)
 
@@ -67,15 +68,16 @@ def run_program(parameters, queues_in_, input_type_, retrying=False):
     try:
         exec(compile(code, 'Codex', 'exec'), globals())
     except Exception as e:
-        print(f'Sample {sample_id} failed at compilation time with error: {e}')
-        try:
-            with open(config.fixed_code_file, 'r') as f:
-                fixed_code = f.read()
-            code = code_header + fixed_code 
-            exec(compile(code, 'Codex', 'exec'), globals())
-        except Exception as e2:
-            print(f'Not even the fixed code worked. Sample {sample_id} failed at compilation time with error: {e2}')
-            return None, code #En vez de None se puede poner "Compilation error" y el error, devolver esto como answer
+        return f"Error Codigo: {e}", code
+        # print(f'Sample {sample_id} failed at compilation time with error: {e}')
+        # try:
+        #     with open(config.fixed_code_file, 'r') as f:
+        #         fixed_code = f.read()
+        #     code = code_header + fixed_code 
+        #     exec(compile(code, 'Codex', 'exec'), globals())
+        # except Exception as e2:
+        #     print(f'Not even the fixed code worked. Sample {sample_id} failed at compilation time with error: {e2}')
+        #     return None, code #En vez de None se puede poner "Compilation error" y el error, devolver esto como answer
 
     queues = [queues_in_, queue_results]
 
@@ -92,15 +94,16 @@ def run_program(parameters, queues_in_, input_type_, retrying=False):
             # Functions to be used
             llm_query_partial, bool_to_yesno, distance, best_image_match)
     except Exception as e:
-        # print full traceback
-        traceback.print_exc()
-        if retrying:
-            return None, code #En vez de None se puede poner "Execution error" y el error, devolver esto como answer
-        print(f'Sample {sample_id} failed with error: {e}. Next you will see an "expected an indented block" error. ')
-        # Retry again with fixed code
-        new_code = "["  # This code will break upon execution, and it will be caught by the except clause
-        result = run_program((new_code, sample_id, image, possible_answers, query), queues_in_, input_type_,
-                             retrying=True)[0]
+        return f"Error Ejecucion: {e}", code
+        # # print full traceback
+        # traceback.print_exc()
+        # if retrying:
+        #     return None, code #En vez de None se puede poner "Execution error" y el error, devolver esto como answer
+        # print(f'Sample {sample_id} failed with error: {e}. Next you will see an "expected an indented block" error. ')
+        # # Retry again with fixed code
+        # new_code = "["  # This code will break upon execution, and it will be caught by the except clause
+        # result = run_program((new_code, sample_id, image, possible_answers, query), queues_in_, input_type_,
+        #                      retrying=True)[0]
 
     # The function run_{sample_id} is defined globally (exec doesn't work locally). A cleaner alternative would be to
     # save it in a global dict (replace globals() for dict_name in exec), but then it doesn't detect the imported
@@ -156,13 +159,13 @@ def save_results(all_data,dataset):
         all_accuracies = ['-' for _ in range(dataset.n_samples)] #  all columns empty score_result (IoUs' AVG and accuracy)
         if config.dataset.dataset_name == 'RefCOCO':
             all_sample_ids, all_queries, all_results, all_img_paths, all_images, all_truth_answers, all_codes, all_IoUs, score_result = all_data
-            data = [all_sample_ids, all_queries, all_results, all_img_paths, all_truth_answers,all_codes, all_images,all_IoUs, all_accuracies]
+            data = [all_sample_ids, all_queries, all_results, all_img_paths, all_truth_answers,all_codes, all_images,all_IoUs, all_accuracies, code_eval]
             columns = ['sample_id','query', 'Answer', 'image_path', 'truth_answers', 'code',' image', 'IoU', 'accuracy']
             global_score_line = {'sample_id':'-','query': '-' , 'Answer': '-', 'image_path':'-', 'truth_answers':'-', 'code': '-',' image': '-', 'IoU': score_result[0], 'accuracy': score_result[1]}
         else:
             all_sample_ids, all_queries, all_results, all_img_paths, all_images, all_truth_answers, all_codes, score_result = all_data
-            data = [all_sample_ids, all_queries, all_results, all_img_paths, all_truth_answers,all_codes, all_images, all_accuracies]
-            columns =  ['sample_id','query', 'Answer', 'image_path', 'truth_answers', 'code',' image', 'accuracy']
+            data = [all_sample_ids, all_queries, all_results, all_img_paths, all_truth_answers,all_codes, all_accuracies]
+            columns =  ['sample_id','query', 'Answer', 'image_path', 'truth_answers', 'code', 'accuracy']
             global_score_line = {'sample_id':'-','query': '-' , 'Answer': '-', 'image_path':'-', 'truth_answers':'-', 'code': '-',' image': '-', 'accuracy': score_result}
         
         df = pd.DataFrame(data).T
