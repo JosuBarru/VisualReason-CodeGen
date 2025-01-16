@@ -71,9 +71,11 @@ log_every: 20                                       # Log accuracy every n batch
 wandb: False                                        # Use Weights and Biases
 
 blip_half_precision: False                           # Use 8bit (Faster but slightly less accurate) for BLIP if True
-blip_v2_model_type: blip2-opt-6.7b            # Which model to use for BLIP-2
+blip_v2_model_type: blip2-opt-6.7b             # Which model to use for BLIP-2
 
 use_fixed_code: False                               # Use a fixed code for all samples (do not generate with Codex)
 fixed_code_file: ./prompts/fixed_code/blip2.prompt  # Path to the fixed code file
 
-
+#new
+cognition:
+    is_setted: False

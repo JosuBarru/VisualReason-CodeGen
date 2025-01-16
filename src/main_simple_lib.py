@@ -399,13 +399,19 @@ def get_features_lists(all_items):
     return all_queries, all_sample_ids, all_truth_answers, all_img_paths, all_images
     # return {'query': text, 'image': img, 'sample_id': index, 'answer': answer, 'index': index,
     #             'possible_answers': [], 'info_to_prompt': text, "query_type": -1, 'extra_context': ''}
-# def cargar_datos(dataset_name):
-#   if dataset_name not in ["REFCOCO", "GQA", "OKVQA"]:
-#     raise ValueError("Error de nombre de conjunto de datos. Se esperaba: {}, nombre recibido: {}".format(["REFCOCO", "GQA", "OKVQA"], dataset_name))
-#   # ... resto del código para cargar datos ...
 
-# try:
-#   cargar_datos("MI_DATASET")  # <- Aquí se produce el error si el nombre del conjunto de datos no es válido
-# except ValueError as e:
-#   print(e)
 
+def insert_syntax(code, dataset:str = None):
+    code_ = code.split('# Answer is:')[1]
+    code = f'def execute_command(image, my_fig, time_wait_between_lines, syntax):' + code_
+    if dataset is None:
+        code_for_syntax = code.replace("(image, my_fig, time_wait_between_lines, syntax)", "(image)")
+        syntax_1 = Syntax(code_for_syntax, "python", theme="monokai", line_numbers=True, start_line=0)
+        console.print(syntax_1)
+        code = ast.unparse(ast.parse(code))
+        code_for_syntax_2 = code.replace("(image, my_fig, time_wait_between_lines, syntax)", "(image)")
+    else:
+        code = f'def execute_command(image, my_fig, time_wait_between_lines, syntax):' + code_
+        code_for_syntax_2 = code
+    syntax_2 = Syntax(code_for_syntax_2, "python", theme="monokai", line_numbers=True, start_line=0)
+    return code, syntax_2

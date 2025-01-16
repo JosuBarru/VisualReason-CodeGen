@@ -1,6 +1,6 @@
 codex:
     model: codellama_Q
-    model_name: 'codellama/CodeLlama-7b-hf' 
+    model_name: 'codellama/CodeLlama-70b-hf' 
     prompt: ./prompts/api_no_video.prompt
 cognition:
     model: codellama_Q

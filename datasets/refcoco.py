@@ -245,7 +245,7 @@ class RefCOCODataset(Dataset):
         # New variable added
         from copy import copy
         all_IoUs = []
-
+        score_vector = []
         for p, g in zip(prediction, ground_truth):
             try:
                 if p is None:
@@ -266,12 +266,15 @@ class RefCOCODataset(Dataset):
                 iou += iou_
                 if iou_ > 0.7:
                     acc += 1
+                    score_vector.append(1)
+                else:
+                    score_vector.append(0)
             except Exception as e:
                 pass  # If the prediction is not a box, we consider iou = 0
             num_samples += 1
         # New code lines
         score_result = (iou / max(num_samples, 1), acc / max(num_samples, 1))
-        return score_result, all_IoUs
+        return score_result, all_IoUs, score_vector
 
     def get_all_items(self):
         return [self.__getitem__(i) for i in range(self.n_samples)]

@@ -23,8 +23,13 @@ script_dir = os.path.abspath('/sorgin1/users/jbarrutia006/viper')
 sys.path.append(script_dir)
 
 
-from datasets.gqa import GQADataset
+# from datasets.gqa import GQADataset
 
 
-da = GQADataset(split="testdev", data_path='./data/gqa')
+# da = GQADataset(split="testdev", data_path='./data/refcoco/refcoco')
+
+from datasets.refcoco import RefCOCODataset
+
+da = RefCOCODataset(data_path="./data/refcoco", version='refcoco+', split="testA")
+
 print(len(da))

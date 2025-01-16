@@ -12,10 +12,10 @@
 #SBATCH --mail-user=jbarrutia006@ikasle.ehu.eus
 
 source /sorgin1/users/jbarrutia006/venvs/viper_tximista/bin/activate
-
 export CODEX_QUANTIZED=1
-export LOAD_MODELS=0
+export LOAD_MODELS=1
 export DATASET='okvqa'
-export EXEC_MODE='codex'
+export EXEC_MODE='cache'
+export COGNITION_MODEL='config_mistral'
 
-srun python main_project.py
+srun python main_project_aux.py
