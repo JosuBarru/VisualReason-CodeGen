@@ -238,10 +238,14 @@ class GQADataset(Dataset):
             return 0
         assert len(prediction) == len(ground_truth)
         score = 0
+        score_vector = []
         for p, g in zip(prediction, ground_truth):
             if self.post_process(p) == g:
                 score += 1
-        return score / len(prediction)
+                score_vector.append(1)
+            else: 
+                score_vector.append(0)
+        return score / len(prediction), score_vector
 
     # we can call len(dataset) to return the size
     def __len__(self):

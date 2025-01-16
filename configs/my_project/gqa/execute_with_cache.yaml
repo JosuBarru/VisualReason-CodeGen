@@ -1,2 +1,2 @@
 use_cached_codex: True
-cached_codex_path: ''
+cached_codex_path: 'results/gqa/codex_results/testdev/codex_results_all_70b.csv'

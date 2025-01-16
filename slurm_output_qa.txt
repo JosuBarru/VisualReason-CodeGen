@@ -1,7 +1,10 @@
-SELECTED CONFIG FILES: config_codellama_Q,gqa/general_config,gqa/save_codex
-LOADING MODEL: DISABLED
-modelo: <class 'vision_models.codeLlamaQ'> , proceso:  codellama_Q
-batchsize:  12
-Accuracy at Batch 0/1049: 0.16666666666666666
-Final accuracy: 0.16666666666666666
-Saving results to codex_results_1.csv
+SELECTED CONFIG FILES: config_mistral,okvqa/general_config,okvqa/execute_with_cache
+LOADING MODEL: ENABLED
+modelo: <class 'vision_models.BLIPModel'> , proceso:  blip
+The token has not been saved to the git credentials helper. Pass `add_to_git_credential=True` in this function directly or `--add-to-git-credential` if using via `huggingface-cli` if you want to set the git credential as well.
+Token is valid (permission: fineGrained).
+Your token has been saved to /sorgin1/users/jbarrutia006/.cache/huggingface/token
+Login successful
+modelo: <class 'vision_models.Mistral'> , proceso:  mistral
+Final accuracy: 0.036187078874355905
+Saving results to results_1.csv

@@ -7,17 +7,21 @@ import yaml
 dataset_name = os.getenv('DATASET', None)
 execution_mode = os.getenv('EXEC_MODE', None) # En vez del None pondriamos  -> (config_codellama, my_config) por ejemplo
 enable_models = bool(int(os.getenv('LOAD_MODELS', '0')))
-config_names = None
-
+cognition_models = os.getenv('COGNITION_MODEL', None) 
+config_names = []
 
 try:
-    config_names = ['config_codellama_Q'] 
     if dataset_name in ['refcoco','gqa', 'okvqa']:
         config_names.append(dataset_name + '/'+ 'general_config')
         if execution_mode is not None:
             if execution_mode == 'cache':
                 config_names.append(dataset_name + '/'+ 'execute_with_cache')
+                if cognition_models is not None:
+                    config_names.insert(0, cognition_models)
+                # else:
+                #     config_names.insert(0,'config_codellama_Q')
             elif execution_mode == 'codex':
+                config_names.insert(0,'config_codellama_Q')
                 config_names.append(dataset_name + '/'+ 'save_codex')
             elif not execution_mode in [None, 'cache', 'codex']:
                 raise NameError(f'Value from $EXEC_MODE variable is incorrect, obtained: {execution_mode} and must be: cache or codex')
@@ -31,8 +35,8 @@ except NameError as n:
 except UserWarning as w:
     print(f'WARNING !!!!: {w}')
 
-if dataset_name is None:
-    config_names = 'config_codellama_Q'  # Modify this if you want to use another default config
+# if dataset_name is None:
+#     config_names = 'config_codellama_Q'  # Modify this if you want to use another default config
 
 print("SELECTED CONFIG FILES: " + config_names) 
 configs = [OmegaConf.load('configs/base_config.yaml')]
