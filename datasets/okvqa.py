@@ -156,14 +156,15 @@ class OKVQADataset(Dataset):
         self.punct = [';', r"/", '[', ']', '"', '{', '}',
                       '(', ')', '=', '+', '\\', '_', '-',
                       '>', '<', '@', '`', ',', '?', '!']
-
+    # change: the name of the function
     def get_sample_path(self, index):
         image_id = self.df.iloc[index]["image_path"]
         image_path = os.path.expanduser(os.path.join(self.data_path, image_id))
         return image_path
 
     def get_index_from_sample_id(self, sample_id):
-        return self.df[self.df["sample_id"] == sample_id].index[0]
+        return self.df[self.df["question_id"] == sample_id].index[0]
+        # return self.df[self.df["sample_id"] == sample_id].index[0]
 
     def __getitem__(self, index):
         # image input
@@ -241,14 +242,17 @@ class OKVQADataset(Dataset):
         Returns:
             score (float): Score of the prediction.
         """
+        if len(prediction) == 0 or (len(prediction)==1 and prediction[0]==None):  # if no prediction, return 0
+            return 0
         assert len(prediction) == len(ground_truth)
         score = 0
+        score_vector = []
         for p, g in zip(prediction, ground_truth):
             # There are 10 answers per question (10 annotators), most of them are the same
             item_score = self.get_item_score(p, g)
             score += item_score
-
-        return score / len(prediction)
+            score_vector.append(item_score) # 
+        return score / len(prediction), score_vector
 
     def get_item_score(self, p, g):
         g = [self.post_process(g_, stem=False) for g_ in g]

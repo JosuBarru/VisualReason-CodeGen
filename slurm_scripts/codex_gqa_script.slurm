@@ -19,4 +19,4 @@ export LOAD_MODELS=0
 export DATASET='gqa'
 export EXEC_MODE='codex'
 
-srun python main_project.py
+srun python main_project_aux.py

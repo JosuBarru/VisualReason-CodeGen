@@ -420,7 +420,7 @@ def bool_to_yesno(bool_answer: bool) -> str:
     return "yes" if bool_answer else "no"
 
 
-def llm_query(query, context=None, long_answer=True, queues=None):
+def llm_query(query, context=None, long_answer=True, use_congintionModel: bool = config.cognition.is_setted, queues=None):
     """Answers a text question using GPT-3. The input question is always a formatted string with a variable in it.
 
     Parameters
@@ -428,14 +428,20 @@ def llm_query(query, context=None, long_answer=True, queues=None):
     query: str
         the text question to ask. Must not contain any reference to 'the image' or 'the photo', etc.
     """
+    # NEW ADDITION ##TODO:
+    if use_congintionModel:
+        return forward(model_name=config.cognition.model, process_name='qa', prompt=query, queues=queues)
     if long_answer:
         return forward(model_name='gpt3_general', prompt=query, queues=queues)
     else:
-        return forward(model_name='gpt3_qa', prompt=[query, context], queues=queues)
+        return forward(model_name='qa', prompt=[query, context], queues=queues)
 
 
-def process_guesses(prompt, guess1=None, guess2=None, queues=None):
-    return forward(model_name='gpt3_guess', prompt=[prompt, guess1, guess2], queues=queues)
+def process_guesses(prompt, guess1=None, guess2=None, queues=None, use_congintionModel: bool = config.cognition.is_setted):
+    if use_congintionModel:
+        return forward(model_name=config.cognition.model, process_name='guess', prompt=[prompt, guess1, guess2], queues=queues)
+    else:
+        return forward(model_name='guess', prompt=[prompt, guess1, guess2], queues=queues)
 
 
 def coerce_to_numeric(string, no_string=False):

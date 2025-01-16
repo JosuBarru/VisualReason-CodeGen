@@ -18,8 +18,8 @@ try:
                 config_names.append(dataset_name + '/'+ 'execute_with_cache')
                 if cognition_models is not None:
                     config_names.insert(0, cognition_models)
-                else:
-                    config_names.insert(0,'config_codellama_Q')
+                # else:
+                #     config_names.insert(0,'config_codellama_Q')
             elif execution_mode == 'codex':
                 config_names.insert(0,'config_codellama_Q')
                 config_names.append(dataset_name + '/'+ 'save_codex')

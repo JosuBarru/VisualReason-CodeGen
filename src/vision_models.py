@@ -1003,6 +1003,7 @@ def codex_helper(extended_prompt):
             resp = response['choices'][0]['text']
 
     return resp
+
 # New Model created to use in llm_query() method
 class CognitionModel(BaseModel):
     name = 'cognition'
@@ -1382,7 +1383,6 @@ class codeLlamaQ(CodexModel):
         # self.pipe = pipeline("text-generation", model=self.model, tokenizer=self.tokenizer)
     def run_code_Quantized_llama(self, prompt):
         #from utils import complete_code
-        print("prompt: \n",  prompt)
         input_ids = self.tokenizer(prompt, return_tensors="pt", padding=True, truncation=True)["input_ids"]
         generated_ids = self.model.generate(input_ids.to("cuda"), max_new_tokens=256)
         generated_ids = generated_ids[:, input_ids.shape[-1]:]
@@ -1481,7 +1481,7 @@ class BLIPModel(BaseModel):
         inputs = self.processor(images=image, text=question, return_tensors="pt", padding="longest").to(self.dev)
         if self.half_precision:
             inputs['pixel_values'] = inputs['pixel_values'].half()
-        generated_ids = self.model.generate(**inputs, length_penalty=-1, num_beams=5,# max_length=10,
+        generated_ids = self.model.generate(**inputs, length_penalty=-1, num_beams=5,
                                              min_length=1,
                                             do_sample=False, top_p=0.9, repetition_penalty=1.0,
                                             num_return_sequences=1, temperature=1, max_new_tokens=10)

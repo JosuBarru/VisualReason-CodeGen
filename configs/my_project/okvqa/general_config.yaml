@@ -4,7 +4,7 @@ dataset:
     split: test
     testing: False
     max_samples: 
-    batch_size: 24 # to test set 1f
+    batch_size: 12 # to test set 1f
     start_sample: 0
 codex:
     prompt: ./prompts/benchmarks/okvqa.prompt
@@ -17,12 +17,13 @@ load_models:
     glip: False
     owlvit: False
     tcl: False
-    gpt3_list: True # Ez dakit noiz erabiltzen den
-    gpt3_qa: True
-    gpt3_guess: True
+    gpt3_list: False # Ez dakit noiz erabiltzen den
+    gpt3_qa: False
+    gpt3_guess: False
     depth: False
     blip: True
     saliency: False
     xvlm: False
 
 fixed_code_file: ./prompts/fixed_code/blip2.prompt
+save: True

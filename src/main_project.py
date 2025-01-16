@@ -21,11 +21,10 @@ from tqdm import tqdm
 import sys
 
 os.environ['CUDA_VISIBLE_DEVICES'] = '0,1,2,3'
-os.environ['CODEX_QUANTIZED'] = '1'
 os.environ['LOAD_MODELS'] = '1'
-os.environ['DATASET'] = 'gqa'
+os.environ['DATASET'] = 'refcoco'
 os.environ['EXEC_MODE'] = 'cache'
-os.environ['COGNITION_MODEL'] = 'config_mistral'
+os.environ['COGNITION_MODEL'] = 'config_gemma'
 script_dir = os.path.abspath('/sorgin1/users/jbarrutia006/viper')
 sys.path.append(script_dir)
 
@@ -51,8 +50,8 @@ def my_collate(batch):
 
 
 def run_program(parameters, queues_in_, input_type_, retrying=False):
-    from image_patch import ImagePatch, llm_query, best_image_match, distance, bool_to_yesno
-    from video_segment import VideoSegment
+    from src.image_patch import ImagePatch, llm_query, best_image_match, distance, bool_to_yesno
+    from src.video_segment import VideoSegment
 
     global queue_results
 
@@ -156,17 +155,16 @@ def save_results(all_data,dataset):
                                                 str.isnumeric(ef.stem.split('_')[-1])]) + 1) + '.csv'
         print('Saving results to', filename)
         
-        all_accuracies = ['-' for _ in range(dataset.n_samples)] #  all columns empty score_result (IoUs' AVG and accuracy)
         if config.dataset.dataset_name == 'RefCOCO':
-            all_sample_ids, all_queries, all_results, all_img_paths, all_images, all_truth_answers, all_codes, all_IoUs, score_result = all_data
-            data = [all_sample_ids, all_queries, all_results, all_img_paths, all_truth_answers,all_codes, all_images,all_IoUs, all_accuracies, code_eval]
-            columns = ['sample_id','query', 'Answer', 'image_path', 'truth_answers', 'code',' image', 'IoU', 'accuracy']
-            global_score_line = {'sample_id':'-','query': '-' , 'Answer': '-', 'image_path':'-', 'truth_answers':'-', 'code': '-',' image': '-', 'IoU': score_result[0], 'accuracy': score_result[1]}
+            all_sample_ids, all_queries, all_results, all_img_paths, all_truth_answers, all_codes, all_IoUs, acc_vector, score_result = all_data
+            data = [all_sample_ids, all_queries, all_results, all_img_paths, all_truth_answers,all_codes,all_IoUs, acc_vector]
+            columns = ['sample_id','query', 'Answer', 'image_path', 'truth_answers', 'code', 'IoU', 'accuracy']
+            global_score_line = {'sample_id':'-','query': '-' , 'Answer': '-', 'image_path':'-', 'truth_answers':'-', 'code': '-', 'IoU': score_result[0], 'accuracy': score_result[1]}
         else:
-            all_sample_ids, all_queries, all_results, all_img_paths, all_images, all_truth_answers, all_codes, score_result = all_data
-            data = [all_sample_ids, all_queries, all_results, all_img_paths, all_truth_answers,all_codes, all_accuracies]
+            all_sample_ids, all_queries, all_results, all_img_paths, all_truth_answers, all_codes, acc_vector, score_result = all_data
+            data = [all_sample_ids, all_queries, all_results, all_img_paths, all_truth_answers, all_codes, acc_vector]
             columns =  ['sample_id','query', 'Answer', 'image_path', 'truth_answers', 'code', 'accuracy']
-            global_score_line = {'sample_id':'-','query': '-' , 'Answer': '-', 'image_path':'-', 'truth_answers':'-', 'code': '-',' image': '-', 'accuracy': score_result}
+            global_score_line = {'sample_id':'-','query': '-' , 'Answer': '-', 'image_path':'-', 'truth_answers':'-', 'code': '-', 'accuracy': score_result}
         
         df = pd.DataFrame(data).T
         df.columns = columns
@@ -233,7 +231,6 @@ def main():
     all_img_paths = []
     all_possible_answers = []
     all_query_types = []
-    all_images = []
     all_IoUs = []
 
     with mp.Pool(processes=num_processes, initializer=worker_init, initargs=(queues_results,)) \
@@ -281,14 +278,13 @@ def main():
                 all_query_types += batch['query_type']
                 all_queries += batch['query']
                 all_img_paths += [dataset.get_sample_path(idx) for idx in batch['index']]
-                all_images.append(batch['image']) 
 
-                if i % config.log_every == 0:
-                    try:
-                        accuracy = dataset.accuracy(all_results, all_answers, all_possible_answers, all_query_types)
-                        console.print(f'Accuracy at Batch {i}/{n_batches}: {accuracy}')
-                    except Exception as e:
-                        console.print(f'Error computing accuracy: {e}')
+                # if i % config.log_every == 0:
+                #     try:
+                #         accuracy = dataset.accuracy(all_results, all_answers, all_possible_answers, all_query_types)
+                #         console.print(f'Accuracy at Batch {i}/{n_batches}: {accuracy}')
+                #     except Exception as e:
+                #         console.print(f'Error computing accuracy: {e}')
 
         except Exception as e:
             # print full stack trace
@@ -297,7 +293,10 @@ def main():
             console.print("Completing logging and exiting...")
 
     try:
-        accuracy = dataset.accuracy(all_results, all_answers, all_possible_answers, all_query_types)
+        if config.dataset.dataset_name!='RefCOCO':
+            accuracy, score_vector= dataset.accuracy(all_results, all_answers, all_possible_answers, all_query_types)
+        else:
+            accuracy, all_IoUs, score_vector = dataset.accuracy(all_results, all_answers, all_possible_answers, all_query_types)
         console.print(f'Final accuracy: {accuracy}')
     except Exception as e:
         print(f'Error computing accuracy: {e}')
@@ -305,10 +304,10 @@ def main():
     if config.save_codex:
         all_data = [all_sample_ids, all_queries, all_codes]
     elif config.save:
-        if config.dataset.dataset_name=='GQA':
-            all_data = [all_sample_ids, all_queries, all_results, all_img_paths, all_images, all_answers, all_codes, accuracy]
+        if config.dataset.dataset_name!='RefCOCO':
+            all_data = [all_sample_ids, all_queries, all_results, all_img_paths, all_answers, all_codes,score_vector , accuracy]
         else:
-            all_data = [all_sample_ids, all_queries, all_results, all_img_paths, all_images, all_answers, all_codes,all_IoUs, accuracy]
+            all_data = [all_sample_ids, all_queries, all_results, all_img_paths, all_answers, all_codes,all_IoUs,score_vector, accuracy]
     save_results(all_data, dataset)
     #     if config.wandb:
     #         wandb.log({'accuracy': accuracy})

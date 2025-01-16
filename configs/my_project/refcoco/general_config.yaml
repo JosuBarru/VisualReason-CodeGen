@@ -4,7 +4,7 @@ dataset:
   split_by: unc  # [google, unc]
   split: testA
   version: refcoco+
-  batch_size: 6 # 12 24 cudaoutofmemo
+  batch_size: 12 # 12 24 cudaoutofmemo
   max_samples: 
 
 codex:
@@ -12,13 +12,24 @@ codex:
 fixed_code_file: ./prompts/fixed_code/glip.prompt
 
 load_models:
-  gpt3_general: False
+    maskrcnn: True
+    clip: False
+    glip: True
+    owlvit: False
+    tcl: False
+    gpt3_list: False # Ez dakit noiz erabiltzen den
+    gpt3_qa: False
+    gpt3_guess: False
+    depth: False
+    blip: False
+    saliency: False
+    xvlm: False
 
 save: True
 save_codex: False
 use_cached_codex: False
 
-results_dir: ./results/refcoco/all/
+results_dir: ./results/refcoco+/all/
 execute_code: True
 
 ratio_box_area_to_image_area: 0.03
