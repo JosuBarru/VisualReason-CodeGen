@@ -17,8 +17,13 @@ from rich.console import Console
 from torch.utils.data import DataLoader
 from tqdm import tqdm
 
-
 import sys
+
+#Logging
+import logging
+logging.basicConfig(level=logging.INFO)  
+logger = logging.getLogger(__name__)
+
 
 # os.environ['CUDA_VISIBLE_DEVICES'] = '0,1,2,3'
 # os.environ['CODEX_QUANTIZED'] = '1'
@@ -28,6 +33,8 @@ import sys
 # os.environ['COGNITION_MODEL'] = 'config_gemma'
 script_dir = os.path.abspath('/sorgin1/users/jbarrutia006/viper')
 sys.path.append(script_dir)
+os.chdir(script_dir)
+
 
 from configs import config
 from utils import seed_everything
@@ -190,12 +197,17 @@ def main():
         queues_results = [None for _ in range(batch_size)]
 
     # Added codeLLama Quantized  
-    if config.codex.model == 'codellama':
-        model_name_codex = 'codellama'
-    elif config.codex.model == 'codellama_Q':
-        model_name_codex  = 'codellama_Q'
-    else:
-        model_name_codex = 'codex'
+    # if config.codex.model == 'codellama':
+    #     model_name_codex = 'codellama'
+    # elif config.codex.model == 'codellama_Q':
+    #     model_name_codex  = 'codellama_Q'
+    # elif config.codex.model == 'llama_31-8bq':
+    #     model_name_codex = 'llama31_q'
+    # else:
+    #     model_name_codex = 'codex'
+
+    model_name_codex = 
+
     codex = partial(forward, model_name=model_name_codex, queues=[queues_in, queue_results_main])
 
     if config.clear_cache:

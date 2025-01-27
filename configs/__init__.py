@@ -5,7 +5,7 @@ import yaml
 
 
 dataset_name = os.getenv('DATASET', None)
-execution_mode = os.getenv('EXEC_MODE', None) # En vez del None pondriamos  -> (config_codellama, my_config) por ejemplo
+execution_mode = os.getenv('EXEC_MODE', None) # cache o codex
 enable_models = bool(int(os.getenv('LOAD_MODELS', '0')))
 cognition_models = os.getenv('COGNITION_MODEL', None) 
 config_names = []
