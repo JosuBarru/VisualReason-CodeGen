@@ -4,11 +4,19 @@ import sys
 import yaml
 
 
-dataset_name = os.getenv('DATASET', None)
-execution_mode = os.getenv('EXEC_MODE', None) # cache o codex
-enable_models = bool(int(os.getenv('LOAD_MODELS', '0')))
-cognition_models = os.getenv('COGNITION_MODEL', None) 
+dataset_name = os.getenv('DATASET', None) # Dataset sobre el que trabajamos
+execution_mode = os.getenv('EXEC_MODE', None) # codex o cache  (generar codigos o ejecutar)
+enable_models = bool(int(os.getenv('LOAD_MODELS', '0'))) # which models to load (depends on wether we want to generate or execute, SO RELATED WITH ABOVE)
+cognition_models = os.getenv('COGNITION_MODEL', None) # Just for general knowledge datasets (okvqa)
+codex_model = os.getenv('CODEX_MODEL', None)  # Name of the model to generate code
 config_names = []
+
+
+model_configs = {
+    "codellama_Q": ["config_codellama_Q"],
+    "llama31Q": ["config_codex_llama3.1-8b"],
+    "": [""]
+}
 
 try:
     if dataset_name in ['refcoco','gqa', 'okvqa']:
@@ -18,10 +26,13 @@ try:
                 config_names.append(dataset_name + '/'+ 'execute_with_cache')
                 if cognition_models is not None:
                     config_names.insert(0, cognition_models)
-                # else:
-                #     config_names.insert(0,'config_codellama_Q')
             elif execution_mode == 'codex':
-                config_names.insert(0,'config_codellama_Q')
+                if codex_model in model_configs:
+                    config_names.insert(0,model_configs[codex_model])
+                else:
+                    raise UserWarning(
+                        f"Model '{codex_model}' is not recognized. Please check the configuration mapping."
+                    )
                 config_names.append(dataset_name + '/'+ 'save_codex')
             elif not execution_mode in [None, 'cache', 'codex']:
                 raise NameError(f'Value from $EXEC_MODE variable is incorrect, obtained: {execution_mode} and must be: cache or codex')

@@ -18,6 +18,6 @@ export CODEX_QUANTIZED=1
 export LOAD_MODELS=0
 export DATASET='gqa'
 export EXEC_MODE='codex'
-export CODEX_MODEL='llama31Q'
+export CODEX_MODEL='llama33Q'
 
 srun python main_project_slurm.py

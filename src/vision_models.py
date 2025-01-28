@@ -1361,7 +1361,7 @@ class codeLlamaQ(CodexModel):
                                     'codellama/CodeLlama-7b-Python-hf', 'codellama/CodeLlama-13b-Python-hf',
                                     'codellama/CodeLlama-34b-Python-hf', 'codellama/CodeLlama-7b-Instruct-hf',
                                     'codellama/CodeLlama-13b-Instruct-hf', 'codellama/CodeLlama-34b-Instruct-hf']
-        ## Tokenizatzailearen Tokia -> Zein erabili?
+        
         quantization_config = BitsAndBytesConfig(load_in_4bit=True,bnb_4bit_compute_dtype=torch.float16)
         self.tokenizer = AutoTokenizer.from_pretrained(model_name, max_length=10000)
         self.tokenizer.pad_token = self.tokenizer.eos_token
@@ -1413,7 +1413,7 @@ class codeLlamaQ(CodexModel):
         torch.cuda.empty_cache()
         return response
 
-class Llama31Q(CodexModel):
+class llama31Q(CodexModel):
     name = 'llama31_Q'
     max_batch_size=24
     def __init__(self, gpu_number=0):
@@ -1426,7 +1426,71 @@ class Llama31Q(CodexModel):
                 f'Model path {model_name} does not exist. If you use the model ID it will be downloaded automatically'
         else:
             assert model_name in ['meta-llama/Llama-3.1-8B']
-        ## Tokenizatzailearen Tokia -> Zein erabili?
+        # quantization_config = BitsAndBytesConfig(load_in_4bit=True,bnb_4bit_compute_dtype=torch.float16)
+        # self.tokenizer = AutoTokenizer.from_pretrained(model_name, max_length=10000)
+        # self.tokenizer.pad_token = self.tokenizer.eos_token
+        # self.tokenizer.padding_side = 'left'
+
+        # for gpu_number in range(torch.cuda.device_count()):
+        #     mem_available = torch.cuda.mem_get_info(f'cuda:{gpu_number}')[0]
+        #     if mem_available <= leave_empty * torch.cuda.get_device_properties(gpu_number).total_memory:
+        #         mem_available = 0 
+        #         max_memory[gpu_number] = mem_available * usage_ratio
+        #     if gpu_number == 0:
+        #         max_memory[gpu_number] /= 10
+
+        ## Modelu preentrenatuaren Tokia 
+        self.model = AutoModelForCausalLM.from_pretrained(
+            model_name, 
+            torch_dtype=torch.float16,
+            #attn_implementation="flash_attention_2",
+            device_map='auto'
+        )
+        self.model.eval()
+        # self.pipe = pipeline("text-generation", model=self.model, tokenizer=self.tokenizer)
+    def run_code_Quantized_llama(self, prompt):
+        #from utils import complete_code
+        input_ids = self.tokenizer(prompt, return_tensors="pt", padding=True, truncation=True)["input_ids"]
+        generated_ids = self.model.generate(input_ids.to("cuda"), max_new_tokens=256)
+        generated_ids = generated_ids[:, input_ids.shape[-1]:]
+        generated_text = [self.tokenizer.decode(gen_id, skip_special_tokens=False) for gen_id in generated_ids]
+        generated_text = [text.split('\n\n')[0] for text in generated_text]
+        # generated_text = self.pipe(prompt, max_new_tokens = 128)
+        # output = generated_text[0][0]['generated_text']
+        # text = output.split("\n\n\n")[-3:]
+        # isget_it = False
+        # for i in range(len(text)):
+        #     if text[i].__contains__(self.query) and not isget_it:
+        #         erantzuna = text[i]
+        #         isget_it = True
+        return generated_text
+    
+    def forward_(self, extended_prompt):
+        if len(extended_prompt) > self.max_batch_size:
+            response = []
+            for i in range(0, len(extended_prompt), self.max_batch_size):
+                response += self.forward_(extended_prompt[i:i + self.max_batch_size])
+            return response
+        with torch.no_grad():
+            response = self.run_code_Quantized_llama(extended_prompt)
+        # Clear GPU memory
+        torch.cuda.empty_cache()
+        return response
+
+class llama33Q(CodexModel):
+    name = 'llama33_Q'
+    max_batch_size=24
+    def __init__(self, gpu_number=0):
+        super().__init__(gpu_number=gpu_number)
+        from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig, pipeline
+        model_name = config.codex.model_name
+
+        if model_name.startswith('/'):
+            assert os.path.exists(model_name), \
+                f'Model path {model_name} does not exist. If you use the model ID it will be downloaded automatically'
+        else:
+            assert model_name in ['meta-llama/Llama-3.3-70B-Instruct']
+
         quantization_config = BitsAndBytesConfig(load_in_4bit=True,bnb_4bit_compute_dtype=torch.float16)
         self.tokenizer = AutoTokenizer.from_pretrained(model_name, max_length=10000)
         self.tokenizer.pad_token = self.tokenizer.eos_token
@@ -1477,7 +1541,6 @@ class Llama31Q(CodexModel):
         # Clear GPU memory
         torch.cuda.empty_cache()
         return response
-
 
 class BLIPModel(BaseModel):
     name = 'blip'
