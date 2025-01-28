@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH --job-name=codigo_GQA
+#SBATCH --job-name=codigo_GQA_llama3.3-70b
 #SBATCH -D .
 #SBATCH --cpus-per-task=1
 #SBATCH --ntasks-per-node=1
