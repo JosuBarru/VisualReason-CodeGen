@@ -1414,7 +1414,7 @@ class codeLlamaQ(CodexModel):
         return response
 
 class llama31Q(CodexModel):
-    name = 'llama31_Q'
+    name = 'llama31Q'
     max_batch_size=24
     def __init__(self, gpu_number=0):
         super().__init__(gpu_number=gpu_number)
@@ -1478,7 +1478,7 @@ class llama31Q(CodexModel):
         return response
 
 class llama33Q(CodexModel):
-    name = 'llama33_Q'
+    name = 'llama33Q'
     max_batch_size=24
     def __init__(self, gpu_number=0):
         super().__init__(gpu_number=gpu_number)

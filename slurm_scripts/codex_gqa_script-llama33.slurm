@@ -20,4 +20,4 @@ export DATASET='gqa'
 export EXEC_MODE='codex'
 export CODEX_MODEL='llama33Q'
 
-srun python main_project_slurm.py
+srun python src/main_project_slurm.py

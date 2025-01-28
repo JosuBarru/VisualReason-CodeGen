@@ -3,4 +3,4 @@ codex:
     model_name: 'meta-llama/Llama-3.3-70B-Instruct' 
     prompt: ./prompts/api_no_video.prompt
 load_models:
-    llama31Q: True
+    llama33Q: True

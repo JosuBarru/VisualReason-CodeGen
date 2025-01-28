@@ -13,9 +13,9 @@ config_names = []
 
 
 model_configs = {
-    "codellama_Q": ["config_codellama_Q"],
-    "llama31Q": ["config_codex_llama3.1-8b"],
-    "": [""]
+    "codellama_Q": "config_codellama_Q",
+    "llama31Q": "config_codex_llama3.1-8b",
+    "llama33Q": "config_codex_llama3.3-70b"
 }
 
 try:

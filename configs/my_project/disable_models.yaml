@@ -14,7 +14,7 @@ load_models:                                        # Which pretrained models to
     xvlm: False # E* : Default -> True
     codex: False # E* : Default -> True
     codellama: False
-    codellama_Q: True # New model inserted
+    codellama_Q: False # New model inserted
 
 save: False
 save_codex: True
