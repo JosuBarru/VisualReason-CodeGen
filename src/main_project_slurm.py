@@ -58,8 +58,8 @@ def my_collate(batch):
 
 
 def run_program(parameters, queues_in_, input_type_, retrying=False):
-    from image_patch import ImagePatch, llm_query, best_image_match, distance, bool_to_yesno
-    from video_segment import VideoSegment
+    from src.image_patch import ImagePatch, llm_query, best_image_match, distance, bool_to_yesno
+    from src.video_segment import VideoSegment
 
     global queue_results
 
@@ -163,7 +163,8 @@ def save_results(all_data,dataset):
             else:
                 filename = 'results_' + str(max([int(ef.stem.split('_')[-1]) for ef in existing_files if
                                                 str.isnumeric(ef.stem.split('_')[-1])]) + 1) + '.csv'
-        logger.info(f'Saving results to {filename}')        
+        logger.info(f'Saving results to {filename}')    
+
         if config.dataset.dataset_name == 'RefCOCO':
             all_sample_ids, all_queries, all_results, all_img_paths, all_truth_answers, all_codes, all_IoUs, acc_vector, score_result = all_data
             data = [all_sample_ids, all_queries, all_results, all_img_paths, all_truth_answers,all_codes,all_IoUs, acc_vector]

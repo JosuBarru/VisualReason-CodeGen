@@ -1,0 +1,41 @@
+Downloading shards:   0%|          | 0/30 [00:00<?, ?it/s]Downloading shards:   3%|▎         | 1/30 [01:52<54:19, 112.39s/it]Downloading shards:   7%|▋         | 2/30 [03:47<53:13, 114.05s/it]Downloading shards:  10%|█         | 3/30 [05:59<54:55, 122.04s/it]Downloading shards:  13%|█▎        | 4/30 [07:59<52:30, 121.19s/it]Downloading shards:  17%|█▋        | 5/30 [09:51<49:13, 118.15s/it]Downloading shards:  20%|██        | 6/30 [11:46<46:44, 116.84s/it]Downloading shards:  23%|██▎       | 7/30 [13:40<44:27, 115.96s/it]Downloading shards:  27%|██▋       | 8/30 [15:41<43:09, 117.69s/it]Downloading shards:  30%|███       | 9/30 [17:42<41:30, 118.58s/it]Downloading shards:  33%|███▎      | 10/30 [19:35<38:57, 116.90s/it]Downloading shards:  37%|███▋      | 11/30 [21:28<36:36, 115.61s/it]Downloading shards:  40%|████      | 12/30 [23:21<34:30, 115.03s/it]Downloading shards:  43%|████▎     | 13/30 [25:23<33:10, 117.10s/it]/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/huggingface_hub/file_download.py:651: UserWarning: Not enough free disk space to download the file. The expected file size is: 4966.16 MB. The target location /sorgin1/users/jbarrutia006/.cache/huggingface/hub/models--meta-llama--Llama-3.3-70B-Instruct/blobs only has 4259.32 MB free disk space.
+  warnings.warn(
+Downloading shards:  43%|████▎     | 13/30 [27:02<35:21, 124.80s/it]
+Traceback (most recent call last):
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 1543, in _download_to_tmp_and_move
+    http_get(
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/huggingface_hub/file_download.py", line 455, in http_get
+    temp_file.write(chunk)
+OSError: [Errno 28] No space left on device
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/sorgin1/users/jbarrutia006/viper/src/main_project_slurm.py", line 341, in <module>
+    main()
+  File "/sorgin1/users/jbarrutia006/viper/src/main_project_slurm.py", line 188, in main
+    from vision_processes import queues_in, finish_all_consumers, forward, manager
+  File "/sorgin1/users/jbarrutia006/viper/src/vision_processes.py", line 181, in <module>
+    consumers[process_name_] = make_fn(model_class_, process_name_, counter_)
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/viper/src/vision_processes.py", line 46, in make_fn
+    model_instance = model_class(gpu_number=gpu_number)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/viper/src/vision_models.py", line 1508, in __init__
+    self.model = AutoModelForCausalLM.from_pretrained(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/transformers/models/auto/auto_factory.py", line 564, in from_pretrained
+    return model_class.from_pretrained(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/transformers/modeling_utils.py", line 3944, in from_pretrained
+    resolved_archive_file, sharded_metadata = get_checkpoint_shard_files(
+                                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/transformers/utils/hub.py", line 1098, in get_checkpoint_shard_files
+    cached_filename = cached_file(
+                      ^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/transformers/utils/hub.py", line 403, in cached_file
+    resolved_file = hf_hub_download(
+                    ^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/huggingface_hub/utils/_validators.py", line 114, in _inner_fn
+    return fn(*args, **kwargs)
+         

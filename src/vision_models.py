@@ -29,8 +29,8 @@ from typing import List, Union
 from configs import config
 from utils import HiddenPrints
 
-with open('api.key') as f:
-    openai.api_key = f.read().strip()
+# with open('api.key') as f:
+#     openai.api_key = f.read().strip()
 
 cache = Memory('cache/' if config.use_cache else None, verbose=0)
 device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -1415,7 +1415,7 @@ class codeLlamaQ(CodexModel):
 
 class llama31Q(CodexModel):
     name = 'llama31Q'
-    max_batch_size=24
+    max_batch_size=2
     def __init__(self, gpu_number=0):
         super().__init__(gpu_number=gpu_number)
         from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig, pipeline
@@ -1425,56 +1425,47 @@ class llama31Q(CodexModel):
             assert os.path.exists(model_name), \
                 f'Model path {model_name} does not exist. If you use the model ID it will be downloaded automatically'
         else:
-            assert model_name in ['meta-llama/Llama-3.1-8B']
-        # quantization_config = BitsAndBytesConfig(load_in_4bit=True,bnb_4bit_compute_dtype=torch.float16)
-        # self.tokenizer = AutoTokenizer.from_pretrained(model_name, max_length=10000)
-        # self.tokenizer.pad_token = self.tokenizer.eos_token
-        # self.tokenizer.padding_side = 'left'
+            assert model_name in ['meta-llama/Meta-Llama-3.1-8B-Instruct']
 
-        # for gpu_number in range(torch.cuda.device_count()):
-        #     mem_available = torch.cuda.mem_get_info(f'cuda:{gpu_number}')[0]
-        #     if mem_available <= leave_empty * torch.cuda.get_device_properties(gpu_number).total_memory:
-        #         mem_available = 0 
-        #         max_memory[gpu_number] = mem_available * usage_ratio
-        #     if gpu_number == 0:
-        #         max_memory[gpu_number] /= 10
+        self.tokenizer = AutoTokenizer.from_pretrained(model_name)
+        self.tokenizer.pad_token = self.tokenizer.eos_token
+        self.tokenizer.padding_side = 'left'
 
-        ## Modelu preentrenatuaren Tokia 
+        ###### JUST FOR TXORONPIO ######
         self.model = AutoModelForCausalLM.from_pretrained(
-            model_name, 
+            model_name,
             torch_dtype=torch.float16,
-            #attn_implementation="flash_attention_2",
-            device_map='auto'
+            device_map="balanced",
+            max_memory={1: "10GB", 2: "10GB"},
         )
+
+        #################################
+
         self.model.eval()
-        # self.pipe = pipeline("text-generation", model=self.model, tokenizer=self.tokenizer)
     def run_code_Quantized_llama(self, prompt):
-        #from utils import complete_code
-        input_ids = self.tokenizer(prompt, return_tensors="pt", padding=True, truncation=True)["input_ids"]
-        generated_ids = self.model.generate(input_ids.to("cuda"), max_new_tokens=256)
-        generated_ids = generated_ids[:, input_ids.shape[-1]:]
-        generated_text = [self.tokenizer.decode(gen_id, skip_special_tokens=False) for gen_id in generated_ids]
-        generated_text = [text.split('\n\n')[0] for text in generated_text]
-        # generated_text = self.pipe(prompt, max_new_tokens = 128)
-        # output = generated_text[0][0]['generated_text']
-        # text = output.split("\n\n\n")[-3:]
-        # isget_it = False
-        # for i in range(len(text)):
-        #     if text[i].__contains__(self.query) and not isget_it:
-        #         erantzuna = text[i]
-        #         isget_it = True
-        return generated_text
-    
+        """Generates text from a given prompt using multi-GPU inference."""
+        print(prompt)
+        input_ids = self.tokenizer(prompt, return_tensors="pt", padding=True, truncation=True)["input_ids"].to("cuda")
+
+        with torch.no_grad():
+            generated_ids = self.model.generate(input_ids, max_new_tokens=256)
+        
+        generated_texts = [self.tokenizer.decode(gen_id, skip_special_tokens=True) for gen_id in generated_ids]
+        
+        torch.cuda.empty_cache()  # Free unused GPU memory
+        return generated_texts
+
     def forward_(self, extended_prompt):
+        """Handles batch processing for large inputs."""
         if len(extended_prompt) > self.max_batch_size:
             response = []
             for i in range(0, len(extended_prompt), self.max_batch_size):
                 response += self.forward_(extended_prompt[i:i + self.max_batch_size])
             return response
+        
         with torch.no_grad():
             response = self.run_code_Quantized_llama(extended_prompt)
-        # Clear GPU memory
-        torch.cuda.empty_cache()
+        
         return response
 
 class llama33Q(CodexModel):
@@ -1492,54 +1483,41 @@ class llama33Q(CodexModel):
             assert model_name in ['meta-llama/Llama-3.3-70B-Instruct']
 
         quantization_config = BitsAndBytesConfig(load_in_4bit=True,bnb_4bit_compute_dtype=torch.float16)
-        self.tokenizer = AutoTokenizer.from_pretrained(model_name, max_length=10000)
+        self.tokenizer = AutoTokenizer.from_pretrained(model_name)
         self.tokenizer.pad_token = self.tokenizer.eos_token
         self.tokenizer.padding_side = 'left'
-
-        # for gpu_number in range(torch.cuda.device_count()):
-        #     mem_available = torch.cuda.mem_get_info(f'cuda:{gpu_number}')[0]
-        #     if mem_available <= leave_empty * torch.cuda.get_device_properties(gpu_number).total_memory:
-        #         mem_available = 0 
-        #         max_memory[gpu_number] = mem_available * usage_ratio
-        #     if gpu_number == 0:
-        #         max_memory[gpu_number] /= 10
 
         ## Modelu preentrenatuaren Tokia 
         self.model = AutoModelForCausalLM.from_pretrained(
             model_name, 
             quantization_config = quantization_config,
-            #attn_implementation="flash_attention_2",
             device_map='auto'
         )
         self.model.eval()
-        # self.pipe = pipeline("text-generation", model=self.model, tokenizer=self.tokenizer)
+        
     def run_code_Quantized_llama(self, prompt):
-        #from utils import complete_code
-        input_ids = self.tokenizer(prompt, return_tensors="pt", padding=True, truncation=True)["input_ids"]
-        generated_ids = self.model.generate(input_ids.to("cuda"), max_new_tokens=256)
-        generated_ids = generated_ids[:, input_ids.shape[-1]:]
-        generated_text = [self.tokenizer.decode(gen_id, skip_special_tokens=False) for gen_id in generated_ids]
-        generated_text = [text.split('\n\n')[0] for text in generated_text]
-        # generated_text = self.pipe(prompt, max_new_tokens = 128)
-        # output = generated_text[0][0]['generated_text']
-        # text = output.split("\n\n\n")[-3:]
-        # isget_it = False
-        # for i in range(len(text)):
-        #     if text[i].__contains__(self.query) and not isget_it:
-        #         erantzuna = text[i]
-        #         isget_it = True
-        return generated_text
-    
+        """Generates text from a given prompt using multi-GPU inference."""
+        input_ids = self.tokenizer(prompt, return_tensors="pt", padding=True, truncation=True)["input_ids"].to("cuda")
+
+        with torch.no_grad():
+            generated_ids = self.model.generate(input_ids, max_new_tokens=256)
+        
+        generated_texts = [self.tokenizer.decode(gen_id, skip_special_tokens=True) for gen_id in generated_ids]
+        
+        torch.cuda.empty_cache()  # Free unused GPU memory
+        return generated_texts
+
     def forward_(self, extended_prompt):
+        """Handles batch processing for large inputs."""
         if len(extended_prompt) > self.max_batch_size:
             response = []
             for i in range(0, len(extended_prompt), self.max_batch_size):
                 response += self.forward_(extended_prompt[i:i + self.max_batch_size])
             return response
+        
         with torch.no_grad():
             response = self.run_code_Quantized_llama(extended_prompt)
-        # Clear GPU memory
-        torch.cuda.empty_cache()
+        
         return response
 
 class BLIPModel(BaseModel):

@@ -20,13 +20,19 @@ from tqdm import tqdm
 
 import sys
 
-os.environ['CUDA_VISIBLE_DEVICES'] = '0,1,2,3'
-os.environ['LOAD_MODELS'] = '1'
-os.environ['DATASET'] = 'refcoco'
-os.environ['EXEC_MODE'] = 'cache'
-os.environ['COGNITION_MODEL'] = 'config_gemma'
+#Logging
+import logging
+logging.basicConfig(level=logging.INFO)  
+logger = logging.getLogger(__name__)
+os.environ['CUDA_VISIBLE_DEVICES'] = '1,2,3'
+os.environ['LOAD_MODELS'] = '0'
+os.environ['DATASET'] = 'gqa'
+os.environ['EXEC_MODE'] = 'codex'
+os.environ['CODEX_MODEL'] = 'llama31Q'
+#os.environ['COGNITION_MODEL'] = 'config_gemma'
 script_dir = os.path.abspath('/sorgin1/users/jbarrutia006/viper')
 sys.path.append(script_dir)
+os.chdir(script_dir)
 
 from configs import config
 from utils import seed_everything
@@ -127,11 +133,15 @@ def save_results(all_data,dataset):
         else:
             existing_files = list(results_dir.glob('codex_results_*.csv'))
             if len(existing_files) == 0:
-                filename = 'codex_results_0.csv'
+                filename = 'codex_results_0'
             else:
-                filename = 'codex_results_' + str(max([int(ef.stem.split('_')[-1]) for ef in existing_files if
-                                                str.isnumeric(ef.stem.split('_')[-1])]) + 1) + '.csv'
-        print('Saving results to', filename)
+                filename = 'codex_results_' + len(existing_files)
+
+                # filename = 'codex_results_' + str(max([int(ef.stem.split('_')[-1]) for ef in existing_files if
+                #                                 str.isnumeric(ef.stem.split('_')[-1])]) + 1)
+            filename = filename + config.codex.model + '.csv'
+
+        logger.info(f'Saving results to {filename}')
         all_sample_ids, all_queries, all_codes = all_data
         if config.dataset.dataset_name == 'RefCOCO':
             data = [all_sample_ids, all_queries, all_codes]
@@ -153,8 +163,8 @@ def save_results(all_data,dataset):
             else:
                 filename = 'results_' + str(max([int(ef.stem.split('_')[-1]) for ef in existing_files if
                                                 str.isnumeric(ef.stem.split('_')[-1])]) + 1) + '.csv'
-        print('Saving results to', filename)
-        
+        logger.info(f'Saving results to {filename}')    
+
         if config.dataset.dataset_name == 'RefCOCO':
             all_sample_ids, all_queries, all_results, all_img_paths, all_truth_answers, all_codes, all_IoUs, acc_vector, score_result = all_data
             data = [all_sample_ids, all_queries, all_results, all_img_paths, all_truth_answers,all_codes,all_IoUs, acc_vector]
@@ -177,7 +187,10 @@ def main():
     mp.set_start_method('spawn')
 
     from vision_processes import queues_in, finish_all_consumers, forward, manager
+    
     from datasets import get_dataset
+
+    logger.info("Models successfully loaded")
 
     batch_size = config.dataset.batch_size
     num_processes = min(batch_size, 50)
@@ -189,12 +202,17 @@ def main():
         queues_results = [None for _ in range(batch_size)]
 
     # Added codeLLama Quantized  
-    if config.codex.model == 'codellama':
-        model_name_codex = 'codellama'
-    elif config.codex.model == 'codellama_Q':
-        model_name_codex  = 'codellama_Q'
-    else:
-        model_name_codex = 'codex'
+    # if config.codex.model == 'codellama':
+    #     model_name_codex = 'codellama'
+    # elif config.codex.model == 'codellama_Q':
+    #     model_name_codex  = 'codellama_Q'
+    # elif config.codex.model == 'llama_31-8bq':
+    #     model_name_codex = 'llama31_q'
+    # else:
+    #     model_name_codex = 'codex'
+
+    model_name_codex = config.codex.model
+
     codex = partial(forward, model_name=model_name_codex, queues=[queues_in, queue_results_main])
 
     if config.clear_cache:
@@ -207,7 +225,7 @@ def main():
         wandb.save(config.codex.prompt)
 
     dataset = get_dataset(config.dataset)
-
+    logger.info("Dataset loaded")
     # with open(config.codex.prompt) as f:
     #     base_prompt = f.read().strip()
     with open(config.codex.prompt) as f:
@@ -242,6 +260,11 @@ def main():
 
                 # Combine all queries and get Codex predictions for them
                 # TODO compute Codex for next batch as current batch is being processed
+                if i > 2:
+                    break
+                if i % 200 == 0:  # Print progress every 200 instances
+                    tqdm.write(f"Processing batch {i}/{n_batches}")
+
 
                 if not config.use_cached_codex:
                     codes = codex(prompt=batch['query'], base_prompt=base_prompt, input_type=input_type,
