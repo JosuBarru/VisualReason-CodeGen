@@ -137,8 +137,10 @@ def save_results(all_data,dataset):
             if len(existing_files) == 0:
                 filename = 'codex_results_0'
             else:
-                filename = 'codex_results_' + str(max([int(ef.stem.split('_')[-1]) for ef in existing_files if
-                                                str.isnumeric(ef.stem.split('_')[-1])]) + 1)
+                filename = 'codex_results_' + str(len(existing_files))
+
+                # filename = 'codex_results_' + str(max([int(ef.stem.split('_')[-1]) for ef in existing_files if
+                #                                 str.isnumeric(ef.stem.split('_')[-1])]) + 1)
             filename = filename + config.codex.model + '.csv'
 
         logger.info(f'Saving results to {filename}')

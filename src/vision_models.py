@@ -1415,7 +1415,7 @@ class codeLlamaQ(CodexModel):
 
 class llama31Q(CodexModel):
     name = 'llama31Q'
-    max_batch_size=2
+    max_batch_size=4 ##Cambiar TXORONPIO
     def __init__(self, gpu_number=0):
         super().__init__(gpu_number=gpu_number)
         from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig, pipeline
@@ -1431,6 +1431,13 @@ class llama31Q(CodexModel):
         self.tokenizer.pad_token = self.tokenizer.eos_token
         self.tokenizer.padding_side = 'left'
 
+
+        # self.model = AutoModelForCausalLM.from_pretrained(
+        #     model_name,
+        #     torch_dtype=torch.float16,
+        #     device_map="auto"
+        # )
+
         ###### JUST FOR TXORONPIO ######
         self.model = AutoModelForCausalLM.from_pretrained(
             model_name,
@@ -1444,16 +1451,16 @@ class llama31Q(CodexModel):
         self.model.eval()
     def run_code_Quantized_llama(self, prompt):
         """Generates text from a given prompt using multi-GPU inference."""
-        print(prompt)
         input_ids = self.tokenizer(prompt, return_tensors="pt", padding=True, truncation=True)["input_ids"].to("cuda")
 
         with torch.no_grad():
             generated_ids = self.model.generate(input_ids, max_new_tokens=256)
-        
-        generated_texts = [self.tokenizer.decode(gen_id, skip_special_tokens=True) for gen_id in generated_ids]
-        
+        generated_ids = generated_ids[:, input_ids.shape[-1]:]
+        generated_text = [self.tokenizer.decode(gen_id, skip_special_tokens=True) for gen_id in generated_ids]
+        generated_text = [text.split('\n\n')[0] for text in generated_text]
+
         torch.cuda.empty_cache()  # Free unused GPU memory
-        return generated_texts
+        return generated_text
 
     def forward_(self, extended_prompt):
         """Handles batch processing for large inputs."""
@@ -1501,11 +1508,12 @@ class llama33Q(CodexModel):
 
         with torch.no_grad():
             generated_ids = self.model.generate(input_ids, max_new_tokens=256)
-        
-        generated_texts = [self.tokenizer.decode(gen_id, skip_special_tokens=True) for gen_id in generated_ids]
-        
+        generated_ids = generated_ids[:, input_ids.shape[-1]:]
+        generated_text = [self.tokenizer.decode(gen_id, skip_special_tokens=True) for gen_id in generated_ids]
+        generated_text = [text.split('\n\n')[0] for text in generated_text]
+
         torch.cuda.empty_cache()  # Free unused GPU memory
-        return generated_texts
+        return generated_text
 
     def forward_(self, extended_prompt):
         """Handles batch processing for large inputs."""
