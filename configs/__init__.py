@@ -9,6 +9,7 @@ execution_mode = os.getenv('EXEC_MODE', None) # codex o cache  (generar codigos 
 enable_models = bool(int(os.getenv('LOAD_MODELS', '0'))) # which models to load (depends on wether we want to generate or execute, SO RELATED WITH ABOVE)
 cognition_models = os.getenv('COGNITION_MODEL', None) # Just for general knowledge datasets (okvqa)
 codex_model = os.getenv('CODEX_MODEL', None)  # Name of the model to generate code
+train = os.getenv('TRAIN', None)
 config_names = []
 
 
@@ -36,6 +37,10 @@ try:
                 config_names.append(dataset_name + '/'+ 'save_codex')
             elif not execution_mode in [None, 'cache', 'codex']:
                 raise NameError(f'Value from $EXEC_MODE variable is incorrect, obtained: {execution_mode} and must be: cache or codex')
+            
+            
+            if train:
+                config_names.append(dataset_name + '/' + 'train') # He puesto por defecto testdev en la config
         config_names_=','.join(config_names)
         config_names = config_names_
     else: 
@@ -46,11 +51,15 @@ except NameError as n:
 except UserWarning as w:
     print(f'WARNING !!!!: {w}')
 
+
+
 # if dataset_name is None:
 #     config_names = 'config_codellama_Q'  # Modify this if you want to use another default config
 
 print("SELECTED CONFIG FILES: " + config_names) 
 configs = [OmegaConf.load('configs/base_config.yaml')]
+
+## Tener en cuenta que el ultimo tiene preferencia.
 
 if config_names is not None:
     for config_name in config_names.split(','):

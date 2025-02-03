@@ -1415,7 +1415,7 @@ class codeLlamaQ(CodexModel):
 
 class llama31Q(CodexModel):
     name = 'llama31Q'
-    max_batch_size=4 ##Cambiar TXORONPIO
+    max_batch_size=32 ##Cambiar TXORONPIO
     def __init__(self, gpu_number=0):
         super().__init__(gpu_number=gpu_number)
         from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig, pipeline
@@ -1427,10 +1427,14 @@ class llama31Q(CodexModel):
         else:
             assert model_name in ['meta-llama/Meta-Llama-3.1-8B-Instruct']
 
+
+
         self.tokenizer = AutoTokenizer.from_pretrained(model_name)
         self.tokenizer.pad_token = self.tokenizer.eos_token
         self.tokenizer.padding_side = 'left'
 
+
+        ##### Usar         attn_implementation="sdpa", SOLO EN A100 o V100
 
         # self.model = AutoModelForCausalLM.from_pretrained(
         #     model_name,
@@ -1438,13 +1442,23 @@ class llama31Q(CodexModel):
         #     device_map="auto"
         # )
 
-        ###### JUST FOR TXORONPIO ######
+
+        ###### Cuantizar ######
+        quantization_config = BitsAndBytesConfig(load_in_4bit=True,bnb_4bit_compute_dtype=torch.float16)
         self.model = AutoModelForCausalLM.from_pretrained(
             model_name,
-            torch_dtype=torch.float16,
-            device_map="balanced",
-            max_memory={1: "10GB", 2: "10GB"},
+            quantization_config = quantization_config,
+            device_map="auto"
         )
+        ########################
+
+        ###### JUST FOR TXORONPIO ######
+        # self.model = AutoModelForCausalLM.from_pretrained(
+        #     model_name,
+        #     torch_dtype=torch.float16,
+        #     device_map="balanced",
+        #     max_memory={1: "10GB", 2: "10GB"},
+        # )
 
         #################################
 
@@ -1475,6 +1489,46 @@ class llama31Q(CodexModel):
         
         return response
 
+class Llama31Q_vLLM:
+    name = 'llama31Q_vLLM'
+    max_batch_size = 32  # TXORONPIO
+    
+    def __init__(self, gpu_number=0):
+        model_name = config.codex.model_name
+        from vllm import LLM, SamplingParams
+        from transformers import AutoTokenizer
+
+        if model_name.startswith('/'):
+            assert os.path.exists(model_name), f'Model path {model_name} does not exist.'
+        else:
+            assert model_name in ['meta-llama/Meta-Llama-3.1-8B-Instruct']
+        
+        self.tokenizer = AutoTokenizer.from_pretrained(model_name)
+        self.tokenizer.pad_token = self.tokenizer.eos_token
+        self.tokenizer.padding_side = 'left'
+        
+        self.model = LLM(model=model_name, tensor_parallel_size=1, quantization="awq", gpu_memory_utilization=0.9)
+    
+    def run_code_vLLM(self, prompt):
+        """Generates text from a given prompt using vLLM."""
+        sampling_params = SamplingParams(max_tokens=256)
+        outputs = self.model.generate([prompt], sampling_params)
+        
+        return [output.outputs[0].text.split('\n\n')[0] for output in outputs]
+    
+    def forward_(self, extended_prompt):
+        """Handles batch processing for large inputs using vLLM."""
+        if isinstance(extended_prompt, str):
+            extended_prompt = [extended_prompt]
+        
+        if len(extended_prompt) > self.max_batch_size:
+            response = []
+            for i in range(0, len(extended_prompt), self.max_batch_size):
+                response += self.forward_(extended_prompt[i:i + self.max_batch_size])
+            return response
+        
+        return self.run_code_vLLM(extended_prompt)
+
 class llama33Q(CodexModel):
     name = 'llama33Q'
     max_batch_size=24
@@ -1488,6 +1542,60 @@ class llama33Q(CodexModel):
                 f'Model path {model_name} does not exist. If you use the model ID it will be downloaded automatically'
         else:
             assert model_name in ['meta-llama/Llama-3.3-70B-Instruct']
+
+        quantization_config = BitsAndBytesConfig(load_in_4bit=True,bnb_4bit_compute_dtype=torch.float16)
+        self.tokenizer = AutoTokenizer.from_pretrained(model_name)
+        self.tokenizer.pad_token = self.tokenizer.eos_token
+        self.tokenizer.padding_side = 'left'
+
+        ## Modelu preentrenatuaren Tokia 
+        self.model = AutoModelForCausalLM.from_pretrained(
+            model_name, 
+            quantization_config = quantization_config,
+            device_map='auto'
+        )
+        self.model.eval()
+        
+    def run_code_Quantized_llama(self, prompt):
+        """Generates text from a given prompt using multi-GPU inference."""
+        input_ids = self.tokenizer(prompt, return_tensors="pt", padding=True, truncation=True)["input_ids"].to("cuda")
+
+        with torch.no_grad():
+            generated_ids = self.model.generate(input_ids, max_new_tokens=256)
+        generated_ids = generated_ids[:, input_ids.shape[-1]:]
+        generated_text = [self.tokenizer.decode(gen_id, skip_special_tokens=True) for gen_id in generated_ids]
+        generated_text = [text.split('\n\n')[0] for text in generated_text]
+
+        torch.cuda.empty_cache()  # Free unused GPU memory
+        return generated_text
+
+    def forward_(self, extended_prompt):
+        """Handles batch processing for large inputs."""
+        if len(extended_prompt) > self.max_batch_size:
+            response = []
+            for i in range(0, len(extended_prompt), self.max_batch_size):
+                response += self.forward_(extended_prompt[i:i + self.max_batch_size])
+            return response
+        
+        with torch.no_grad():
+            response = self.run_code_Quantized_llama(extended_prompt)
+        
+        return response
+
+
+class deepSeekQwen7b(CodexModel):
+    name = 'deepSeekQwen7b'
+    max_batch_size=24
+    def __init__(self, gpu_number=0):
+        super().__init__(gpu_number=gpu_number)
+        from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig, pipeline
+        model_name = config.codex.model_name
+
+        if model_name.startswith('/'):
+            assert os.path.exists(model_name), \
+                f'Model path {model_name} does not exist. If you use the model ID it will be downloaded automatically'
+        else:
+            assert model_name in ['DeepSeek-R1-Distill-Qwen-7B']
 
         quantization_config = BitsAndBytesConfig(load_in_4bit=True,bnb_4bit_compute_dtype=torch.float16)
         self.tokenizer = AutoTokenizer.from_pretrained(model_name)
