@@ -14,6 +14,10 @@ from typing import Callable, Union
 
 from configs import config
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 console = Console(highlight=False)
 
 if mp.current_process().name == 'MainProcess':
@@ -177,7 +181,6 @@ else:
     for model_class_ in list_models:
         for process_name_ in model_class_.list_processes():
             if process_name_ in config.load_models and config.load_models[process_name_]:
-                
                 consumers[process_name_] = make_fn(model_class_, process_name_, counter_)
                 counter_ += 1
 

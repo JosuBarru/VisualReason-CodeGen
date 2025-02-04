@@ -6,6 +6,9 @@ from PIL import Image
 import pandas as pd
 from torch.utils.data import Dataset
 import numpy as np
+import logging
+
+logger = logging.getLogger(__name__)
 
 from datasets import general_postprocessing
 
@@ -47,12 +50,9 @@ class GQADataset(Dataset):
             raise NotImplementedError
         else:
             # check path to cached df exists
-            if self.split == 'train' and self.balanced_type == 'balanced' and os.path.exists(
-                    os.path.join(data_path, f"questions/{self.split}_{self.balanced_type}_questions.h5")):
-                if verbose:
-                    print(f"Loading GQA Dataset from {data_path}", flush=True)
-                self.df = pd.read_hdf(
-                    os.path.join(data_path, f"questions/{self.split}_{self.balanced_type}_questions.h5"), "table", stop=first_n)
+            if self.split == 'train' and self.balanced_type == 'balanced' and os.path.exists(os.path.join(data_path, f"questions/{self.split}_{self.balanced_type}_questions.json")):
+                logger.debug(f"Loading GQA Dataset from {data_path}")
+                self.df = pd.read_json(os.path.join(data_path, f"questions/{self.split}_{self.balanced_type}_questions.json"), orient="index")
             else:
                 self.file_name = f"questions/{self.split}_{self.balanced_type}_questions.json"
                 path = os.path.expanduser(os.path.join(data_path, self.file_name))
@@ -61,9 +61,12 @@ class GQADataset(Dataset):
                 self.df = pd.read_json(path, orient="index")
 
         if max_samples is not None:
-            self.df = self.df.sample(n=max_samples)
+            self.df = self.df.sample(n=max_samples, random_state=42)
 
         self.n_samples = self.df.shape[0]
+
+        logger.debug(f"First instance: {self.df.iloc[0]}")
+
         if verbose:
             print(
                 f"Loading GQA Dataset done in {time.time() - start_time:.1f} seconds. Loaded {self.n_samples} samples.")

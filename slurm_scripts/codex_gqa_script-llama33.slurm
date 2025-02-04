@@ -19,5 +19,6 @@ export LOAD_MODELS=0
 export DATASET='gqa'
 export EXEC_MODE='codex'
 export CODEX_MODEL='llama33Q'
+export TRAIN=True
 
 srun python src/main_project_slurm.py

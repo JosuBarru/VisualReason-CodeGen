@@ -188,9 +188,11 @@ def save_results(all_data,dataset):
 def main():
     mp.set_start_method('spawn')
 
+
     from vision_processes import queues_in, finish_all_consumers, forward, manager
     
     from datasets import get_dataset
+    dataset = get_dataset(config.dataset)
 
     logger.info("Models successfully loaded")
 
@@ -225,8 +227,7 @@ def main():
         wandb.init(project="viper", config=OmegaConf.to_container(config))
         # log the prompt file
         wandb.save(config.codex.prompt)
-
-    dataset = get_dataset(config.dataset)
+    # dataset = get_dataset(config.dataset)
     logger.info("Dataset loaded")
     # with open(config.codex.prompt) as f:
     #     base_prompt = f.read().strip()
@@ -253,6 +254,8 @@ def main():
     all_query_types = []
     all_IoUs = []
 
+    #num_instances = 0
+
     with mp.Pool(processes=num_processes, initializer=worker_init, initargs=(queues_results,)) \
             if config.multiprocessing else open(os.devnull, "w") as pool:
         try:
@@ -260,12 +263,11 @@ def main():
 
             for i, batch in tqdm(enumerate(dataloader), total=n_batches):
 
-                # Combine all queries and get Codex predictions for them
-                # TODO compute Codex for next batch as current batch is being processed
+                #num_instances += batch_size 
+                # if num_instances % 100 < batch_size: 
+                #     tqdm.write(f"Processing batch {i}/{n_batches}")
 
-                if i % 200 == 0:  # Print progress every 200 instances
-                    tqdm.write(f"Processing batch {i}/{n_batches}")
-
+                logger.debug(f"input: {batch['query']}")    
 
                 if not config.use_cached_codex:
                     codes = codex(prompt=batch['query'], base_prompt=base_prompt, input_type=input_type,

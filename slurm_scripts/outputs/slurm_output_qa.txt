@@ -1,2 +1,4 @@
-SELECTED CONFIG FILES: config_codex_llama3.3-70b,gqa/general_config,gqa/save_codex
+SELECTED CONFIG FILES: gqa/general_config,config_codex_llama3.1-8b,gqa/save_codex,gqa/train
 LOADING MODEL: DISABLED
+modelo: <class 'vision_models.llama31Q'> , proceso:  llama31Q
+{'llama31Q': <function make_fn.<locals>._function at 0x7ff002254ea0>}

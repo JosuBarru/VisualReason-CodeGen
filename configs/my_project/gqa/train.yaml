@@ -1,2 +1,5 @@
 dataset:
-  split: testdev
+  split: train
+  max_samples: 12600 
+
+

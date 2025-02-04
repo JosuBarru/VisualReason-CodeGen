@@ -1391,6 +1391,7 @@ class codeLlamaQ(CodexModel):
         generated_ids = generated_ids[:, input_ids.shape[-1]:]
         generated_text = [self.tokenizer.decode(gen_id, skip_special_tokens=False) for gen_id in generated_ids]
         generated_text = [text.split('\n\n')[0] for text in generated_text]
+
         # generated_text = self.pipe(prompt, max_new_tokens = 128)
         # output = generated_text[0][0]['generated_text']
         # text = output.split("\n\n\n")[-3:]
@@ -1465,10 +1466,12 @@ class llama31Q(CodexModel):
         self.model.eval()
     def run_code_Quantized_llama(self, prompt):
         """Generates text from a given prompt using multi-GPU inference."""
-        input_ids = self.tokenizer(prompt, return_tensors="pt", padding=True, truncation=True)["input_ids"].to("cuda")
+        inputs= self.tokenizer(prompt, return_tensors="pt", padding=True, truncation=True)
+        input_ids = inputs["input_ids"].to("cuda")
+        attention_mask = inputs["attention_mask"].to("cuda")
 
         with torch.no_grad():
-            generated_ids = self.model.generate(input_ids, max_new_tokens=256)
+            generated_ids = self.model.generate(input_ids, attention_mask=attention_mask, max_new_tokens=256)
         generated_ids = generated_ids[:, input_ids.shape[-1]:]
         generated_text = [self.tokenizer.decode(gen_id, skip_special_tokens=True) for gen_id in generated_ids]
         generated_text = [text.split('\n\n')[0] for text in generated_text]

@@ -9,7 +9,8 @@ execution_mode = os.getenv('EXEC_MODE', None) # codex o cache  (generar codigos 
 enable_models = bool(int(os.getenv('LOAD_MODELS', '0'))) # which models to load (depends on wether we want to generate or execute, SO RELATED WITH ABOVE)
 cognition_models = os.getenv('COGNITION_MODEL', None) # Just for general knowledge datasets (okvqa)
 codex_model = os.getenv('CODEX_MODEL', None)  # Name of the model to generate code
-train = os.getenv('TRAIN', None)
+train = os.getenv('TRAIN', True) #  por defecto true porque va a ser lo que más usemos
+train = train.lower() == 'true'
 config_names = []
 
 
@@ -29,7 +30,7 @@ try:
                     config_names.insert(0, cognition_models)
             elif execution_mode == 'codex':
                 if codex_model in model_configs:
-                    config_names.insert(0,model_configs[codex_model])
+                    config_names.append(model_configs[codex_model])
                 else:
                     raise UserWarning(
                         f"Model '{codex_model}' is not recognized. Please check the configuration mapping."
