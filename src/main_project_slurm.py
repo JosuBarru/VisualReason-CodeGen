@@ -60,7 +60,7 @@ def my_collate(batch):
 def run_program(parameters, queues_in_, input_type_, retrying=False):
     from src.image_patch import ImagePatch, llm_query, best_image_match, distance, bool_to_yesno
     from src.video_segment import VideoSegment
-
+    logger.info("Running")
     global queue_results
 
     code, sample_id, image, possible_answers, query = parameters
@@ -159,12 +159,11 @@ def save_results(all_data,dataset):
         if not config.save_new_results:
             filename = 'results.csv'
         else:
-            existing_files = list(results_dir.glob('results_*.csv'))
+            existing_files = list(results_dir.glob('codex_results_*.csv'))
             if len(existing_files) == 0:
-                filename = 'results_0.csv'
+                filename = 'codex_results_0'
             else:
-                filename = 'results_' + str(max([int(ef.stem.split('_')[-1]) for ef in existing_files if
-                                                str.isnumeric(ef.stem.split('_')[-1])]) + 1) + '.csv'
+                filename = 'codex_results_' + str(len(existing_files))
         logger.info(f'Saving results to {filename}')    
 
         if config.dataset.dataset_name == 'RefCOCO':
@@ -187,7 +186,6 @@ def save_results(all_data,dataset):
 
 def main():
     mp.set_start_method('spawn')
-
 
     from vision_processes import queues_in, finish_all_consumers, forward, manager
     
@@ -267,7 +265,7 @@ def main():
                 # if num_instances % 100 < batch_size: 
                 #     tqdm.write(f"Processing batch {i}/{n_batches}")
 
-                logger.debug(f"input: {batch['query']}")    
+                logger.debug(f"input: {batch['query']}")
 
                 if not config.use_cached_codex:
                     codes = codex(prompt=batch['query'], base_prompt=base_prompt, input_type=input_type,

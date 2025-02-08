@@ -17,7 +17,10 @@ config_names = []
 model_configs = {
     "codellama_Q": "config_codellama_Q",
     "llama31Q": "config_codex_llama3.1-8b",
-    "llama33Q": "config_codex_llama3.3-70b"
+    "llama33Q": "config_codex_llama3.3-70b",
+    "deepseek-qwen7b": "config_codex_deepseek-Qwen-7b",
+    "deepseek-llama8b": "config_codex_deepseek-llama-8b",
+    "deepseek-llama70b": "config_codex_deepseek-llama-70b"
 }
 
 try:

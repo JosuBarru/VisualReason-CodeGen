@@ -1,0 +1,17 @@
+Downloading shards:   0%|          | 0/4 [00:00<?, ?it/s]Downloading shards:  25%|██▌       | 1/4 [02:29<07:29, 149.70s/it]Downloading shards:  50%|█████     | 2/4 [02:29<02:03, 61.80s/it] Downloading shards:  75%|███████▌  | 3/4 [02:30<00:33, 33.70s/it]Downloading shards: 100%|██████████| 4/4 [02:58<00:00, 31.66s/it]Downloading shards: 100%|██████████| 4/4 [02:58<00:00, 44.69s/it]
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [01:30<04:30, 90.09s/it]Loading checkpoint shards:  50%|█████     | 2/4 [03:00<03:00, 90.03s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [04:29<01:29, 89.87s/it]Loading checkpoint shards: 100%|██████████| 4/4 [04:42<00:00, 59.34s/it]Loading checkpoint shards: 100%|██████████| 4/4 [04:42<00:00, 70.57s/it]
+Traceback (most recent call last):
+  File "/sorgin1/users/jbarrutia006/viper/src/main_project_slurm.py", line 346, in <module>
+    main()
+  File "/sorgin1/users/jbarrutia006/viper/src/main_project_slurm.py", line 192, in main
+    from vision_processes import queues_in, finish_all_consumers, forward, manager
+  File "/sorgin1/users/jbarrutia006/viper/src/vision_processes.py", line 184, in <module>
+    consumers[process_name_] = make_fn(model_class_, process_name_, counter_)
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/viper/src/vision_processes.py", line 50, in make_fn
+    model_instance = model_class(gpu_number=gpu_number)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/viper/src/vision_models.py", line 419, in __init__
+    from maskrcnn_benchmark.engine.predictor_glip import GLIPDemo, to_image_list, create_positive_map, \
+ModuleNotFoundError: No module named 'maskrcnn_benchmark'
+srun: error: localhost: task 0: Exited with exit code 1

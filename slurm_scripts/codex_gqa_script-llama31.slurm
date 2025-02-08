@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH --job-name=codigo_GQA
+#SBATCH --job-name=codigo_GQA_deepseekQwen7b
 #SBATCH -D .
 #SBATCH --cpus-per-task=1
 #SBATCH --ntasks-per-node=1
@@ -14,7 +14,6 @@
 
 source /sorgin1/users/jbarrutia006/venvs/viper_tximista/bin/activate
 
-export CODEX_QUANTIZED=1
 export LOAD_MODELS=0
 export DATASET='gqa'
 export EXEC_MODE='codex'

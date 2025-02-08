@@ -1,0 +1,3 @@
+SELECTED CONFIG FILES: gqa/general_config,gqa/execute_with_cache,gqa/train
+LOADING MODEL: ENABLED
+modelo: <class 'vision_models.BLIPModel'> , proceso:  blip

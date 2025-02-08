@@ -24,11 +24,12 @@ import sys
 import logging
 logging.basicConfig(level=logging.INFO)  
 logger = logging.getLogger(__name__)
-os.environ['CUDA_VISIBLE_DEVICES'] = '1,2,3'
-os.environ['LOAD_MODELS'] = '0'
+os.environ['CUDA_VISIBLE_DEVICES'] = '2,3'
+os.environ['LOAD_MODELS'] = '1'
 os.environ['DATASET'] = 'gqa'
-os.environ['EXEC_MODE'] = 'codex'
-os.environ['CODEX_MODEL'] = 'llama31Q'
+os.environ['EXEC_MODE'] = 'cache'
+# os.environ['CODEX_MODEL'] = 'llama31Q'
+os.environ['TRAIN'] = 'True'
 #os.environ['COGNITION_MODEL'] = 'config_gemma'
 script_dir = os.path.abspath('/sorgin1/users/jbarrutia006/viper')
 sys.path.append(script_dir)
@@ -58,7 +59,7 @@ def my_collate(batch):
 def run_program(parameters, queues_in_, input_type_, retrying=False):
     from src.image_patch import ImagePatch, llm_query, best_image_match, distance, bool_to_yesno
     from src.video_segment import VideoSegment
-
+    logger.info("Running")
     global queue_results
 
     code, sample_id, image, possible_answers, query = parameters
@@ -189,6 +190,7 @@ def main():
     from vision_processes import queues_in, finish_all_consumers, forward, manager
     
     from datasets import get_dataset
+    dataset = get_dataset(config.dataset)
 
     logger.info("Models successfully loaded")
 
@@ -223,8 +225,7 @@ def main():
         wandb.init(project="viper", config=OmegaConf.to_container(config))
         # log the prompt file
         wandb.save(config.codex.prompt)
-
-    dataset = get_dataset(config.dataset)
+    # dataset = get_dataset(config.dataset)
     logger.info("Dataset loaded")
     # with open(config.codex.prompt) as f:
     #     base_prompt = f.read().strip()
@@ -258,13 +259,11 @@ def main():
 
             for i, batch in tqdm(enumerate(dataloader), total=n_batches):
 
-                # Combine all queries and get Codex predictions for them
-                # TODO compute Codex for next batch as current batch is being processed
-                if i > 2:
-                    break
-                if i % 200 == 0:  # Print progress every 200 instances
-                    tqdm.write(f"Processing batch {i}/{n_batches}")
+                #num_instances += batch_size 
+                # if num_instances % 100 < batch_size: 
+                #     tqdm.write(f"Processing batch {i}/{n_batches}")
 
+                logger.debug(f"input: {batch['query']}")
 
                 if not config.use_cached_codex:
                     codes = codex(prompt=batch['query'], base_prompt=base_prompt, input_type=input_type,

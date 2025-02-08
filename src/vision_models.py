@@ -1416,7 +1416,7 @@ class codeLlamaQ(CodexModel):
 
 class llama31Q(CodexModel):
     name = 'llama31Q'
-    max_batch_size=32 ##Cambiar TXORONPIO
+    max_batch_size=24 ##Cambiar TXORONPIO
     def __init__(self, gpu_number=0):
         super().__init__(gpu_number=gpu_number)
         from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig, pipeline
@@ -1437,20 +1437,21 @@ class llama31Q(CodexModel):
 
         ##### Usar         attn_implementation="sdpa", SOLO EN A100 o V100
 
-        # self.model = AutoModelForCausalLM.from_pretrained(
-        #     model_name,
-        #     torch_dtype=torch.float16,
-        #     device_map="auto"
-        # )
+        self.model = AutoModelForCausalLM.from_pretrained(
+            model_name,
+            torch_dtype=torch.float16,
+            device_map="auto"
+        )
 
 
         ###### Cuantizar ######
-        quantization_config = BitsAndBytesConfig(load_in_4bit=True,bnb_4bit_compute_dtype=torch.float16)
-        self.model = AutoModelForCausalLM.from_pretrained(
-            model_name,
-            quantization_config = quantization_config,
-            device_map="auto"
-        )
+        #quantization_config = BitsAndBytesConfig(load_in_4bit=True,bnb_4bit_compute_dtype=torch.float16)
+        # quantization_config = BitsAndBytesConfig(load_in_8bit=True)
+        # self.model = AutoModelForCausalLM.from_pretrained(
+        #     model_name,
+        #     quantization_config = quantization_config,
+        #     device_map="auto"
+        # )
         ########################
 
         ###### JUST FOR TXORONPIO ######
@@ -1492,45 +1493,49 @@ class llama31Q(CodexModel):
         
         return response
 
-class Llama31Q_vLLM:
-    name = 'llama31Q_vLLM'
-    max_batch_size = 32  # TXORONPIO
+# class llama31Q(CodexModel):
+#     name = 'llama31Q'
+#     max_batch_size = 24  # TXORONPIO
     
-    def __init__(self, gpu_number=0):
-        model_name = config.codex.model_name
-        from vllm import LLM, SamplingParams
-        from transformers import AutoTokenizer
+#     def __init__(self, gpu_number=0):
+#         super().__init__(gpu_number=gpu_number)
 
-        if model_name.startswith('/'):
-            assert os.path.exists(model_name), f'Model path {model_name} does not exist.'
-        else:
-            assert model_name in ['meta-llama/Meta-Llama-3.1-8B-Instruct']
+#         model_name = config.codex.model_name
+#         from vllm import LLM, SamplingParams
+#         from transformers import AutoTokenizer
+
+#         if model_name.startswith('/'):
+#             assert os.path.exists(model_name), f'Model path {model_name} does not exist.'
+#         else:
+#             assert model_name in ['meta-llama/Meta-Llama-3.1-8B-Instruct']
         
-        self.tokenizer = AutoTokenizer.from_pretrained(model_name)
-        self.tokenizer.pad_token = self.tokenizer.eos_token
-        self.tokenizer.padding_side = 'left'
+
+#         model_name = "hugging-quants/Meta-Llama-3.1-8B-Instruct-AWQ-INT4"
+#         self.tokenizer = AutoTokenizer.from_pretrained(model_name)
+#         self.tokenizer.pad_token = self.tokenizer.eos_token
+#         self.tokenizer.padding_side = 'left'
         
-        self.model = LLM(model=model_name, tensor_parallel_size=1, quantization="awq", gpu_memory_utilization=0.9)
+#         self.model = LLM(model=model_name, dtype=torch.float16)
     
-    def run_code_vLLM(self, prompt):
-        """Generates text from a given prompt using vLLM."""
-        sampling_params = SamplingParams(max_tokens=256)
-        outputs = self.model.generate([prompt], sampling_params)
+#     def run_code_vLLM(self, prompt):
+#         """Generates text from a given prompt using vLLM."""
+#         sampling_params = SamplingParams(max_tokens=256)
+#         outputs = self.model.generate([prompt], sampling_params)
         
-        return [output.outputs[0].text.split('\n\n')[0] for output in outputs]
+#         return [output.outputs[0].text.split('\n\n')[0] for output in outputs]
     
-    def forward_(self, extended_prompt):
-        """Handles batch processing for large inputs using vLLM."""
-        if isinstance(extended_prompt, str):
-            extended_prompt = [extended_prompt]
+#     def forward_(self, extended_prompt):
+#         """Handles batch processing for large inputs using vLLM."""
+#         if isinstance(extended_prompt, str):
+#             extended_prompt = [extended_prompt]
         
-        if len(extended_prompt) > self.max_batch_size:
-            response = []
-            for i in range(0, len(extended_prompt), self.max_batch_size):
-                response += self.forward_(extended_prompt[i:i + self.max_batch_size])
-            return response
+#         if len(extended_prompt) > self.max_batch_size:
+#             response = []
+#             for i in range(0, len(extended_prompt), self.max_batch_size):
+#                 response += self.forward_(extended_prompt[i:i + self.max_batch_size])
+#             return response
         
-        return self.run_code_vLLM(extended_prompt)
+#         return self.run_code_vLLM(extended_prompt)
 
 class llama33Q(CodexModel):
     name = 'llama33Q'
@@ -1598,27 +1603,166 @@ class deepSeekQwen7b(CodexModel):
             assert os.path.exists(model_name), \
                 f'Model path {model_name} does not exist. If you use the model ID it will be downloaded automatically'
         else:
-            assert model_name in ['DeepSeek-R1-Distill-Qwen-7B']
+            assert model_name in ['deepseek-ai/DeepSeek-R1-Distill-Qwen-7B']
 
-        quantization_config = BitsAndBytesConfig(load_in_4bit=True,bnb_4bit_compute_dtype=torch.float16)
         self.tokenizer = AutoTokenizer.from_pretrained(model_name)
         self.tokenizer.pad_token = self.tokenizer.eos_token
         self.tokenizer.padding_side = 'left'
 
-        ## Modelu preentrenatuaren Tokia 
+        # quantization_config = BitsAndBytesConfig(load_in_4bit=True,bnb_4bit_compute_dtype=torch.float16)
+        # self.model = AutoModelForCausalLM.from_pretrained(
+        #     model_name, 
+        #     quantization_config = quantization_config,
+        #     device_map='auto'
+        # )
+
+
         self.model = AutoModelForCausalLM.from_pretrained(
-            model_name, 
-            quantization_config = quantization_config,
-            device_map='auto'
+            model_name,
+            torch_dtype=torch.float16,
+            device_map="auto"
         )
+
+
         self.model.eval()
         
+
     def run_code_Quantized_llama(self, prompt):
         """Generates text from a given prompt using multi-GPU inference."""
-        input_ids = self.tokenizer(prompt, return_tensors="pt", padding=True, truncation=True)["input_ids"].to("cuda")
+        inputs= self.tokenizer(prompt, return_tensors="pt", padding=True, truncation=True)
+        input_ids = inputs["input_ids"].to("cuda")
+        attention_mask = inputs["attention_mask"].to("cuda")
 
         with torch.no_grad():
-            generated_ids = self.model.generate(input_ids, max_new_tokens=256)
+            generated_ids = self.model.generate(input_ids, attention_mask=attention_mask, max_new_tokens=256)
+        generated_ids = generated_ids[:, input_ids.shape[-1]:]
+        generated_text = [self.tokenizer.decode(gen_id, skip_special_tokens=True) for gen_id in generated_ids]
+        generated_text = [text.split('\n\n')[0] for text in generated_text]
+
+        torch.cuda.empty_cache()  # Free unused GPU memory
+        return generated_text
+
+    def forward_(self, extended_prompt):
+        """Handles batch processing for large inputs."""
+        if len(extended_prompt) > self.max_batch_size:
+            response = []
+            for i in range(0, len(extended_prompt), self.max_batch_size):
+                response += self.forward_(extended_prompt[i:i + self.max_batch_size])
+            return response
+        
+        with torch.no_grad():
+            response = self.run_code_Quantized_llama(extended_prompt)
+        
+        return response
+
+class deepSeekLlama8b(CodexModel):
+    name = 'deepSeekLlama8b'
+    max_batch_size=24
+    def __init__(self, gpu_number=0):
+        super().__init__(gpu_number=gpu_number)
+        from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig, pipeline
+        model_name = config.codex.model_name
+
+        if model_name.startswith('/'):
+            assert os.path.exists(model_name), \
+                f'Model path {model_name} does not exist. If you use the model ID it will be downloaded automatically'
+        else:
+            assert model_name in ['deepseek-ai/DeepSeek-R1-Distill-Llama-8B']
+
+        self.tokenizer = AutoTokenizer.from_pretrained(model_name)
+        self.tokenizer.pad_token = self.tokenizer.eos_token
+        self.tokenizer.padding_side = 'left'
+
+        # quantization_config = BitsAndBytesConfig(load_in_4bit=True,bnb_4bit_compute_dtype=torch.float16)
+        # self.model = AutoModelForCausalLM.from_pretrained(
+        #     model_name, 
+        #     quantization_config = quantization_config,
+        #     device_map='auto'
+        # )
+
+
+        self.model = AutoModelForCausalLM.from_pretrained(
+            model_name,
+            torch_dtype=torch.float16,
+            device_map="auto"
+        )
+
+
+        self.model.eval()
+        
+
+    def run_code_Quantized_llama(self, prompt):
+        """Generates text from a given prompt using multi-GPU inference."""
+        inputs= self.tokenizer(prompt, return_tensors="pt", padding=True, truncation=True)
+        input_ids = inputs["input_ids"].to("cuda")
+        attention_mask = inputs["attention_mask"].to("cuda")
+
+        with torch.no_grad():
+            generated_ids = self.model.generate(input_ids, attention_mask=attention_mask, max_new_tokens=256)
+        generated_ids = generated_ids[:, input_ids.shape[-1]:]
+        generated_text = [self.tokenizer.decode(gen_id, skip_special_tokens=True) for gen_id in generated_ids]
+        generated_text = [text.split('\n\n')[0] for text in generated_text]
+
+        torch.cuda.empty_cache()  # Free unused GPU memory
+        return generated_text
+
+    def forward_(self, extended_prompt):
+        """Handles batch processing for large inputs."""
+        if len(extended_prompt) > self.max_batch_size:
+            response = []
+            for i in range(0, len(extended_prompt), self.max_batch_size):
+                response += self.forward_(extended_prompt[i:i + self.max_batch_size])
+            return response
+        
+        with torch.no_grad():
+            response = self.run_code_Quantized_llama(extended_prompt)
+        
+        return response
+
+class deepSeekLlama70b(CodexModel):
+    name = 'deepSeekLlama70b'
+    max_batch_size=24
+    def __init__(self, gpu_number=0):
+        super().__init__(gpu_number=gpu_number)
+        from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig, pipeline
+        model_name = config.codex.model_name
+
+        if model_name.startswith('/'):
+            assert os.path.exists(model_name), \
+                f'Model path {model_name} does not exist. If you use the model ID it will be downloaded automatically'
+        else:
+            assert model_name in ['deepseek-ai/DeepSeek-R1-Distill-Llama-70B']
+
+        self.tokenizer = AutoTokenizer.from_pretrained(model_name)
+        self.tokenizer.pad_token = self.tokenizer.eos_token
+        self.tokenizer.padding_side = 'left'
+
+        # quantization_config = BitsAndBytesConfig(load_in_4bit=True,bnb_4bit_compute_dtype=torch.float16)
+        # self.model = AutoModelForCausalLM.from_pretrained(
+        #     model_name, 
+        #     quantization_config = quantization_config,
+        #     device_map='auto'
+        # )
+
+
+        self.model = AutoModelForCausalLM.from_pretrained(
+            model_name,
+            torch_dtype=torch.float16,
+            device_map="auto"
+        )
+
+
+        self.model.eval()
+        
+
+    def run_code_Quantized_llama(self, prompt):
+        """Generates text from a given prompt using multi-GPU inference."""
+        inputs= self.tokenizer(prompt, return_tensors="pt", padding=True, truncation=True)
+        input_ids = inputs["input_ids"].to("cuda")
+        attention_mask = inputs["attention_mask"].to("cuda")
+
+        with torch.no_grad():
+            generated_ids = self.model.generate(input_ids, attention_mask=attention_mask, max_new_tokens=256)
         generated_ids = generated_ids[:, input_ids.shape[-1]:]
         generated_text = [self.tokenizer.decode(gen_id, skip_special_tokens=True) for gen_id in generated_ids]
         generated_text = [text.split('\n\n')[0] for text in generated_text]
@@ -1649,9 +1793,7 @@ class BLIPModel(BaseModel):
                  blip_v2_model_type=config.blip_v2_model_type):
         super().__init__(gpu_number)
 
-        # from lavis.models import load_model_and_preprocess
         from transformers import Blip2Processor, Blip2ForConditionalGeneration, BitsAndBytesConfig
-        # https://huggingface.co/models?sort=downloads&search=Salesforce%2Fblip2-
         assert blip_v2_model_type in ['blip2-flan-t5-xxl', 'blip2-flan-t5-xl', 'blip2-opt-2.7b', 'blip2-opt-6.7b',
                                       'blip2-opt-2.7b-coco', 'blip2-flan-t5-xl-coco', 'blip2-opt-6.7b-coco']
 
@@ -1659,15 +1801,13 @@ class BLIPModel(BaseModel):
             max_memory = {gpu_number: torch.cuda.mem_get_info(self.dev)[0]}
 
             self.processor = Blip2Processor.from_pretrained(f"Salesforce/{blip_v2_model_type}")
-            # Device_map must be sequential for manual GPU selection
             try:
-                quantization_config = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_compute_dtype=torch.bfloat16,llm_int8_enable_fp32_cpu_offload=True)
+                quantization_config = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_compute_dtype=torch.bfloat16, llm_int8_enable_fp32_cpu_offload=True)
                 self.model = Blip2ForConditionalGeneration.from_pretrained(
-                    f"Salesforce/{blip_v2_model_type}", quantization_config = quantization_config, device_map="sequential", 
-                    # attn_implementation="flash_attention_2"
+                    f"Salesforce/{blip_v2_model_type}", quantization_config=quantization_config
                 )
+                self.model.cuda()  # Move the model to GPU manually
             except Exception as e:
-                # Clarify error message. The problem is that it tries to load part of the model to disk.
                 if "had weights offloaded to the disk" in e.args[0]:
                     extra_text = ' You may want to consider setting half_precision to True.' if half_precision else ''
                     raise MemoryError(f"Not enough GPU memory in GPU {self.dev} to load the model.{extra_text}")
@@ -1690,19 +1830,15 @@ class BLIPModel(BaseModel):
         return generated_text
 
     def pre_question(self, question):
-        # from LAVIS blip_processors
         question = re.sub(
             r"([.!\"()*#:;~])",
             "",
             question.lower(),
         )
         question = question.rstrip(" ")
-
-        # truncate question
         question_words = question.split(" ")
         if len(question_words) > self.max_words:
             question = " ".join(question_words[: self.max_words])
-
         return question
 
     @torch.no_grad()
@@ -1715,7 +1851,6 @@ class BLIPModel(BaseModel):
                                             do_sample=False, top_p=0.9, repetition_penalty=1.0,
                                             num_return_sequences=1, temperature=1, max_new_tokens=10)
         generated_text = self.processor.batch_decode(generated_ids, skip_special_tokens=True)
-        # Buscame a traves de internet informacion sobre este error en el Blip2Processor: 
         return generated_text
 
     def forward(self, image, question=None, task='caption'):
@@ -1725,7 +1860,6 @@ class BLIPModel(BaseModel):
         if len(image) > 0 and 'float' in str(image[0].dtype) and image[0].max() <= 1:
             image = [im * 255 for im in image]
 
-        # Separate into qa and caption batches.
         prompts_qa = [self.qa_prompt.format(self.pre_question(q)) for q, t in zip(question, task) if t == 'qa']
         images_qa = [im for i, im in enumerate(image) if task[i] == 'qa']
         images_caption = [im for i, im in enumerate(image) if task[i] == 'caption']
@@ -1744,6 +1878,7 @@ class BLIPModel(BaseModel):
         if not self.to_batch:
             response = response[0]
         return response
+
 
 
 class SaliencyModel(BaseModel):
