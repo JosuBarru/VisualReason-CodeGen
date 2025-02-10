@@ -11,6 +11,7 @@ cognition_models = os.getenv('COGNITION_MODEL', None) # Just for general knowled
 codex_model = os.getenv('CODEX_MODEL', None)  # Name of the model to generate code
 train = os.getenv('TRAIN', True) #  por defecto true porque va a ser lo que más usemos
 train = train.lower() == 'true'
+code = os.getenv('CODE', None) 
 config_names = []
 
 
@@ -23,14 +24,26 @@ model_configs = {
     "deepseek-llama70b": "config_codex_deepseek-llama-70b"
 }
 
+codes_dir = {
+    "deepseek-llama8b" : 'results/gqa/codex_results/train/codex_results_deepSeekLlama8b-post.csv',
+    "llama31-8b-16b" : 'results/gqa/codex_results/train/codex_results_llama31-16bit.csv'
+}
+
+
+configs = []
+
 try:
     if dataset_name in ['refcoco','gqa', 'okvqa']:
         config_names.append(dataset_name + '/'+ 'general_config')
         if execution_mode is not None:
             if execution_mode == 'cache':
-                config_names.append(dataset_name + '/'+ 'execute_with_cache')
                 if cognition_models is not None:
                     config_names.insert(0, cognition_models)
+                if code is not None:
+                    configs.append(OmegaConf.create({"use_cached_codex": True, "cached_codex_path": codes_dir[code]}))
+                else:
+                    raise UserWarning(f"Add input file")
+
             elif execution_mode == 'codex':
                 if codex_model in model_configs:
                     config_names.append(model_configs[codex_model])
@@ -61,7 +74,7 @@ except UserWarning as w:
 #     config_names = 'config_codellama_Q'  # Modify this if you want to use another default config
 
 print("SELECTED CONFIG FILES: " + config_names) 
-configs = [OmegaConf.load('configs/base_config.yaml')]
+configs.append(OmegaConf.load('configs/base_config.yaml'))
 
 ## Tener en cuenta que el ultimo tiene preferencia.
 

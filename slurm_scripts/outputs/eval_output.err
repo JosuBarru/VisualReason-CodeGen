@@ -1,17 +1,58 @@
-Downloading shards:   0%|          | 0/4 [00:00<?, ?it/s]Downloading shards:  25%|██▌       | 1/4 [02:29<07:29, 149.70s/it]Downloading shards:  50%|█████     | 2/4 [02:29<02:03, 61.80s/it] Downloading shards:  75%|███████▌  | 3/4 [02:30<00:33, 33.70s/it]Downloading shards: 100%|██████████| 4/4 [02:58<00:00, 31.66s/it]Downloading shards: 100%|██████████| 4/4 [02:58<00:00, 44.69s/it]
-Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [01:30<04:30, 90.09s/it]Loading checkpoint shards:  50%|█████     | 2/4 [03:00<03:00, 90.03s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [04:29<01:29, 89.87s/it]Loading checkpoint shards: 100%|██████████| 4/4 [04:42<00:00, 59.34s/it]Loading checkpoint shards: 100%|██████████| 4/4 [04:42<00:00, 70.57s/it]
+`low_cpu_mem_usage` was None, now default to True since model is quantized.
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:02<00:07,  2.40s/it]Loading checkpoint shards:  50%|█████     | 2/4 [00:05<00:05,  2.61s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:07<00:02,  2.57s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:08<00:00,  1.87s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:08<00:00,  2.12s/it]
+/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/torch/functional.py:534: UserWarning: torch.meshgrid: in an upcoming release, it will be required to pass the indexing argument. (Triggered internally at ../aten/src/ATen/native/TensorShape.cpp:3595.)
+  return _VF.meshgrid(tensors, **kwargs)  # type: ignore[attr-defined]
+/sorgin1/users/jbarrutia006/viper/GLIP/maskrcnn_benchmark/utils/checkpoint.py:115: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  return torch.load(f, map_location=torch.device("cpu"))
+/sorgin1/users/jbarrutia006/viper/src/vision_models.py:1963: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  checkpoint = torch.load(path_checkpoint, map_location='cpu')
+WARNING:joblib:[Memory(location=cache/joblib)]: Flushing completely the cache
+  0%|          | 0/788 [00:00<?, ?it/s]  0%|          | 0/788 [00:00<?, ?it/s]
 Traceback (most recent call last):
-  File "/sorgin1/users/jbarrutia006/viper/src/main_project_slurm.py", line 346, in <module>
+  File "/sorgin1/users/jbarrutia006/viper/src/vision_processes.py", line 202, in forward
+    out = consumers[model_name](*args, **kwargs)
+          ~~~~~~~~~^^^^^^^^^^^^
+KeyError: 'gpt-3.5-turbo'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/sorgin1/users/jbarrutia006/viper/src/main_project_slurm.py", line 274, in main
+    codes = codex(prompt=batch['query'], base_prompt=base_prompt, input_type=input_type,
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/viper/src/vision_processes.py", line 204, in forward
+    raise KeyError(error_msg.format(list(consumers.keys()))) from e
+KeyError: "No model named gpt-3.5-turbo. The available models are: ['blip', 'glip', 'maskrcnn', 'xvlm']. Make sure to activate it in the configs files"
+Traceback (most recent call last):
+  File "/sorgin1/users/jbarrutia006/viper/src/main_project_slurm.py", line 347, in <module>
     main()
-  File "/sorgin1/users/jbarrutia006/viper/src/main_project_slurm.py", line 192, in main
-    from vision_processes import queues_in, finish_all_consumers, forward, manager
-  File "/sorgin1/users/jbarrutia006/viper/src/vision_processes.py", line 184, in <module>
-    consumers[process_name_] = make_fn(model_class_, process_name_, counter_)
-                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/sorgin1/users/jbarrutia006/viper/src/vision_processes.py", line 50, in make_fn
-    model_instance = model_class(gpu_number=gpu_number)
-                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/sorgin1/users/jbarrutia006/viper/src/vision_models.py", line 419, in __init__
-    from maskrcnn_benchmark.engine.predictor_glip import GLIPDemo, to_image_list, create_positive_map, \
-ModuleNotFoundError: No module named 'maskrcnn_benchmark'
+  File "/sorgin1/users/jbarrutia006/viper/src/main_project_slurm.py", line 335, in main
+    all_data = [all_sample_ids, all_queries, all_results, all_img_paths, all_answers, all_codes,score_vector , accuracy]
+                                                                                                ^^^^^^^^^^^^
+UnboundLocalError: cannot access local variable 'score_vector' where it is not associated with a value
+srun: error: localhost: task 0: Exited with exit code 1
+WARNING:joblib:[Memory(location=cache/joblib)]: Flushing completely the cache
+  0%|          | 0/788 [00:00<?, ?it/s]  0%|          | 0/788 [00:00<?, ?it/s]
+Traceback (most recent call last):
+  File "/sorgin1/users/jbarrutia006/viper/src/vision_processes.py", line 202, in forward
+    out = consumers[model_name](*args, **kwargs)
+          ~~~~~~~~~^^^^^^^^^^^^
+KeyError: 'gpt-3.5-turbo'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/sorgin1/users/jbarrutia006/viper/src/main_project_slurm.py", line 274, in main
+    codes = codex(prompt=batch['query'], base_prompt=base_prompt, input_type=input_type,
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/viper/src/vision_processes.py", line 204, in forward
+    raise KeyError(error_msg.format(list(consumers.keys()))) from e
+KeyError: "No model named gpt-3.5-turbo. The available models are: ['blip', 'glip', 'maskrcnn', 'xvlm']. Make sure to activate it in the configs files"
+Traceback (most recent call last):
+  File "/sorgin1/users/jbarrutia006/viper/src/main_project_slurm.py", line 347, in <module>
+    main()
+  File "/sorgin1/users/jbarrutia006/viper/src/main_project_slurm.py", line 335, in main
+    all_data = [all_sample_ids, all_queries, all_results, all_img_paths, all_answers, all_codes,score_vector , accuracy]
+                                                                                                ^^^^^^^^^^^^
+UnboundLocalError: cannot access local variable 'score_vector' where it is not associated with a value
 srun: error: localhost: task 0: Exited with exit code 1

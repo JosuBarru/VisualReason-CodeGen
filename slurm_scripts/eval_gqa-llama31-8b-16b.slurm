@@ -18,5 +18,6 @@ export LOAD_MODELS=1
 export DATASET='gqa'
 export EXEC_MODE='cache'
 export TRAIN=True
+export CODE='llama31-8b-16b'
 
 srun python src/main_project_slurm.py

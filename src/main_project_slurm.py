@@ -21,7 +21,7 @@ import sys
 
 #Logging
 import logging
-logging.basicConfig(level=logging.INFO)  
+logging.basicConfig(level=logging.WARN)  
 logger = logging.getLogger(__name__)
 
 
@@ -60,7 +60,7 @@ def my_collate(batch):
 def run_program(parameters, queues_in_, input_type_, retrying=False):
     from src.image_patch import ImagePatch, llm_query, best_image_match, distance, bool_to_yesno
     from src.video_segment import VideoSegment
-    logger.info("Running")
+    logger.debug("Running")
     global queue_results
 
     code, sample_id, image, possible_answers, query = parameters
@@ -161,9 +161,12 @@ def save_results(all_data,dataset):
         else:
             existing_files = list(results_dir.glob('codex_results_*.csv'))
             if len(existing_files) == 0:
-                filename = 'codex_results_0'
+                filename = '0'
             else:
-                filename = 'codex_results_' + str(len(existing_files))
+                filename = str(len(existing_files))
+
+            filename = filename + config.cached_codex_path.split("/")[-1]
+
         logger.info(f'Saving results to {filename}')    
 
         if config.dataset.dataset_name == 'RefCOCO':

@@ -449,8 +449,8 @@ class GLIPModel(BaseModel):
                 cfg.merge_from_list(["MODEL.DEVICE", self.dev])
 
                 with HiddenPrints("GLIP"), torch.cuda.device(self.dev):
-                    from transformers.utils import logging
-                    logging.set_verbosity_error()
+                    #from transformers.utils import logging
+                    #logging.set_verbosity_error()
                     GLIPDemo.__init__(self, cfg, *args_demo, **kwargs)
                 if self.cfg.MODEL.RPN_ARCHITECTURE == "VLDYHEAD":
                     plus = 1

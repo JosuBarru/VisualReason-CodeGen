@@ -1,2 +1,2 @@
 use_cached_codex: True
-cached_codex_path: 'results/gqa/codex_results/train/codex_results_llama31-4bit.csv'
+cached_codex_path: 'results/gqa/codex_results/train/codex_results_deepSeekLlama8b-post.csv'

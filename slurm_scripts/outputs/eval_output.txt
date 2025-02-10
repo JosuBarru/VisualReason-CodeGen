@@ -1,3 +1,36 @@
-SELECTED CONFIG FILES: gqa/general_config,gqa/execute_with_cache,gqa/train
+SELECTED CONFIG FILES: gqa/general_config,gqa/train
 LOADING MODEL: ENABLED
 modelo: <class 'vision_models.BLIPModel'> , proceso:  blip
+VISION BACKBONE USE GRADIENT CHECKPOINTING:  False
+LANGUAGE BACKBONE USE GRADIENT CHECKPOINTING:  False
+EARLY FUSION ON, USING MHA-B
+EARLY FUSION ON, USING MHA-B
+EARLY FUSION ON, USING MHA-B
+EARLY FUSION ON, USING MHA-B
+EARLY FUSION ON, USING MHA-B
+EARLY FUSION ON, USING MHA-B
+modelo: <class 'vision_models.GLIPModel'> , proceso:  glip
+modelo: <class 'vision_models.MaskRCNNModel'> , proceso:  maskrcnn
+modelo: <class 'vision_models.XVLMModel'> , proceso:  xvlm
+{'blip': <function make_fn.<locals>._function at 0x7f432d530f40>, 'glip': <function make_fn.<locals>._function at 0x7f4231cc25c0>, 'maskrcnn': <function make_fn.<locals>._function at 0x7f4231cc1bc0>, 'xvlm': <function make_fn.<locals>._function at 0x7f423154cea0>}
+Exception: "No model named gpt-3.5-turbo. The available models are: ['blip', 
+'glip', 'maskrcnn', 'xvlm']. Make sure to activate it in the configs files"
+Completing logging and exiting...
+Error computing accuracy: cannot unpack non-iterable int object
+modelo: <class 'vision_models.BLIPModel'> , proceso:  blip
+VISION BACKBONE USE GRADIENT CHECKPOINTING:  False
+LANGUAGE BACKBONE USE GRADIENT CHECKPOINTING:  False
+EARLY FUSION ON, USING MHA-B
+EARLY FUSION ON, USING MHA-B
+EARLY FUSION ON, USING MHA-B
+EARLY FUSION ON, USING MHA-B
+EARLY FUSION ON, USING MHA-B
+EARLY FUSION ON, USING MHA-B
+modelo: <class 'vision_models.GLIPModel'> , proceso:  glip
+modelo: <class 'vision_models.MaskRCNNModel'> , proceso:  maskrcnn
+modelo: <class 'vision_models.XVLMModel'> , proceso:  xvlm
+{'blip': <function make_fn.<locals>._function at 0x7f97f7eb0f40>, 'glip': <function make_fn.<locals>._function at 0x7f9718da65c0>, 'maskrcnn': <function make_fn.<locals>._function at 0x7f9718da5bc0>, 'xvlm': <function make_fn.<locals>._function at 0x7f9718688ea0>}
+Exception: "No model named gpt-3.5-turbo. The available models are: ['blip', 
+'glip', 'maskrcnn', 'xvlm']. Make sure to activate it in the configs files"
+Completing logging and exiting...
+Error computing accuracy: cannot unpack non-iterable int object
