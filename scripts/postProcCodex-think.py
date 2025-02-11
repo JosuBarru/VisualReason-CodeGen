@@ -7,19 +7,7 @@ os.chdir(script_dir)
 
 def clean_code(code):
     """Elimina código a partir de 'def' y borra comentarios previos."""
-    lines = code.split("\n")
-    
-    # Buscar línea con 'def' y su posible comentario anterior
-    for i, line in enumerate(lines):
-        if line.strip().startswith("def"):
-            # Si la línea anterior es un comentario, eliminarla también
-            if i > 0 and lines[i - 1].strip().startswith("#"):
-                cleaned= "\n".join(lines[:i - 1]).strip()
-            else:
-                cleaned= "\n".join(lines[:i]).strip()
-            #cleaned += '"'
-            return cleaned
-    
+    code = re.sub(r'</think>', '', code)
     return code
 
 def process_csv(input_file, output_file):
@@ -37,4 +25,4 @@ def process_csv(input_file, output_file):
             writer.writerow(row)
 
 # Uso
-process_csv("codex_results_llama31-8bit.csv", "codex_results_llama31-8bit-post.csv")
+process_csv("codex_results_deepSeekQwen7b-post.csv", "codex_results_deepSeekQwen7b-postv2.csv")

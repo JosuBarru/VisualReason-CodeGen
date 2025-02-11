@@ -9,10 +9,9 @@ EARLY FUSION ON, USING MHA-B
 EARLY FUSION ON, USING MHA-B
 EARLY FUSION ON, USING MHA-B
 EARLY FUSION ON, USING MHA-B
-The model is loaded in cuda:0
+EARLY FUSION ON, USING MHA-B
+EARLY FUSION ON, USING MHA-B
 modelo: <class 'vision_models.GLIPModel'> , proceso:  glip
 modelo: <class 'vision_models.MaskRCNNModel'> , proceso:  maskrcnn
 modelo: <class 'vision_models.XVLMModel'> , proceso:  xvlm
-{'blip': <function make_fn.<locals>._function at 0x7f36ba2f9120>, 'glip': <function make_fn.<locals>._function at 0x7f35d497d940>, 'maskrcnn': <function make_fn.<locals>._function at 0x7f35d497dda0>, 'xvlm': <function make_fn.<locals>._function at 0x7f35d4168fe0>}
-Error in xvlm model: 'int' object is not callable
-Final accuracy: 0.16555555555555557
+{'blip': <function make_fn.<locals>._function at 0x7f83adddd300>, 'glip': <function make_fn.<locals>._function at 0x7f7e778f85e0>, 'maskrcnn': <function make_fn.<locals>._function at 0x7f7e779e7c40>, 'xvlm': <function make_fn.<locals>._function at 0x7f7e77213b00>}

@@ -21,8 +21,9 @@ import sys
 
 #Logging
 import logging
-logging.basicConfig(level=logging.WARN)  
+logging.basicConfig(level=logging.INFO)  
 logger = logging.getLogger(__name__)
+logging.getLogger("maskrcnn_benchmark").setLevel(logging.WARNING)
 
 
 # os.environ['CUDA_VISIBLE_DEVICES'] = '0,1,2,3'
@@ -133,15 +134,7 @@ def save_results(all_data,dataset):
         if not config.save_new_results:
             filename = 'codex_results.csv'
         else:
-            existing_files = list(results_dir.glob('codex_results_*.csv'))
-            if len(existing_files) == 0:
-                filename = 'codex_results_0'
-            else:
-                filename = 'codex_results_' + str(len(existing_files))
-
-                # filename = 'codex_results_' + str(max([int(ef.stem.split('_')[-1]) for ef in existing_files if
-                #                                 str.isnumeric(ef.stem.split('_')[-1])]) + 1)
-            filename = filename + config.codex.model + '.csv'
+            filename = filename + config.codex.model + datetime.now().strftime("%m-%d_%H-%M") +'.csv'
 
         logger.info(f'Saving results to {filename}')
         all_sample_ids, all_queries, all_codes = all_data
@@ -159,13 +152,7 @@ def save_results(all_data,dataset):
         if not config.save_new_results:
             filename = 'results.csv'
         else:
-            existing_files = list(results_dir.glob('codex_results_*.csv'))
-            if len(existing_files) == 0:
-                filename = '0'
-            else:
-                filename = str(len(existing_files))
-
-            filename = filename + config.cached_codex_path.split("/")[-1]
+            filename = filename + config.cached_codex_path.split("/")[-1] + datetime.now().strftime("%m-%d_%H-%M") +'.csv'
 
         logger.info(f'Saving results to {filename}')    
 
@@ -183,7 +170,7 @@ def save_results(all_data,dataset):
         df = pd.DataFrame(data).T
         df.columns = columns
         df['Answer'] = df['Answer'].apply(str) # some answers can be numbers
-        last_line = pd.Series(global_score_line)
+        last_line = pd.DataFrame([global_score_line])
         df = pd.concat([df, last_line], ignore_index=True)
         df.to_csv(results_dir / filename, header=True, index=False, encoding='utf-8')
 
@@ -262,7 +249,7 @@ def main():
         try:
             n_batches = len(dataloader)
 
-            for i, batch in tqdm(enumerate(dataloader), total=n_batches):
+            for i, batch in tqdm(enumerate(dataloader), total=n_batches, ascii=True, ncols=100, mininterval=10):
 
                 #num_instances += batch_size 
                 # if num_instances % 100 < batch_size: 

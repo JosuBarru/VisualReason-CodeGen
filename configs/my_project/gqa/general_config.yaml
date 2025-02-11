@@ -3,7 +3,7 @@ dataset:
     dataset_name: GQA
     split: testdev
     testing: False
-    max_samples: 
+    max_samples: 48
     batch_size: 16 #for testdev set number 2
     start_sample: 0
 codex:
@@ -27,6 +27,5 @@ load_models:
 
 save: True
 save_codex: False
-use_cached_codex: False
 execute_code: True
 

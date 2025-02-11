@@ -24,10 +24,10 @@ model_configs = {
     "deepseek-llama70b": "config_codex_deepseek-llama-70b"
 }
 
-codes_dir = {
-    "deepseek-llama8b" : 'results/gqa/codex_results/train/codex_results_deepSeekLlama8b-post.csv',
-    "llama31-8b-16b" : 'results/gqa/codex_results/train/codex_results_llama31-16bit.csv'
-}
+# codes_dir = {
+#     "deepseek-llama8b" : 'results/gqa/codex_results/train/codex_results_deepSeekLlama8b-post.csv',
+#     "llama31-8b-16b" : 'results/gqa/codex_results/train/codex_results_llama31-16bit.csv'
+# }
 
 
 configs = []
@@ -40,7 +40,13 @@ try:
                 if cognition_models is not None:
                     config_names.insert(0, cognition_models)
                 if code is not None:
-                    configs.append(OmegaConf.create({"use_cached_codex": True, "cached_codex_path": codes_dir[code]}))
+                    manual_config = OmegaConf.create({
+                        "use_cached_codex": True, 
+                        "cached_codex_path": os.path.join('results/gqa/codex_results/train/', code)
+                    })
+                    OmegaConf.set_readonly(manual_config, True)
+                    configs.append(manual_config)
+                
                 else:
                     raise UserWarning(f"Add input file")
 

@@ -29,6 +29,11 @@ from typing import List, Union
 from configs import config
 from utils import HiddenPrints
 
+import logging
+
+logger = logging.getLogger(__name__)
+
+
 # with open('api.key') as f:
 #     openai.api_key = f.read().strip()
 
@@ -419,6 +424,8 @@ class GLIPModel(BaseModel):
             from maskrcnn_benchmark.engine.predictor_glip import GLIPDemo, to_image_list, create_positive_map, \
                 create_positive_map_label_to_token_from_positive_map
 
+
+        model_size = config.glip_model_type
         working_dir = f'{config.path_pretrained_models}/GLIP/'
         if model_size == 'tiny':
             config_file = working_dir + "configs/glip_Swin_T_O365_GoldG.yaml"
@@ -597,6 +604,7 @@ class GLIPModel(BaseModel):
                 return bboxes
 
         self.glip_demo = OurGLIPDemo(*args, dev=self.dev)
+        logging.info(f"GLIP model is loaded in {self.glip_demo.dev}")  # Added line
 
     def forward(self, *args, **kwargs):
         return self.glip_demo.forward(*args, **kwargs)
@@ -1802,11 +1810,18 @@ class BLIPModel(BaseModel):
 
             self.processor = Blip2Processor.from_pretrained(f"Salesforce/{blip_v2_model_type}")
             try:
-                quantization_config = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_compute_dtype=torch.bfloat16, llm_int8_enable_fp32_cpu_offload=True)
+                # quantization_config = BitsAndBytesConfig(load_in_4bit=True, bnb_4bit_compute_dtype=torch.bfloat16, llm_int8_enable_fp32_cpu_offload=True)
+                # self.model = Blip2ForConditionalGeneration.from_pretrained(
+                #     f"Salesforce/{blip_v2_model_type}", quantization_config=quantization_config
+                # )
+
                 self.model = Blip2ForConditionalGeneration.from_pretrained(
-                    f"Salesforce/{blip_v2_model_type}", quantization_config=quantization_config
+                    f"Salesforce/{blip_v2_model_type}", torch_dtype=torch.float16
                 )
+
                 self.model.cuda()  # Move the model to GPU manually
+
+                logging.info("BLIP loaded")
             except Exception as e:
                 if "had weights offloaded to the disk" in e.args[0]:
                     extra_text = ' You may want to consider setting half_precision to True.' if half_precision else ''
@@ -1841,6 +1856,14 @@ class BLIPModel(BaseModel):
             question = " ".join(question_words[: self.max_words])
         return question
 
+
+    @staticmethod
+    def extract_short_answer(response):
+        """ Extract only the short answer from BLIP's response """
+        if "Short answer:" in response:
+            return response.split("Short answer:")[-1].strip()
+        return response.strip()
+
     @torch.no_grad()
     def qa(self, image, question):
         inputs = self.processor(images=image, text=question, return_tensors="pt", padding="longest").to(self.dev)
@@ -1851,8 +1874,8 @@ class BLIPModel(BaseModel):
                                             do_sample=False, top_p=0.9, repetition_penalty=1.0,
                                             num_return_sequences=1, temperature=1, max_new_tokens=10)
         generated_text = self.processor.batch_decode(generated_ids, skip_special_tokens=True)
-        return generated_text
-
+        return [self.extract_short_answer(ans) for ans in generated_text]
+    
     def forward(self, image, question=None, task='caption'):
         if not self.to_batch:
             image, question, task = [image], [question], [task]
@@ -1936,6 +1959,11 @@ class XVLMModel(BaseModel):
 
         from base_models.xvlm.xvlm import XVLMBase
         from transformers import BertTokenizer
+        # import torch
+        # import warnings
+        # from torchvision import transforms
+        # from PIL import Image
+        # from utils import HiddenPrints
 
         super().__init__(gpu_number)
 
@@ -1958,11 +1986,13 @@ class XVLMModel(BaseModel):
             'depths': [2, 2, 18, 2],
             'num_heads': [4, 8, 16, 32]
         }
+        
         with warnings.catch_warnings(), HiddenPrints("XVLM"):
             model = XVLMBase(config_xvlm, use_contrastive_loss=True, vision_config=vision_config)
             checkpoint = torch.load(path_checkpoint, map_location='cpu')
             state_dict = checkpoint['model'] if 'model' in checkpoint.keys() else checkpoint
             msg = model.load_state_dict(state_dict, strict=False)
+        
         if len(msg.missing_keys) > 0:
             print('XVLM Missing keys: ', msg.missing_keys)
 
