@@ -6,8 +6,8 @@
 #SBATCH --ntasks-per-node=1
 #SBATCH --mem=18GB
 #SBATCH --gres=gpu:1
-#SBATCH --output=/sorgin1/users/jbarrutia006/viper/slurm_scripts/outputs/slurm_output_qa.txt
-#SBATCH --error=/sorgin1/users/jbarrutia006/viper/slurm_scripts/outputs/slurm_output_qa.err
+#SBATCH --output=/sorgin1/users/jbarrutia006/viper/slurm_scripts/outputs/codex_deep_qwen.txt
+#SBATCH --error=/sorgin1/users/jbarrutia006/viper/slurm_scripts/outputs/codex_deep_qwen.err
 #SBATCH --mail-type=all
 #SBATCH --mail-user=jbarrutia006@ikasle.ehu.eus
 
@@ -19,5 +19,8 @@ export DATASET='gqa'
 export EXEC_MODE='codex'
 export CODEX_MODEL='deepseek-qwen7b'
 export TRAIN=True
+export NUMINST=
+export BATCHSIZE=24
+
 
 srun python src/main_project_slurm.py

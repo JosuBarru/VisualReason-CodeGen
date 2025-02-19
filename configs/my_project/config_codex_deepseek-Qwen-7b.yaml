@@ -1,6 +1,6 @@
 codex:
     model: deepSeekQwen7b
     model_name: 'deepseek-ai/DeepSeek-R1-Distill-Qwen-7B' 
-    prompt: ./prompts/api_no_video.prompt
+    prompt: ./prompts/benchmarks/gqa-reason.prompt
 load_models:
     deepSeekQwen7b: True

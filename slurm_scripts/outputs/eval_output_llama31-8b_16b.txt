@@ -1,0 +1,17 @@
+SELECTED CONFIG FILES: gqa/general_config,gqa/train
+LOADING MODEL: ENABLED
+modelo: <class 'vision_models.BLIPModel'> , proceso:  blip
+VISION BACKBONE USE GRADIENT CHECKPOINTING:  False
+LANGUAGE BACKBONE USE GRADIENT CHECKPOINTING:  False
+EARLY FUSION ON, USING MHA-B
+EARLY FUSION ON, USING MHA-B
+EARLY FUSION ON, USING MHA-B
+EARLY FUSION ON, USING MHA-B
+EARLY FUSION ON, USING MHA-B
+EARLY FUSION ON, USING MHA-B
+EARLY FUSION ON, USING MHA-B
+EARLY FUSION ON, USING MHA-B
+modelo: <class 'vision_models.GLIPModel'> , proceso:  glip
+modelo: <class 'vision_models.MaskRCNNModel'> , proceso:  maskrcnn
+modelo: <class 'vision_models.XVLMModel'> , proceso:  xvlm
+{'blip': <function make_fn.<locals>._function at 0x7f48451adbc0>, 'glip': <function make_fn.<locals>._function at 0x7f43f21b8f40>, 'maskrcnn': <function make_fn.<locals>._function at 0x7f43f229bd80>, 'xvlm': <function make_fn.<locals>._function at 0x7f43501ccb80>}

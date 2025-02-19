@@ -1,6 +1,6 @@
 codex:
     model: llama33Q
     model_name: 'meta-llama/Llama-3.3-70B-Instruct' 
-    prompt: ./prompts/api_no_video.prompt
+    prompt: ./prompts/benchmarks/gqa.prompt
 load_models:
     llama33Q: True

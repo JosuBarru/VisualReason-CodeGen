@@ -1,6 +1,0 @@
-SELECTED CONFIG FILES: gqa/general_config,config_codex_deepseek-llama-8b,gqa/save_codex,gqa/train
-LOADING MODEL: DISABLED
-modelo: <class 'vision_models.deepSeekLlama8b'> , proceso:  deepSeekLlama8b
-{'deepSeekLlama8b': <function make_fn.<locals>._function at 0x7f00dc7ba7a0>}
-Final accuracy: 0.17682539682539683
-Final accuracy: 0.17682539682539683

@@ -69,8 +69,7 @@ def run_program(parameters, queues_in_, input_type_, retrying=False):
     code_header = f'def execute_command_{sample_id}(' \
                   f'{input_type_}, possible_answers, query, ' \
                   f'ImagePatch, VideoSegment, ' \
-                  'llm_query, bool_to_yesno, distance, best_image_match):\n' \
-                  f'    # Answer is:'
+                  'llm_query, bool_to_yesno, distance, best_image_match):\n'
     code = code_header + code
 
     try:
@@ -134,7 +133,7 @@ def save_results(all_data,dataset):
         if not config.save_new_results:
             filename = 'codex_results.csv'
         else:
-            filename = filename + config.codex.model + datetime.now().strftime("%m-%d_%H-%M") +'.csv'
+            filename = config.codex.model + '___' + datetime.datetime.now().strftime("%m-%d_%H-%M") +'.csv'
 
         logger.info(f'Saving results to {filename}')
         all_sample_ids, all_queries, all_codes = all_data
@@ -152,7 +151,7 @@ def save_results(all_data,dataset):
         if not config.save_new_results:
             filename = 'results.csv'
         else:
-            filename = filename + config.cached_codex_path.split("/")[-1] + datetime.now().strftime("%m-%d_%H-%M") +'.csv'
+            filename = "eval_" + config.cached_codex_path.split("/")[-1].split(".")[0].split("_")[-1] + "___" + datetime.datetime.now().strftime("%m-%d_%H-%M") +'.csv'
 
         logger.info(f'Saving results to {filename}')    
 

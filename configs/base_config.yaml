@@ -71,8 +71,8 @@ log_every: 20                                       # Log accuracy every n batch
 wandb: False                                        # Use Weights and Biases
 
 blip_half_precision: False                           # Use 8bit (Faster but slightly less accurate) for BLIP if True
-blip_v2_model_type: blip2-flan-t5-xxl             # Which model to use for BLIP-2
-glip_model_type: large
+blip_v2_model_type: blip2-flan-t5-xl          #blip2-flan-t5-xxl             #blip2-opt-2.7b             # Which model to use for BLIP-2
+glip_model_type: large   #tiny
 
 
 use_fixed_code: False                               # Use a fixed code for all samples (do not generate with Codex)

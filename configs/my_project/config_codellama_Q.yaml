@@ -1,7 +1,7 @@
 codex:
     model: codellama_Q
     model_name: 'codellama/CodeLlama-7b-hf' 
-    prompt: ./prompts/api_no_video.prompt
+    prompt: ./prompts/benchmarks/gqa.prompt
 cognition:
     model: codellama_Q
     is_setted: True

@@ -1,6 +1,6 @@
 codex:
     model: deepSeekLlama70b
     model_name: 'deepseek-ai/DeepSeek-R1-Distill-Llama-70B' 
-    prompt: ./prompts/api_no_video.prompt
+    prompt: ./prompts/benchmarks/gqa-reason.prompt
 load_models:
     deepSeekLlama70b: True

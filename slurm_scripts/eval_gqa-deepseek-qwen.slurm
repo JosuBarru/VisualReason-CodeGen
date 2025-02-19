@@ -1,13 +1,13 @@
 #!/bin/bash
 
-#SBATCH --job-name=eval_GQA_llama31-16b
+#SBATCH --job-name=eval_GQA_deepQwen 
 #SBATCH -D .
 #SBATCH --cpus-per-task=1
 #SBATCH --ntasks-per-node=1
 #SBATCH --mem=18GB
 #SBATCH --gres=gpu:1
-#SBATCH --output=/sorgin1/users/jbarrutia006/viper/slurm_scripts/outputs/eval_output_llama31-8b_16b.txt
-#SBATCH --error=/sorgin1/users/jbarrutia006/viper/slurm_scripts/outputs/eval_output_llama31-8b_16b.err
+#SBATCH --output=/sorgin1/users/jbarrutia006/viper/slurm_scripts/outputs/eval_output_deepQwen.txt
+#SBATCH --error=/sorgin1/users/jbarrutia006/viper/slurm_scripts/outputs/eval_output_deepQwen.err
 #SBATCH --mail-type=all
 #SBATCH --mail-user=jbarrutia006@ikasle.ehu.eus
 
@@ -18,7 +18,6 @@ export LOAD_MODELS=1
 export DATASET='gqa'
 export EXEC_MODE='cache'
 export TRAIN=True
-export CODE='llama31-8B-16b.csv'
-export BATCHSIZE=1
+export CODE='codex_results_deepSeekQwen7b-postv2.csv'
 
 srun python src/main_project_slurm.py

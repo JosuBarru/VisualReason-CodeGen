@@ -1,0 +1,20 @@
+SELECTED CONFIG FILES: gqa/general_config
+LOADING MODEL: ENABLED
+modelo: <class 'vision_models.BLIPModel'> , proceso:  blip
+VISION BACKBONE USE GRADIENT CHECKPOINTING:  False
+LANGUAGE BACKBONE USE GRADIENT CHECKPOINTING:  False
+EARLY FUSION ON, USING MHA-B
+EARLY FUSION ON, USING MHA-B
+EARLY FUSION ON, USING MHA-B
+EARLY FUSION ON, USING MHA-B
+EARLY FUSION ON, USING MHA-B
+EARLY FUSION ON, USING MHA-B
+EARLY FUSION ON, USING MHA-B
+EARLY FUSION ON, USING MHA-B
+modelo: <class 'vision_models.GLIPModel'> , proceso:  glip
+modelo: <class 'vision_models.MaskRCNNModel'> , proceso:  maskrcnn
+modelo: <class 'vision_models.XVLMModel'> , proceso:  xvlm
+{'blip': <function make_fn.<locals>._function at 0x7f51454d9620>, 'glip': <function make_fn.<locals>._function at 0x7f44c41b8ae0>, 'maskrcnn': <function make_fn.<locals>._function at 0x7f44c5a9fc40>, 'xvlm': <function make_fn.<locals>._function at 0x7f44c2103ec0>}
+Error in xvlm model: 'int' object is not callable
+Error in xvlm model: 'int' object is not callable
+Final accuracy: 0.43432978215932583
