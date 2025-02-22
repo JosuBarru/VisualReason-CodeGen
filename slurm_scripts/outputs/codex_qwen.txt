@@ -1,0 +1,3 @@
+SELECTED CONFIG FILES: gqa/general_config,config_codex_qwen2.5-7b,gqa/save_codex,gqa/train
+LOADING MODEL: DISABLED
+Final accuracy: 0.17682539682539683

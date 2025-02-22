@@ -1,0 +1,6 @@
+codex:
+    model: mixtral87B
+    model_name: 'mistralai/Mixtral-8x7B-Instruct-v0.1' 
+    prompt: ./prompts/benchmarks/gqa.prompt
+load_models:
+    mixtral87B: True

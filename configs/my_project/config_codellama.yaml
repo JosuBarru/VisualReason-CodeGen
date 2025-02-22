@@ -1,6 +1,6 @@
 codex:
     model: codellama
-    codellama_model_name: 'codellama/CodeLlama-7b-hf' 
+    model_name: 'codellama/CodeLlama-7b-Instruct-hf' 
     prompt: ./prompts/benchmarks/gqa.prompt
 load_models:
     codellama: True

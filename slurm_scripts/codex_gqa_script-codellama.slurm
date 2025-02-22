@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH --job-name=codigo_GQA_deepseekQwen7b
+#SBATCH --job-name=codigo_GQA_codellama
 #SBATCH -D .
 #SBATCH --cpus-per-task=1
 #SBATCH --ntasks-per-node=1
@@ -19,6 +19,6 @@ export DATASET='gqa'
 export EXEC_MODE='codex'
 export CODEX_MODEL='codellama'
 export TRAIN=True
-export BATCHSIZE=16
+export BATCHSIZE=64
 
 srun python src/main_project_slurm.py

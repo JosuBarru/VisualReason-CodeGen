@@ -14,4 +14,7 @@ EARLY FUSION ON, USING MHA-B
 modelo: <class 'vision_models.GLIPModel'> , proceso:  glip
 modelo: <class 'vision_models.MaskRCNNModel'> , proceso:  maskrcnn
 modelo: <class 'vision_models.XVLMModel'> , proceso:  xvlm
-{'blip': <function make_fn.<locals>._function at 0x7f48451adbc0>, 'glip': <function make_fn.<locals>._function at 0x7f43f21b8f40>, 'maskrcnn': <function make_fn.<locals>._function at 0x7f43f229bd80>, 'xvlm': <function make_fn.<locals>._function at 0x7f43501ccb80>}
+{'blip': <function make_fn.<locals>._function at 0x7f4fcd0a9a80>, 'glip': <function make_fn.<locals>._function at 0x7f4be0454ae0>, 'maskrcnn': <function make_fn.<locals>._function at 0x7f4be053bd80>, 'xvlm': <function make_fn.<locals>._function at 0x7f4b7c6e3d80>}
+Exception: can only concatenate str (not "float") to str
+Completing logging and exiting...
+Final accuracy: 0.3333333333333333

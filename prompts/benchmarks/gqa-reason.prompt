@@ -275,7 +275,9 @@ def execute_command(image)->str:
                 return "yes"
     return "no"
 
-Reason about the following query and generate the corresponding function.
+Reason about the following query and generate the corresponding function. 
 # INSERT_QUERY_HERE
+
+Please do not write ImagePatch class again, just define the new execute_command function.
 
 <think>

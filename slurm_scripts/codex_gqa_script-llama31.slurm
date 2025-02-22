@@ -19,6 +19,6 @@ export DATASET='gqa'
 export EXEC_MODE='codex'
 export CODEX_MODEL='llama31Q'
 export TRAIN=True
-export BATCHSIZE=8
+export BATCHSIZE=32
 
 srun python src/main_project_slurm.py

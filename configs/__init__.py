@@ -21,6 +21,8 @@ num_inst = int(num_inst_str) if num_inst_str not in (None, "") else None
 batch_size = os.getenv('BATCHSIZE')
 batch_size = int(batch_size) if batch_size is not None else None
 
+mult = bool(int(os.getenv('MULT', '0')))
+
 config_names = []
 
 
@@ -30,7 +32,9 @@ model_configs = {
     "llama33Q": "config_codex_llama3.3-70b",
     "deepseek-qwen7b": "config_codex_deepseek-Qwen-7b",
     "deepseek-llama8b": "config_codex_deepseek-llama-8b",
-    "deepseek-llama70b": "config_codex_deepseek-llama-70b"
+    "deepseek-llama70b": "config_codex_deepseek-llama-70b",
+    "qwen25":"config_codex_qwen2.5-7b",
+    "mixtral87b":"config_codex_mixtral8-7b"
 }
 
 # codes_dir = {
@@ -117,6 +121,13 @@ if "manual_config" in locals():
 
 if "manual_batch" in locals():
     configs.append(manual_batch)
+
+if mult:
+    man_mult = OmegaConf.create({
+                        "multiprocessing" : True
+                    })
+
+    configs.append(man_mult)
 
 # else:
 #     # The default

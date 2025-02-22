@@ -1,0 +1,43 @@
+SELECTED CONFIG FILES: gqa/general_config,config_codex_mixtral8-7b,gqa/save_codex,gqa/train
+LOADING MODEL: DISABLED
+INFO 02-22 11:41:25 __init__.py:183] Automatically detected platform cuda.
+INFO 02-22 11:41:36 config.py:526] This model supports multiple tasks: {'classify', 'embed', 'reward', 'score', 'generate'}. Defaulting to 'generate'.
+INFO 02-22 11:41:36 llm_engine.py:232] Initializing a V0 LLM engine (v0.7.1) with config: model='mistralai/Mixtral-8x7B-Instruct-v0.1', speculative_config=None, tokenizer='mistralai/Mixtral-8x7B-Instruct-v0.1', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, override_neuron_config=None, tokenizer_revision=None, trust_remote_code=False, dtype=torch.bfloat16, max_seq_len=32768, download_dir=None, load_format=LoadFormat.AUTO, tensor_parallel_size=2, pipeline_parallel_size=1, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, kv_cache_dtype=auto,  device_config=cuda, decoding_config=DecodingConfig(guided_decoding_backend='xgrammar'), observability_config=ObservabilityConfig(otlp_traces_endpoint=None, collect_model_forward_time=False, collect_model_execute_time=False), seed=0, served_model_name=mistralai/Mixtral-8x7B-Instruct-v0.1, num_scheduler_steps=1, multi_step_stream_outputs=True, enable_prefix_caching=False, chunked_prefill_enabled=False, use_async_output_proc=True, disable_mm_preprocessor_cache=False, mm_processor_kwargs=None, pooler_config=None, compilation_config={"splitting_ops":[],"compile_sizes":[],"cudagraph_capture_sizes":[256,248,240,232,224,216,208,200,192,184,176,168,160,152,144,136,128,120,112,104,96,88,80,72,64,56,48,40,32,24,16,8,4,2,1],"max_capture_size":256}, use_cached_outputs=False, 
+INFO 02-22 11:41:37 ray_distributed_executor.py:153] use_ray_spmd_worker: False
+[36m(pid=3783445)[0m INFO 02-22 11:41:42 __init__.py:183] Automatically detected platform cuda.
+INFO 02-22 11:41:45 cuda.py:235] Using Flash Attention backend.
+[36m(RayWorkerWrapper pid=3783445)[0m INFO 02-22 11:41:45 cuda.py:235] Using Flash Attention backend.
+INFO 02-22 11:41:46 utils.py:938] Found nccl from library libnccl.so.2
+INFO 02-22 11:41:46 pynccl.py:67] vLLM is using nccl==2.21.5
+[36m(RayWorkerWrapper pid=3783445)[0m INFO 02-22 11:41:46 utils.py:938] Found nccl from library libnccl.so.2
+[36m(RayWorkerWrapper pid=3783445)[0m INFO 02-22 11:41:46 pynccl.py:67] vLLM is using nccl==2.21.5
+INFO 02-22 11:41:46 custom_all_reduce_utils.py:242] reading GPU P2P access cache from /sorgin1/users/jbarrutia006/.cache/vllm/gpu_p2p_access_cache_for_2,3.json
+INFO 02-22 11:41:46 shm_broadcast.py:256] vLLM message queue communication handle: Handle(connect_ip='127.0.0.1', local_reader_ranks=[1], buffer_handle=(1, 4194304, 6, 'psm_b2690c42'), local_subscribe_port=36281, remote_subscribe_port=None)
+[36m(RayWorkerWrapper pid=3783445)[0m INFO 02-22 11:41:46 custom_all_reduce_utils.py:242] reading GPU P2P access cache from /sorgin1/users/jbarrutia006/.cache/vllm/gpu_p2p_access_cache_for_2,3.json
+INFO 02-22 11:41:46 model_runner.py:1111] Starting to load model mistralai/Mixtral-8x7B-Instruct-v0.1...
+[36m(RayWorkerWrapper pid=3783445)[0m INFO 02-22 11:41:46 model_runner.py:1111] Starting to load model mistralai/Mixtral-8x7B-Instruct-v0.1...
+INFO 02-22 11:41:47 weight_utils.py:251] Using model weights format ['*.safetensors']
+[36m(RayWorkerWrapper pid=3783445)[0m INFO 02-22 11:41:47 weight_utils.py:251] Using model weights format ['*.safetensors']
+INFO 02-22 11:41:56 model_runner.py:1116] Loading model weights took 43.5064 GB
+[36m(RayWorkerWrapper pid=3783445)[0m INFO 02-22 11:41:59 model_runner.py:1116] Loading model weights took 43.5064 GB
+[36m(pid=3783446)[0m INFO 02-22 11:41:43 __init__.py:183] Automatically detected platform cuda.
+INFO 02-22 11:42:01 fused_moe.py:640] Using configuration from /sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/vllm/model_executor/layers/fused_moe/configs/E=8,N=7168,device_name=NVIDIA_A100-SXM4-80GB.json for MoE layer.
+[36m(RayWorkerWrapper pid=3783445)[0m INFO 02-22 11:42:01 fused_moe.py:640] Using configuration from /sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/vllm/model_executor/layers/fused_moe/configs/E=8,N=7168,device_name=NVIDIA_A100-SXM4-80GB.json for MoE layer.
+[36m(RayWorkerWrapper pid=3783445)[0m INFO 02-22 11:42:04 worker.py:266] Memory profiling takes 4.70 seconds
+[36m(RayWorkerWrapper pid=3783445)[0m INFO 02-22 11:42:04 worker.py:266] the current vLLM instance can use total_gpu_memory (79.15GiB) x gpu_memory_utilization (0.90) = 71.24GiB
+[36m(RayWorkerWrapper pid=3783445)[0m INFO 02-22 11:42:04 worker.py:266] model weights take 43.51GiB; non_torch_memory takes 1.54GiB; PyTorch activation peak memory takes 3.88GiB; the rest of the memory reserved for KV Cache is 22.30GiB.
+INFO 02-22 11:42:04 worker.py:266] Memory profiling takes 4.75 seconds
+INFO 02-22 11:42:04 worker.py:266] the current vLLM instance can use total_gpu_memory (79.15GiB) x gpu_memory_utilization (0.90) = 71.24GiB
+INFO 02-22 11:42:04 worker.py:266] model weights take 43.51GiB; non_torch_memory takes 1.54GiB; PyTorch activation peak memory takes 3.88GiB; the rest of the memory reserved for KV Cache is 22.30GiB.
+INFO 02-22 11:42:04 executor_base.py:108] # CUDA blocks: 22837, # CPU blocks: 4096
+INFO 02-22 11:42:04 executor_base.py:113] Maximum concurrency for 32768 tokens per request: 11.15x
+INFO 02-22 11:42:05 model_runner.py:1435] Capturing cudagraphs for decoding. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI. If out-of-memory error occurs during cudagraph capture, consider decreasing `gpu_memory_utilization` or switching to eager mode. You can also reduce the `max_num_seqs` as needed to decrease memory usage.
+[36m(RayWorkerWrapper pid=3783445)[0m INFO 02-22 11:42:06 model_runner.py:1435] Capturing cudagraphs for decoding. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI. If out-of-memory error occurs during cudagraph capture, consider decreasing `gpu_memory_utilization` or switching to eager mode. You can also reduce the `max_num_seqs` as needed to decrease memory usage.
+[36m(RayWorkerWrapper pid=3783445)[0m INFO 02-22 11:42:24 custom_all_reduce.py:224] Registering 2275 cuda graph addresses
+INFO 02-22 11:42:26 custom_all_reduce.py:224] Registering 2275 cuda graph addresses
+INFO 02-22 11:42:26 model_runner.py:1563] Graph capturing finished in 20 secs, took 1.62 GiB
+INFO 02-22 11:42:26 llm_engine.py:429] init engine (profile, create kv cache, warmup model) took 27.00 seconds
+[36m(RayWorkerWrapper pid=3783445)[0m INFO 02-22 11:42:26 model_runner.py:1563] Graph capturing finished in 20 secs, took 1.62 GiB
+modelo: <class 'vision_models.mixtral87B'> , proceso:  mixtral87B
+{'mixtral87B': <function make_fn.<locals>._function at 0x7f5ca04eccc0>}
+Final accuracy: 0.17682539682539683

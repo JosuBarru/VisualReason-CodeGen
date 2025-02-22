@@ -1285,65 +1285,51 @@ class CodexModel(BaseModel):
 
 class codellama(CodexModel):
     name = 'codellama'
-    max_batch_size=24 
+    max_batch_size=64 
     def __init__(self, gpu_number=0):
         super().__init__(gpu_number=gpu_number)
-        from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig, pipeline
         model_name = config.codex.model_name
 
         if model_name.startswith('/'):
             assert os.path.exists(model_name), \
                 f'Model path {model_name} does not exist. If you use the model ID it will be downloaded automatically'
         else:
-            assert model_name in ['meta-llama/Meta-Llama-3.1-8B-Instruct']
+            assert model_name in ['codellama/CodeLlama-7b-Instruct-hf']
+        
+        from vllm import LLM, SamplingParams
+        self.llm = LLM(model_name)
+        self.sampling_params = SamplingParams(max_tokens=320)
 
-
-
-        self.tokenizer = AutoTokenizer.from_pretrained(model_name)
-        self.tokenizer.pad_token = self.tokenizer.eos_token
-        self.tokenizer.padding_side = 'left'
-
-
-        ##### Usar         attn_implementation="sdpa", SOLO EN A100 o V100
-
-        self.model = AutoModelForCausalLM.from_pretrained(
-            model_name,
-            #torch_dtype=torch.float16,
-            device_map="auto"
-        )
-
-        self.model.eval()
     def run_code_Quantized_llama(self, prompt):
-        """Generates text from a given prompt using multi-GPU inference."""
-        inputs= self.tokenizer(prompt, return_tensors="pt", padding=True, truncation=True)
-        input_ids = inputs["input_ids"].to("cuda")
-        attention_mask = inputs["attention_mask"].to("cuda")
-
-        with torch.no_grad():
-            generated_ids = self.model.generate(input_ids, attention_mask=attention_mask, max_new_tokens=512)
-        generated_ids = generated_ids[:, input_ids.shape[-1]:]
-        generated_text = [self.tokenizer.decode(gen_id, skip_special_tokens=True) for gen_id in generated_ids]
+        """Generates text from a given prompt using vLLM offline inference."""
+        # Call the generate method on the LLM instance.
+        results = self.llm.generate(prompt, self.sampling_params)
+        # Extract generated text from each result.
+        generated_text = [result.outputs[0].text for result in results]
+        # Optionally post-process the generated text.
         generated_text = [text.split('\n\n')[0] for text in generated_text]
-
-        torch.cuda.empty_cache()  # Free unused GPU memory
         return generated_text
 
     def forward_(self, extended_prompt):
         """Handles batch processing for large inputs."""
-        if len(extended_prompt) > self.max_batch_size:
-            response = []
-            for i in range(0, len(extended_prompt), self.max_batch_size):
-                response += self.forward_(extended_prompt[i:i + self.max_batch_size])
-            return response
-        
-        with torch.no_grad():
+        try:
+            if len(extended_prompt) > self.max_batch_size:
+                response = []
+                for i in range(0, len(extended_prompt), self.max_batch_size):
+                    response += self.forward_(extended_prompt[i:i + self.max_batch_size])
+                return response
+
             response = self.run_code_Quantized_llama(extended_prompt)
-        
-        return response
+            return response
+        except Exception as e:
+            print(f"Error: {e}")
+            logger.error(f"Error {e}")
+            # Optionally, re-raise the exception if you want it to propagate:
+            raise
     
 class codeLlamaQ(CodexModel):
     name = 'codellama_Q'
-    max_batch_size=24
+    max_batch_size=64
     def __init__(self, gpu_number=0):
         super().__init__(gpu_number=gpu_number)
         from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig, pipeline
@@ -1412,7 +1398,7 @@ class codeLlamaQ(CodexModel):
 
 class llama31Q(CodexModel):
     name = 'llama31Q'
-    max_batch_size=24 ##Cambiar TXORONPIO
+    max_batch_size=64 
     def __init__(self, gpu_number=0):
         super().__init__(gpu_number=gpu_number)
         from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig, pipeline
@@ -1469,7 +1455,7 @@ class llama31Q(CodexModel):
         attention_mask = inputs["attention_mask"].to("cuda")
 
         with torch.no_grad():
-            generated_ids = self.model.generate(input_ids, attention_mask=attention_mask, max_new_tokens=512)
+            generated_ids = self.model.generate(input_ids, attention_mask=attention_mask, max_new_tokens=320)
         generated_ids = generated_ids[:, input_ids.shape[-1]:]
         generated_text = [self.tokenizer.decode(gen_id, skip_special_tokens=True) for gen_id in generated_ids]
         generated_text = [text.split('\n\n')[0] for text in generated_text]
@@ -1492,7 +1478,7 @@ class llama31Q(CodexModel):
 
 # class llama31Q(CodexModel):
 #     name = 'llama31Q'
-#     max_batch_size = 24  # TXORONPIO
+#     max_batch_size = 64  # TXORONPIO
     
 #     def __init__(self, gpu_number=0):
 #         super().__init__(gpu_number=gpu_number)
@@ -1536,7 +1522,7 @@ class llama31Q(CodexModel):
 
 class llama33Q(CodexModel):
     name = 'llama33Q'
-    max_batch_size=24
+    max_batch_size=64
     def __init__(self, gpu_number=0):
         super().__init__(gpu_number=gpu_number)
         from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig, pipeline
@@ -1590,118 +1576,103 @@ class llama33Q(CodexModel):
 
 class mixtral87B(CodexModel):
     name = 'mixtral87B'
-    max_batch_size=24
+    max_batch_size=64
     def __init__(self, gpu_number=0):
         super().__init__(gpu_number=gpu_number)
-        from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig, pipeline
         model_name = config.codex.model_name
 
         if model_name.startswith('/'):
             assert os.path.exists(model_name), \
                 f'Model path {model_name} does not exist. If you use the model ID it will be downloaded automatically'
         else:
-            assert model_name in ['meta-llama/Llama-3.3-70B-Instruct']
+            assert model_name in ['mistralai/Mixtral-8x7B-Instruct-v0.1']
+        logger.info("Before loading model")
 
-        quantization_config = BitsAndBytesConfig(load_in_4bit=True,bnb_4bit_compute_dtype=torch.float16)
-        self.tokenizer = AutoTokenizer.from_pretrained(model_name)
-        self.tokenizer.pad_token = self.tokenizer.eos_token
-        self.tokenizer.padding_side = 'left'
+        import ray
+        ray.init()
 
-        ## Modelu preentrenatuaren Tokia 
-        self.model = AutoModelForCausalLM.from_pretrained(
-            model_name, 
-            quantization_config = quantization_config,
-            device_map='auto'
-        )
-        self.model.eval()
+        from vllm import LLM, SamplingParams
+        self.llm = LLM(model_name, tensor_parallel_size=2, distributed_executor_backend="ray")
+        self.sampling_params = SamplingParams(max_tokens=440)
+        logger.info("Model loaded")
 
     def run_code_Quantized_llama(self, prompt):
-        """Generates text from a given prompt using multi-GPU inference."""
-        input_ids = self.tokenizer(prompt, return_tensors="pt", padding=True, truncation=True)["input_ids"].to("cuda")
-
-        with torch.no_grad():
-            generated_ids = self.model.generate(input_ids, max_new_tokens=512)
-        generated_ids = generated_ids[:, input_ids.shape[-1]:]
-        generated_text = [self.tokenizer.decode(gen_id, skip_special_tokens=True) for gen_id in generated_ids]
+        """Generates text from a given prompt using vLLM offline inference."""
+        # Call the generate method on the LLM instance.
+        results = self.llm.generate(prompt, self.sampling_params)
+        # Extract generated text from each result.
+        generated_text = [result.outputs[0].text for result in results]
+        # Optionally post-process the generated text.
         generated_text = [text.split('\n\n')[0] for text in generated_text]
-
-        torch.cuda.empty_cache()  # Free unused GPU memory
         return generated_text
 
     def forward_(self, extended_prompt):
         """Handles batch processing for large inputs."""
-        if len(extended_prompt) > self.max_batch_size:
-            response = []
-            for i in range(0, len(extended_prompt), self.max_batch_size):
-                response += self.forward_(extended_prompt[i:i + self.max_batch_size])
-            return response
-        
-        with torch.no_grad():
-            response = self.run_code_Quantized_llama(extended_prompt)
-        
-        return response
+        try:
+            if len(extended_prompt) > self.max_batch_size:
+                response = []
+                for i in range(0, len(extended_prompt), self.max_batch_size):
+                    response += self.forward_(extended_prompt[i:i + self.max_batch_size])
+                return response
 
-class qwen(CodexModel):
-    name = 'llama33Q'
-    max_batch_size=24
+            response = self.run_code_Quantized_llama(extended_prompt)
+            return response
+        except Exception as e:
+            print(f"Error: {e}")
+            logger.error(f"Error {e}")
+
+class Qwen257b(CodexModel):
+    name = 'Qwen257b'
+    max_batch_size = 64
+
     def __init__(self, gpu_number=0):
         super().__init__(gpu_number=gpu_number)
-        from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig, pipeline
         model_name = config.codex.model_name
 
         if model_name.startswith('/'):
-            assert os.path.exists(model_name), \
-                f'Model path {model_name} does not exist. If you use the model ID it will be downloaded automatically'
+            assert os.path.exists(model_name), (
+                f'Model path {model_name} does not exist. '
+                'If you use the model ID it will be downloaded automatically'
+            )
         else:
-            assert model_name in ['meta-llama/Llama-3.3-70B-Instruct']
+            assert model_name in ['Qwen/Qwen2.5-Math-7B']
 
-        quantization_config = BitsAndBytesConfig(load_in_4bit=True,bnb_4bit_compute_dtype=torch.float16)
-        self.tokenizer = AutoTokenizer.from_pretrained(model_name)
-        self.tokenizer.pad_token = self.tokenizer.eos_token
-        self.tokenizer.padding_side = 'left'
+        # Initialize the vLLM LLM instance for offline inference.
+        from vllm import LLM, SamplingParams
+        self.llm = LLM(model_name)
+        self.sampling_params = SamplingParams(max_tokens=320)
 
-        ## Modelu preentrenatuaren Tokia 
-        self.model = AutoModelForCausalLM.from_pretrained(
-            model_name, 
-            quantization_config = quantization_config,
-            device_map='auto'
-        )
-        self.model.eval()
-        
     def run_code_Quantized_llama(self, prompt):
-        """Generates text from a given prompt using multi-GPU inference."""
-        input_ids = self.tokenizer(prompt, return_tensors="pt", padding=True, truncation=True)["input_ids"].to("cuda")
-
-        with torch.no_grad():
-            generated_ids = self.model.generate(input_ids, max_new_tokens=512)
-        generated_ids = generated_ids[:, input_ids.shape[-1]:]
-        generated_text = [self.tokenizer.decode(gen_id, skip_special_tokens=True) for gen_id in generated_ids]
+        """Generates text from a given prompt using vLLM offline inference."""
+        # Call the generate method on the LLM instance.
+        results = self.llm.generate(prompt, self.sampling_params)
+        # Extract generated text from each result.
+        generated_text = [result.outputs[0].text for result in results]
+        # Optionally post-process the generated text.
         generated_text = [text.split('\n\n')[0] for text in generated_text]
-
-        torch.cuda.empty_cache()  # Free unused GPU memory
         return generated_text
 
     def forward_(self, extended_prompt):
         """Handles batch processing for large inputs."""
-        if len(extended_prompt) > self.max_batch_size:
-            response = []
-            for i in range(0, len(extended_prompt), self.max_batch_size):
-                response += self.forward_(extended_prompt[i:i + self.max_batch_size])
-            return response
-        
-        with torch.no_grad():
-            response = self.run_code_Quantized_llama(extended_prompt)
-        
-        return response
+        try:
+            if len(extended_prompt) > self.max_batch_size:
+                response = []
+                for i in range(0, len(extended_prompt), self.max_batch_size):
+                    response += self.forward_(extended_prompt[i:i + self.max_batch_size])
+                return response
 
+            response = self.run_code_Quantized_llama(extended_prompt)
+            return response
+        except Exception as e:
+            print(f"Error: {e}")
+            logger.error(f"Error {e}")
 
 
 class deepSeekQwen7b(CodexModel):
     name = 'deepSeekQwen7b'
-    max_batch_size=24
+    max_batch_size=64
     def __init__(self, gpu_number=0):
         super().__init__(gpu_number=gpu_number)
-        from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig, pipeline
         model_name = config.codex.model_name
 
         if model_name.startswith('/'):
@@ -1710,62 +1681,39 @@ class deepSeekQwen7b(CodexModel):
         else:
             assert model_name in ['deepseek-ai/DeepSeek-R1-Distill-Qwen-7B']
 
-        self.tokenizer = AutoTokenizer.from_pretrained(model_name)
-        self.tokenizer.pad_token = self.tokenizer.eos_token
-        self.tokenizer.padding_side = 'left'
-
-        # quantization_config = BitsAndBytesConfig(load_in_4bit=True,bnb_4bit_compute_dtype=torch.float16)
-        # self.model = AutoModelForCausalLM.from_pretrained(
-        #     model_name, 
-        #     quantization_config = quantization_config,
-        #     device_map='auto'
-        # )
-
-
-        self.model = AutoModelForCausalLM.from_pretrained(
-            model_name,
-            #torch_dtype=torch.float16,
-            device_map="auto"
-        )
-
-
-        self.model.eval()
+        from vllm import LLM, SamplingParams
+        self.llm = LLM(model_name)
+        self.sampling_params = SamplingParams(max_tokens=2000)
         
 
     def run_code_Quantized_llama(self, prompt):
-        """Generates text from a given prompt using multi-GPU inference."""
-        inputs= self.tokenizer(prompt, return_tensors="pt", padding=True, truncation=True)
-        input_ids = inputs["input_ids"].to("cuda")
-        attention_mask = inputs["attention_mask"].to("cuda")
-
-        with torch.no_grad():
-            generated_ids = self.model.generate(input_ids, attention_mask=attention_mask, max_new_tokens=2000)
-        generated_ids = generated_ids[:, input_ids.shape[-1]:]
-        generated_text = [self.tokenizer.decode(gen_id, skip_special_tokens=True) for gen_id in generated_ids]
-        generated_text = [text for text in generated_text]
-
-        torch.cuda.empty_cache()  # Free unused GPU memory
+        """Generates text from a given prompt using vLLM offline inference."""
+        # Call the generate method on the LLM instance.
+        results = self.llm.generate(prompt, self.sampling_params)
+        # Extract generated text from each result.
+        generated_text = [result.outputs[0].text for result in results]
         return generated_text
 
     def forward_(self, extended_prompt):
         """Handles batch processing for large inputs."""
-        if len(extended_prompt) > self.max_batch_size:
-            response = []
-            for i in range(0, len(extended_prompt), self.max_batch_size):
-                response += self.forward_(extended_prompt[i:i + self.max_batch_size])
-            return response
-        
-        with torch.no_grad():
+        try:
+            if len(extended_prompt) > self.max_batch_size:
+                response = []
+                for i in range(0, len(extended_prompt), self.max_batch_size):
+                    response += self.forward_(extended_prompt[i:i + self.max_batch_size])
+                return response
+
             response = self.run_code_Quantized_llama(extended_prompt)
-        
-        return response
+            return response
+        except Exception as e:
+            print(f"Error: {e}")
+            logger.error(f"Error {e}")
 
 class deepSeekLlama8b(CodexModel):
     name = 'deepSeekLlama8b'
-    max_batch_size=24
+    max_batch_size=64
     def __init__(self, gpu_number=0):
         super().__init__(gpu_number=gpu_number)
-        from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig, pipeline
         model_name = config.codex.model_name
 
         if model_name.startswith('/'):
@@ -1774,59 +1722,38 @@ class deepSeekLlama8b(CodexModel):
         else:
             assert model_name in ['deepseek-ai/DeepSeek-R1-Distill-Llama-8B']
 
-        self.tokenizer = AutoTokenizer.from_pretrained(model_name)
-        self.tokenizer.pad_token = self.tokenizer.eos_token
-        self.tokenizer.padding_side = 'left'
-
-        # quantization_config = BitsAndBytesConfig(load_in_4bit=True,bnb_4bit_compute_dtype=torch.float16)
-        # self.model = AutoModelForCausalLM.from_pretrained(
-        #     model_name, 
-        #     quantization_config = quantization_config,
-        #     device_map='auto'
-        # )
-
-
-        self.model = AutoModelForCausalLM.from_pretrained(
-            model_name,
-            #torch_dtype=torch.float16,
-            device_map="auto"
-        )
-
-
-        self.model.eval()
+        # Initialize the vLLM LLM instance for offline inference.
+        from vllm import LLM, SamplingParams
+        self.llm = LLM(model_name)
+        self.sampling_params = SamplingParams(max_tokens=2000)
         
 
     def run_code_Quantized_llama(self, prompt):
-        """Generates text from a given prompt using multi-GPU inference."""
-        inputs= self.tokenizer(prompt, return_tensors="pt", padding=True, truncation=True)
-        input_ids = inputs["input_ids"].to("cuda")
-        attention_mask = inputs["attention_mask"].to("cuda")
-
-        with torch.no_grad():
-            generated_ids = self.model.generate(input_ids, attention_mask=attention_mask, max_new_tokens=2000)
-        generated_ids = generated_ids[:, input_ids.shape[-1]:]
-        generated_text = [self.tokenizer.decode(gen_id, skip_special_tokens=True) for gen_id in generated_ids]
-        generated_text = [text for text in generated_text]
-
-        torch.cuda.empty_cache()  # Free unused GPU memory
+        """Generates text from a given prompt using vLLM offline inference."""
+        # Call the generate method on the LLM instance.
+        results = self.llm.generate(prompt, self.sampling_params)
+        # Extract generated text from each result.
+        generated_text = [result.outputs[0].text for result in results]
         return generated_text
 
     def forward_(self, extended_prompt):
         """Handles batch processing for large inputs."""
-        if len(extended_prompt) > self.max_batch_size:
-            response = []
-            for i in range(0, len(extended_prompt), self.max_batch_size):
-                response += self.forward_(extended_prompt[i:i + self.max_batch_size])
-            return response
-        
-        with torch.no_grad():
+        try:
+            if len(extended_prompt) > self.max_batch_size:
+                response = []
+                for i in range(0, len(extended_prompt), self.max_batch_size):
+                    response += self.forward_(extended_prompt[i:i + self.max_batch_size])
+                return response
+
             response = self.run_code_Quantized_llama(extended_prompt)
-        
-        return response
+            return response
+        except Exception as e:
+            print(f"Error: {e}")
+            logger.error(f"Error {e}")
 
 class deepSeekLlama70b(CodexModel):
     name = 'deepSeekLlama70b'
-    max_batch_size=24
+    max_batch_size=64
     def __init__(self, gpu_number=0):
         super().__init__(gpu_number=gpu_number)
         from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig, pipeline

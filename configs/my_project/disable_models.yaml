@@ -13,7 +13,7 @@ load_models:                                        # Which pretrained models to
     saliency: False
     xvlm: False # E* : Default -> True
     codex: False # E* : Default -> True
-    codellama: False
+    #codellama: False
 
 save: False
 save_codex: True

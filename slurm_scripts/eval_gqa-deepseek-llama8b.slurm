@@ -18,6 +18,8 @@ export LOAD_MODELS=1
 export DATASET='gqa'
 export EXEC_MODE='cache'
 export TRAIN=True
-export CODE='codex_results_deepSeekLlama8b-post.csv'
+export CODE='deepSeekLlama8b-post.csv'
+export BATCHSIZE=32
+
 
 srun python src/main_project_slurm.py

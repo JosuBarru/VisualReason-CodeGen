@@ -1,2 +1,4 @@
 SELECTED CONFIG FILES: gqa/general_config,config_codex_deepseek-llama-8b,gqa/save_codex,gqa/train
 LOADING MODEL: DISABLED
+INFO 02-22 13:44:39 __init__.py:183] Automatically detected platform cuda.
+Final accuracy: 0.17682539682539683

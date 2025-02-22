@@ -24,7 +24,7 @@ import logging
 logging.basicConfig(level=logging.INFO)  
 logger = logging.getLogger(__name__)
 logging.getLogger("maskrcnn_benchmark").setLevel(logging.WARNING)
-
+logging.getLogger("vllm").disabled = True
 
 # os.environ['CUDA_VISIBLE_DEVICES'] = '0,1,2,3'
 # os.environ['CODEX_QUANTIZED'] = '1'
@@ -70,7 +70,7 @@ def run_program(parameters, queues_in_, input_type_, retrying=False):
                   f'{input_type_}, possible_answers, query, ' \
                   f'ImagePatch, VideoSegment, ' \
                   'llm_query, bool_to_yesno, distance, best_image_match):\n'
-    code = code_header + code
+    code = code_header + str(code)
 
     try:
         exec(compile(code, 'Codex', 'exec'), globals())
@@ -174,12 +174,12 @@ def save_results(all_data,dataset):
         df.to_csv(results_dir / filename, header=True, index=False, encoding='utf-8')
 
 def main():
+
+    logger.info("Starting main")
+
     mp.set_start_method('spawn')
 
     from vision_processes import queues_in, finish_all_consumers, forward, manager
-    
-    from datasets import get_dataset
-    dataset = get_dataset(config.dataset)
 
     logger.info("Models successfully loaded")
 
@@ -214,10 +214,12 @@ def main():
         wandb.init(project="viper", config=OmegaConf.to_container(config))
         # log the prompt file
         wandb.save(config.codex.prompt)
-    # dataset = get_dataset(config.dataset)
+
+    from datasets import get_dataset
+    dataset = get_dataset(config.dataset)
+
     logger.info("Dataset loaded")
-    # with open(config.codex.prompt) as f:
-    #     base_prompt = f.read().strip()
+
     with open(config.codex.prompt) as f:
         base_prompt = f.read().strip()
 
