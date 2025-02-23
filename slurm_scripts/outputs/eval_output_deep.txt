@@ -45,3 +45,33 @@ Found a city in the image. The picture is inside a city.
 Error in xvlm model: 'int' object is not callable
 Available women:
 1. Patch 1: girl (yes)
+Enter the number of the woman (or 0 to choose based on prominence): Error in xvlm model: 'ellipsis' object has no attribute 'lower'
+Error in xvlm model: pre_caption yields invalid text
+Current obj: ImagePatch(379, 294, 471, 374)
+Bun center: 186.5 125.0
+Obj center: 425.0 334.0
+Current obj: ImagePatch(298, 329, 381, 374)
+Bun center: 186.5 125.0
+Obj center: 339.5 351.5
+Current obj: ImagePatch(0, 0, 500, 374)
+Bun center: 186.5 125.0
+Obj center: 250.0 187.0
+Current obj: ImagePatch(356, 219, 450, 303)
+Bun center: 186.5 125.0
+Obj center: 403.0 261.0
+Current obj: ImagePatch(425, 0, 500, 200)
+Bun center: 186.5 125.0
+Obj center: 462.5 100.0
+Desk found on top of laptop
+Desk found on top of laptop
+Error in xvlm model: pre_caption yields invalid text
+Error in xvlm model: 'ellipsis' object has no attribute 'lower'
+Checking for books...
+Checking for mugs...
+Checking for phones...
+phones exists. Checking if it's on the table.
+Animal match: dog
+Error in xvlm model: pre_caption yields invalid text
+Error in xvlm model: 'int' object is not callable
+What material do you think the sidewalk is made of? Choose from: Bricks, Concrete, Asphalt, Grass: Error in glip model: text input must be of type `str` (single example), `List[str]` (batch or single pretokenized example) or `List[List[str]]` (batch of pretokenized examples).
+Final accuracy: 0.3796031746031746

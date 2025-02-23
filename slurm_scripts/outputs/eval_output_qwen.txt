@@ -1,7 +1,5 @@
 SELECTED CONFIG FILES: gqa/general_config,gqa/train
 LOADING MODEL: ENABLED
-SELECTED CONFIG FILES: gqa/general_config,gqa/train
-LOADING MODEL: ENABLED
 modelo: <class 'vision_models.BLIPModel'> , proceso:  blip
 VISION BACKBONE USE GRADIENT CHECKPOINTING:  False
 LANGUAGE BACKBONE USE GRADIENT CHECKPOINTING:  False
@@ -16,22 +14,7 @@ EARLY FUSION ON, USING MHA-B
 modelo: <class 'vision_models.GLIPModel'> , proceso:  glip
 modelo: <class 'vision_models.MaskRCNNModel'> , proceso:  maskrcnn
 modelo: <class 'vision_models.XVLMModel'> , proceso:  xvlm
-{'blip': <function make_fn.<locals>._function at 0x7fb74da91b20>, 'glip': <function make_fn.<locals>._function at 0x7fb4e110cb80>, 'maskrcnn': <function make_fn.<locals>._function at 0x7fb4e11f3f60>, 'xvlm': <function make_fn.<locals>._function at 0x7fb4e0167c40>}
-modelo: <class 'vision_models.BLIPModel'> , proceso:  blip
-VISION BACKBONE USE GRADIENT CHECKPOINTING:  False
-LANGUAGE BACKBONE USE GRADIENT CHECKPOINTING:  False
-EARLY FUSION ON, USING MHA-B
-EARLY FUSION ON, USING MHA-B
-EARLY FUSION ON, USING MHA-B
-EARLY FUSION ON, USING MHA-B
-EARLY FUSION ON, USING MHA-B
-EARLY FUSION ON, USING MHA-B
-EARLY FUSION ON, USING MHA-B
-EARLY FUSION ON, USING MHA-B
-modelo: <class 'vision_models.GLIPModel'> , proceso:  glip
-modelo: <class 'vision_models.MaskRCNNModel'> , proceso:  maskrcnn
-modelo: <class 'vision_models.XVLMModel'> , proceso:  xvlm
-{'blip': <function make_fn.<locals>._function at 0x7f5e330adb20>, 'glip': <function make_fn.<locals>._function at 0x7f593e8d0b80>, 'maskrcnn': <function make_fn.<locals>._function at 0x7f594a1cff60>, 'xvlm': <function make_fn.<locals>._function at 0x7f593e773c40>}
+{'blip': <function make_fn.<locals>._function at 0x7fc3ffb8db20>, 'glip': <function make_fn.<locals>._function at 0x7fc13c1dcb80>, 'maskrcnn': <function make_fn.<locals>._function at 0x7fc13d2c7f60>, 'xvlm': <function make_fn.<locals>._function at 0x7fc03e1bb920>}
 5 100
 159 100
 5 96

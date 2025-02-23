@@ -19,6 +19,6 @@ export DATASET='gqa'
 export EXEC_MODE='cache'
 export TRAIN=True
 export CODE='mixtral87B.csv'
-export BATCHSIZE=32
+export BATCHSIZE=1
 
 srun python src/main_project_slurm.py

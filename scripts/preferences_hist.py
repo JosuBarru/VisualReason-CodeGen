@@ -39,8 +39,8 @@ def get_classification_bits(answer, accuracy):
     return [0, 0, 1, 0]
 
 def main():
-    input_folder = "/sorgin1/users/jbarrutia006/viper/results/gqa/all/"
-    output_folder = "/sorgin1/users/jbarrutia006/viper/results/gqa/metrics/"
+    input_folder = "/sorgin1/users/jbarrutia006/viper/results/gqa/all/train"
+    output_folder = "/sorgin1/users/jbarrutia006/viper/results/gqa/metrics/train"
     os.makedirs(output_folder, exist_ok=True)
     
     csv_files = get_csv_files(input_folder)
@@ -77,37 +77,60 @@ def main():
     for bits in instance_classifications.values():
         bits_tuple = tuple(bits)
         combination_counts[bits_tuple] = combination_counts.get(bits_tuple, 0) + 1
-        
-    # Construir la tabla de resultados. Se mostrará un tick (✓) si la categoría está presente.
+
+    # Definir el orden fijo de las combinaciones de ticks (según la estructura de la tabla)
+    ordered_combinations = [
+        (0, 0, 0, 1),  # Solo Correctos
+        (1, 0, 0, 1),  # Error Codigo y Correctos
+        (0, 1, 0, 1),  # Error Ejecución y Correctos
+        (1, 1, 0, 1),  # Error Codigo, Error Ejecución y Correctos
+        (0, 0, 1, 1),  # Error Sem/Inf y Correctos
+        (1, 0, 1, 1),  # Error Codigo, Error Sem/Inf y Correctos
+        (0, 1, 1, 1),  # Error Ejecución, Error Sem/Inf y Correctos
+        (1, 1, 1, 1),   # Todos los errores/correctos marcados
+
+        (1, 0, 0, 0),  # Solo Error Codigo
+        (0, 1, 0, 0),  # Solo Error Ejecución
+        (1, 1, 0, 0),  # Error Codigo y Error Ejecución
+        (0, 0, 1, 0),  # Solo Error Sem/Inf
+        (1, 0, 1, 0),  # Error Codigo y Error Sem/Inf
+        (0, 1, 1, 0),  # Error Ejecución y Error Sem/Inf
+        (1, 1, 1, 0)  # Error Codigo, Error Ejecución y Error Sem/Inf
+    ]
+    
+    # Construir la tabla de resultados siguiendo el orden de ticks definido
     data = []
-    for bits_tuple, count in combination_counts.items():
+    for comb in ordered_combinations:
+        count = combination_counts.get(comb, 0)
         row = {
-            "Error Codigo": "✓" if bits_tuple[0] == 1 else "",
-            "Error Ejecución": "✓" if bits_tuple[1] == 1 else "",
-            "Error Sem/Inf": "✓" if bits_tuple[2] == 1 else "",
-            "Correctos": "✓" if bits_tuple[3] == 1 else "",
-            "Numero": count
+            "Error Codigo": "✓" if comb[0] == 1 else "",
+            "Error Ejecución": "✓" if comb[1] == 1 else "",
+            "Error Sem/Inf": "✓" if comb[2] == 1 else "",
+            "Correctos": "✓" if comb[3] == 1 else "",
+            "NUMERO": count
         }
         data.append(row)
     
     df_results = pd.DataFrame(data)
-    # Ordenar la tabla (por ejemplo, de mayor a menor número de instancias)
-    df_results = df_results.sort_values(by="Numero", ascending=False)
     
-    total_instances = sum(combination_counts.values())
+    total_instances = sum(row["NUMERO"] for row in data)
     total_row = {
         "Error Codigo": "TOTAL",
         "Error Ejecución": "",
         "Error Sem/Inf": "",
         "Correctos": "",
-        "Numero": total_instances
+        "NUMERO": total_instances
     }
-    # Agregar la fila de totales
-    df_results = df_results.append(total_row, ignore_index=True)
+    # Agregar la fila de totales usando pd.concat (df.append está deprecado)
+    df_results = pd.concat([df_results, pd.DataFrame([total_row])], ignore_index=True)
     
     output_file = os.path.join(output_folder, "combined_metrics.csv")
     df_results.to_csv(output_file, index=False)
     print(f"Resultados guardados en: {output_file}")
+
+    html_output_file = os.path.join(output_folder, "combined_metrics.html")
+    df_results.to_html(html_output_file, index=False)
+    print(f"\nTabla HTML guardada en: {html_output_file}")
 
 if __name__ == "__main__":
     main()

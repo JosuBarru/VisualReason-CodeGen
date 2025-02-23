@@ -50,4 +50,4 @@ def process_csv(input_file, output_file):
             writer.writerow(row)
 
 # Uso
-process_csv("deepSeekLlama8b.csv", "deepSeekLlama8b-post.csv")
+process_csv("deepSeekQwen7b.csv", "deepSeekQwen7b-post.csv")
