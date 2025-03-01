@@ -14,4 +14,92 @@ EARLY FUSION ON, USING MHA-B
 modelo: <class 'vision_models.GLIPModel'> , proceso:  glip
 modelo: <class 'vision_models.MaskRCNNModel'> , proceso:  maskrcnn
 modelo: <class 'vision_models.XVLMModel'> , proceso:  xvlm
-{'blip': <function make_fn.<locals>._function at 0x7f7585db1b20>, 'glip': <function make_fn.<locals>._function at 0x7f73da3b4b80>, 'maskrcnn': <function make_fn.<locals>._function at 0x7f73db49bf60>, 'xvlm': <function make_fn.<locals>._function at 0x7f731432b920>}
+{'blip': <function make_fn.<locals>._function at 0x7f30268c9940>, 'glip': <function make_fn.<locals>._function at 0x7f2c326149a0>, 'maskrcnn': <function make_fn.<locals>._function at 0x7f2c35f03e20>, 'xvlm': <function make_fn.<locals>._function at 0x7f2bd8377740>}
+Bag 126.0, Chair 187.5
+lang english
+Error in glip model: text input must be of type `str` (single example), `List[str]` (batch or single pretokenized example) or `List[List[str]]` (batch of pretokenized examples).
+Glass centers: (439.5, 189.5)
+2
+Error in xvlm model: You should supply an encoding or a list of encodings to this method that includes input_ids, but you provided []
+no
+yes
+Error in xvlm model: You should supply an encoding or a list of encodings to this method that includes input_ids, but you provided []
+1024 71
+365 500
+is on his head
+Error in glip model: text input must be of type `str` (single example), `List[str]` (batch or single pretokenized example) or `List[List[str]]` (batch of pretokenized examples).
+clothes
+Error in glip model: Execution timed out after 5 minutes
+mountain
+Error in blip model: 'NoneType' object has no attribute 'lower'
+Error in xvlm model: You should supply an encoding or a list of encodings to this method that includes input_ids, but you provided []
+8
+Error in xvlm model: 'int' object is not callable
+['black']
+jacket
+Error in xvlm model: 'int' object is not callable
+tensor([[[0.3647, 0.4196, 0.3216,  ..., 0.0000, 0.0078, 0.0039],
+         [0.4118, 0.3490, 0.2941,  ..., 0.0078, 0.0000, 0.0196],
+         [0.3882, 0.3176, 0.3216,  ..., 0.0078, 0.0039, 0.0039],
+         ...,
+         [0.6510, 0.6510, 0.6510,  ..., 0.8235, 0.8196, 0.8000],
+         [0.6392, 0.6510, 0.6549,  ..., 0.7882, 0.7882, 0.7961],
+         [0.6392, 0.6510, 0.6510,  ..., 0.8039, 0.8039, 0.8078]],
+
+        [[0.3216, 0.3843, 0.3098,  ..., 0.0157, 0.0275, 0.0235],
+         [0.3922, 0.3412, 0.3020,  ..., 0.0431, 0.0235, 0.0314],
+         [0.3569, 0.2902, 0.3176,  ..., 0.0000, 0.0000, 0.0000],
+         ...,
+         [0.7961, 0.7961, 0.7961,  ..., 0.9216, 0.9176, 0.9098],
+         [0.7843, 0.7961, 0.8000,  ..., 0.8941, 0.8980, 0.9059],
+         [0.7843, 0.7922, 0.7922,  ..., 0.9098, 0.9137, 0.9176]],
+
+        [[0.2431, 0.3176, 0.2431,  ..., 0.0118, 0.0118, 0.0000],
+         [0.3137, 0.2588, 0.2157,  ..., 0.0314, 0.0000, 0.0039],
+         [0.2824, 0.2157, 0.2353,  ..., 0.0118, 0.0078, 0.0000],
+         ...,
+         [0.8275, 0.8275, 0.8275,  ..., 0.9412, 0.9373, 0.9255],
+         [0.8157, 0.8314, 0.8353,  ..., 0.9216, 0.9137, 0.9216],
+         [0.8196, 0.8392, 0.8392,  ..., 0.9373, 0.9294, 0.9333]]])
+2
+boy patch x 78.0
+Error in maskrcnn model: Execution timed out after 5 minutes
+Error in xvlm model: You should supply an encoding or a list of encodings to this method that includes input_ids, but you provided []
+Error in xvlm model: 'tuple' object has no attribute 'lower'
+Error in xvlm model: You should supply an encoding or a list of encodings to this method that includes input_ids, but you provided []
+Error in xvlm model: You should supply an encoding or a list of encodings to this method that includes input_ids, but you provided []
+Is the instrument leaning?Error in glip model: text input must be of type `str` (single example), `List[str]` (batch or single pretokenized example) or `List[List[str]]` (batch of pretokenized examples).
+Error in glip model: text input must be of type `str` (single example), `List[str]` (batch or single pretokenized example) or `List[List[str]]` (batch of pretokenized examples).
+more than one object
+Error in xvlm model: pre_caption yields invalid text
+False True
+Error in xvlm model: 'int' object is not callable
+Error in xvlm model: You should supply an encoding or a list of encodings to this method that includes input_ids, but you provided []
+Error in xvlm model: You should supply an encoding or a list of encodings to this method that includes input_ids, but you provided []
+92.0
+Error in glip model: text input must be of type `str` (single example), `List[str]` (batch or single pretokenized example) or `List[List[str]]` (batch of pretokenized examples).
+Warning: parsing empty text
+80
+number of blanket patches: 0
+no
+two horses
+Error in blip model: 'NoneType' object has no attribute 'lower'
+Error in glip model: text input must be of type `str` (single example), `List[str]` (batch or single pretokenized example) or `List[List[str]]` (batch of pretokenized examples).
+Error in blip model: max(): Expected reduction dim to be specified for input.numel() == 0. Specify the reduction dim with the 'dim' argument.
+[ImagePatch(441, 43, 500, 148)]
+[ImagePatch(0, 34, 462, 282), ImagePatch(0, 0, 500, 111), ImagePatch(0, 34, 462, 282), ImagePatch(0, 0, 500, 111)]
+Number of people:  1
+text:yesoryes
+Error in glip model: text input must be of type `str` (single example), `List[str]` (batch or single pretokenized example) or `List[List[str]]` (batch of pretokenized examples).
+Error in xvlm model: You should supply an encoding or a list of encodings to this method that includes input_ids, but you provided []
+Error in glip model: text input must be of type `str` (single example), `List[str]` (batch or single pretokenized example) or `List[List[str]]` (batch of pretokenized examples).
+device X Y W H torch.Size([3, 375, 500])
+tvpatches: [ImagePatch(102, 149, 179, 221)]
+Error in glip model: text input must be of type `str` (single example), `List[str]` (batch or single pretokenized example) or `List[List[str]]` (batch of pretokenized examples).
+139.5
+139.5
+Error in glip model: TextEncodeInput must be Union[TextInputSequence, Tuple[InputSequence, InputSequence]]
+1
+ImagePatch(50, 34, 187, 339)
+Error in maskrcnn model: Execution timed out after 5 minutes
+Final accuracy: 0.3854761904761905

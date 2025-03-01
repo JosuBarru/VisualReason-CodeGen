@@ -5,7 +5,7 @@ import pathlib
 from functools import partial
 import warnings
 import traceback
-
+import signal
 
 import pandas as pd
 import torch.multiprocessing as mp
@@ -72,27 +72,26 @@ def run_program(parameters, queues_in_, input_type_, retrying=False):
                   'llm_query, bool_to_yesno, distance, best_image_match):\n'
     code = code_header + str(code)
 
-    try:
-        exec(compile(code, 'Codex', 'exec'), globals())
-    except Exception as e:
-        return f"Error Codigo: {e}", code
-        # print(f'Sample {sample_id} failed at compilation time with error: {e}')
-        # try:
-        #     with open(config.fixed_code_file, 'r') as f:
-        #         fixed_code = f.read()
-        #     code = code_header + fixed_code 
-        #     exec(compile(code, 'Codex', 'exec'), globals())
-        # except Exception as e2:
-        #     print(f'Not even the fixed code worked. Sample {sample_id} failed at compilation time with error: {e2}')
-        #     return None, code #En vez de None se puede poner "Compilation error" y el error, devolver esto como answer
 
-    queues = [queues_in_, queue_results]
-
-    image_patch_partial = partial(ImagePatch, queues=queues)
-    video_segment_partial = partial(VideoSegment, queues=queues)
-    llm_query_partial = partial(llm_query, queues=queues)
+    # Define a timeout handler that raises a TimeoutError.
+    def timeout_handler(signum, frame):
+        raise TimeoutError("Execution timed out after 5 minutes")
+    # Set the alarm signal for 300 seconds (5 minutes).
+    signal.signal(signal.SIGALRM, timeout_handler)
+    signal.alarm(300)
 
     try:
+        try:
+            exec(compile(code, 'Codex', 'exec'), globals())
+        except Exception as e:
+            return f"Error Codigo: {e}", code
+
+        queues = [queues_in_, queue_results]
+
+        image_patch_partial = partial(ImagePatch, queues=queues)
+        video_segment_partial = partial(VideoSegment, queues=queues)
+        llm_query_partial = partial(llm_query, queues=queues)
+
         result = globals()[f'execute_command_{sample_id}'](
             # Inputs to the function
             image, possible_answers, query,
@@ -100,24 +99,17 @@ def run_program(parameters, queues_in_, input_type_, retrying=False):
             image_patch_partial, video_segment_partial,
             # Functions to be used
             llm_query_partial, bool_to_yesno, distance, best_image_match)
+    except TimeoutError as te:
+        return f"Timeout: {te}", code
     except Exception as e:
         return f"Error Ejecucion: {e}", code
-        # # print full traceback
-        # traceback.print_exc()
-        # if retrying:
-        #     return None, code #En vez de None se puede poner "Execution error" y el error, devolver esto como answer
-        # print(f'Sample {sample_id} failed with error: {e}. Next you will see an "expected an indented block" error. ')
-        # # Retry again with fixed code
-        # new_code = "["  # This code will break upon execution, and it will be caught by the except clause
-        # result = run_program((new_code, sample_id, image, possible_answers, query), queues_in_, input_type_,
-        #                      retrying=True)[0]
+    finally:
+        signal.alarm(0)  # Cancel the alarm
 
-    # The function run_{sample_id} is defined globally (exec doesn't work locally). A cleaner alternative would be to
-    # save it in a global dict (replace globals() for dict_name in exec), but then it doesn't detect the imported
-    # libraries for some reason. Because defining it globally is not ideal, we just delete it after running it.
     if f'execute_command_{sample_id}' in globals():
-        del globals()[f'execute_command_{sample_id}']  # If it failed to compile the code, it won't be defined
+        del globals()[f'execute_command_{sample_id}']
     return result, code
+
 
 
 def worker_init(queue_results_):

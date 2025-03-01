@@ -1298,7 +1298,7 @@ class codellama(CodexModel):
         
         from vllm import LLM, SamplingParams
         self.llm = LLM(model_name)
-        self.sampling_params = SamplingParams(max_tokens=320)
+        self.sampling_params = SamplingParams(max_tokens=512)
 
     def run_code_Quantized_llama(self, prompt):
         """Generates text from a given prompt using vLLM offline inference."""
@@ -1599,6 +1599,7 @@ class mixtral87B(CodexModel):
     def run_code_Quantized_llama(self, prompt):
         """Generates text from a given prompt using vLLM offline inference."""
         # Call the generate method on the LLM instance.
+        logger.debug(prompt)
         results = self.llm.generate(prompt, self.sampling_params)
         # Extract generated text from each result.
         generated_text = [result.outputs[0].text for result in results]
@@ -1649,7 +1650,7 @@ class Qwen257b(CodexModel):
         # Extract generated text from each result.
         generated_text = [result.outputs[0].text for result in results]
         # Optionally post-process the generated text.
-        generated_text = [text.split('\n\n')[0] for text in generated_text]
+        #generated_text = [text.split('\n\n')[0] for text in generated_text]
         return generated_text
 
     def forward_(self, extended_prompt):

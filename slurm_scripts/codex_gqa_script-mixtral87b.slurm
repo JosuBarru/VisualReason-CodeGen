@@ -19,11 +19,7 @@ export DATASET='gqa'
 export EXEC_MODE='codex'
 export CODEX_MODEL='mixtral87b'
 export TRAIN=True
-export BATCHSIZE=16
-export NUMINST=
-
-#vllm serve mistralai/Mixtral-8x7B-Instruct-v0.1 --tensor-parallel-size 2 &
-
-#sleep 10
+export BATCHSIZE=8
+export NUMINST=8
 
 srun python src/main_project_slurm.py

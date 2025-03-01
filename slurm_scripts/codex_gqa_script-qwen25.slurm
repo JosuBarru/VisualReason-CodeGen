@@ -20,6 +20,6 @@ export EXEC_MODE='codex'
 export CODEX_MODEL='qwen25'
 export TRAIN=True
 export BATCHSIZE=64
-export NUMINST=
+export NUMINST=64
 
 srun python src/main_project_slurm.py

@@ -18,6 +18,6 @@ export LOAD_MODELS=1
 export DATASET='gqa'
 export EXEC_MODE='cache'
 export TRAIN=True
-export CODE='codellama7b.csv'
+export CODE='codellama7b-512.csv'
 
 srun python src/main_project_slurm.py

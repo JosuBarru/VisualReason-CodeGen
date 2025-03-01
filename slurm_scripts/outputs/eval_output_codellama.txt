@@ -14,67 +14,44 @@ EARLY FUSION ON, USING MHA-B
 modelo: <class 'vision_models.GLIPModel'> , proceso:  glip
 modelo: <class 'vision_models.MaskRCNNModel'> , proceso:  maskrcnn
 modelo: <class 'vision_models.XVLMModel'> , proceso:  xvlm
-{'blip': <function make_fn.<locals>._function at 0x7f3b96bf5a80>, 'glip': <function make_fn.<locals>._function at 0x7f38e028cae0>, 'maskrcnn': <function make_fn.<locals>._function at 0x7f38e046fd80>, 'xvlm': <function make_fn.<locals>._function at 0x7f374970fd80>}
-What appliance is the 638.5 pixel to the left of? refrigerator
+{'blip': <function make_fn.<locals>._function at 0x7f06ec635940>, 'glip': <function make_fn.<locals>._function at 0x7f01f7e589a0>, 'maskrcnn': <function make_fn.<locals>._function at 0x7f0203753e20>, 'xvlm': <function make_fn.<locals>._function at 0x7f01f427f740>}
+During the last question, you also asked about the direction of the man's action. My memory of the man's position was wrong. Please choose one of the following: : Error in xvlm model: not enough image data
+Warning: parsing empty text
+Error in glip model: 'tuple' object has no attribute 'lower'
+Error in glip model: Execution timed out after 5 minutes
+Warning: parsing empty text
+Warning: parsing empty text
+refrigerator
+No oven!
+Error in glip model: 'tuple' object has no attribute 'lower'
+Error in blip model: 'list' object has no attribute 'lower'
+Error: Multiple trees found!
+Please send an image with only one vehicle to the interpreter.
+Error in glip model: text input must be of type `str` (single example), `List[str]` (batch or single pretokenized example) or `List[List[str]]` (batch of pretokenized examples).
+no
+Error in xvlm model: You should supply an encoding or a list of encodings to this method that includes input_ids, but you provided []
+True
 False
-What piece of furniture is it?
-Error in xvlm model: You should supply an encoding or a list of encodings to this method that includes input_ids, but you provided []
-[]
-This image does not have a person. Please ensure that you ask a clear, descriptive question about a person.
-Error in maskrcnn model: The size of tensor a (0) must match the size of tensor b (3) at non-singleton dimension 0
-Error in xvlm model: 'tuple' object has no attribute 'lower'
-Warning: parsing empty text
+Error in xvlm model: 'list' object has no attribute 'lower'
+[ImagePatch(39, 62, 112, 194)]
+Error in blip model: 'tuple' object has no attribute 'lower'
+Error in blip model: 'tuple' object has no attribute 'lower'
+Error in blip model: 'tuple' object has no attribute 'lower'
+Error in blip model: 'tuple' object has no attribute 'lower'
+Error in blip model: 'tuple' object has no attribute 'lower'
+Error in blip model: 'tuple' object has no attribute 'lower'
+Error in blip model: 'tuple' object has no attribute 'lower'
+Error in blip model: 'tuple' object has no attribute 'lower'
+Error in blip model: 'tuple' object has no attribute 'lower'
+Error in blip model: 'tuple' object has no attribute 'lower'
+Error in blip model: 'int' object is not callable
 Error in glip model: text input must be of type `str` (single example), `List[str]` (batch or single pretokenized example) or `List[List[str]]` (batch of pretokenized examples).
-Warning: parsing empty text
-Question assumes only two white curtain patches but got 1
-Flag is on bottom
-tensor([[[0.3647, 0.3333, 0.3020,  ..., 0.2314, 0.2235, 0.2157],
-         [0.3961, 0.3333, 0.2745,  ..., 0.2235, 0.2196, 0.2196],
-         [0.3490, 0.3569, 0.3176,  ..., 0.3216, 0.3490, 0.3647],
-         ...,
-         [0.3137, 0.3098, 0.3412,  ..., 0.0863, 0.0706, 0.0627],
-         [0.3216, 0.3373, 0.3098,  ..., 0.0784, 0.0745, 0.0745],
-         [0.3137, 0.3608, 0.3216,  ..., 0.1020, 0.0941, 0.0784]],
-
-        [[0.2745, 0.2588, 0.2392,  ..., 0.1412, 0.1333, 0.1216],
-         [0.2902, 0.2745, 0.2353,  ..., 0.1294, 0.1255, 0.1255],
-         [0.2588, 0.2824, 0.2471,  ..., 0.1804, 0.2078, 0.2235],
-         ...,
-         [0.2392, 0.2275, 0.2510,  ..., 0.0275, 0.0118, 0.0039],
-         [0.2471, 0.2549, 0.2196,  ..., 0.0078, 0.0039, 0.0039],
-         [0.2431, 0.2784, 0.2314,  ..., 0.0588, 0.0510, 0.0353]],
-
-        [[0.1490, 0.1294, 0.1059,  ..., 0.1176, 0.1098, 0.1059],
-         [0.1137, 0.1059, 0.0980,  ..., 0.1137, 0.1098, 0.1098],
-         [0.0863, 0.1176, 0.1059,  ..., 0.1804, 0.2078, 0.2235],
-         ...,
-         [0.1725, 0.1608, 0.1804,  ..., 0.0078, 0.0000, 0.0000],
-         [0.1804, 0.1882, 0.1490,  ..., 0.0000, 0.0000, 0.0039],
-         [0.1647, 0.2039, 0.1608,  ..., 0.0510, 0.0431, 0.0275]]])
-Warning: parsing empty text
-Error in xvlm model: pre_caption yields invalid text
-Error in xvlm model: 'int' object is not callable
-Badly cropped, glass close to the floor...
-Badly cropped, glass close to the floor...
-ImagePatch(0, 0, 500, 332)
-Is the woman riding a sheep? [yes/no]Error in xvlm model: 'int' object is not callable
-435.5
+Error in xvlm model: 'list' object has no attribute 'lower'
+Wrong
 Error in blip model: 'NoneType' object has no attribute 'lower'
-Error in glip model: text input must be of type `str` (single example), `List[str]` (batch or single pretokenized example) or `List[List[str]]` (batch of pretokenized examples).
-Error in xvlm model: 'int' object is not callable
-False False
-Is the cat hanging off of a table?
-['grazing']
-['grazing', 'grazing']
-['grazing', 'grazing', 'grazing']
-option_list
-['grazing', 'grazing', 'grazing']
-Error in glip model: text input must be of type `str` (single example), `List[str]` (batch or single pretokenized example) or `List[List[str]]` (batch of pretokenized examples).
 Error in xvlm model: You should supply an encoding or a list of encodings to this method that includes input_ids, but you provided []
-Error in xvlm model: 'int' object is not callable
-Found 1 plates
-Found 1 patches for laptop.
+Error in glip model: 'tuple' object has no attribute 'lower'
+Error in xvlm model: pre_caption yields invalid text
 No answer is a number, so this will be wrong
 No answer is a number, so this will be wrong
-No answer is a number, so this will be wrong
-Final accuracy: 0.38261904761904764
+Final accuracy: 0.3915873015873016
