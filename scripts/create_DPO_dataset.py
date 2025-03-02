@@ -3,6 +3,7 @@ import pandas as pd
 from datasets import Dataset
 import matplotlib.pyplot as plt
 import re
+import numpy as np
 
 def get_csv_files(directory):
     """Return a list of CSV filenames in the given directory."""
@@ -118,16 +119,25 @@ def create_pairs_for_ids(df, sample_ids, approach='single'):
 def visualize_dataset(dataset, title_suffix=""):
     """
     Visualizes the dataset by printing a sample and plotting the distribution
-    of the code lengths (number of characters) for the 'chosen' and 'rejected' fields.
+    of the code lengths (number of characters) for the 'chosen' and 'rejected' fields,
+    using uniform bins with increased granularity.
     """
     df = pd.DataFrame(dataset)
     print(f"\nSample of the dataset {title_suffix}:")
     print(df.head())
+    
+    # Compute lengths of code strings
     df['chosen_length'] = df['chosen'].apply(lambda x: len(str(x)))
     df['rejected_length'] = df['rejected'].apply(lambda x: len(str(x)))
+    
+    # Determine common uniform bins with higher granularity (e.g., 40 bins)
+    min_val = min(df['chosen_length'].min(), df['rejected_length'].min())
+    max_val = max(df['chosen_length'].max(), df['rejected_length'].max())
+    bins = np.linspace(min_val, max_val, 41)  # 40 bins
+    
     plt.figure(figsize=(10, 5))
-    plt.hist(df['chosen_length'], bins=20, alpha=0.5, label='Chosen Code Length')
-    plt.hist(df['rejected_length'], bins=20, alpha=0.5, label='Rejected Code Length')
+    plt.hist(df['chosen_length'], bins=bins, alpha=0.5, label='Chosen Code Length', rwidth=0.9)
+    plt.hist(df['rejected_length'], bins=bins, alpha=0.5, label='Rejected Code Length', rwidth=0.9)
     plt.xlabel('Code Length (number of characters)')
     plt.ylabel('Frequency')
     plt.title(f'Distribution of Code Lengths in the Dataset {title_suffix}')
