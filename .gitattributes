@@ -1,1 +1,2 @@
+results/gqa/codex_results/train/deepSeekLlama8b.csv filter=lfs diff=lfs merge=lfs -text
 slurm_scripts/outputs/verify_sft_length.err filter=lfs diff=lfs merge=lfs -text
