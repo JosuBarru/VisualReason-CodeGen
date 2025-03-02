@@ -1,13 +1,10 @@
 import os
 import pandas as pd
-from datasets import Dataset
 
 def get_csv_files(directory):
-    """Return a list of CSV filenames in the given directory."""
     return [f for f in os.listdir(directory) if f.endswith('.csv')]
 
 def select_multiple_csv_files(csv_files):
-    """Interactively select multiple CSV files from the list."""
     selected_files = []
     print("Lista de archivos disponibles:")
     for idx, file in enumerate(csv_files):
@@ -26,112 +23,120 @@ def select_multiple_csv_files(csv_files):
             print("Entrada no válida. Por favor, introduce un número o 'fin'.")
     return selected_files
 
-def load_csvs(file_paths):
+def get_classification_bits(answer, accuracy):
     """
-    Load multiple CSV files into a single pandas DataFrame.
-    Assumes each CSV has a header and an extra footer line that should be removed.
+    Retorna una lista de 4 bits correspondiente a las siguientes categorías:
+      [Error Codigo, Error Ejecución, Error Sem/Inf, Correctos]
+    Se asigna 1 en la posición correspondiente si la instancia cumple la condición.
     """
-    df_list = []
-    for file_path in file_paths:
-        df = pd.read_csv(file_path, engine='python')
-        # Remove the last line (footer) if present.
-        if len(df) > 0:
-            df = df.iloc[:-1]
-        df_list.append(df)
-    combined_df = pd.concat(df_list, ignore_index=True)
-    # Optionally filter out rows with invalid sample_id (e.g., non-numeric)
-    combined_df = combined_df[combined_df['sample_id'].apply(lambda x: str(x).isnumeric())]
-    return combined_df
-
-def create_pairs(df, approach='single'):
-    """
-    Create preference pairs for DPO training from the DataFrame.
-    
-    Uses:
-      - sample_id as the instance identifier.
-      - question as the prompt.
-      - code as the generated code.
-      - accuracy: 1 means correct; otherwise, it's considered an error.
-    
-    Parameters:
-      - approach: 'single' for one pair per instance; 'all' for all possible pairs.
-    
-    Returns:
-      - A list of dictionaries with keys: 'prompt', 'chosen', 'rejected'.
-    """
-    pairs = []
-    grouped = df.groupby('sample_id')
-    for sample_id, group in grouped:
-        # Select correct and incorrect codes based on 'accuracy'
-        correct_rows = group[group['accuracy'] == 1]
-        incorrect_rows = group[group['accuracy'] != 1]
-        # Only consider the instance if at least one correct code exists.
-        if correct_rows.empty:
-            continue
-        
-        if approach == 'single':
-            chosen_row = correct_rows.iloc[0]
-            if incorrect_rows.empty:
-                continue  # Skip if no incorrect code is available
-            rejected_row = incorrect_rows.iloc[0]
-            pairs.append({
-                'prompt': chosen_row['question'],
-                'chosen': chosen_row['code'],
-                'rejected': rejected_row['code']
-            })
-        elif approach == 'all':
-            for _, correct_row in correct_rows.iterrows():
-                for _, incorrect_row in incorrect_rows.iterrows():
-                    pairs.append({
-                        'prompt': correct_row['question'],
-                        'chosen': correct_row['code'],
-                        'rejected': incorrect_row['code']
-                    })
-    return pairs
+    if accuracy == 1:
+        return [0, 0, 0, 1]
+    elif isinstance(answer, str):
+        if answer.startswith('Error Codigo'):
+            return [1, 0, 0, 0]
+        elif answer.startswith('Error Ejecucion'):
+            return [0, 1, 0, 0]
+    return [0, 0, 1, 0]
 
 def main():
     input_folder = "/sorgin1/users/jbarrutia006/viper/results/gqa/all/train"
-    output_folder = "/sorgin1/users/jbarrutia006/viper/results/gqa/dpo_dataset/train"
+    output_folder = "/sorgin1/users/jbarrutia006/viper/results/gqa/metrics/train"
     os.makedirs(output_folder, exist_ok=True)
     
-    # List available CSV files.
     csv_files = get_csv_files(input_folder)
     if not csv_files:
         print("No se encontraron archivos CSV en el directorio.")
         return
-
+    
     selected_files = select_multiple_csv_files(csv_files)
     if not selected_files:
         print("No se seleccionó ningún archivo. Saliendo.")
         return
+    
+    # Diccionario para almacenar la clasificación combinada de cada instancia
+    # key: sample_id, value: lista de 4 bits
+    instance_classifications = {}
+    
+    for file in selected_files:
+        file_path = os.path.join(input_folder, file)
+        df = pd.read_csv(file_path)
 
-    # Build full paths for the selected files.
-    file_paths = [os.path.join(input_folder, f) for f in selected_files]
-    df = load_csvs(file_paths)
+        # Omitir la última fila (se asume que es un resumen TOTAL que no quieres procesar)
+        if len(df) > 0:
+            df = df.iloc[:-1]
+            
+        print(f"{file} tiene {len(df)} instancias")  # Print the number of rows in the CSV
+        for _, row in df.iterrows():
+            sample_id = row['sample_id']
+            bits = get_classification_bits(row['Answer'], row['accuracy'])
+            if sample_id not in instance_classifications:
+                instance_classifications[sample_id] = bits
+            else:
+                # Operación OR: para cada categoría, se marca 1 si al menos un fichero la tiene
+                instance_classifications[sample_id] = [
+                    max(existing, new)
+                    for existing, new in zip(instance_classifications[sample_id], bits)
+                ]
     
-    # Ask the user which pairing approach to use.
-    approach = input("Selecciona el enfoque ('single' para un par por instancia, 'all' para todos los pares): ").strip().lower()
-    if approach not in ['single', 'all']:
-        print("Enfoque no reconocido, se utilizará 'single' por defecto.")
-        approach = 'single'
+    # Contar la frecuencia de cada combinación (representada como tupla de 4 bits)
+    combination_counts = {}
+    for bits in instance_classifications.values():
+        bits_tuple = tuple(bits)
+        combination_counts[bits_tuple] = combination_counts.get(bits_tuple, 0) + 1
+
+    # Definir el orden fijo de las combinaciones de ticks (según la estructura de la tabla)
+    ordered_combinations = [
+        (0, 0, 0, 1),  # Solo Correctos
+        (1, 0, 0, 1),  # Error Codigo y Correctos
+        (0, 1, 0, 1),  # Error Ejecución y Correctos
+        (1, 1, 0, 1),  # Error Codigo, Error Ejecución y Correctos
+        (0, 0, 1, 1),  # Error Sem/Inf y Correctos
+        (1, 0, 1, 1),  # Error Codigo, Error Sem/Inf y Correctos
+        (0, 1, 1, 1),  # Error Ejecución, Error Sem/Inf y Correctos
+        (1, 1, 1, 1),   # Todos los errores/correctos marcados
+
+        (1, 0, 0, 0),  # Solo Error Codigo
+        (0, 1, 0, 0),  # Solo Error Ejecución
+        (1, 1, 0, 0),  # Error Codigo y Error Ejecución
+        (0, 0, 1, 0),  # Solo Error Sem/Inf
+        (1, 0, 1, 0),  # Error Codigo y Error Sem/Inf
+        (0, 1, 1, 0),  # Error Ejecución y Error Sem/Inf
+        (1, 1, 1, 0)  # Error Codigo, Error Ejecución y Error Sem/Inf
+    ]
     
-    # Create preference pairs.
-    pairs = create_pairs(df, approach=approach)
-    if not pairs:
-        print("No se pudieron crear pares de preferencia. Revisa los datos.")
-        return
+    # Construir la tabla de resultados siguiendo el orden de ticks definido
+    data = []
+    for comb in ordered_combinations:
+        count = combination_counts.get(comb, 0)
+        row = {
+            "Error Codigo": "✓" if comb[0] == 1 else "",
+            "Error Ejecución": "✓" if comb[1] == 1 else "",
+            "Error Sem/Inf": "✓" if comb[2] == 1 else "",
+            "Correctos": "✓" if comb[3] == 1 else "",
+            "NUMERO": count
+        }
+        data.append(row)
     
-    # Build a HuggingFace Dataset.
-    dataset = Dataset.from_dict({
-        'prompt': [pair['prompt'] for pair in pairs],
-        'chosen': [pair['chosen'] for pair in pairs],
-        'rejected': [pair['rejected'] for pair in pairs]
-    })
+    df_results = pd.DataFrame(data)
     
-    output_file = os.path.join(output_folder, f"dpo_dataset_{approach}.arrow")
-    dataset.save_to_disk(output_file)
-    print(f"Dataset de DPO guardado en: {output_file}")
-    print(f"Número de instancias en el dataset: {len(dataset)}")
+    total_instances = sum(row["NUMERO"] for row in data)
+    total_row = {
+        "Error Codigo": "TOTAL",
+        "Error Ejecución": "",
+        "Error Sem/Inf": "",
+        "Correctos": "",
+        "NUMERO": total_instances
+    }
+    # Agregar la fila de totales usando pd.concat (df.append está deprecado)
+    df_results = pd.concat([df_results, pd.DataFrame([total_row])], ignore_index=True)
+    
+    output_file = os.path.join(output_folder, "combined_metrics.csv")
+    df_results.to_csv(output_file, index=False)
+    print(f"Resultados guardados en: {output_file}")
+
+    html_output_file = os.path.join(output_folder, "combined_metrics.html")
+    df_results.to_html(html_output_file, index=False)
+    print(f"\nTabla HTML guardada en: {html_output_file}")
 
 if __name__ == "__main__":
     main()

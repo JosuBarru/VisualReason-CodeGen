@@ -88,17 +88,26 @@ def create_pairs_for_ids(df, sample_ids, approach='single'):
         if correct_rows.empty or incorrect_rows.empty:
             continue
         
+        # For the rejected code, try to select a code that is not NaN or empty.
+        valid_incorrect_rows = incorrect_rows[incorrect_rows['code'].notna() & (incorrect_rows['code'] != "")]
+        
         if approach == 'single':
             chosen_row = correct_rows.iloc[0]
-            rejected_row = incorrect_rows.iloc[0]
+            if not valid_incorrect_rows.empty:
+                rejected_row = valid_incorrect_rows.iloc[0]
+            else:
+                # If all incorrect rows have NaN (or empty) codes, use the first incorrect row
+                rejected_row = incorrect_rows.iloc[0]
             pairs.append({
                 'prompt': chosen_row['query'],
                 'chosen': remove_function_header(chosen_row['code']),
-                'rejected': remove_function_header(rejected_row['code'])
+                'rejected': remove_function_header(rejected_row['code'])  # this might be empty or "nan"
             })
         elif approach == 'all':
             for _, correct_row in correct_rows.iterrows():
-                for _, incorrect_row in incorrect_rows.iterrows():
+                # Use valid incorrect rows if available; otherwise, use all incorrect rows.
+                target_incorrect = valid_incorrect_rows if not valid_incorrect_rows.empty else incorrect_rows
+                for _, incorrect_row in target_incorrect.iterrows():
                     pairs.append({
                         'prompt': correct_row['query'],
                         'chosen': remove_function_header(correct_row['code']),

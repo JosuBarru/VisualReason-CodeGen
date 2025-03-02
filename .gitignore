@@ -204,7 +204,6 @@ n
 images/
 /chekpoints/
 /outputs/
-/results/
 /api.key
 /.vscode/
 /wandb/

@@ -1,0 +1,555 @@
+sample_id,query,split,generated_code
+202125900,What is the small audience sitting on?,testdev,"
+    image_patch = ImagePatch(image)
+    audience_patches = image_patch.find(""audience"")
+    # Question assumes only one audience patch
+    if len(audience_patches) == 0:
+        # If no audience is found, query the image directly
+        return image_patch.simple_query(""What is the small audience sitting on?"")
+    for audience_patch in audience_patches:
+        if audience_patch.height < 100:
+            return audience_patch.simple_query(""What is the small audience sitting on?"")
+    return ""a stage"""
+201447132,What piece of furniture is above the sink?,testdev,"
+    image_patch = ImagePatch(image)
+    sink_patches = image_patch.find(""sink"")
+    # Question assumes only one sink patch
+    if len(sink_patches) == 0:
+        # If no sink is found, query the image directly
+        return image_patch.simple_query(""What piece of furniture is above the sink?"")
+    for sink_patch in sink_patches:
+        if sink_patch.vertical_center < image_patch.vertical_center:
+            return ""furniture""
+    return ""sink"""
+20753180,What's the boy sitting on top of?,testdev,"
+    image_patch = ImagePatch(image)
+    boy_patches = image_patch.find(""boy"")
+    # Question assumes only one boy patch
+    if len(boy_patches) == 0:
+        # If no boy is found, query the image directly
+        return image_patch.simple_query(""What's the boy sitting on top of?"")
+    for boy_patch in boy_patches:
+        if boy_patch.vertical_center < image_patch.vertical_center:
+            return ""a chair""
+    return ""a table"""
+202006979,What is inside the utensil holder?,testdev,"
+    image_patch = ImagePatch(image)
+    utensil_holder_patches = image_patch.find(""utensil holder"")
+    # Question assumes only one utensil holder patch
+    if len(utensil_holder_patches) == 0:
+        # If no utensil holder is found, query the image directly
+        return image_patch.simple_query(""What is inside the utensil holder?"")
+    for utensil_holder_patch in utensil_holder_patches:
+        utensil_patches = image_patch.find(""utensil"")
+        for utensil_patch in utensil_patches:
+            if utensil_holder_patch.horizontal_center == utensil_patch.horizontal_center and utensil_holder_patch.vertical_center == utensil_patch.vertical_center:
+                return utensil_patch.simple_query(""What is inside the"
+201662992,Is the floor tan and dirty?,testdev,"
+    image_patch = ImagePatch(image)
+    floor_patches = image_patch.find(""floor"")
+    # Question assumes only one floor patch
+    if len(floor_patches) == 0:
+        # If no floor is found, query the image directly
+        return image_patch.simple_query(""Is the floor tan and dirty?"")
+    for floor_patch in floor_patches:
+        is_tan = (floor_patch.simple_query(""Is the floor tan?"") == ""yes"")
+        is_dirty = (floor_patch.simple_query(""Is the floor dirty?"") == ""yes"")
+        if is_tan and is_dirty:
+            return ""yes""
+    return ""no"""
+202228670,Are the towels white and dirty?,testdev,"
+    image_patch = ImagePatch(image)
+    towels_patches = image_patch.find(""towel"")
+    # Question assumes only one towel patch
+    if len(towels_patches) == 0:
+        # If no towels are found, query the image directly
+        return image_patch.simple_query(""Are the towels white and dirty?"")
+    for towel_patch in towels_patches:
+        is_white = (towel_patch.simple_query(""Is the towel white?"") == ""yes"")
+        is_dirty = (towel_patch.simple_query(""Is the towel dirty?"") == ""yes"")
+        if is_white and is_dirty:
+            return ""yes""
+    return ""no"""
+20652425,What color is the tall person?,testdev,"
+    image_patch = ImagePatch(image)
+    tall_person_patches = image_patch.find(""tall person"")
+    # Question assumes only one tall person patch
+    if len(tall_person_patches) == 0:
+        # If no tall person is found, query the image directly
+        return image_patch.simple_query(""What color is the tall person?"")
+    return tall_person_patches[0].simple_query(""What color is the tall person?"")"
+20480016,Is the desk both brown and small?,testdev,"
+    image_patch = ImagePatch(image)
+    desk_patches = image_patch.find(""desk"")
+    # Question assumes only one desk patch
+    if len(desk_patches) == 0:
+        # If no desk is found, query the image directly
+        return image_patch.simple_query(""Is the desk both brown and small?"")
+    for desk_patch in desk_patches:
+        if desk_patch.verify_property(""desk"", ""brown"") and desk_patch.verify_property(""desk"", ""small""):
+            return ""yes""
+    return ""no"""
+201303519,How tall is the chair that the man stands beside of?,testdev,"
+    image_patch = ImagePatch(image)
+    chair_patches = image_patch.find(""chair"")
+    # Question assumes only one chair patch
+    if len(chair_patches) == 0:
+        # If no chair is found, query the image directly
+        return image_patch.simple_query(""How tall is the chair that the man stands beside of?"")
+    return chair_patches[0].simple_query(""How tall is the chair that the man stands beside of?"")"
+20248155,What kind of clothing is striped?,testdev,"
+    image_patch = ImagePatch(image)
+    clothing_patches = image_patch.find(""clothing"")
+    # Question assumes only one clothing patch
+    if len(clothing_patches) == 0:
+        # If no clothing is found, query the image directly
+        return image_patch.simple_query(""What kind of clothing is striped?"")
+    for clothing_patch in clothing_patches:
+        is_striped = (clothing_patch.simple_query(""Is the clothing striped?"") == ""yes"")
+        if is_striped:
+            return clothing_patch.simple_query(""What kind of clothing is striped?"") # crop would include the striped so keep it in the query
+    # If no clothing is striped, pick the first clothing
+    return clothing_patches[0].simple_query(""What kind of clothing is striped?"")"
+20491941,What is the large bear looking at?,testdev,"
+    image_patch = ImagePatch(image)
+    large_bear_patches = image_patch.find(""large bear"")
+    # Question assumes only one large bear patch
+    if len(large_bear_patches) == 0:
+        # If no large bear is found, query the image directly
+        return image_patch.simple_query(""What is the large bear looking at?"")
+    for large_bear_patch in large_bear_patches:
+        if large_bear_patch.verify_property(""large bear"", ""looking at""):
+            return large_bear_patch.simple_query(""What is the large bear looking at?"")
+    # If no large bear is looking at anything, query the image directly
+    return image_patch.simple_query(""What is the large bear looking at?"")"
+201322441,What do the street sign and the bus have in common?,testdev,"
+    image_patch = ImagePatch(image)
+    street_sign_patches = image_patch.find(""street sign"")
+    # Question assumes only one street sign patch
+    if len(street_sign_patches) == 0:
+        # If no street sign is found, query the image directly
+        return image_patch.simple_query(""What do the street sign and the bus have in common?"")
+    bus_patches = image_patch.find(""bus"")
+    # Question assumes only one bus patch
+    if len(bus_patches) == 0:
+        # If no bus is found, query the image directly
+        return image_patch.simple_query(""What do the street sign and the bus have in common?"")
+    for bus_patch in bus_patches:
+        for street_sign_patch in street_sign_patches:
+            if street_sign_patch.horizontal_center == bus_patch.horizontal_center:
+               "
+20248122,Are the glasses to the left or to the right of the person the woman is sitting next to?,testdev,"
+    image_patch = ImagePatch(image)
+    glasses_patches = image_patch.find(""glasses"")
+    # Question assumes only one glasses patch
+    if len(glasses_patches) == 0:
+        # If no glasses are found, query the image directly
+        return image_patch.simple_query(""Are the glasses to the left or to the right of the person the woman is sitting next to?"")
+    for glasses_patch in glasses_patches:
+        woman_patches = image_patch.find(""woman"")
+        for woman_patch in woman_patches:
+            if glasses_patch.horizontal_center < woman_patch.horizontal_center:
+                return ""left""
+            else:
+                return ""right""
+    # If no woman is found, query the image directly
+    return image_patch.simple_query(""Are the glasses to the left or to the right of the person the woman is"
+201153446,Is the jacket that is made of leather black and open?,testdev,"
+    image_patch = ImagePatch(image)
+    jacket_patches = image_patch.find(""jacket"")
+    # Question assumes only one jacket patch
+    if len(jacket_patches) == 0:
+        # If no jacket is found, query the image directly
+        return image_patch.simple_query(""Is the jacket that is made of leather black and open?"")
+    for jacket_patch in jacket_patches:
+        is_made_of_leather = (jacket_patch.simple_query(""Is the jacket made of leather?"") == ""yes"")
+        is_black = (jacket_patch.simple_query(""Is the jacket black?"") == ""yes"")
+        is_open = (jacket_patch.simple_query(""Is the jacket open?"") == ""yes"")
+        if is_made_of_leather and is_black and is_open:
+            return"
+201861297,Are there any black coffee tables or mirrors in the photo?,testdev,"
+    image_patch = ImagePatch(image)
+    is_black_coffee_table = image_patch.exists(""black coffee table"")
+    is_mirror = image_patch.exists(""mirror"")
+    return bool_to_yesno(is_black_coffee_table or is_mirror)"
+201623664,Is the sink that is not turned on silver and curved?,testdev,"
+    image_patch = ImagePatch(image)
+    sink_patches = image_patch.find(""sink"")
+    # Question assumes only one sink patch
+    if len(sink_patches) == 0:
+        # If no sink is found, query the image directly
+        return image_patch.simple_query(""Is the sink that is not turned on silver and curved?"")
+    for sink_patch in sink_patches:
+        if not sink_patch.verify_property(""sink"", ""turned on""):
+            return ""yes""
+    return ""no"""
+20468326,Which place is it?,testdev,"
+    image_patch = ImagePatch(image)
+    return image_patch.simple_query(""Which place is it?"")"
+20789989,Is the sky cloudy?,testdev,"
+    image_patch = ImagePatch(image)
+    return image_patch.simple_query(""Is the sky cloudy?"")"
+201879042,What is the sign larger than?,testdev,"
+    image_patch = ImagePatch(image)
+    signs_patches = image_patch.find(""sign"")
+    # Question assumes only one sign patch
+    if len(signs_patches) == 0:
+        # If no sign is found, query the image directly
+        return image_patch.simple_query(""What is the sign larger than?"")
+    for sign_patch in signs_patches:
+        if sign_patch.width > sign_patch.height:
+            return ""sign""
+    return ""letter"""
+201984151,Is the happy person wearing a helmet?,testdev,"
+    image_patch = ImagePatch(image)
+    happy_patches = image_patch.find(""happy"")
+    # Question assumes only one happy patch
+    if len(happy_patches) == 0:
+        # If no happy is found, query the image directly
+        return image_patch.simple_query(""Is the happy person wearing a helmet?"")
+    for happy_patch in happy_patches:
+        helmet_patches = image_patch.find(""helmet"")
+        for helmet_patch in helmet_patches:
+            if helmet_patch.horizontal_center > happy_patch.horizontal_center:
+                return ""yes""
+    return ""no"""
+20611590,Is the cheese that is to the right of the spoon small and round?,testdev,"
+    image_patch = ImagePatch(image)
+    cheese_patches = image_patch.find(""cheese"")
+    # Question assumes only one cheese patch
+    if len(cheese_patches) == 0:
+        # If no cheese is found, query the image directly
+        return image_patch.simple_query(""Is the cheese that is to the right of the spoon small and round?"")
+    for cheese_patch in cheese_patches:
+        spoon_patches = image_patch.find(""spoon"")
+        for spoon_patch in spoon_patches:
+            if spoon_patch.horizontal_center > cheese_patch.horizontal_center:
+                return bool_to_yesno(cheese_patch.verify_property(""cheese"", ""small"") and cheese_patch.verify_property(""cheese"", ""round""))
+    return ""no"""
+202121382,What contains cups?,testdev,"
+    image_patch = ImagePatch(image)
+    cups_patches = image_patch.find(""cups"")
+    # Question assumes only one cups patch
+    if len(cups_patches) == 0:
+        # If no cups are found, query the image directly
+        return image_patch.simple_query(""What contains cups?"")
+    return cups_patches[0].simple_query(""What contains cups?"")"
+20836778,What's the purse hanging from?,testdev,"
+    image_patch = ImagePatch(image)
+    purse_patches = image_patch.find(""purse"")
+    # Question assumes only one purse patch
+    if len(purse_patches) == 0:
+        # If no purse is found, query the image directly
+        return image_patch.simple_query(""What's the purse hanging from?"")
+    for purse_patch in purse_patches:
+        if purse_patch.verify_property(""purse"", ""hanging""):
+            return purse_patch.simple_query(""What's the purse hanging from?"") # crop would include the hanging so keep it in the query
+    # If no purse is hanging, pick the first purse
+    return purse_patches[0].simple_query(""What's the purse hanging from?"")"
+201235833,What is that woman doing?,testdev,"
+    image_patch = ImagePatch(image)
+    woman_patches = image_patch.find(""woman"")
+    # Question assumes only one woman patch
+    if len(woman_patches) == 0:
+        # If no woman is found, query the image directly
+        return image_patch.simple_query(""What is that woman doing?"")
+    return woman_patches[0].simple_query(""What is that woman doing?"")"
+201616041,Is the rug on the right side or on the left of the photo?,testdev,"
+    image_patch = ImagePatch(image)
+    rug_patches = image_patch.find(""rug"")
+    # Question assumes only one rug patch
+    if len(rug_patches) == 0:
+        # If no rug is found, query the image directly
+        return image_patch.simple_query(""Is the rug on the right side or on the left of the photo?"")
+    rug_patch = rug_patches[0]
+    if rug_patch.horizontal_center > image_patch.horizontal_center:
+        return ""right""
+    else:
+        return ""left"""
+20711603,What is the stuffed bear in front of?,testdev,"
+    image_patch = ImagePatch(image)
+    stuffed_bear_patches = image_patch.find(""stuffed bear"")
+    # Question assumes only one stuffed bear patch
+    if len(stuffed_bear_patches) == 0:
+        # If no stuffed bear is found, query the image directly
+        return image_patch.simple_query(""What is the stuffed bear in front of?"")
+    return stuffed_bear_patches[0].simple_query(""What is the stuffed bear in front of?"")"
+20861165,Is the tire that looks dark round and old?,testdev,"
+    image_patch = ImagePatch(image)
+    tire_patches = image_patch.find(""tire"")
+    # Question assumes only one tire patch
+    if len(tire_patches) == 0:
+        # If no tire is found, query the image directly
+        return image_patch.simple_query(""Is the tire that looks dark round and old?"")
+    for tire_patch in tire_patches:
+        if tire_patch.verify_property(""tire"", ""round"") and tire_patch.verify_property(""tire"", ""old""):
+            return ""yes""
+    return ""no"""
+20511405,Which kind of aircraft is it?,testdev,"
+    image_patch = ImagePatch(image)
+    aircraft_patches = image_patch.find(""aircraft"")
+    # Question assumes only one aircraft patch
+    if len(aircraft_patches) == 0:
+        # If no aircraft is found, query the image directly
+        return image_patch.simple_query(""Which kind of aircraft is it?"")
+    return aircraft_patches[0].simple_query(""Which kind of aircraft is it?"")"
+201616124,Is the porcelain toilet behind a rug?,testdev,"
+    image_patch = ImagePatch(image)
+    porcelain_toilet_patches = image_patch.find(""porcelain toilet"")
+    # Question assumes only one porcelain toilet patch
+    if len(porcelain_toilet_patches) == 0:
+        # If no porcelain toilet is found, query the image directly
+        return image_patch.simple_query(""Is the porcelain toilet behind a rug?"")
+    for porcelain_toilet_patch in porcelain_toilet_patches:
+        rug_patches = image_patch.find(""rug"")
+        for rug_patch in rug_patches:
+            if rug_patch.horizontal_center > porcelain_toilet_patch.horizontal_center:
+                return ""yes""
+    return ""no"""
+201676333,She is sitting on what?,testdev,"
+    image_patch = ImagePatch(image)
+    return image_patch.simple_query(""She is sitting on what?"")"
+201175233,Is the bottle to the left or to the right of the cat?,testdev,"
+    image_patch = ImagePatch(image)
+    bottle_patches = image_patch.find(""bottle"")
+    # Question assumes only one bottle patch
+    if len(bottle_patches) == 0:
+        # If no bottle is found, query the image directly
+        return image_patch.simple_query(""Is the bottle to the left or to the right of the cat?"")
+    for bottle_patch in bottle_patches:
+        cat_patches = image_patch.find(""cat"")
+        for cat_patch in cat_patches:
+            if bottle_patch.horizontal_center < cat_patch.horizontal_center:
+                return ""left""
+            else:
+                return ""right""
+    # If no cat is found, query the image directly
+    return image_patch.simple_query(""Is the bottle to the left or to the right of the cat?"")"
+20341099,Is there a fire hydrant on the grass?,testdev,"
+    image_patch = ImagePatch(image)
+    fire_hydrant_patches = image_patch.find(""fire hydrant"")
+    # Question assumes only one fire hydrant patch
+    if len(fire_hydrant_patches) == 0:
+        # If no fire hydrant is found, query the image directly
+        return image_patch.simple_query(""Is there a fire hydrant on the grass?"")
+    for fire_hydrant_patch in fire_hydrant_patches:
+        if fire_hydrant_patch.vertical_center < image_patch.vertical_center:
+            return ""yes""
+    return ""no"""
+201757771,Which kind of device is it?,testdev,"
+    image_patch = ImagePatch(image)
+    device_patches = image_patch.find(""device"")
+    # Question assumes only one device patch
+    if len(device_patches) == 0:
+        # If no device is found, query the image directly
+        return image_patch.simple_query(""Which kind of device is it?"")
+    return device_patches[0].simple_query(""Which kind of device is it?"")"
+201301840,Is the ground smooth or rough?,testdev,"
+    image_patch = ImagePatch(image)
+    return image_patch.simple_query(""Is the ground smooth or rough?"")"
+20710140,Is the sky cloudy and blue?,testdev,"
+    image_patch = ImagePatch(image)
+    sky_patches = image_patch.find(""sky"")
+    # Question assumes only one sky patch
+    if len(sky_patches) == 0:
+        # If no sky is found, query the image directly
+        return image_patch.simple_query(""Is the sky cloudy and blue?"")
+    return sky_patches[0].simple_query(""Is the sky cloudy and blue?"")"
+2053501,Is the motorcycle made of the same material as the streetlight?,testdev,"
+    image_patch = ImagePatch(image)
+    motorcycle_patches = image_patch.find(""motorcycle"")
+    # Question assumes only one motorcycle patch
+    if len(motorcycle_patches) == 0:
+        # If no motorcycle is found, query the image directly
+        return image_patch.simple_query(""Is the motorcycle made of the same material as the streetlight?"")
+    for motorcycle_patch in motorcycle_patches:
+        streetlight_patches = image_patch.find(""streetlight"")
+        for streetlight_patch in streetlight_patches:
+            if motorcycle_patch.horizontal_center == streetlight_patch.horizontal_center and motorcycle_patch.vertical_center == streetlight_patch.vertical_center:
+                return ""yes""
+    return ""no"""
+20636773,Are the cutting board and the stove made of the same material?,testdev,"
+    image_patch = ImagePatch(image)
+    cutting_board_patches = image_patch.find(""cutting board"")
+    # Question assumes only one cutting board patch
+    if len(cutting_board_patches) == 0:
+        # If no cutting board is found, query the image directly
+        return image_patch.simple_query(""Are the cutting board and the stove made of the same material?"")
+    cutting_board_patch = cutting_board_patches[0]
+    stove_patches = image_patch.find(""stove"")
+    # Question assumes only one stove patch
+    if len(stove_patches) == 0:
+        # If no stove is found, query the image directly
+        return image_patch.simple_query(""Are the cutting board and the stove made of the same material?"")
+    stove_patch = stove_patches[0]
+    return bool_to_yes"
+20863580,Do you see any palm trees behind the gray building?,testdev,"
+    image_patch = ImagePatch(image)
+    palm_tree_patches = image_patch.find(""palm tree"")
+    # Question assumes only one palm tree patch
+    if len(palm_tree_patches) == 0:
+        # If no palm tree is found, query the image directly
+        return image_patch.simple_query(""Do you see any palm trees behind the gray building?"")
+    for palm_tree_patch in palm_tree_patches:
+        gray_building_patches = image_patch.find(""gray building"")
+        for gray_building_patch in gray_building_patches:
+            if gray_building_patch.horizontal_center > palm_tree_patch.horizontal_center:
+                return ""yes""
+    return ""no"""
+20647249,Are the white pants short or long?,testdev,"
+    image_patch = ImagePatch(image)
+    pants_patches = image_patch.find(""pants"")
+    # Question assumes only one pants patch
+    if len(pants_patches) == 0:
+        # If no pants are found, query the image directly
+        return image_patch.simple_query(""Are the white pants short or long?"")
+    for pants_patch in pants_patches:
+        if pants_patch.vertical_center < image_patch.vertical_center:
+            return ""short""
+        else:
+            return ""long"""
+201410972,Is the mirror made of the same material as the tool?,testdev,"
+    image_patch = ImagePatch(image)
+    mirror_patches = image_patch.find(""mirror"")
+    # Question assumes only one mirror patch
+    if len(mirror_patches) == 0:
+        # If no mirror is found, query the image directly
+        return image_patch.simple_query(""Is the mirror made of the same material as the tool?"")
+    for mirror_patch in mirror_patches:
+        tool_patches = image_patch.find(""tool"")
+        for tool_patch in tool_patches:
+            if mirror_patch.horizontal_center == tool_patch.horizontal_center and mirror_patch.vertical_center == tool_patch.vertical_center:
+                return ""yes""
+    return ""no"""
+20611520,What is the dessert that is the same shape as the large container called?,testdev,"
+    image_patch = ImagePatch(image)
+    large_container_patches = image_patch.find(""large container"")
+    # Question assumes only one large container patch
+    if len(large_container_patches) == 0:
+        # If no large container is found, query the image directly
+        return image_patch.simple_query(""What is the dessert that is the same shape as the large container called?"")
+    large_container_patch = large_container_patches[0]
+    dessert_patches = image_patch.find(""dessert"")
+    # Question assumes only one dessert patch
+    if len(dessert_patches) == 0:
+        # If no dessert is found, query the image directly
+        return image_patch.simple_query(""What is the dessert that is the same shape as the large container called?"")
+    dessert_patch = dessert_patches[0]
+    if dessert_"
+2097953,"What material is the flat desk in front of the curtain, plastic or wood?",testdev,"
+    image_patch = ImagePatch(image)
+    flat_patches = image_patch.find(""flat"")
+    # Question assumes only one flat patch
+    if len(flat_patches) == 0:
+        # If no flat is found, query the image directly
+        return image_patch.simple_query(""What material is the flat desk in front of the curtain, plastic or wood?"")
+    for flat_patch in flat_patches:
+        if flat_patch.verify_property(""flat"", ""plastic""):
+            return ""plastic""
+        if flat_patch.verify_property(""flat"", ""wood""):
+            return ""wood""
+    return ""plastic"""
+2012777,How big is the donut the person holds?,testdev,"
+    image_patch = ImagePatch(image)
+    donut_patches = image_patch.find(""donut"")
+    # Question assumes only one donut patch
+    if len(donut_patches) == 0:
+        # If no donut is found, query the image directly
+        return image_patch.simple_query(""How big is the donut the person holds?"")
+    return donut_patches[0].simple_query(""How big is the donut the person holds?"")"
+20171196,What cooking utensil is to the left of the scissors?,testdev,"
+    image_patch = ImagePatch(image)
+    scissors_patches = image_patch.find(""scissors"")
+    # Question assumes only one scissors patch
+    if len(scissors_patches) == 0:
+        # If no scissors is found, query the image directly
+        return image_patch.simple_query(""What cooking utensil is to the left of the scissors?"")
+    for scissors_patch in scissors_patches:
+        cooking_utensil_patches = image_patch.find(""cooking utensil"")
+        for cooking_utensil_patch in cooking_utensil_patches:
+            if cooking_utensil_patch.horizontal_center < scissors_patch.horizontal_center:
+                return cooking_utensil_patch.simple_query(""What cooking utensil is to the left of the scissors"
+201795584,What is the animal that the male person looks at?,testdev,"
+    image_patch = ImagePatch(image)
+    male_patches = image_patch.find(""male"")
+    # Question assumes only one male patch
+    if len(male_patches) == 0:
+        # If no male is found, query the image directly
+        return image_patch.simple_query(""What is the animal that the male person looks at?"")
+    male_patch = male_patches[0]
+    animal_patches = image_patch.find(""animal"")
+    # Question assumes only one animal patch
+    if len(animal_patches) == 0:
+        # If no animal is found, query the image directly
+        return image_patch.simple_query(""What is the animal that the male person looks at?"")
+    for animal_patch in animal_patches:
+        if animal_patch.horizontal_center > male_patch.horizontal_center:
+            return animal_patch.simple_query(""What is the"
+202073385,What is higher than the trees?,testdev,"
+    image_patch = ImagePatch(image)
+    trees_patches = image_patch.find(""trees"")
+    # Question assumes only one trees patch
+    if len(trees_patches) == 0:
+        # If no trees are found, query the image directly
+        return image_patch.simple_query(""What is higher than the trees?"")
+    for trees_patch in trees_patches:
+        if trees_patch.vertical_center < image_patch.vertical_center:
+            return ""trees""
+    return ""sky"""
+201174984,What do both the bottle cap and the bottle have in common?,testdev,"
+    image_patch = ImagePatch(image)
+    bottle_cap_patches = image_patch.find(""bottle cap"")
+    bottle_patches = image_patch.find(""bottle"")
+    # Question assumes only one bottle cap patch and one bottle patch
+    if len(bottle_cap_patches) == 0 or len(bottle_patches) == 0:
+        # If no bottle cap or bottle is found, query the image directly
+        return image_patch.simple_query(""What do both the bottle cap and the bottle have in common?"")
+    for bottle_cap_patch in bottle_cap_patches:
+        for bottle_patch in bottle_patches:
+            if bottle_cap_patch.vertical_center == bottle_patch.vertical_center:
+                return ""the same color""
+    return ""the same shape"""
+20667937,What is the device that the man to the right of the pillow is holding?,testdev,"
+    image_patch = ImagePatch(image)
+    man_patches = image_patch.find(""man"")
+    # Question assumes only one man patch
+    if len(man_patches) == 0:
+        # If no man is found, query the image directly
+        return image_patch.simple_query(""What is the device that the man to the right of the pillow is holding?"")
+    man_patch = man_patches[0]
+    for pillow_patch in image_patch.find(""pillow""):
+        if pillow_patch.horizontal_center > man_patch.horizontal_center:
+            device_patches = image_patch.find(""device"")
+            # Question assumes only one device patch
+            if len(device_patches) == 0:
+                # If no device is found, query the image directly
+                return image_patch.simple_query(""What is the device that the man to the right of the pillow"
+201623853,Do you see a cabinet above the floor the freezer is on?,testdev,"
+    image_patch = ImagePatch(image)
+    freezer_patches = image_patch.find(""freezer"")
+    # Question assumes only one freezer patch
+    if len(freezer_patches) == 0:
+        # If no freezer is found, query the image directly
+        return image_patch.simple_query(""Do you see a cabinet above the floor the freezer is on?"")
+    for freezer_patch in freezer_patches:
+        cabinet_patches = image_patch.find(""cabinet"")
+        for cabinet_patch in cabinet_patches:
+            if cabinet_patch.vertical_center < freezer_patch.vertical_center:
+                return ""yes""
+    return ""no"""
+201873677,Does the flag that is to the left of the bucket have large size and blue color?,testdev,"
+    image_patch = ImagePatch(image)
+    flag_patches = image_patch.find(""flag"")
+    # Question assumes only one flag patch
+    if len(flag_patches) == 0:
+        # If no flag is found, query the image directly
+        return image_patch.simple_query(""Does the flag that is to the left of the bucket have large size and blue color?"")
+    flag_patch = flag_patches[0]
+    bucket_patches = image_patch.find(""bucket"")
+    # Question assumes only one bucket patch
+    if len(bucket_patches) == 0:
+        # If no bucket is found, query the image directly
+        return image_patch.simple_query(""Does the flag that is to the left of the bucket have large size and blue color?"")
+    bucket_patch = bucket_patches[0]
+    if flag_patch.horizontal_center < bucket_patch.horizontal_center:
+"

@@ -1,0 +1,399 @@
+sample_id,query,Answer,image_path,truth_answers,code,accuracy,0
+3119285,How big is the ball used in this sport?,"Error Codigo: expected an indented block after function definition on line 16 (Codex, line 18)",./data/okvqa/val2014/COCO_val2014_000000311928.jpg,"['9.25 inches', '9.25 inches', '9.25 inches', '9.25 inches', '5 ounces', '5 ounces', '4inches diameter', '4inches diameter', 'small', 'small']","def execute_command_3119285(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    # Answer is:
+    # The question is not direct perception, so we need to ask the image for more information
+    # Salient information: what is this sport?
+    # Question contains ""or"", so the answer must be ""sport""
+    image = ImagePatch(image)
+    guesses = []
+    sport = image.simple_query(""What is this sport?"")
+    external_knowledge_query = ""What sport can you use this for?"".format(sport)
+    step_by_step_guess = llm_query(external_knowledge_query)
+    guesses.append(""what is this sport is {}"".format(sport) + "", so "" + step_by_step_guess)
+    direct_guess = image.simple_query(""What sport can you use this for?"")
+    guesses.append(direct_guess)
+    return process_guesses(""What sport can you use this for?"", guesses)
+# What is this item?
+def execute_command(image)->str:
+    # The question is not direct perception, so we need to ask the image for more information
+   ",0.0,
+1880535,What restaurant is this cup from?,Error Ejecucion: name 'process_guesses' is not defined,./data/okvqa/val2014/COCO_val2014_000000188053.jpg,"['hardees', 'hardees', 'hardees', 'hardees', ""wendy's"", ""wendy's"", 'fast food restaurant', 'fast food restaurant', 'applebees', 'applebees']","def execute_command_1880535(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    # Answer is:
+    # The question is not direct perception, so we need to ask the image for more information
+    # Salient information: what is the type of plant this is?
+    # Question contains ""or"", so the answer must be ""plant"" or ""plant type""
+    image = ImagePatch(image)
+    guesses = []
+    type_of_plant = image.simple_query(""What is the type of plant this is?"")
+    external_knowledge_query = ""Name the {} like the one found here?"".format(type_of_plant)
+    step_by_step_guess = llm_query(external_knowledge_query)
+    guesses.append(""what is the type of plant this is {}"".format(type_of_plant) + "", so "" + step_by_step_guess)
+    direct_guess = image.simple_query(""Name the type of plant this is?"")
+    guesses.append(direct_guess)
+    return process_guesses(""Name the type of plant this is {}"".format(type_of_plant) + "", so "" + guesses)
+",0.0,
+40665,What are these people wearing?,"Error Codigo: expected an indented block after function definition on line 16 (Codex, line 18)",./data/okvqa/val2014/COCO_val2014_000000004066.jpg,"['wet suit', 'wet suit', 'wet suit', 'wet suit', 'scuba suit', 'scuba suit', 'scuba gear', 'scuba gear', 'bodysuit', 'bodysuit']","def execute_command_40665(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    # Answer is:
+    # The question is not direct perception, so we need to ask the image for more information
+    # Salient information: what is this?
+    # Question contains ""or"", so the answer must be ""toy"" or ""this""
+    image = ImagePatch(image)
+    guesses = []
+    toy = image.simple_query(""What toy is this?"")
+    external_knowledge_query = ""What toy is this?"".format(toy)
+    step_by_step_guess = llm_query(external_knowledge_query)
+    guesses.append(""what toy is this is {}"".format(toy) + "", so "" + step_by_step_guess)
+    direct_guess = image.simple_query(""What toy is this?"")
+    guesses.append(direct_guess)
+    return process_guesses(""What toy is this?"", guesses)
+# What is this?
+def execute_command(image)->str:
+    # The question is not direct perception, so we need to ask the image for more information
+    #",0.0,
+759235,How many speeds does this bike have?,Error Ejecucion: name 'process_guesses' is not defined,./data/okvqa/val2014/COCO_val2014_000000075923.jpg,"['21', '21', '21', '21', '10', '10', '3', '3', '4', '4']","def execute_command_759235(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    # Answer is:
+    # The question is not direct perception, so we need to ask the image for more information
+    # Salient information: what is this animal?
+    image = ImagePatch(image)
+    guesses = []
+    animal = image.simple_query(""What is this animal?"")
+    external_knowledge_query = ""Which part of {} would be in use if it was playing the game that is played with the items the man is holding?"".format(animal)
+    step_by_step_guess = llm_query(external_knowledge_query)
+    guesses.append(""what is this animal is {}"".format(animal) + "", so "" + step_by_step_guess)
+    direct_guess = image.simple_query(""Which part of this animal would be in use of it was playing the game that is played with the items the man is holding?"")
+    guesses.append(direct_guess)
+    return process_guesses(""Which part of this animal would be in use of it was playing the game that is played with the items the man is holding?"", guesses)
+",0.0,
+1762265,Name the place shown in this picture?,"Error Codigo: expected an indented block after function definition on line 15 (Codex, line 16)",./data/okvqa/val2014/COCO_val2014_000000176226.jpg,"['zoo', 'zoo', 'zoo', 'zoo', 'zoo', 'zoo', 'africa', 'africa', 'africa', 'africa']","def execute_command_1762265(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    # Answer is:
+    # The question is not direct perception, so we need to ask the image for more information
+    # Salient information: what could this gentleman be carrying in that red bag?
+    image = ImagePatch(image)
+    guesses = []
+    gentleman = image.simple_query(""What could this gentleman be carrying in that red bag?"")
+    external_knowledge_query = ""What could {} be carrying in that red bag?"".format(gentleman)
+    step_by_step_guess = llm_query(external_knowledge_query)
+    guesses.append(""what could this gentleman be carrying in that red bag is {}"".format(gentleman) + "", so "" + step_by_step_guess)
+    direct_guess = image.simple_query(""What could this gentleman be carrying in that red bag?"")
+    guesses.append(direct_guess)
+    return process_guesses(""What could this gentleman be carrying in that red bag?"", guesses)
+# What is this gentleman carrying in that red bag?
+def execute_command(image)->str:
+    # The question is not",0.0,
+1180515,What kind of place is this?,"Error Codigo: expected an indented block after function definition on line 16 (Codex, line 17)",./data/okvqa/val2014/COCO_val2014_000000118051.jpg,"['office', 'office', 'office', 'office', 'office', 'office', 'office', 'office', 'cubicle', 'cubicle']","def execute_command_1180515(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    # Answer is:
+    # The question is not direct perception, so we need to ask the image for more information
+    # Salient information: what is this item?
+    # Question contains ""or"", so the answer must be ""leaves"" or ""toilet""
+    image = ImagePatch(image)
+    guesses = []
+    item = image.simple_query(""What is this item?"")
+    external_knowledge_query = ""Who leaves a toilet like this?"".format(item)
+    step_by_step_guess = llm_query(external_knowledge_query)
+    guesses.append(""what is this item is {}"".format(item) + "", so "" + step_by_step_guess)
+    direct_guess = image.simple_query(""Who leaves a toilet like this?"")
+    guesses.append(direct_guess)
+    return process_guesses(""Who leaves a toilet like this?"", guesses)
+# What is this item?
+def execute_command(image)->str:
+    # The question is not direct perception, so we need to ask",0.0,
+774795,What country could this zebra be found in?,"Error Codigo: expected ':' (Codex, line 16)",./data/okvqa/val2014/COCO_val2014_000000077479.jpg,"['kenya', 'kenya', 'kenya', 'kenya', 'kenya', 'kenya', 'africa', 'africa', 'congo', 'congo']","def execute_command_774795(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    # Answer is:
+    # The question is not direct perception, so we need to ask the image for more information
+    # Salient information: what is this unit?
+    # Question contains ""like"", so the answer must be ""a center affixed unit""
+    image = ImagePatch(image)
+    guesses = []
+    unit = image.simple_query(""What is this unit?"")
+    external_knowledge_query = ""A center affixed unit like this one in a kitchen is called a {}"".format(unit)
+    step_by_step_guess = llm_query(external_knowledge_query)
+    guesses.append(""what is this unit is {}"".format(unit) + "", so "" + step_by_step_guess)
+    direct_guess = image.simple_query(""A center affixed unit like this one in a kitchen is called a what?"")
+    guesses.append(direct_guess)
+    return process_guesses(""A center affixed unit like this one in a kitchen is called a what?"", guesses)
+# What is this item?
+def execute_command(image)->str",0.0,
+2418895,Name the place where this person is shown in this picture?,"Error Codigo: expected an indented block after function definition on line 16 (Codex, line 17)",./data/okvqa/val2014/COCO_val2014_000000241889.jpg,"['ski resort', 'ski resort', 'ski resort', 'ski resort', 'canada', 'canada', 'mountain', 'mountain', 'ski slope', 'ski slope']","def execute_command_2418895(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    # Answer is:
+    # The question is not direct perception, so we need to ask the image for more information
+    # Salient information: what is this place?
+    # Question contains ""or"", so the answer must be ""this place""
+    image = ImagePatch(image)
+    guesses = []
+    place = image.simple_query(""Why might someone go to this place?"")
+    external_knowledge_query = ""Why might someone go to {}?"".format(place)
+    step_by_step_guess = llm_query(external_knowledge_query)
+    guesses.append(""why might someone go to this place is {}"".format(place) + "", so "" + step_by_step_guess)
+    direct_guess = image.simple_query(""Why might someone go to this place?"")
+    guesses.append(direct_guess)
+    return process_guesses(""Why might someone go to this place?"", guesses)
+# What is this place?
+def execute_command(image)->str:
+    # The question is not direct perception, so we need to ask the image for more",0.0,
+1338765,What emotion is shown in the picture?,Error Ejecucion: name 'process_guesses' is not defined,./data/okvqa/val2014/COCO_val2014_000000133876.jpg,"['happy', 'happy', 'happy', 'happy', 'happy', 'happy', 'happy', 'happy', 'happiness', 'happiness']","def execute_command_1338765(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    # Answer is:
+    # The question is not direct perception, so we need to ask the image for more information
+    # Salient information: what does this grow from?
+    image = ImagePatch(image)
+    guesses = []
+    growth = image.simple_query(""What does this grow from?"")
+    external_knowledge_query = ""What does this grow from?"".format(growth)
+    step_by_step_guess = llm_query(external_knowledge_query)
+    guesses.append(""what does this grow from is {}"".format(growth) + "", so "" + step_by_step_guess)
+    direct_guess = image.simple_query(""What does this grow from?"")
+    guesses.append(direct_guess)
+    return process_guesses(""What does this grow from?"", guesses)
+# What is this?
+def execute_command(image)->str:
+    # The question is not direct perception, so we need to ask the image for more information
+    # Salient information: what is this?
+    image = ImagePatch(image)",0.0,
+4160885,What campus is this?,"Error Codigo: expected an indented block after function definition on line 15 (Codex, line 17)",./data/okvqa/val2014/COCO_val2014_000000416088.jpg,"['college', 'college', 'college', 'college', 'college', 'college', 'harvard', 'harvard', 'harvard', 'harvard']","def execute_command_4160885(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    # Answer is:
+    # The question is direct perception, so we can just ask the image for more information
+    # Salient information: what is that man doing with the bat?
+    image = ImagePatch(image)
+    guesses = []
+    man = image.simple_query(""What is that man doing with the bat?"")
+    external_knowledge_query = ""What is that man doing with the bat?"".format(man)
+    step_by_step_guess = llm_query(external_knowledge_query)
+    guesses.append(""what is that man doing with the bat is {}"".format(man) + "", so "" + step_by_step_guess)
+    direct_guess = image.simple_query(""What is that man doing with the bat?"")
+    guesses.append(direct_guess)
+    return process_guesses(""What is that man doing with the bat?"", guesses)
+# What is that man doing with the bat?
+def execute_command(image)->str:
+    # The question is not direct perception, so we need to ask the image for more information
+    #",0.0,
+4139485,Name the material used to make this skating board shown in this picture?,"Error Codigo: expected an indented block after function definition on line 16 (Codex, line 17)",./data/okvqa/val2014/COCO_val2014_000000413948.jpg,"['fiberglass', 'fiberglass', 'fiberglass', 'fiberglass', 'fiberglass', 'fiberglass', 'fiberglass', 'fiberglass', 'plastic', 'plastic']","def execute_command_4139485(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    # Answer is:
+    # The question is not direct perception, so we need to ask the image for more information
+    # Salient information: what is this?
+    # Question contains ""or"", so the answer must be ""at a salt"" or ""a lake""
+    image = ImagePatch(image)
+    guesses = []
+    item = image.simple_query(""What is this?"")
+    external_knowledge_query = ""Is this at a salt? is this a lake?"".format(item)
+    step_by_step_guess = llm_query(external_knowledge_query)
+    guesses.append(""what is this is {}"".format(item) + "", so "" + step_by_step_guess)
+    direct_guess = image.simple_query(""Is this at a salt or a lake?"")
+    guesses.append(direct_guess)
+    return process_guesses(""Is this at a salt or a lake?"", guesses)
+# What is this?
+def execute_command(image)->str:
+    # The question is not direct perception, so we need to ask the image",0.0,
+1341195,What is a group of these animals called?,"Error Codigo: invalid syntax (Codex, line 18)",./data/okvqa/val2014/COCO_val2014_000000134119.jpg,"['herd', 'herd', 'herd', 'herd', 'herd', 'herd', 'tower', 'tower', 'tower', 'tower']","def execute_command_1341195(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    # Answer is:
+    # The question is not direct perception, so we need to ask the image for more information
+    # Salient information: what is being done?
+    image = ImagePatch(image)
+    guesses = []
+    statues = image.simple_query(""Who designed the statues?"")
+    external_knowledge_query = ""Who designed the statues?"".format(statues)
+    step_by_step_guess = llm_query(external_knowledge_query)
+    guesses.append(""who designed the statues is {}"".format(statues) + "", so "" + step_by_step_guess)
+    direct_guess = image.simple_query(""Who designed the statues?"")
+    guesses.append(direct_guess)
+    return process_guesses(""Who designed the statues?"", guesses)
+# What is the answer to a question?
+def execute_command(image)->str:
+    # The question is not direct perception, so we need to ask the image for more information
+    # Salient information: what is this answer to a question?
+    image =",0.0,
+2025625,Where are they going?,Error Ejecucion: name 'process_guesses' is not defined,./data/okvqa/val2014/COCO_val2014_000000202562.jpg,"['on trip', 'on trip', 'on trip', 'on trip', 'on trip', 'on trip', 'vacation', 'vacation', 'vacation', 'vacation']","def execute_command_2025625(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    # Answer is:
+    # The question is not direct perception, so we need to ask the image for more information
+    # Salient information: what is the name of the items the hot dog are topped with?
+    image = ImagePatch(image)
+    guesses = []
+    items = image.simple_query(""What is the name of the items the hot dog are topped with?"")
+    external_knowledge_query = ""What is the name of the items {} are topped with?"".format(items)
+    step_by_step_guess = llm_query(external_knowledge_query)
+    guesses.append(""what is the name of the items the hot dog are topped with is {}"".format(items) + "", so "" + step_by_step_guess)
+    direct_guess = image.simple_query(""What is the name of the items the hot dog are topped with?"")
+    guesses.append(direct_guess)
+    return process_guesses(""What is the name of the items the hot dog are topped with?"", guesses)",0.0,
+1002835,What language is the lower text on the sign transcribed in?,"Error Codigo: expected an indented block after function definition on line 15 (Codex, line 17)",./data/okvqa/val2014/COCO_val2014_000000100283.jpg,"['hindu', 'hindu', 'hindu', 'hindu', 'arabic', 'arabic', 'arabic', 'arabic', 'hindi', 'hindi']","def execute_command_1002835(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    # Answer is:
+    # The question is not direct perception, so we need to ask the image for more information
+    # Salient information: what is this desk?
+    image = ImagePatch(image)
+    guesses = []
+    desk_type = image.simple_query(""What is this desk?"")
+    external_knowledge_query = ""What is this {} used for?"".format(desk_type)
+    step_by_step_guess = llm_query(external_knowledge_query)
+    guesses.append(""what is this desk is {}"".format(desk_type) + "", so "" + step_by_step_guess)
+    direct_guess = image.simple_query(""What is this desk used for?"")
+    guesses.append(direct_guess)
+    return process_guesses(""What is this desk used for?"", guesses)
+# What is this?
+def execute_command(image)->str:
+    # The question is not direct perception, so we need to ask the image for more information
+    # Salient information: what is this?",0.0,
+3957455,What patterns are shown on the plate?,Error Ejecucion: name 'process_guesses' is not defined,./data/okvqa/val2014/COCO_val2014_000000395745.jpg,"['floral', 'floral', 'floral', 'floral', 'floral', 'floral', 'triangle', 'triangle', 'vine', 'vine']","def execute_command_3957455(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    # Answer is:
+    # The question is not direct perception, so we need to ask the image for more information
+    # Salient information: what kind of bike is this?
+    image = ImagePatch(image)
+    guesses = []
+    bike_type = image.simple_query(""What kind of bike is this?"")
+    external_knowledge_query = ""What type of bike is on the ground?""
+    step_by_step_guess = llm_query(external_knowledge_query)
+    guesses.append(""what kind of bike is this is {}"".format(bike_type) + "", so "" + step_by_step_guess)
+    direct_guess = image.simple_query(""What type of bike is on the ground?"")
+    guesses.append(direct_guess)
+    return process_guesses(""What type of bike is on the ground?"", guesses)",0.0,
+5077665,What kind of birds are these?,"Error Codigo: expected an indented block after function definition on line 15 (Codex, line 18)",./data/okvqa/val2014/COCO_val2014_000000507766.jpg,"['seagull', 'seagull', 'seagull', 'seagull', 'sea gull', 'sea gull', 'gull', 'gull', 'tern', 'tern']","def execute_command_5077665(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    # Answer is:
+    # The question is not direct perception, so we need to ask the image for more information
+    # Salient information: what kind of plane is this?
+    image = ImagePatch(image)
+    guesses = []
+    plane_type = image.simple_query(""What kind of plane is this?"")
+    external_knowledge_query = ""What type of {} is that?"".format(plane_type)
+    step_by_step_guess = llm_query(external_knowledge_query)
+    guesses.append(""what kind of plane is this is {}"".format(plane_type) + "", so "" + step_by_step_guess)
+    direct_guess = image.simple_query(""What type of plane is that?"")
+    guesses.append(direct_guess)
+    return process_guesses(""What type of plane is that?"", guesses)
+# What is this?
+def execute_command(image)->str:
+    # The question is not direct perception, so we need to ask the image for more information
+    # Salient information: what is this?
+   ",0.0,
+3381055,What makes the sky that color?,Error Ejecucion: name 'process_guesses' is not defined,./data/okvqa/val2014/COCO_val2014_000000338105.jpg,"['sunset', 'sunset', 'sunset', 'sunset', 'sun', 'sun', 'temperature', 'temperature', 'smog', 'smog']","def execute_command_3381055(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    # Answer is:
+    # The question is not direct perception, so we need to ask the image for more information
+    # Salient information: what is this room for?
+    image = ImagePatch(image)
+    guesses = []
+    room_type = image.simple_query(""What is this room for?"")
+    external_knowledge_query = ""Is this a {} for a boy or girl?"".format(room_type)
+    step_by_step_guess = llm_query(external_knowledge_query)
+    guesses.append(""what is this room for is {}"".format(room_type) + "", so "" + step_by_step_guess)
+    direct_guess = image.simple_query(""Is this a room for a boy or girl?"")
+    guesses.append(direct_guess)
+    return process_guesses(""Is this a room for a boy or girl?"", guesses)",0.0,
+4741195,What type of phone is this man using?,"Error Codigo: expected an indented block after function definition on line 16 (Codex, line 18)",./data/okvqa/val2014/COCO_val2014_000000474119.jpg,"['landline', 'landline', 'landline', 'landline', 'land line', 'land line', 'touch tone', 'touch tone', 'lan line', 'lan line']","def execute_command_4741195(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    # Answer is:
+    # The question is not direct perception, so we need to ask the image for more information
+    # Salient information: what is this desert?
+    # Question contains ""in"", so the answer must be ""in the year""
+    image = ImagePatch(image)
+    guesses = []
+    desert = image.simple_query(""What is this desert?"")
+    external_knowledge_query = ""In what year was {} first introduced?"".format(desert)
+    step_by_step_guess = llm_query(external_knowledge_query)
+    guesses.append(""what is this desert is {}"".format(desert) + "", so "" + step_by_step_guess)
+    direct_guess = image.simple_query(""In what year was this desert first introduced?"")
+    guesses.append(direct_guess)
+    return process_guesses(""In what year was this desert first introduced?"", guesses)
+# What is this desert?
+def execute_command(image)->str:
+    # The question is direct perception, so we can just ask the image
+    #",0.0,
+3012665,What is the product being made here?,"Error Codigo: expected an indented block after function definition on line 15 (Codex, line 17)",./data/okvqa/val2014/COCO_val2014_000000301266.jpg,"['silverware', 'silverware', 'silverware', 'silverware', 'desert', 'desert', 'dinner', 'dinner', 'oven', 'oven']","def execute_command_3012665(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    # Answer is:
+    # The question is not direct perception, so we need to ask the image for more information
+    # Salient information: what is this surf trick?
+    image = ImagePatch(image)
+    guesses = []
+    surf_trick = image.simple_query(""What is this surf trick?"")
+    external_knowledge_query = ""What is this {} called?"".format(surf_trick)
+    step_by_step_guess = llm_query(external_knowledge_query)
+    guesses.append(""what is this surf trick is {}"".format(surf_trick) + "", so "" + step_by_step_guess)
+    direct_guess = image.simple_query(""What is this surf trick called?"")
+    guesses.append(direct_guess)
+    return process_guesses(""What is this surf trick called?"", guesses)
+# What is this item?
+def execute_command(image)->str:
+    # The question is not direct perception, so we need to ask the image for more information
+    # Salient",0.0,
+5152475,This animal was inhumanely hunted for what material which can be found in its skin?,Error Ejecucion: name 'process_guesses' is not defined,./data/okvqa/val2014/COCO_val2014_000000515247.jpg,"['ivory', 'ivory', 'ivory', 'ivory', 'ivory', 'ivory', 'tusk', 'tusk', 'tusk ivory', 'tusk ivory']","def execute_command_5152475(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    # Answer is:
+    # The question is not direct perception, so we need to ask the image for more information
+    # Salient information: what is this sport?
+    image = ImagePatch(image)
+    guesses = []
+    sport = image.simple_query(""What is this sport?"")
+    external_knowledge_query = ""What do they call running around the bases on a single hit in {}?"".format(sport)
+    step_by_step_guess = llm_query(external_knowledge_query)
+    guesses.append(""what is this sport is {}"".format(sport) + "", so "" + step_by_step_guess)
+    direct_guess = image.simple_query(""What do they call running around the bases on a single hit?"")
+    guesses.append(direct_guess)
+    return process_guesses(""What do they call running around the bases on a single hit?"", guesses)",0.0,
+1261235,What region would you find this type of bear?,"Error Codigo: expected an indented block after function definition on line 15 (Codex, line 17)",./data/okvqa/val2014/COCO_val2014_000000126123.jpg,"['russia', 'russia', 'russia', 'russia', 'russia', 'russia', 'northern united state', 'northern united state', 'asia', 'asia']","def execute_command_1261235(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    # Answer is:
+    # The question is not direct perception, so we need to ask the image for more information
+    # Salient information: what is this plugged in?
+    image = ImagePatch(image)
+    guesses = []
+    plugged_in = image.simple_query(""What is this plugged in?"")
+    external_knowledge_query = ""Why is {} plugged in?"".format(plugged_in)
+    step_by_step_guess = llm_query(external_knowledge_query)
+    guesses.append(""what is this plugged in is {}"".format(plugged_in) + "", so "" + step_by_step_guess)
+    direct_guess = image.simple_query(""Why is this plugged in?"")
+    guesses.append(direct_guess)
+    return process_guesses(""Why is this plugged in?"", guesses)
+# What is this?
+def execute_command(image)->str:
+    # The question is direct perception, so we can just ask the image
+    # Salient information: what is this?
+",0.0,
+2878305,How heavy are these machines?,"Error Codigo: expected an indented block after function definition on line 23 (Codex, line 24)",./data/okvqa/val2014/COCO_val2014_000000287830.jpg,"['175000 lbs', '175000 lbs', '175000 lbs', '175000 lbs', '735000 pounds', '735000 pounds', 'they weigh ton', 'they weigh ton', '450 ton', '450 ton']","def execute_command_2878305(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    # Answer is:
+    # The question is direct perception, so we can just ask the image
+    # Salient information: what is the shape?
+    image = ImagePatch(image)
+    direct_guess = image.simple_query(""What is the shape?"")
+    return direct_guess
+# What is the color?
+def execute_command(image)->str:
+    # The question is direct perception, so we can just ask the image
+    # Salient information: what is the color?
+    image = ImagePatch(image)
+    direct_guess = image.simple_query(""What is the color?"")
+    return direct_guess
+# What is the size?
+def execute_command(image)->str:
+    # The question is direct perception, so we can just ask the image
+    # Salient information: what is the size?
+    image = ImagePatch(image)
+    direct_guess = image.simple_query(""What is the size?"")
+    return direct_guess
+# What is the texture?
+def execute_command(image)->str:
+    # The question is direct perception,",0.0,
+1063305,Where can i buy a bear similar to this one?,Error Ejecucion: name 'process_guesses' is not defined,./data/okvqa/val2014/COCO_val2014_000000106330.jpg,"['toy store', 'toy store', 'toy store', 'toy store', 'target', 'target', 'gundt', 'gundt', 'walmart', 'walmart']","def execute_command_1063305(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    # Answer is:
+    # The question is not direct perception, so we need to ask the image for more information
+    # Salient information: what kind of truck is this?
+    image = ImagePatch(image)
+    guesses = []
+    truck_type = image.simple_query(""What kind of truck is this?"")
+    external_knowledge_query = ""What is the horsepower of the {} pulling the load?"".format(truck_type)
+    step_by_step_guess = llm_query(external_knowledge_query)
+    guesses.append(""what kind of truck is this is {}"".format(truck_type) + "", so "" + step_by_step_guess)
+    direct_guess = image.simple_query(""What is the horsepower of the truck pulling the load?"")
+    guesses.append(direct_guess)
+    return process_guesses(""What is the horsepower of the truck pulling the load?"", guesses)",0.0,
+512035,Which color seen on a garment here is often seen on flowering bushes?,Error Ejecucion: name 'process_guesses' is not defined,./data/okvqa/val2014/COCO_val2014_000000051203.jpg,"['pink', 'pink', 'pink', 'pink', 'pink', 'pink', 'rose', 'rose', 'rose', 'rose']","def execute_command_512035(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    # Answer is:
+    # The question is not direct perception, so we need to ask the image for more information
+    # Salient information: what is this person doing?
+    image = ImagePatch(image)
+    guesses = []
+    action = image.simple_query(""What is this person doing?"")
+    external_knowledge_query = ""What kind of skiing is {} engaged in?"".format(action)
+    step_by_step_guess = llm_query(external_knowledge_query)
+    guesses.append(""what is this person doing is {}"".format(action) + "", so "" + step_by_step_guess)
+    direct_guess = image.simple_query(""What kind of skiing is this person engaged in?"")
+    guesses.append(direct_guess)
+    return process_guesses(""What kind of skiing is this person engaged in?"", guesses)",0.0,
+,,,,,,,-
+,,,,,,,-
+,,,,,,,-
+,,,,,,,-
+,,,,,,,-
+,,,,,,,-
+,,,,,,,0.0

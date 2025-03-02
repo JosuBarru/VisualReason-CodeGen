@@ -1,0 +1,241 @@
+sample_id,query,Answer,image_path,truth_answers,code,IoU,accuracy,0
+0,person out of focus wearing a watch,"Error Ejecucion: ""No model named blip. The available models are: ['glip', 'gemma', 'maskrcnn']. Make sure to activate it in the configs files""",./data/refcoco/mscoco/train2014/COCO_train2014_000000427852.jpg,"[37.75, 366.74, 197.39, 475.69]","def execute_command_0(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    # Answer is:
+    # Return the person
+    image_patch = ImagePatch(image)
+    person_patches = image_patch.find(""person"")
+    person_patches.sort(key=lambda person: distance(person, image_patch))
+    person_patch = person_patches[0]
+    if person_patch.exists(""watch""):
+        return person_patch
+    # Remember: return the person
+    return person_patch",0.11631156504154205,0,
+1,the bald man,"ImagePatch(0, 195, 104, 354)",./data/refcoco/mscoco/train2014/COCO_train2014_000000277439.jpg,"[0.96, 4.7999999999999545, 368.46999999999997, 387.65999999999997]","def execute_command_1(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    # Answer is:
+    # Return the man
+    image_patch = ImagePatch(image)
+    man_patches = image_patch.find(""man"")
+    man_patches.sort(key=lambda man: man.horizontal_center)
+    man_patch = man_patches[0]
+    # Remember: return the man
+    return man_patch",0.0,0,
+2,blue man standing,"ImagePatch(24, 61, 84, 238)",./data/refcoco/mscoco/train2014/COCO_train2014_000000078425.jpg,"[511.2, 1.910000000000025, 640.0, 426.0]","def execute_command_2(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    # Answer is:
+    # Return the man
+    image_patch = ImagePatch(image)
+    man_patches = image_patch.find(""man"")
+    man_patches.sort(key=lambda man: man.horizontal_center)
+    man_patch = man_patches[0]
+    # Remember: return the man
+    return man_patch",0.9743907451629639,1,
+3,woman in black shirt and jeans,"Error Ejecucion: ""No model named xvlm. The available models are: ['glip', 'gemma', 'maskrcnn']. Make sure to activate it in the configs files""",./data/refcoco/mscoco/train2014/COCO_train2014_000000563364.jpg,"[283.31, 115.66999999999996, 362.1, 321.03]","def execute_command_3(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    # Answer is:
+    # Return the woman
+    image_patch = ImagePatch(image)
+    woman_patches = image_patch.find(""woman"")
+    if len(woman_patches) == 0:
+        woman_patches = [image_patch]
+    elif len(woman_patches) == 1:
+        return woman_patches[0]
+    woman_patches_black_shirt = [w for w in woman_patches if w.verify_property(""woman"", ""black clothing"")]
+    if len(woman_patches_black_shirt) == 0:
+        woman_patches_black_shirt = woman_patches
+    woman_patches_black_shirt.sort(key=lambda w: distance(w, image_patch))
+    woman_patch = woman_patches_black_shirt[0]
+    # Remember: return the woman
+    return woman_patch",0.0,0,
+4,man,"ImagePatch(174, 78, 450, 506)",./data/refcoco/mscoco/train2014/COCO_train2014_000000343291.jpg,"[173.68, 69.90999999999997, 449.52, 504.14]","def execute_command_4(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    # Answer is:
+    # Return the man
+    image_patch = ImagePatch(image)
+    man_patches = image_patch.find(""man"")
+    if len(man_patches) == 0:
+        man_patches = [image_patch]
+    man_patch = man_patches[0]
+    # Remember: return the man
+    return man_patch",0.027409445494413376,0,
+5,white umbrella fabric thingy i think leaning,"ImagePatch(162, 33, 378, 274)",./data/refcoco/mscoco/train2014/COCO_train2014_000000420864.jpg,"[0.81, 4.060000000000002, 119.25, 292.86]","def execute_command_5(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    # Answer is:
+    # Return the umbrella
+    image_patch = ImagePatch(image)
+    umbrella_patches = image_patch.find(""umbrella"")
+    if len(umbrella_patches) == 0:
+        umbrella_patches = [image_patch]
+    elif len(umbrella_patches) == 1:
+        return umbrella_patches[0]
+    umbrella_patches.sort(key=lambda umbrella: umbrella.vertical_center)
+    umbrella_patch = umbrella_patches[0]
+    # Remember: return the umbrella
+    return umbrella_patch",0.0,0,
+6,blue shirt guy hidden,"Error Ejecucion: ""No model named depth. The available models are: ['glip', 'gemma', 'maskrcnn']. Make sure to activate it in the configs files""",./data/refcoco/mscoco/train2014/COCO_train2014_000000218579.jpg,"[349.48, 83.42000000000007, 527.82, 533.5699999999999]","def execute_command_6(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    # Answer is:
+    # Return the person
+    image_patch = ImagePatch(image)
+    person_patches = image_patch.find(""person"")
+    person_patches.sort(key=lambda person: person.compute_depth())
+    person_patch = person_patches[-1]
+    # Remember: return the person
+    return person_patch",0.9307227730751038,1,
+7,guy in tan jacket,"Error Ejecucion: ""No model named depth. The available models are: ['glip', 'gemma', 'maskrcnn']. Make sure to activate it in the configs files""",./data/refcoco/mscoco/train2014/COCO_train2014_000000520978.jpg,"[457.91, 75.13999999999999, 606.48, 360.8]","def execute_command_7(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    # Answer is:
+    # Return the guy
+    image_patch = ImagePatch(image)
+    guy_patches = image_patch.find(""guy"")
+    guy_patches.sort(key=lambda guy: guy.compute_depth())
+    guy_patch = guy_patches[-1]
+    # Remember: return the guy
+    return guy_patch",0.0,0,
+8,lady purple,"Error Ejecucion: ""No model named xvlm. The available models are: ['glip', 'gemma', 'maskrcnn']. Make sure to activate it in the configs files""",./data/refcoco/mscoco/train2014/COCO_train2014_000000352357.jpg,"[71.91, 325.90000000000003, 191.28, 606.35]","def execute_command_8(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    # Answer is:
+    # Return the lady
+    image_patch = ImagePatch(image)
+    lady_patches = image_patch.find(""lady"")
+    if len(lady_patches) == 0:
+        lady_patches = [image_patch]
+    lady_patch = best_image_match(lady_patches, [""purple""])
+    # Remember: return the lady
+    return lady_patch",0.9407723546028137,1,
+9,lady with purse,"ImagePatch(0, 100, 56, 398)",./data/refcoco/mscoco/train2014/COCO_train2014_000000492096.jpg,"[44.79, 3.109999999999957, 318.31, 394.46]","def execute_command_9(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    # Answer is:
+    # Return the lady
+    image_patch = ImagePatch(image)
+    lady_patches = image_patch.find(""lady"")
+    lady_patches.sort(key=lambda lady: lady.horizontal_center)
+    lady_patch = lady_patches[0]
+    # Remember: return the lady
+    return lady_patch",0.237105593085289,0,
+10,woman with scarf,"ImagePatch(126, 14, 197, 310)",./data/refcoco/mscoco/train2014/COCO_train2014_000000444214.jpg,"[265.88, 28.200000000000045, 336.62, 312.59000000000003]","def execute_command_10(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    # Answer is:
+    # Return the woman
+    image_patch = ImagePatch(image)
+    woman_patches = image_patch.find(""woman"")
+    if len(woman_patches) == 0:
+        woman_patches = [image_patch]
+    woman_patches.sort(key=lambda woman: woman.horizontal_center)
+    woman_patch = woman_patches[0]
+    # Remember: return the woman
+    return woman_patch",0.9779771566390991,1,
+11,man in white looking at other chefs,"ImagePatch(193, 129, 307, 281)",./data/refcoco/mscoco/train2014/COCO_train2014_000000167220.jpg,"[192.78, 122.64999999999998, 308.44, 283.62]","def execute_command_11(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    # Answer is:
+    # Return the man
+    image_patch = ImagePatch(image)
+    man_patches = image_patch.find(""man"")
+    man_patches.sort(key=lambda man: man.horizontal_center)
+    man_patch = man_patches[0]
+    # Remember: return the man
+    return man_patch",,,
+12,guy in black t shirt,"Error Ejecucion: ""No model named xvlm. The available models are: ['glip', 'gemma', 'maskrcnn']. Make sure to activate it in the configs files""",./data/refcoco/mscoco/train2014/COCO_train2014_000000216822.jpg,"[255.83, 0.0, 389.68, 338.45]","def execute_command_12(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    # Answer is:
+    # Return the person
+    image_patch = ImagePatch(image)
+    person_patches = image_patch.find(""person"")
+    person_patch = best_image_match(person_patches, [""black t shirt""])
+    # Remember: return the person
+    return person_patch",,,
+13,closest head straight brown hair,"Error Ejecucion: ""No model named depth. The available models are: ['glip', 'gemma', 'maskrcnn']. Make sure to activate it in the configs files""",./data/refcoco/mscoco/train2014/COCO_train2014_000000529352.jpg,"[272.37, 5.3799999999999955, 398.33, 123.81]","def execute_command_13(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    # Answer is:
+    # Return the person
+    image_patch = ImagePatch(image)
+    person_patches = image_patch.find(""person"")
+    person_patches.sort(key=lambda person: person.compute_depth())
+    person_patch = person_patches[-1]
+    # Remember: return the person
+    return person_patch",,,
+14,man with tie,"ImagePatch(38, 2, 156, 367)",./data/refcoco/mscoco/train2014/COCO_train2014_000000216822.jpg,"[364.97, 7.6200000000000045, 507.90000000000003, 326.85]","def execute_command_14(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    # Answer is:
+    # Return the man
+    image_patch = ImagePatch(image)
+    man_patches = image_patch.find(""man"")
+    man_patches.sort(key=lambda man: man.horizontal_center)
+    man_patch = man_patches[0]
+    # Remember: return the man
+    return man_patch",,,
+15,seated person in foreground,"Error Ejecucion: ""No model named depth. The available models are: ['glip', 'gemma', 'maskrcnn']. Make sure to activate it in the configs files""",./data/refcoco/mscoco/train2014/COCO_train2014_000000372309.jpg,"[379.27, 27.710000000000036, 640.0, 196.8]","def execute_command_15(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    # Answer is:
+    # Return the person
+    image_patch = ImagePatch(image)
+    person_patches = image_patch.find(""person"")
+    person_patches.sort(key=lambda person: person.compute_depth())
+    person_patch = person_patches[-1]
+    # Remember: return the person
+    return person_patch",,,
+16,fully visible person,"Error Ejecucion: ""No model named depth. The available models are: ['glip', 'gemma', 'maskrcnn']. Make sure to activate it in the configs files""",./data/refcoco/mscoco/train2014/COCO_train2014_000000447681.jpg,"[62.53, 239.79000000000002, 255.12, 497.05]","def execute_command_16(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    # Answer is:
+    # Return the person
+    image_patch = ImagePatch(image)
+    person_patches = image_patch.find(""person"")
+    person_patches.sort(key=lambda person: person.compute_depth())
+    person_patch = person_patches[0]
+    # Remember: return the person
+    return person_patch",,,
+17,red pants,"Error Ejecucion: ""No model named xvlm. The available models are: ['glip', 'gemma', 'maskrcnn']. Make sure to activate it in the configs files""",./data/refcoco/mscoco/train2014/COCO_train2014_000000564449.jpg,"[297.3, 82.70000000000005, 424.86, 414.59000000000003]","def execute_command_17(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    # Answer is:
+    # Return the person
+    image_patch = ImagePatch(image)
+    # Clothing always requires returning the person
+    person_patches = image_patch.find(""person"")
+    person_patch = best_image_match(person_patches, ""red pants"")
+    # Remember: return the person
+    return person_patch",,,
+18,brown shirt,"Error Ejecucion: ""No model named xvlm. The available models are: ['glip', 'gemma', 'maskrcnn']. Make sure to activate it in the configs files""",./data/refcoco/mscoco/train2014/COCO_train2014_000000199234.jpg,"[286.68, 3.259999999999991, 418.03, 241.32]","def execute_command_18(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    # Answer is:
+    # Return the person
+    image_patch = ImagePatch(image)
+    # Clothing always requires returning the person
+    person_patches = image_patch.find(""person"")
+    person_patch = best_image_match(person_patches, [""brown shirt""])
+    # Remember: return the person
+    return person_patch",,,
+19,girl pic 2,"ImagePatch(409, 44, 621, 394)",./data/refcoco/mscoco/train2014/COCO_train2014_000000333546.jpg,"[402.86, 40.76000000000005, 623.75, 390.1]","def execute_command_19(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    # Answer is:
+    # Return the girl
+    image_patch = ImagePatch(image)
+    girl_patches = image_patch.find(""girl"")
+    girl_patches.sort(key=lambda girl: girl.horizontal_center)
+    girl_patch = girl_patches[1]
+    # Remember: return the girl
+    return girl_patch",,,
+20,woman,"ImagePatch(1, 1, 178, 186)",./data/refcoco/mscoco/train2014/COCO_train2014_000000301109.jpg,"[61.47, 4.319999999999993, 329.41999999999996, 294.36]","def execute_command_20(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    # Answer is:
+    # Return the person
+    image_patch = ImagePatch(image)
+    person_patches = image_patch.find(""person"")
+    person_patches.sort(key=lambda person: person.horizontal_center)
+    person_patch = person_patches[0]
+    # Remember: return the person
+    return person_patch",,,
+21,brown jacket holding kid,"Error Ejecucion: ""No model named depth. The available models are: ['glip', 'gemma', 'maskrcnn']. Make sure to activate it in the configs files""",./data/refcoco/mscoco/train2014/COCO_train2014_000000337976.jpg,"[415.6, 32.09000000000003, 624.2, 333.91]","def execute_command_21(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    # Answer is:
+    # Return the jacket
+    image_patch = ImagePatch(image)
+    jacket_patches = image_patch.find(""jacket"")
+    jacket_patches.sort(key=lambda jacket: jacket.compute_depth())
+    jacket_patch = jacket_patches[-1]
+    # Remember: return the jacket
+    return jacket_patch",,,
+22,black vest and tie,"Error Ejecucion: ""No model named xvlm. The available models are: ['glip', 'gemma', 'maskrcnn']. Make sure to activate it in the configs files""",./data/refcoco/mscoco/train2014/COCO_train2014_000000448274.jpg,"[395.44, 1.3199999999999932, 470.13, 273.51]","def execute_command_22(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    # Answer is:
+    # Return the person
+    image_patch = ImagePatch(image)
+    # Clothing always requires returning the person
+    person_patches = image_patch.find(""person"")
+    person_patch = best_image_match(person_patches, [""black vest"", ""tie""])
+    # Remember: return the person
+    return person_patch",,,
+23,man in suit,"ImagePatch(17, 56, 178, 485)",./data/refcoco/mscoco/train2014/COCO_train2014_000000389145.jpg,"[18.26, 56.24000000000001, 180.13, 485.31]","def execute_command_23(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    # Answer is:
+    # Return the man
+    image_patch = ImagePatch(image)
+    man_patches = image_patch.find(""man"")
+    man_patches.sort(key=lambda man: man.horizontal_center)
+    man_patch = man_patches[0]
+    # Remember: return the man
+    return man_patch",,,
+,,,,,,,,-
+,,,,,,,,-
+,,,,,,,,-
+,,,,,,,,-
+,,,,,,,,-
+,,,,,,,,-
+,,,,,,,,0.1751954013792177
+,,,,,,,,0.16666666666666666
