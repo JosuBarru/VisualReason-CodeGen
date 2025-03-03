@@ -26,6 +26,22 @@ def parse_args():
     
     return parser.parse_args()
 
+def return_prompt_and_responses(samples) -> Dict[str, str, str]:
+
+    with open("prompts/benchmarks/gqa.prompt", "r") as file:
+        prompt_template = file.read()
+    
+    # For each question in samples["prompt"], replace the placeholder comment with the new code
+    prompts = []
+    for question in samples["prompt"]:
+        modified_prompt = prompt_template.replace("# INSERT_QUERY_HERE", question)
+        prompts.append(modified_prompt)
+    return {
+        "prompt": prompts,
+        "chosen": samples["chosen"],   
+        "rejected": samples["rejected"], 
+    }
+
 def train_dpo(args):
     # Load the model and tokenizer
     print("Loading model and tokenizer...")
@@ -35,6 +51,11 @@ def train_dpo(args):
     # Load dataset
     print(f"Loading dataset from {args.dataset_path}...")
     dataset = datasets.load_from_disk("/sorgin1/users/jbarrutia006/viper/results/gqa/dpo_dataset/train/dpo_dataset_single.arrow")
+
+    dataset.map(
+        return_prompt_and_responses,
+        batched=True,
+    )
 
     # Define training arguments
     training_args = TrainingArguments(
@@ -62,8 +83,8 @@ def train_dpo(args):
     trainer = DPOTrainer(
         model=model,
         args=training_args,
-        train_dataset=dataset["train"],
-        eval_dataset=dataset.get("validation", None),
+        train_dataset=dataset,
+        eval_dataset=dataset[],
         tokenizer=tokenizer,
         beta=0.1  # Controls preference strength (adjustable)
     )
