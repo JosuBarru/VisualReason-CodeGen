@@ -1734,6 +1734,7 @@ class deepSeekLlama8b(CodexModel):
         # Call the generate method on the LLM instance.
         results = self.llm.generate(prompt, self.sampling_params)
         # Extract generated text from each result.
+        print(prompt)
         generated_text = [result.outputs[0].text for result in results]
         return generated_text
 

@@ -1,1 +1,22 @@
+SELECTED CONFIG FILES: gqa/general_config,config_codex_deepseek-Qwen-7b,gqa/save_codex,gqa/train
+LOADING MODEL: DISABLED
+INFO 03-05 20:59:26 __init__.py:183] Automatically detected platform cuda.
+INFO 03-05 20:59:48 config.py:526] This model supports multiple tasks: {'score', 'generate', 'classify', 'embed', 'reward'}. Defaulting to 'generate'.
+WARNING 03-05 20:59:48 arg_utils.py:1119] Chunked prefill is enabled by default for models with max_model_len > 32K. Currently, chunked prefill might not work with some features or models. If you encounter any issues, please disable chunked prefill by setting --enable-chunked-prefill=False.
+INFO 03-05 20:59:48 config.py:1538] Chunked prefill is enabled with max_num_batched_tokens=2048.
+INFO 03-05 20:59:48 llm_engine.py:232] Initializing a V0 LLM engine (v0.7.1) with config: model='deepseek-ai/DeepSeek-R1-Distill-Qwen-7B', speculative_config=None, tokenizer='deepseek-ai/DeepSeek-R1-Distill-Qwen-7B', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, override_neuron_config=None, tokenizer_revision=None, trust_remote_code=False, dtype=torch.bfloat16, max_seq_len=131072, download_dir=None, load_format=LoadFormat.AUTO, tensor_parallel_size=1, pipeline_parallel_size=1, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, kv_cache_dtype=auto,  device_config=cuda, decoding_config=DecodingConfig(guided_decoding_backend='xgrammar'), observability_config=ObservabilityConfig(otlp_traces_endpoint=None, collect_model_forward_time=False, collect_model_execute_time=False), seed=0, served_model_name=deepseek-ai/DeepSeek-R1-Distill-Qwen-7B, num_scheduler_steps=1, multi_step_stream_outputs=True, enable_prefix_caching=False, chunked_prefill_enabled=True, use_async_output_proc=True, disable_mm_preprocessor_cache=False, mm_processor_kwargs=None, pooler_config=None, compilation_config={"splitting_ops":[],"compile_sizes":[],"cudagraph_capture_sizes":[256,248,240,232,224,216,208,200,192,184,176,168,160,152,144,136,128,120,112,104,96,88,80,72,64,56,48,40,32,24,16,8,4,2,1],"max_capture_size":256}, use_cached_outputs=False, 
+INFO 03-05 20:59:51 cuda.py:235] Using Flash Attention backend.
+INFO 03-05 20:59:52 model_runner.py:1111] Starting to load model deepseek-ai/DeepSeek-R1-Distill-Qwen-7B...
+INFO 03-05 20:59:53 weight_utils.py:251] Using model weights format ['*.safetensors']
+INFO 03-05 21:03:28 model_runner.py:1116] Loading model weights took 14.2717 GB
+INFO 03-05 21:03:30 worker.py:266] Memory profiling takes 1.77 seconds
+INFO 03-05 21:03:30 worker.py:266] the current vLLM instance can use total_gpu_memory (79.15GiB) x gpu_memory_utilization (0.90) = 71.24GiB
+INFO 03-05 21:03:30 worker.py:266] model weights take 14.27GiB; non_torch_memory takes 0.09GiB; PyTorch activation peak memory takes 1.40GiB; the rest of the memory reserved for KV Cache is 55.47GiB.
+INFO 03-05 21:03:30 executor_base.py:108] # CUDA blocks: 64916, # CPU blocks: 4681
+INFO 03-05 21:03:30 executor_base.py:113] Maximum concurrency for 131072 tokens per request: 7.92x
+INFO 03-05 21:03:32 model_runner.py:1435] Capturing cudagraphs for decoding. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI. If out-of-memory error occurs during cudagraph capture, consider decreasing `gpu_memory_utilization` or switching to eager mode. You can also reduce the `max_num_seqs` as needed to decrease memory usage.
+INFO 03-05 21:03:49 model_runner.py:1563] Graph capturing finished in 17 secs, took 0.78 GiB
+INFO 03-05 21:03:49 llm_engine.py:429] init engine (profile, create kv cache, warmup model) took 21.60 seconds
+modelo: <class 'vision_models.deepSeekQwen7b'> , proceso:  deepSeekQwen7b
+{'deepSeekQwen7b': <function make_fn.<locals>._function at 0x7efc1df300e0>}
 Final accuracy: 0.17682539682539683

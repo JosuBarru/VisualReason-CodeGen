@@ -37,7 +37,7 @@ os.chdir(script_dir)
 
 from configs import config
 from utils import seed_everything
-import datasets
+import my_datasets
 
 # See https://github.com/pytorch/pytorch/issues/11201, https://github.com/pytorch/pytorch/issues/973
 # Not for dataloader, but for multiprocessing batches
@@ -191,7 +191,7 @@ def main():
 
     from vision_processes import queues_in, finish_all_consumers, forward, manager
     
-    from datasets import get_dataset
+    from my_datasets import get_dataset
     dataset = get_dataset(config.dataset)
 
     logger.info("Models successfully loaded")

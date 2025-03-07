@@ -278,6 +278,6 @@ def execute_command(image)->str:
 Reason about the following query and generate the corresponding function. 
 # INSERT_QUERY_HERE
 
-Please do not write ImagePatch class again, just define the new execute_command function that starts as follows:
+Please do not write ImagePatch class again, just define the new execute_command function.
 
 <think>

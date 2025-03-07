@@ -39,7 +39,7 @@ os.chdir(script_dir)
 
 from configs import config
 from utils import seed_everything
-import datasets
+#import datasets
 
 # See https://github.com/pytorch/pytorch/issues/11201, https://github.com/pytorch/pytorch/issues/973
 # Not for dataloader, but for multiprocessing batches
@@ -172,6 +172,7 @@ def main():
     mp.set_start_method('spawn')
 
     from vision_processes import queues_in, finish_all_consumers, forward, manager
+    from my_datasets import get_dataset
 
     logger.info("Models successfully loaded")
 
@@ -207,7 +208,6 @@ def main():
         # log the prompt file
         wandb.save(config.codex.prompt)
 
-    from datasets import get_dataset
     dataset = get_dataset(config.dataset)
 
     logger.info("Dataset loaded")

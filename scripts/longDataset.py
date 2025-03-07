@@ -28,7 +28,7 @@ sys.path.append(script_dir)
 
 # da = GQADataset(split="testdev", data_path='./data/refcoco/refcoco')
 
-from datasets.refcoco import RefCOCODataset
+from my_datasets.refcoco import RefCOCODataset
 
 da = RefCOCODataset(data_path="./data/refcoco", version='refcoco+', split="testA")
 

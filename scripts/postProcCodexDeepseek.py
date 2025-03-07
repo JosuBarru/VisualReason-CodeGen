@@ -42,6 +42,9 @@ def process_csv(input_file, output_file):
         reader = csv.reader(infile)
         writer = csv.writer(outfile, quotechar='"', quoting=csv.QUOTE_MINIMAL)
                 
+        header = next(reader)
+        writer.writerow(header)
+        
         for row in reader:
             if len(row) < 3:
                 writer.writerow(row)
@@ -50,4 +53,4 @@ def process_csv(input_file, output_file):
             writer.writerow(row)
 
 # Uso
-process_csv("deepSeekQwen7b.csv", "deepSeekQwen7b-post.csv")
+process_csv("deepSeekQwen7bv2.csv", "deepSeekQwen7bv2-post.csv")

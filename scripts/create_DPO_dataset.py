@@ -5,6 +5,9 @@ import matplotlib.pyplot as plt
 import re
 import numpy as np
 
+input_folder = "/sorgin1/users/jbarrutia006/viper/results/gqa/all/train"
+output_folder = "/sorgin1/users/jbarrutia006/viper/PrefDatasets"
+
 def get_csv_files(directory):
     """Return a list of CSV filenames in the given directory."""
     return [f for f in os.listdir(directory) if f.endswith('.csv')]
@@ -90,15 +93,16 @@ def create_pairs_for_ids(df, sample_ids, approach='single'):
             continue
         
         # For the rejected code, try to select a code that is not NaN or empty.
-        valid_incorrect_rows = incorrect_rows[incorrect_rows['code'].notna() & (incorrect_rows['code'] != "")]
+        valid_incorrect_rows = incorrect_rows[incorrect_rows['code'].notna() & 
+            (incorrect_rows['code'].apply(remove_function_header).str.strip() != "") & 
+            (incorrect_rows['code'].apply(remove_function_header).str.strip().str.lower() != "nan")]
         
         if approach == 'single':
             chosen_row = correct_rows.iloc[0]
             if not valid_incorrect_rows.empty:
                 rejected_row = valid_incorrect_rows.iloc[0]
             else:
-                # If all incorrect rows have NaN (or empty) codes, use the first incorrect row
-                rejected_row = incorrect_rows.iloc[0]
+                continue
             pairs.append({
                 'prompt': chosen_row['query'],
                 'chosen': remove_function_header(chosen_row['code']),
@@ -107,7 +111,10 @@ def create_pairs_for_ids(df, sample_ids, approach='single'):
         elif approach == 'all':
             for _, correct_row in correct_rows.iterrows():
                 # Use valid incorrect rows if available; otherwise, use all incorrect rows.
-                target_incorrect = valid_incorrect_rows if not valid_incorrect_rows.empty else incorrect_rows
+                if not valid_incorrect_rows.empty:
+                    target_incorrect = valid_incorrect_rows
+                else:
+                    continue
                 for _, incorrect_row in target_incorrect.iterrows():
                     pairs.append({
                         'prompt': correct_row['query'],
@@ -116,7 +123,7 @@ def create_pairs_for_ids(df, sample_ids, approach='single'):
                     })
     return pairs
 
-def visualize_dataset(dataset, title_suffix=""):
+def visualize_dataset(dataset, title_suffix,approach):
     """
     Visualizes the dataset by printing a sample and plotting the distribution
     of the code lengths (number of characters) for the 'chosen' and 'rejected' fields,
@@ -134,6 +141,8 @@ def visualize_dataset(dataset, title_suffix=""):
     min_val = min(df['chosen_length'].min(), df['rejected_length'].min())
     max_val = max(df['chosen_length'].max(), df['rejected_length'].max())
     bins = np.linspace(min_val, max_val, 41)  # 40 bins
+
+
     
     plt.figure(figsize=(10, 5))
     plt.hist(df['chosen_length'], bins=bins, alpha=0.5, label='Chosen Code Length', rwidth=0.9)
@@ -142,12 +151,11 @@ def visualize_dataset(dataset, title_suffix=""):
     plt.ylabel('Frequency')
     plt.title(f'Distribution of Code Lengths in the Dataset {title_suffix}')
     plt.legend()
-    plt.savefig(f"/sorgin1/users/jbarrutia006/viper/results/gqa/dpo_dataset/plot_{title_suffix}.png")
+    plt.savefig(os.path.join(output_folder, f"plot_{approach}_{title_suffix}.png"))
     plt.show()
 
 def main():
-    input_folder = "/sorgin1/users/jbarrutia006/viper/results/gqa/all/train"
-    output_folder = "/sorgin1/users/jbarrutia006/viper/results/gqa/dpo_dataset"
+    
     os.makedirs(output_folder, exist_ok=True)
     
     # List available CSV files.
@@ -177,7 +185,13 @@ def main():
         group = grouped.get_group(sample_id)
         correct_rows = group[group['accuracy'] == 1]
         incorrect_rows = group[group['accuracy'] != 1]
-        if correct_rows.empty or incorrect_rows.empty:
+        # Check if there is at least one incorrect row with a valid 'code'
+        valid_incorrect = incorrect_rows[
+            incorrect_rows['code'].notna() & 
+            (incorrect_rows['code'].apply(remove_function_header).str.strip() != "") & 
+            (incorrect_rows['code'].apply(remove_function_header).str.strip().str.lower() != "nan")
+        ]
+        if correct_rows.empty or valid_incorrect.empty:
             continue
         valid_sample_ids.append(sample_id)
     
@@ -221,8 +235,8 @@ def main():
     print(f"Número de instancias en el dataset de desarrollo: {len(dataset_dev)}")
     
     # Visualize both partitions.
-    visualize_dataset(dataset_train, title_suffix="(Entrenamiento)")
-    visualize_dataset(dataset_dev, title_suffix="(Desarrollo)")
+    visualize_dataset(dataset_train, title_suffix="(Entrenamiento)", approach=approach)
+    visualize_dataset(dataset_dev, title_suffix="(Desarrollo)",approach=approach)
 
 if __name__ == "__main__":
     main()

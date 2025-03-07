@@ -14,7 +14,7 @@ EARLY FUSION ON, USING MHA-B
 modelo: <class 'vision_models.GLIPModel'> , proceso:  glip
 modelo: <class 'vision_models.MaskRCNNModel'> , proceso:  maskrcnn
 modelo: <class 'vision_models.XVLMModel'> , proceso:  xvlm
-{'blip': <function make_fn.<locals>._function at 0x7ff185e11b20>, 'glip': <function make_fn.<locals>._function at 0x7fefdc4f0b80>, 'maskrcnn': <function make_fn.<locals>._function at 0x7fefdd5dbf60>, 'xvlm': <function make_fn.<locals>._function at 0x7feefc227920>}
+{'blip': <function make_fn.<locals>._function at 0x7f63194bef20>, 'glip': <function make_fn.<locals>._function at 0x7f5ee136dee0>, 'maskrcnn': <function make_fn.<locals>._function at 0x7f5ee136e0c0>, 'xvlm': <function make_fn.<locals>._function at 0x7f5ede07d760>}
 Error in glip model: text input must be of type `str` (single example), `List[str]` (batch or single pretokenized example) or `List[List[str]]` (batch of pretokenized examples).
 Found phone near camera, checking color...
 Error in blip model: 'list' object has no attribute 'lower'

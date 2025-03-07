@@ -18,7 +18,7 @@ export LOAD_MODELS=1
 export DATASET='gqa'
 export EXEC_MODE='cache'
 export TRAIN=True
-export CODE='deepSeekLlama8b-post.csv'
+export CODE='deepSeekLlama8bv2-post.csv'
 export BATCHSIZE=32
 
 

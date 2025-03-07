@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "/sorgin1/users/jbarrutia006/viper/scripts/dpotrain.py", line 36, in <module>
+    def return_prompt_and_responses(samples) -> Dict[str, str, str]:
+                                                ~~~~^^^^^^^^^^^^^^^
+  File "/usr/local/python-3.11.8/lib/python3.11/typing.py", line 365, in inner
+    return func(*args, **kwds)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/python-3.11.8/lib/python3.11/typing.py", line 1576, in __getitem__
+    _check_generic(self, params, self._nparams)
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/typing_extensions.py", line 2947, in _check_generic
+    raise TypeError(f"Too {'many' if alen > elen else 'few'} arguments"
+TypeError: Too many arguments for typing.Dict; actual 3, expected 2
+srun: error: localhost: task 0: Exited with exit code 1

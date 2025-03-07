@@ -32,7 +32,7 @@ mp.set_start_method('spawn', force=True)
 from vision_processes import forward, finish_all_consumers  # This import loads all the models. May take a while
 from image_patch import *
 from video_segment import *
-from datasets.my_dataset import MyDataset
+from my_datasets.my_dataset import MyDataset
 
 console = Console(highlight=False, force_terminal=False)
 

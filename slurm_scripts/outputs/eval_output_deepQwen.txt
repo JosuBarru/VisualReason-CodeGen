@@ -14,7 +14,7 @@ EARLY FUSION ON, USING MHA-B
 modelo: <class 'vision_models.GLIPModel'> , proceso:  glip
 modelo: <class 'vision_models.MaskRCNNModel'> , proceso:  maskrcnn
 modelo: <class 'vision_models.XVLMModel'> , proceso:  xvlm
-{'blip': <function make_fn.<locals>._function at 0x7f80b5df1b20>, 'glip': <function make_fn.<locals>._function at 0x7f7f0c4fcb80>, 'maskrcnn': <function make_fn.<locals>._function at 0x7f7f0d5e3f60>, 'xvlm': <function make_fn.<locals>._function at 0x7f7e36303920>}
+{'blip': <function make_fn.<locals>._function at 0x7f5ad7ff2f20>, 'glip': <function make_fn.<locals>._function at 0x7f55f1a29ee0>, 'maskrcnn': <function make_fn.<locals>._function at 0x7f55f1a2a0c0>, 'xvlm': <function make_fn.<locals>._function at 0x7f55e41e1760>}
 Multiple pots found, using the first one
 Multiple foods found, using the first one
 Error in glip model: index is out of bounds for dimension with size 0

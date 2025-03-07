@@ -19,7 +19,7 @@ export DATASET='gqa'
 export EXEC_MODE='codex'
 export CODEX_MODEL='deepseek-llama8b'
 export TRAIN=True
-export NUMINST=
+export NUMINST=24
 export BATCHSIZE=24
 
 srun python src/main_project_slurm.py
