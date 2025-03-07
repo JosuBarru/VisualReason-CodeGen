@@ -1,2 +1,4 @@
 results/gqa/codex_results/train/deepSeekLlama8b.csv filter=lfs diff=lfs merge=lfs -text
+results/gqa/codex_results/train/deepSeekLlama8bv2.csv filter=lfs diff=lfs merge=lfs -text
+PrefDatasets/dpo_dataset_all_train.arrow/data-00000-of-00001.arrow filter=lfs diff=lfs merge=lfs -text
 slurm_scripts/outputs/verify_sft_length.err filter=lfs diff=lfs merge=lfs -text
