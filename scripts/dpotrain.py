@@ -6,8 +6,11 @@ from trl import DPOTrainer, DPOConfig
 import os,sys
 from unsloth import FastLanguageModel,PatchDPOTrainer,is_bfloat16_supported
 from typing import Dict
+import datetime
+import wandb
 
 os.chdir("/sorgin1/users/jbarrutia006/viper")
+
 
 
 def parse_args():
@@ -30,10 +33,14 @@ def parse_args():
     parser.add_argument("--lr_scheduler_type", type=str, default="cosine", help="Type of learning rate scheduler")
     parser.add_argument("--warmup_ratio", type=float, default=0.1, help="Warmup ratio for learning rate scheduling")
     parser.add_argument("--device", type=str, default="cuda" if torch.cuda.is_available() else "cpu", help="Device to use for training")
-    
-    return parser.parse_args()
+    parser.add_argument("--report_to", type=str, default="wandb")
+    parser.add_argument("--project_name", type=str, default="dpo_llama3_project", help="WandB project name")
+    parser.add_argument("--run_name", type=str, help="WandB run name")
 
-def return_prompt_and_responses(samples) -> Dict[str, str, str]:
+
+    return parser.parse_args()  
+
+def return_prompt_and_responses(samples) -> Dict[str, list[str]]:
 
     with open("prompts/benchmarks/gqa.prompt", "r") as file:
         prompt_template = file.read()
@@ -41,8 +48,13 @@ def return_prompt_and_responses(samples) -> Dict[str, str, str]:
     # For each question in samples["prompt"], replace the placeholder comment with the new code
     prompts = []
     for question in samples["prompt"]:
-        modified_prompt = prompt_template.replace("# INSERT_QUERY_HERE", question)
+        modified_prompt = prompt_template.replace("INSERT_QUERY_HERE", question)
         prompts.append(modified_prompt)
+
+    print("Prompt: \n" + prompts[1])
+    print(samples["chosen"][1]+"\n\n")
+    print("rejected:\n" + samples["rejected"][1]+"\n\n")
+
     return {
         "prompt": prompts,
         "chosen": samples["chosen"],   
@@ -50,20 +62,22 @@ def return_prompt_and_responses(samples) -> Dict[str, str, str]:
     }
 
 def train_dpo(args):
+
+    wandb.init(project=args.project_name, name=args.run_name)  # Initialize WandB with project name
+
     # Load the model and tokenizer
     print("Loading model and tokenizer...")
 
-
-    #max_seq_length = 4096 # Choose any! We auto support RoPE Scaling internally!
+    
+    max_seq_length = 8192 # Choose any! We auto support RoPE Scaling internally!
     dtype = None # None for auto detection. Float16 for Tesla T4, V100, Bfloat16 for Ampere+
-    #load_in_4bit = True # Use 4bit quantization to reduce memory usage. Can be False.
+    load_in_4bit = False # Use 4bit quantization to reduce memory usage. Can be False.
 
     model, tokenizer = FastLanguageModel.from_pretrained(
-    model_name = args.model_name,
-    #max_seq_length = max_seq_length, #default max
-    dtype = dtype,
-    #load_in_4bit = load_in_4bit,
-    # token = "hf_...", # use one if using gated models like meta-llama/Llama-2-7b-hf
+        model_name = args.model_name,
+        max_seq_length = max_seq_length, #default max
+        dtype = dtype,
+        load_in_4bit = load_in_4bit,
     )
 
     model = FastLanguageModel.get_peft_model(
@@ -81,9 +95,9 @@ def train_dpo(args):
         loftq_config = None, # And LoftQ
     )
     # Load dataset
-    print(f"Loading dataset from {args.dataset_path}...")
-    train_dataset = datasets.load_from_disk(args.dataset_path)
-    dev_dataset = datasets.load_from_disk(args.dataset_path)
+    print(f"Loading dataset from {args.train_dataset} as train and {args.dev_dataset} as dev")
+    train_dataset = datasets.load_from_disk(args.train_dataset)
+    dev_dataset = datasets.load_from_disk(args.dev_dataset)
     
     train_dataset.map(
         return_prompt_and_responses,
@@ -147,20 +161,19 @@ def train_dpo(args):
     trainer = DPOTrainer(
         model = model,
         ref_model = None,
-        beta = 0.1,
         train_dataset = train_dataset,
         eval_dataset = dev_dataset,
-        dataset_num_proc = 12,
-        tokenizer = tokenizer,
+        #dataset_num_proc = 12,
+        processing_class = tokenizer,
         # max_length = max_seq_length,
         # max_prompt_length = max_seq_length // 2,
         # max_target_length = max_seq_length // 2,
         args = DPOConfig(
             per_device_train_batch_size = args.batch_size,
-            gradient_accumulation_steps = args.gradient_accumulation_steps,
+            gradient_accumulation_steps = args.gradient_accumulation,
             fp16_full_eval = True,
             per_device_eval_batch_size = args.batch_size,
-            eval_accumulation_steps = args.gradient_accumulation_steps,
+            eval_accumulation_steps = args.gradient_accumulation,
             eval_strategy = "steps",
             eval_steps = args.eval_steps,
             warmup_ratio = 0.1,
@@ -170,26 +183,39 @@ def train_dpo(args):
             fp16 = not is_bfloat16_supported(),
             bf16 = is_bfloat16_supported(),
             logging_steps = args.logging_steps,
-            optim = args.optimizer_type,
+            #optim = args.optimizer_type,
             weight_decay = 0.0,
             lr_scheduler_type = args.lr_scheduler_type,
             seed = 42,
-            save_steps=args.save_steps,
-            output_dir = args.output_dir,
+            #save_steps=args.save_steps,
+            load_best_model_at_end=True,       # Save the best model based on eval metric
+            metric_for_best_model="eval_loss",  # Use evaluation loss as the metric
+            greater_is_better=False,            # Lower loss is better
+            save_total_limit=1, 
+            output_dir = os.path.join(args.output_dir,datetime.datetime.now().strftime("%m-%d_%H-%M")),
             report_to = args.report_to,
+            run_name = args.run_name,
         ),
+        #beta = 0.1,
     )
 
+
+    print("Performing pre-training evaluation on the dev dataset...")
+    eval_results = trainer.evaluate()
+    print("Initial evaluation results:", eval_results)
+    
     # Train the model
     print("Starting training...")
     trainer.train()
 
     # Save the trained model
-    print(f"Saving model to {args.output_dir}...")
-    model.save_pretrained(args.output_dir)
-    tokenizer.save_pretrained(args.output_dir)
+    print(f"Saving best model to {args.output_dir}...")
+    # model.save_pretrained(args.output_dir)
+    # tokenizer.save_pretrained(args.output_dir)
+    trainer.save_model()  # This saves the best model checkpoint
 
     print("Training completed and model saved!")
+    wandb.finish() 
 
 if __name__ == "__main__":
     args = parse_args()

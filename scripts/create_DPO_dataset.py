@@ -59,9 +59,9 @@ def remove_function_header(code_str):
     This function uses a regular expression to remove any line that starts with
     'def execute_command_' and ends with a colon.
     """
-    pattern = r"^def\s+execute_command_[^(]+\([^)]*\):\s*\n?"
+    pattern = r"^def\s+execute_command_[^(]+\([^)]*\):\n"
     code_without_headers = re.sub(pattern, "", code_str, flags=re.MULTILINE)
-    return code_without_headers.strip()
+    return code_without_headers
 
 
 def create_pairs_for_ids(df, sample_ids, approach='single'):

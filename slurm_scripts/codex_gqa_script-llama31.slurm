@@ -20,5 +20,6 @@ export EXEC_MODE='codex'
 export CODEX_MODEL='llama31Q'
 export TRAIN=True
 export BATCHSIZE=32
+export NUMINST=
 
 srun python src/main_project_slurm.py

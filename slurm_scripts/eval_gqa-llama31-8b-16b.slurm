@@ -18,7 +18,7 @@ export LOAD_MODELS=1
 export DATASET='gqa'
 export EXEC_MODE='cache'
 export TRAIN=True
-export CODE='llama31-8B-16b.csv'
-export BATCHSIZE=1
+export CODE='llama31-8B-vllm.csv'
+export BATCHSIZE=32
 
 srun python src/main_project_slurm.py

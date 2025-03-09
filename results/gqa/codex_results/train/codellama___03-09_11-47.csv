@@ -1,0 +1,2473 @@
+sample_id,query,generated_code
+14145991,Are the white blinds to the right of a clock?,"from PIL import Image
+from vision_functions import find_in_image, simple_qa, verify_property, best_text_match
+
+def bool_to_yesno(bool_answer: bool)->str:
+    return ""yes"" if bool_answer else ""no""
+
+class ImagePatch:
+    """"""A Python class containing a crop of an image centered around a particular object, as well as relevant information.
+    Attributes
+    ----------
+    cropped_image : array_like
+        An array-like of the cropped image taken from the original image.
+    left : int
+        An int describing the position of the left border of the crop's bounding box in the original image.
+    lower : int
+        An int describing the position of the bottom border of the crop's bounding box in the original image.
+    right : int
+        An int describing the position of the right border of the crop's bounding box in the original image.
+    upper : int
+        An int describing the position of the top border of the crop's bounding box in the original image.
+
+    Methods
+    -------
+    find(object_name: str)->List[ImagePatch]
+        Returns a list of new ImagePatch objects containing crops of the image centered around any objects found in the image matching the object_name.
+    simple_query(question: str=None)->str
+        Returns the answer to a basic question asked about the image. If no question is provided, returns the answer to ""What is this?"".
+    exists(object_name: str)->bool
+        Returns True if the object specified by object_name is found in the image, and False otherwise.
+    verify_property(property: str)->bool
+        Returns True if the property is met, and False otherwise.
+    best_text_match(string1: str, string2: str)->str
+        Returns the string that best matches the image.
+    crop(left: int, lower: int, right: int, upper: int)->ImagePatch
+        Returns a new ImagePatch object containing a crop of the image at the given coordinates.
+        """"""
+
+    def __init__(self, image, left: int=None, lower: int=None, right: int=None, upper: int=None):
+        """"""Initializes an ImagePatch object by cropping the image at the given coordinates and stores the coordinates as attributes.
+        If no coordinates are provided, the image is left unmodified, and the coordinates are set to the dimensions of the image.
+        Parameters
+        -------
+        image : array_like
+            An array-like of the original image.
+        left : int
+            An int describing the position of the left border of the crop's bounding box in the original image.
+        lower : int
+            An int describing the position of the bottom border of the crop's bounding box in the original image.
+        right : int
+            An int describing the position of the right border of the crop's bounding box in the original image.
+        upper : int
+            An int describing the position of the top border of the crop's bounding box in the original image.
+
+        """"""
+        if left is None and right is None and upper is None and lower is None:
+            self.cropped_image = image
+            self.left = 0
+            self.lower = 0
+            self.right = image.shape[2]  # width
+            self.upper = image.shape[1]  # height
+        else:
+            self.cropped_image = image[:, lower:upper, left:right]
+            self.left = left
+            self.upper = upper
+            self.right = right
+            self.lower = lower
+
+        self.width = self.cropped_image.shape[2]
+        self.height = self.cropped_image.shape[1]
+
+        self.horizontal_center = (self.left + self.right) / 2
+        self.vertical_center = (self.lower + self.upper) / 2
+
+    def find(self, object_name: str)->List[""ImagePatch""]:
+        """"""Returns a new ImagePatch object containing the crop of the image centered around the object specified by object_name.
+        Parameters
+        -------
+        object_name : str
+            A string describing the name of the object to be found in the image.
+        """"""
+        return find_in_image(self.cropped_image, object_name)
+
+    def simple_query(self, question: str=None)->str:
+        """"""Returns the answer to a basic question asked about the image. If no question is provided, returns the answer to ""What is this?"".
+        Parameters
+        -------
+        question : str
+            A string describing the question to be asked.
+
+        Examples
+        -------
+
+        >>> # Which kind of animal is not eating?
+        >>> def execute_command(image)->str:
+        >>>     image_patch = ImagePatch(image)
+        >>>     animal_patches = image_patch.find(""animal"")
+        >>>     for animal_patch in animal_patches:
+        >>>         if not animal_patch.verify_property(""animal"", ""eating""):
+        >>>             return animal_patch.simple_query(""What kind of animal is eating?"") # crop would include eating so keep it in the query
+        >>>     # If no animal is not eating, query the image directly
+        >>>     return image_patch.simple_query(""Which kind of animal is not eating?"")
+
+        >>> # What is in front of the horse?
+        >>> # contains a relation (around, next to, on, near, on top of, in front of, behind, etc), so ask directly
+        >>> return image_patch.simple_query(""What is in front of the horse?"")
+        >>>
+        """"""
+        return simple_qa(self.cropped_image, question)
+
+    def exists(self, object_name: str)->bool:
+        """"""Returns True if the object specified by object_name is found in the image, and False otherwise.
+        Parameters
+        -------
+        object_name : str
+            A string describing the name of the object to be found in the image.
+
+        Examples
+        -------
+        >>> # Are there both cakes and gummy bears in the photo?
+        >>> def execute_command(image)->str:
+        >>>     image_patch = ImagePatch(image)
+        >>>     is_cake = image_patch.exists(""cake"")
+        >>>     is_gummy_bear = image_patch.exists(""gummy bear"")
+        >>>     return bool_to_yesno(is_cake and is_gummy_bear)
+        """"""
+        return len(self.find(object_name)) > 0
+
+    def verify_property(self, object_name: str, property: str)->bool:
+        """"""Returns True if the object possesses the property, and False otherwise.
+        Differs from 'exists' in that it presupposes the existence of the object specified by object_name, instead checking whether the object possesses the property.
+        Parameters
+        -------
+        object_name : str
+            A string describing the name of the object to be found in the image.
+        property : str
+            A string describing the property to be checked.
+
+        Examples
+        -------
+        >>> # Do the letters have blue color?
+        >>> def execute_command(image)->str:
+        >>>     image_patch = ImagePatch(image)
+        >>>     letters_patches = image_patch.find(""letters"")
+        >>>     # Question assumes only one letter patch
+        >>>     if len(letters_patches) == 0:
+        >>>         # If no letters are found, query the image directly
+        >>>         return image_patch.simple_query(""Do the letters have blue color?"")
+        >>>     return bool_to_yesno(letters_patches[0].verify_property(""letters"", ""blue""))
+        """"""
+        return verify_property(self.cropped_image, object_name, property)
+
+    def best_text_match(self, option_list: List[str]) -> str:
+        """"""Returns the string that best matches the image.
+        Parameters
+        -------
+        option_list : str
+            A list with the names of the different options
+        prefix : str
+            A string with the prefixes to append to the options
+
+        Examples
+        -------
+        >>> # Is the cap gold or white?
+        >>> def execute_command(image)->str:
+        >>>     image_patch = ImagePatch(image)
+        >>>     cap_patches = image_patch.find(""cap"")
+        >>>     # Question assumes one cap patch
+        >>>     if len(cap_patches) == 0:
+        >>>         # If no cap is found, query the image directly
+        >>>         return image_patch.simple_query(""Is the cap gold or white?"")
+        >>>     return cap_patches[0].best_text_match([""gold"", ""white""])
+        """"""
+        return best_text_match(self.cropped_image, option_list)
+
+    def crop(self, left: int, lower: int, right: int, upper: int)->""ImagePatch"":
+        """"""Returns a new ImagePatch cropped from the current ImagePatch.
+        Parameters
+        -------
+        left : int
+            The leftmost pixel of the cropped image.
+        lower : int
+            The lowest pixel of the cropped image.
+        right : int
+            The rightmost pixel of the cropped image.
+        upper : int
+            The uppermost pixel of the cropped image.
+        -------
+        """"""
+        return ImagePatch(self.cropped_image, left, lower, right, upper)
+
+# Examples of using ImagePatch
+# Is there a backpack to the right of the man?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    man_patches = image_patch.find(""man"")
+    # Question assumes one man patch
+    if len(man_patches) == 0:
+        # If no man is found, query the image directly
+        return image_patch.simple_query(""Is there a backpack to the right of the man?"")
+    man_patch = man_patches[0]
+    backpack_patches = image_patch.find(""backpack"")
+    # Question assumes one backpack patch
+    if len(backpack_patches) == 0:
+        return ""no""
+    for backpack_patch in backpack_patches:
+        if backpack_patch.horizontal_center > man_patch.horizontal_center:
+            return ""yes""
+    return ""no""
+
+# In which part is the bread, the bottom or the top?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    bread_patches = image_patch.find(""bread"")
+    # Question assumes only one bread patch
+    if len(bread_patches) == 0:
+        # If no bread is found, query the image directly
+        return image_patch.simple_query(""In which part is the bread, the bottom or the top?"")
+    if bread_patches[0].vertical_center < image_patch.vertical_center:
+        return ""bottom""
+    else:
+        return ""top""
+
+# What type of weather do you see in the photograph?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    return image_patch.simple_query(""What type of weather do you see in the photograph?"")
+
+# Who is the man staring at?
+def execute_command(image)->str:
+    # asks for the predicate of a relational verb (staring at), so ask directly
+    image_patch = ImagePatch(image)
+    return image_patch.simple_query(""Who is the man staring at?"")
+
+# What toy is wearing a shirt?
+def execute_command(image)->str:
+    # not a relational verb so go step by step
+    image_patch = ImagePatch(image)
+    toy_patches = image_patch.find(""toy"")
+    # Question assumes only one toy patch
+    if len(toy_patches) == 0:
+        # If no toy is found, query the image directly
+        return image_patch.simple_query(""What toy is wearing a shirt?"")
+    for toy_patch in toy_patches:
+        is_wearing_shirt = (toy_patch.simple_query(""Is the toy wearing a shirt?"") == ""yes"")
+        if is_wearing_shirt:
+            return toy_patch.simple_query(""What toy is wearing a shirt?"") # crop would include the shirt so keep it in the query
+    # If no toy is wearing a shirt, pick the first toy
+    return toy_patches[0].simple_query(""What toy is wearing a shirt?"")
+
+# What is behind the pole?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    # contains a relation (around, next to, on, near, on top of, in front of, behind, etc), so ask directly
+    return image_patch.simple_query(""What is behind the pole?"")
+
+# Are there bagels or lemons?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    is_bagel = image_patch.exists(""bagel"")
+    is_lemon = image_patch.exists(""lemon"")
+    return bool_to_yesno(is_bagel or is_lemon)
+
+# Is that blanket to the right of a pillow?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    blanket_patches = image_patch.find(""blanket"")
+    # Question assumes only one blanket patch
+    if len(blanket_patches) == 0:
+        # If no blanket is found, query the image directly
+        return image_patch.simple_query(""Is that blanket to the right of a pillow?"")
+    for blanket_patch in blanket_patches:
+        pillow_patches = image_patch.find(""pillow"")
+        for pillow_patch in pillow_patches:
+            if pillow_patch.horizontal_center > blanket_patch.horizontal_center:
+                return ""yes""
+    return ""no""
+
+# Are the white blinds to the right of a clock?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    white_blinds_patches = image_patch.find(""white blinds"")
+    # Question assumes only one white blinds patch
+    if len(white_blinds_patches) == 0:
+        # If no white blinds are found, query the image directly
+        return image_patch.simple_query(""Are the white blinds to the right of a clock?"")
+    for white_blinds_patch in white_blinds_patches:
+        clock_patches = image_patch.find(""clock"")
+        for clock_patch in clock_patches:
+            if clock_patch.horizontal_center > white_blinds_patch.horizontal_center:
+                return ""yes""
+    return ""no""
+
+test_images = [""google_doc_blank.png"", ""ZQ3a8hiBXHY.png""]
+
+for fname in test_images:
+    image = Image.open(fname)
+    image_patch = ImagePatch(image)
+    print(fname, ""check yes no:"", image_patch.simple_query(""there a blanket in this image?""))
+    print(fname, ""check yes no question:"", image_patch.simple_query(""is there a shirt in the right part of the image?""))
+    print(fname, ""check exists:"", image_patch.exists(""clock""))
+    print(fname, ""check verify color:"", image_patch.verify_property(""table"", ""white""))
+    print(fname, ""check best text match:"", image_patch.best_text_match([""spread"", ""blotter"", ""background""]))
+    print(fname, ""check crop of the secret agent of '*'"", image_patch.crop(4, 85, 381, 96).simple_query(""what is the secret agent of '*'""))
+    print(fname, ""\n"")
+
+test_questions = [""are there bagels/lemons?"", ""Is that blanket to the right of a pillow?"", ""are the white blinds to the right of a clock?"", \
+""are tall/short of the picture?""]
+"
+16906415,Which kind of furniture is to the left of the bed?,"from PIL import Image
+from vision_functions import find_in_image, simple_qa, verify_property, best_text_match
+
+def bool_to_yesno(bool_answer: bool)->str:
+    return ""yes"" if bool_answer else ""no""
+
+class ImagePatch:
+    """"""A Python class containing a crop of an image centered around a particular object, as well as relevant information.
+    Attributes
+    ----------
+    cropped_image : array_like
+        An array-like of the cropped image taken from the original image.
+    left : int
+        An int describing the position of the left border of the crop's bounding box in the original image.
+    lower : int
+        An int describing the position of the bottom border of the crop's bounding box in the original image.
+    right : int
+        An int describing the position of the right border of the crop's bounding box in the original image.
+    upper : int
+        An int describing the position of the top border of the crop's bounding box in the original image.
+
+    Methods
+    -------
+    find(object_name: str)->List[ImagePatch]
+        Returns a list of new ImagePatch objects containing crops of the image centered around any objects found in the image matching the object_name.
+    simple_query(question: str=None)->str
+        Returns the answer to a basic question asked about the image. If no question is provided, returns the answer to ""What is this?"".
+    exists(object_name: str)->bool
+        Returns True if the object specified by object_name is found in the image, and False otherwise.
+    verify_property(property: str)->bool
+        Returns True if the property is met, and False otherwise.
+    best_text_match(string1: str, string2: str)->str
+        Returns the string that best matches the image.
+    crop(left: int, lower: int, right: int, upper: int)->ImagePatch
+        Returns a new ImagePatch object containing a crop of the image at the given coordinates.
+        """"""
+
+    def __init__(self, image, left: int=None, lower: int=None, right: int=None, upper: int=None):
+        """"""Initializes an ImagePatch object by cropping the image at the given coordinates and stores the coordinates as attributes.
+        If no coordinates are provided, the image is left unmodified, and the coordinates are set to the dimensions of the image.
+        Parameters
+        -------
+        image : array_like
+            An array-like of the original image.
+        left : int
+            An int describing the position of the left border of the crop's bounding box in the original image.
+        lower : int
+            An int describing the position of the bottom border of the crop's bounding box in the original image.
+        right : int
+            An int describing the position of the right border of the crop's bounding box in the original image.
+        upper : int
+            An int describing the position of the top border of the crop's bounding box in the original image.
+
+        """"""
+        if left is None and right is None and upper is None and lower is None:
+            self.cropped_image = image
+            self.left = 0
+            self.lower = 0
+            self.right = image.shape[2]  # width
+            self.upper = image.shape[1]  # height
+        else:
+            self.cropped_image = image[:, lower:upper, left:right]
+            self.left = left
+            self.upper = upper
+            self.right = right
+            self.lower = lower
+
+        self.width = self.cropped_image.shape[2]
+        self.height = self.cropped_image.shape[1]
+
+        self.horizontal_center = (self.left + self.right) / 2
+        self.vertical_center = (self.lower + self.upper) / 2
+
+    def find(self, object_name: str)->List[""ImagePatch""]:
+        """"""Returns a new ImagePatch object containing the crop of the image centered around the object specified by object_name.
+        Parameters
+        -------
+        object_name : str
+            A string describing the name of the object to be found in the image.
+        """"""
+        return find_in_image(self.cropped_image, object_name)
+
+    def simple_query(self, question: str=None)->str:
+        """"""Returns the answer to a basic question asked about the image. If no question is provided, returns the answer to ""What is this?"".
+        Parameters
+        -------
+        question : str
+            A string describing the question to be asked.
+
+        Examples
+        -------
+
+        >>> # Which kind of animal is not eating?
+        >>> def execute_command(image)->str:
+        >>>     image_patch = ImagePatch(image)
+        >>>     animal_patches = image_patch.find(""animal"")
+        >>>     for animal_patch in animal_patches:
+        >>>         if not animal_patch.verify_property(""animal"", ""eating""):
+        >>>             return animal_patch.simple_query(""What kind of animal is eating?"") # crop would include eating so keep it in the query
+        >>>     # If no animal is not eating, query the image directly
+        >>>     return image_patch.simple_query(""Which kind of animal is not eating?"")
+
+        >>> # What is in front of the horse?
+        >>> # contains a relation (around, next to, on, near, on top of, in front of, behind, etc), so ask directly
+        >>> return image_patch.simple_query(""What is in front of the horse?"")
+        >>>
+        """"""
+        return simple_qa(self.cropped_image, question)
+
+    def exists(self, object_name: str)->bool:
+        """"""Returns True if the object specified by object_name is found in the image, and False otherwise.
+        Parameters
+        -------
+        object_name : str
+            A string describing the name of the object to be found in the image.
+
+        Examples
+        -------
+        >>> # Are there both cakes and gummy bears in the photo?
+        >>> def execute_command(image)->str:
+        >>>     image_patch = ImagePatch(image)
+        >>>     is_cake = image_patch.exists(""cake"")
+        >>>     is_gummy_bear = image_patch.exists(""gummy bear"")
+        >>>     return bool_to_yesno(is_cake and is_gummy_bear)
+        """"""
+        return len(self.find(object_name)) > 0
+
+    def verify_property(self, object_name: str, property: str)->bool:
+        """"""Returns True if the object possesses the property, and False otherwise.
+        Differs from 'exists' in that it presupposes the existence of the object specified by object_name, instead checking whether the object possesses the property.
+        Parameters
+        -------
+        object_name : str
+            A string describing the name of the object to be found in the image.
+        property : str
+            A string describing the property to be checked.
+
+        Examples
+        -------
+        >>> # Do the letters have blue color?
+        >>> def execute_command(image)->str:
+        >>>     image_patch = ImagePatch(image)
+        >>>     letters_patches = image_patch.find(""letters"")
+        >>>     # Question assumes only one letter patch
+        >>>     if len(letters_patches) == 0:
+        >>>         # If no letters are found, query the image directly
+        >>>         return image_patch.simple_query(""Do the letters have blue color?"")
+        >>>     return bool_to_yesno(letters_patches[0].verify_property(""letters"", ""blue""))
+        """"""
+        return verify_property(self.cropped_image, object_name, property)
+
+    def best_text_match(self, option_list: List[str]) -> str:
+        """"""Returns the string that best matches the image.
+        Parameters
+        -------
+        option_list : str
+            A list with the names of the different options
+        prefix : str
+            A string with the prefixes to append to the options
+
+        Examples
+        -------
+        >>> # Is the cap gold or white?
+        >>> def execute_command(image)->str:
+        >>>     image_patch = ImagePatch(image)
+        >>>     cap_patches = image_patch.find(""cap"")
+        >>>     # Question assumes one cap patch
+        >>>     if len(cap_patches) == 0:
+        >>>         # If no cap is found, query the image directly
+        >>>         return image_patch.simple_query(""Is the cap gold or white?"")
+        >>>     return cap_patches[0].best_text_match([""gold"", ""white""])
+        """"""
+        return best_text_match(self.cropped_image, option_list)
+
+    def crop(self, left: int, lower: int, right: int, upper: int)->""ImagePatch"":
+        """"""Returns a new ImagePatch cropped from the current ImagePatch.
+        Parameters
+        -------
+        left : int
+            The leftmost pixel of the cropped image.
+        lower : int
+            The lowest pixel of the cropped image.
+        right : int
+            The rightmost pixel of the cropped image.
+        upper : int
+            The uppermost pixel of the cropped image.
+        -------
+        """"""
+        return ImagePatch(self.cropped_image, left, lower, right, upper)
+
+# Examples of using ImagePatch
+# Is there a backpack to the right of the man?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    man_patches = image_patch.find(""man"")
+    # Question assumes one man patch
+    if len(man_patches) == 0:
+        # If no man is found, query the image directly
+        return image_patch.simple_query(""Is there a backpack to the right of the man?"")
+    man_patch = man_patches[0]
+    backpack_patches = image_patch.find(""backpack"")
+    # Question assumes one backpack patch
+    if len(backpack_patches) == 0:
+        return ""no""
+    for backpack_patch in backpack_patches:
+        if backpack_patch.horizontal_center > man_patch.horizontal_center:
+            return ""yes""
+    return ""no""
+
+# In which part is the bread, the bottom or the top?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    bread_patches = image_patch.find(""bread"")
+    # Question assumes only one bread patch
+    if len(bread_patches) == 0:
+        # If no bread is found, query the image directly
+        return image_patch.simple_query(""In which part is the bread, the bottom or the top?"")
+    if bread_patches[0].vertical_center < image_patch.vertical_center:
+        return ""bottom""
+    else:
+        return ""top""
+
+# What type of weather do you see in the photograph?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    return image_patch.simple_query(""What type of weather do you see in the photograph?"")
+
+# Who is the man staring at?
+def execute_command(image)->str:
+    # asks for the predicate of a relational verb (staring at), so ask directly
+    image_patch = ImagePatch(image)
+    return image_patch.simple_query(""Who is the man staring at?"")
+
+# What toy is wearing a shirt?
+def execute_command(image)->str:
+    # not a relational verb so go step by step
+    image_patch = ImagePatch(image)
+    toy_patches = image_patch.find(""toy"")
+    # Question assumes only one toy patch
+    if len(toy_patches) == 0:
+        # If no toy is found, query the image directly
+        return image_patch.simple_query(""What toy is wearing a shirt?"")
+    for toy_patch in toy_patches:
+        is_wearing_shirt = (toy_patch.simple_query(""Is the toy wearing a shirt?"") == ""yes"")
+        if is_wearing_shirt:
+            return toy_patch.simple_query(""What toy is wearing a shirt?"") # crop would include the shirt so keep it in the query
+    # If no toy is wearing a shirt, pick the first toy
+    return toy_patches[0].simple_query(""What toy is wearing a shirt?"")
+
+# What is behind the pole?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    # contains a relation (around, next to, on, near, on top of, in front of, behind, etc), so ask directly
+    return image_patch.simple_query(""What is behind the pole?"")
+
+# Are there bagels or lemons?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    is_bagel = image_patch.exists(""bagel"")
+    is_lemon = image_patch.exists(""lemon"")
+    return bool_to_yesno(is_bagel or is_lemon)
+
+# Is that blanket to the right of a pillow?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    blanket_patches = image_patch.find(""blanket"")
+    # Question assumes only one blanket patch
+    if len(blanket_patches) == 0:
+        # If no blanket is found, query the image directly
+        return image_patch.simple_query(""Is that blanket to the right of a pillow?"")
+    for blanket_patch in blanket_patches:
+        pillow_patches = image_patch.find(""pillow"")
+        for pillow_patch in pillow_patches:
+            if pillow_patch.horizontal_center > blanket_patch.horizontal_center:
+                return ""yes""
+    return ""no""
+
+# Which kind of furniture is to the left of the bed?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    bed_patches = image_patch.find(""bed"")
+    # Question assumes only one bed patch
+    if len(bed_patches) == 0:
+        # If no bed is found, query the image directly
+        return image_patch.simple_query(""Which kind of furniture is to the left of the bed?"")
+    bed_patch = bed_patches[0]
+    for i, object_name in enumerate([
+            ""chair"", ""sofa"", ""dresser"", ""table"", ""nightstand"", ""bookshelf"", ""friend""]):
+        patches = image_patch.find(object_name)
+        for patch in patches:
+            if patch.horizontal_center < bed_patch.horizontal_center:
+                return str(i)
+    return ""none""
+
+# How many girls are sleeping on the bed?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    sleeping_girl_patches = image_patch.find(""sleeping girl"")
+    return str(len(sleeping_girl_patches))
+
+# Is there a toy
+def execute_command(image)->str:
+    # questions asks for a property of an object (sleeping), so ask directly
+    image_patch = ImagePatch(image)
+    return image_patch.simple_query(""Is there a toy box?"")
+
+# Are there gloves?
+def execute_command(image)->str:
+    # questions asks for a property of an entity (are side), so ask directly
+    image_patch = ImagePatch(image)
+    glove_patches = image_patch.find(""glove"")
+    return str(len(glove_patches))
+
+# Is that toy inside or outside?
+def execute_command(image)->str:
+    # questions asks for the location of the toy box (at the location of the man), so ask directly
+    image_patch = ImagePatch(image)
+    return image_patch.simple_query(""Is that toy inside or outside?"")
+
+"
+294499,Are there any bikes or cars?,"from PIL import Image
+from vision_functions import find_in_image, simple_qa, verify_property, best_text_match
+
+def bool_to_yesno(bool_answer: bool)->str:
+    return ""yes"" if bool_answer else ""no""
+
+class ImagePatch:
+    """"""A Python class containing a crop of an image centered around a particular object, as well as relevant information.
+    Attributes
+    ----------
+    cropped_image : array_like
+        An array-like of the cropped image taken from the original image.
+    left : int
+        An int describing the position of the left border of the crop's bounding box in the original image.
+    lower : int
+        An int describing the position of the bottom border of the crop's bounding box in the original image.
+    right : int
+        An int describing the position of the right border of the crop's bounding box in the original image.
+    upper : int
+        An int describing the position of the top border of the crop's bounding box in the original image.
+
+    Methods
+    -------
+    find(object_name: str)->List[ImagePatch]
+        Returns a list of new ImagePatch objects containing crops of the image centered around any objects found in the image matching the object_name.
+    simple_query(question: str=None)->str
+        Returns the answer to a basic question asked about the image. If no question is provided, returns the answer to ""What is this?"".
+    exists(object_name: str)->bool
+        Returns True if the object specified by object_name is found in the image, and False otherwise.
+    verify_property(property: str)->bool
+        Returns True if the property is met, and False otherwise.
+    best_text_match(string1: str, string2: str)->str
+        Returns the string that best matches the image.
+    crop(left: int, lower: int, right: int, upper: int)->ImagePatch
+        Returns a new ImagePatch object containing a crop of the image at the given coordinates.
+        """"""
+
+    def __init__(self, image, left: int=None, lower: int=None, right: int=None, upper: int=None):
+        """"""Initializes an ImagePatch object by cropping the image at the given coordinates and stores the coordinates as attributes.
+        If no coordinates are provided, the image is left unmodified, and the coordinates are set to the dimensions of the image.
+        Parameters
+        -------
+        image : array_like
+            An array-like of the original image.
+        left : int
+            An int describing the position of the left border of the crop's bounding box in the original image.
+        lower : int
+            An int describing the position of the bottom border of the crop's bounding box in the original image.
+        right : int
+            An int describing the position of the right border of the crop's bounding box in the original image.
+        upper : int
+            An int describing the position of the top border of the crop's bounding box in the original image.
+
+        """"""
+        if left is None and right is None and upper is None and lower is None:
+            self.cropped_image = image
+            self.left = 0
+            self.lower = 0
+            self.right = image.shape[2]  # width
+            self.upper = image.shape[1]  # height
+        else:
+            self.cropped_image = image[:, lower:upper, left:right]
+            self.left = left
+            self.upper = upper
+            self.right = right
+            self.lower = lower
+
+        self.width = self.cropped_image.shape[2]
+        self.height = self.cropped_image.shape[1]
+
+        self.horizontal_center = (self.left + self.right) / 2
+        self.vertical_center = (self.lower + self.upper) / 2
+
+    def find(self, object_name: str)->List[""ImagePatch""]:
+        """"""Returns a new ImagePatch object containing the crop of the image centered around the object specified by object_name.
+        Parameters
+        -------
+        object_name : str
+            A string describing the name of the object to be found in the image.
+        """"""
+        return find_in_image(self.cropped_image, object_name)
+
+    def simple_query(self, question: str=None)->str:
+        """"""Returns the answer to a basic question asked about the image. If no question is provided, returns the answer to ""What is this?"".
+        Parameters
+        -------
+        question : str
+            A string describing the question to be asked.
+
+        Examples
+        -------
+
+        >>> # Which kind of animal is not eating?
+        >>> def execute_command(image)->str:
+        >>>     image_patch = ImagePatch(image)
+        >>>     animal_patches = image_patch.find(""animal"")
+        >>>     for animal_patch in animal_patches:
+        >>>         if not animal_patch.verify_property(""animal"", ""eating""):
+        >>>             return animal_patch.simple_query(""What kind of animal is eating?"") # crop would include eating so keep it in the query
+        >>>     # If no animal is not eating, query the image directly
+        >>>     return image_patch.simple_query(""Which kind of animal is not eating?"")
+
+        >>> # What is in front of the horse?
+        >>> # contains a relation (around, next to, on, near, on top of, in front of, behind, etc), so ask directly
+        >>> return image_patch.simple_query(""What is in front of the horse?"")
+        >>>
+        """"""
+        return simple_qa(self.cropped_image, question)
+
+    def exists(self, object_name: str)->bool:
+        """"""Returns True if the object specified by object_name is found in the image, and False otherwise.
+        Parameters
+        -------
+        object_name : str
+            A string describing the name of the object to be found in the image.
+
+        Examples
+        -------
+        >>> # Are there both cakes and gummy bears in the photo?
+        >>> def execute_command(image)->str:
+        >>>     image_patch = ImagePatch(image)
+        >>>     is_cake = image_patch.exists(""cake"")
+        >>>     is_gummy_bear = image_patch.exists(""gummy bear"")
+        >>>     return bool_to_yesno(is_cake and is_gummy_bear)
+        """"""
+        return len(self.find(object_name)) > 0
+
+    def verify_property(self, object_name: str, property: str)->bool:
+        """"""Returns True if the object possesses the property, and False otherwise.
+        Differs from 'exists' in that it presupposes the existence of the object specified by object_name, instead checking whether the object possesses the property.
+        Parameters
+        -------
+        object_name : str
+            A string describing the name of the object to be found in the image.
+        property : str
+            A string describing the property to be checked.
+
+        Examples
+        -------
+        >>> # Do the letters have blue color?
+        >>> def execute_command(image)->str:
+        >>>     image_patch = ImagePatch(image)
+        >>>     letters_patches = image_patch.find(""letters"")
+        >>>     # Question assumes only one letter patch
+        >>>     if len(letters_patches) == 0:
+        >>>         # If no letters are found, query the image directly
+        >>>         return image_patch.simple_query(""Do the letters have blue color?"")
+        >>>     return bool_to_yesno(letters_patches[0].verify_property(""letters"", ""blue""))
+        """"""
+        return verify_property(self.cropped_image, object_name, property)
+
+    def best_text_match(self, option_list: List[str]) -> str:
+        """"""Returns the string that best matches the image.
+        Parameters
+        -------
+        option_list : str
+            A list with the names of the different options
+        prefix : str
+            A string with the prefixes to append to the options
+
+        Examples
+        -------
+        >>> # Is the cap gold or white?
+        >>> def execute_command(image)->str:
+        >>>     image_patch = ImagePatch(image)
+        >>>     cap_patches = image_patch.find(""cap"")
+        >>>     # Question assumes one cap patch
+        >>>     if len(cap_patches) == 0:
+        >>>         # If no cap is found, query the image directly
+        >>>         return image_patch.simple_query(""Is the cap gold or white?"")
+        >>>     return cap_patches[0].best_text_match([""gold"", ""white""])
+        """"""
+        return best_text_match(self.cropped_image, option_list)
+
+    def crop(self, left: int, lower: int, right: int, upper: int)->""ImagePatch"":
+        """"""Returns a new ImagePatch cropped from the current ImagePatch.
+        Parameters
+        -------
+        left : int
+            The leftmost pixel of the cropped image.
+        lower : int
+            The lowest pixel of the cropped image.
+        right : int
+            The rightmost pixel of the cropped image.
+        upper : int
+            The uppermost pixel of the cropped image.
+        -------
+        """"""
+        return ImagePatch(self.cropped_image, left, lower, right, upper)
+
+# Examples of using ImagePatch
+# Is there a backpack to the right of the man?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    man_patches = image_patch.find(""man"")
+    # Question assumes one man patch
+    if len(man_patches) == 0:
+        # If no man is found, query the image directly
+        return image_patch.simple_query(""Is there a backpack to the right of the man?"")
+    man_patch = man_patches[0]
+    backpack_patches = image_patch.find(""backpack"")
+    # Question assumes one backpack patch
+    if len(backpack_patches) == 0:
+        return ""no""
+    for backpack_patch in backpack_patches:
+        if backpack_patch.horizontal_center > man_patch.horizontal_center:
+            return ""yes""
+    return ""no""
+
+# In which part is the bread, the bottom or the top?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    bread_patches = image_patch.find(""bread"")
+    # Question assumes only one bread patch
+    if len(bread_patches) == 0:
+        # If no bread is found, query the image directly
+        return image_patch.simple_query(""In which part is the bread, the bottom or the top?"")
+    if bread_patches[0].vertical_center < image_patch.vertical_center:
+        return ""bottom""
+    else:
+        return ""top""
+
+# What type of weather do you see in the photograph?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    return image_patch.simple_query(""What type of weather do you see in the photograph?"")
+
+# Who is the man staring at?
+def execute_command(image)->str:
+    # asks for the predicate of a relational verb (staring at), so ask directly
+    image_patch = ImagePatch(image)
+    return image_patch.simple_query(""Who is the man staring at?"")
+
+# What toy is wearing a shirt?
+def execute_command(image)->str:
+    # not a relational verb so go step by step
+    image_patch = ImagePatch(image)
+    toy_patches = image_patch.find(""toy"")
+    # Question assumes only one toy patch
+    if len(toy_patches) == 0:
+        # If no toy is found, query the image directly
+        return image_patch.simple_query(""What toy is wearing a shirt?"")
+    for toy_patch in toy_patches:
+        is_wearing_shirt = (toy_patch.simple_query(""Is the toy wearing a shirt?"") == ""yes"")
+        if is_wearing_shirt:
+            return toy_patch.simple_query(""What toy is wearing a shirt?"") # crop would include the shirt so keep it in the query
+    # If no toy is wearing a shirt, pick the first toy
+    return toy_patches[0].simple_query(""What toy is wearing a shirt?"")
+
+# What is behind the pole?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    # contains a relation (around, next to, on, near, on top of, in front of, behind, etc), so ask directly
+    return image_patch.simple_query(""What is behind the pole?"")
+
+# Are there bagels or lemons?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    is_bagel = image_patch.exists(""bagel"")
+    is_lemon = image_patch.exists(""lemon"")
+    return bool_to_yesno(is_bagel or is_lemon)
+
+# Is that blanket to the right of a pillow?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    blanket_patches = image_patch.find(""blanket"")
+    # Question assumes only one blanket patch
+    if len(blanket_patches) == 0:
+        # If no blanket is found, query the image directly
+        return image_patch.simple_query(""Is that blanket to the right of a pillow?"")
+    for blanket_patch in blanket_patches:
+        pillow_patches = image_patch.find(""pillow"")
+        for pillow_patch in pillow_patches:
+            if pillow_patch.horizontal_center > blanket_patch.horizontal_center:
+                return ""yes""
+    return ""no""
+
+# Are there any bikes or cars?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    have_bike = image_patch.exists(""bike"")
+    have_car = image_patch.exists(""car"")
+    if have_bike and have_car:
+        return ""no""
+    return bool_to_yesno(not have_bike)
+
+# Is there something known as a bathtub in this picture?
+def execute_command(image)->str:
+    # contains a relation (in or on), so ask directly
+    image_patch = ImagePatch(image)
+    return image_patch.simple_query(""Is there something known as a bathtub in this picture?"")
+
+# What type of umbrella is under the man's arm?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    man_patches = image_patch.find(""man"")
+    # Question assumes one man patch
+    if len(man_patches) == 0:
+        # If no man is found, query the image directly
+        return image_patch.simple_query(""What type of umbrella is under the man's arm?"")
+    umbrella_patches = man_patches[0].find(""umbrella"")
+    # Question assumes only one umbrella patch
+    if len(umbrella_patches) == 0:
+        return ""no""
+    return str(umbrella_patches[0].explanation(""type of umbrella""))
+
+# What emotion is shown on the woman!S face?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    woman_patches = image_patch.find(""woman"")
+    # Question assumes only one woman patch
+    if len(woman_patches) == 0:
+        # If no woman is found, query the image directly
+        return image_patch.simple_query(""What emotion is shown on the woman!S face?"")
+    emotion_patches = woman_patches[0].find(""emotion"")
+    # Question assumes only one emotion patch
+    if len(emotion_patches) == 0:
+        return ""no em"
+7125126,What is the man guiding?,"from PIL import Image
+from vision_functions import find_in_image, simple_qa, verify_property, best_text_match
+
+def bool_to_yesno(bool_answer: bool)->str:
+    return ""yes"" if bool_answer else ""no""
+
+class ImagePatch:
+    """"""A Python class containing a crop of an image centered around a particular object, as well as relevant information.
+    Attributes
+    ----------
+    cropped_image : array_like
+        An array-like of the cropped image taken from the original image.
+    left : int
+        An int describing the position of the left border of the crop's bounding box in the original image.
+    lower : int
+        An int describing the position of the bottom border of the crop's bounding box in the original image.
+    right : int
+        An int describing the position of the right border of the crop's bounding box in the original image.
+    upper : int
+        An int describing the position of the top border of the crop's bounding box in the original image.
+
+    Methods
+    -------
+    find(object_name: str)->List[ImagePatch]
+        Returns a list of new ImagePatch objects containing crops of the image centered around any objects found in the image matching the object_name.
+    simple_query(question: str=None)->str
+        Returns the answer to a basic question asked about the image. If no question is provided, returns the answer to ""What is this?"".
+    exists(object_name: str)->bool
+        Returns True if the object specified by object_name is found in the image, and False otherwise.
+    verify_property(property: str)->bool
+        Returns True if the property is met, and False otherwise.
+    best_text_match(string1: str, string2: str)->str
+        Returns the string that best matches the image.
+    crop(left: int, lower: int, right: int, upper: int)->ImagePatch
+        Returns a new ImagePatch object containing a crop of the image at the given coordinates.
+        """"""
+
+    def __init__(self, image, left: int=None, lower: int=None, right: int=None, upper: int=None):
+        """"""Initializes an ImagePatch object by cropping the image at the given coordinates and stores the coordinates as attributes.
+        If no coordinates are provided, the image is left unmodified, and the coordinates are set to the dimensions of the image.
+        Parameters
+        -------
+        image : array_like
+            An array-like of the original image.
+        left : int
+            An int describing the position of the left border of the crop's bounding box in the original image.
+        lower : int
+            An int describing the position of the bottom border of the crop's bounding box in the original image.
+        right : int
+            An int describing the position of the right border of the crop's bounding box in the original image.
+        upper : int
+            An int describing the position of the top border of the crop's bounding box in the original image.
+
+        """"""
+        if left is None and right is None and upper is None and lower is None:
+            self.cropped_image = image
+            self.left = 0
+            self.lower = 0
+            self.right = image.shape[2]  # width
+            self.upper = image.shape[1]  # height
+        else:
+            self.cropped_image = image[:, lower:upper, left:right]
+            self.left = left
+            self.upper = upper
+            self.right = right
+            self.lower = lower
+
+        self.width = self.cropped_image.shape[2]
+        self.height = self.cropped_image.shape[1]
+
+        self.horizontal_center = (self.left + self.right) / 2
+        self.vertical_center = (self.lower + self.upper) / 2
+
+    def find(self, object_name: str)->List[""ImagePatch""]:
+        """"""Returns a new ImagePatch object containing the crop of the image centered around the object specified by object_name.
+        Parameters
+        -------
+        object_name : str
+            A string describing the name of the object to be found in the image.
+        """"""
+        return find_in_image(self.cropped_image, object_name)
+
+    def simple_query(self, question: str=None)->str:
+        """"""Returns the answer to a basic question asked about the image. If no question is provided, returns the answer to ""What is this?"".
+        Parameters
+        -------
+        question : str
+            A string describing the question to be asked.
+
+        Examples
+        -------
+
+        >>> # Which kind of animal is not eating?
+        >>> def execute_command(image)->str:
+        >>>     image_patch = ImagePatch(image)
+        >>>     animal_patches = image_patch.find(""animal"")
+        >>>     for animal_patch in animal_patches:
+        >>>         if not animal_patch.verify_property(""animal"", ""eating""):
+        >>>             return animal_patch.simple_query(""What kind of animal is eating?"") # crop would include eating so keep it in the query
+        >>>     # If no animal is not eating, query the image directly
+        >>>     return image_patch.simple_query(""Which kind of animal is not eating?"")
+
+        >>> # What is in front of the horse?
+        >>> # contains a relation (around, next to, on, near, on top of, in front of, behind, etc), so ask directly
+        >>> return image_patch.simple_query(""What is in front of the horse?"")
+        >>>
+        """"""
+        return simple_qa(self.cropped_image, question)
+
+    def exists(self, object_name: str)->bool:
+        """"""Returns True if the object specified by object_name is found in the image, and False otherwise.
+        Parameters
+        -------
+        object_name : str
+            A string describing the name of the object to be found in the image.
+
+        Examples
+        -------
+        >>> # Are there both cakes and gummy bears in the photo?
+        >>> def execute_command(image)->str:
+        >>>     image_patch = ImagePatch(image)
+        >>>     is_cake = image_patch.exists(""cake"")
+        >>>     is_gummy_bear = image_patch.exists(""gummy bear"")
+        >>>     return bool_to_yesno(is_cake and is_gummy_bear)
+        """"""
+        return len(self.find(object_name)) > 0
+
+    def verify_property(self, object_name: str, property: str)->bool:
+        """"""Returns True if the object possesses the property, and False otherwise.
+        Differs from 'exists' in that it presupposes the existence of the object specified by object_name, instead checking whether the object possesses the property.
+        Parameters
+        -------
+        object_name : str
+            A string describing the name of the object to be found in the image.
+        property : str
+            A string describing the property to be checked.
+
+        Examples
+        -------
+        >>> # Do the letters have blue color?
+        >>> def execute_command(image)->str:
+        >>>     image_patch = ImagePatch(image)
+        >>>     letters_patches = image_patch.find(""letters"")
+        >>>     # Question assumes only one letter patch
+        >>>     if len(letters_patches) == 0:
+        >>>         # If no letters are found, query the image directly
+        >>>         return image_patch.simple_query(""Do the letters have blue color?"")
+        >>>     return bool_to_yesno(letters_patches[0].verify_property(""letters"", ""blue""))
+        """"""
+        return verify_property(self.cropped_image, object_name, property)
+
+    def best_text_match(self, option_list: List[str]) -> str:
+        """"""Returns the string that best matches the image.
+        Parameters
+        -------
+        option_list : str
+            A list with the names of the different options
+        prefix : str
+            A string with the prefixes to append to the options
+
+        Examples
+        -------
+        >>> # Is the cap gold or white?
+        >>> def execute_command(image)->str:
+        >>>     image_patch = ImagePatch(image)
+        >>>     cap_patches = image_patch.find(""cap"")
+        >>>     # Question assumes one cap patch
+        >>>     if len(cap_patches) == 0:
+        >>>         # If no cap is found, query the image directly
+        >>>         return image_patch.simple_query(""Is the cap gold or white?"")
+        >>>     return cap_patches[0].best_text_match([""gold"", ""white""])
+        """"""
+        return best_text_match(self.cropped_image, option_list)
+
+    def crop(self, left: int, lower: int, right: int, upper: int)->""ImagePatch"":
+        """"""Returns a new ImagePatch cropped from the current ImagePatch.
+        Parameters
+        -------
+        left : int
+            The leftmost pixel of the cropped image.
+        lower : int
+            The lowest pixel of the cropped image.
+        right : int
+            The rightmost pixel of the cropped image.
+        upper : int
+            The uppermost pixel of the cropped image.
+        -------
+        """"""
+        return ImagePatch(self.cropped_image, left, lower, right, upper)
+
+# Examples of using ImagePatch
+# Is there a backpack to the right of the man?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    man_patches = image_patch.find(""man"")
+    # Question assumes one man patch
+    if len(man_patches) == 0:
+        # If no man is found, query the image directly
+        return image_patch.simple_query(""Is there a backpack to the right of the man?"")
+    man_patch = man_patches[0]
+    backpack_patches = image_patch.find(""backpack"")
+    # Question assumes one backpack patch
+    if len(backpack_patches) == 0:
+        return ""no""
+    for backpack_patch in backpack_patches:
+        if backpack_patch.horizontal_center > man_patch.horizontal_center:
+            return ""yes""
+    return ""no""
+
+# In which part is the bread, the bottom or the top?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    bread_patches = image_patch.find(""bread"")
+    # Question assumes only one bread patch
+    if len(bread_patches) == 0:
+        # If no bread is found, query the image directly
+        return image_patch.simple_query(""In which part is the bread, the bottom or the top?"")
+    if bread_patches[0].vertical_center < image_patch.vertical_center:
+        return ""bottom""
+    else:
+        return ""top""
+
+# What type of weather do you see in the photograph?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    return image_patch.simple_query(""What type of weather do you see in the photograph?"")
+
+# Who is the man staring at?
+def execute_command(image)->str:
+    # asks for the predicate of a relational verb (staring at), so ask directly
+    image_patch = ImagePatch(image)
+    return image_patch.simple_query(""Who is the man staring at?"")
+
+# What toy is wearing a shirt?
+def execute_command(image)->str:
+    # not a relational verb so go step by step
+    image_patch = ImagePatch(image)
+    toy_patches = image_patch.find(""toy"")
+    # Question assumes only one toy patch
+    if len(toy_patches) == 0:
+        # If no toy is found, query the image directly
+        return image_patch.simple_query(""What toy is wearing a shirt?"")
+    for toy_patch in toy_patches:
+        is_wearing_shirt = (toy_patch.simple_query(""Is the toy wearing a shirt?"") == ""yes"")
+        if is_wearing_shirt:
+            return toy_patch.simple_query(""What toy is wearing a shirt?"") # crop would include the shirt so keep it in the query
+    # If no toy is wearing a shirt, pick the first toy
+    return toy_patches[0].simple_query(""What toy is wearing a shirt?"")
+
+# What is behind the pole?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    # contains a relation (around, next to, on, near, on top of, in front of, behind, etc), so ask directly
+    return image_patch.simple_query(""What is behind the pole?"")
+
+# Are there bagels or lemons?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    is_bagel = image_patch.exists(""bagel"")
+    is_lemon = image_patch.exists(""lemon"")
+    return bool_to_yesno(is_bagel or is_lemon)
+
+# Is that blanket to the right of a pillow?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    blanket_patches = image_patch.find(""blanket"")
+    # Question assumes only one blanket patch
+    if len(blanket_patches) == 0:
+        # If no blanket is found, query the image directly
+        return image_patch.simple_query(""Is that blanket to the right of a pillow?"")
+    for blanket_patch in blanket_patches:
+        pillow_patches = image_patch.find(""pillow"")
+        for pillow_patch in pillow_patches:
+            if pillow_patch.horizontal_center > blanket_patch.horizontal_center:
+                return ""yes""
+    return ""no""
+
+# What is the man guiding?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    man_patches = image_patch.find(""man"")
+    # Question assumes only one man patch
+    if len(man_patches) == 0:
+        # If no man is found, query the image directly
+        return image_patch.simple_query(""What is the man guiding?"")
+    guiding_patches = man_patches[0].find(""guiding"")
+    # Question assumes only one guiding patch
+    if len(guiding_patches) == 0:
+        # If no guiding is found, query the image directly
+        return image_patch.simple_query(""What is the man guiding?"")
+    return guiding_patches[0].best_text_match([""sea"", ""tree"", ""trail""])
+
+# Is the bird flying south or north?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    bird_patches = image_patch.find(""bird"")
+    # Question assumes only one bird patch
+    if len(bird_patches) == 0:
+        # If no bird is found, query the image directly
+        return image_patch.simple_query(""Is the bird flying south or north?"")
+    is_flying_north = (bird_patches[0].simple_query(""Is the bird flying north?"") == ""yes"")
+    return ""north"" if is_flying_north else ""south""
+
+# Does the dog like cheese?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    dog_patches = image_patch.find(""dog"")
+    # Question assumes only one dog patch
+    if len(dog_patches) == 0:
+        # If no dog is found, query the image directly
+        return image_patch.simple_query(""Does the dog like cheese?"")
+    is_liking_cheese = (dog_patches[0].simple_query(""Sub-question 1: Does the dog like cheese?"") == ""yes"")
+    if is_liking_cheese:
+        return image_patch.simple_query(""Sub-question"
+13561987,What is the avocado on?,"from PIL import Image
+from vision_functions import find_in_image, simple_qa, verify_property, best_text_match
+
+def bool_to_yesno(bool_answer: bool)->str:
+    return ""yes"" if bool_answer else ""no""
+
+class ImagePatch:
+    """"""A Python class containing a crop of an image centered around a particular object, as well as relevant information.
+    Attributes
+    ----------
+    cropped_image : array_like
+        An array-like of the cropped image taken from the original image.
+    left : int
+        An int describing the position of the left border of the crop's bounding box in the original image.
+    lower : int
+        An int describing the position of the bottom border of the crop's bounding box in the original image.
+    right : int
+        An int describing the position of the right border of the crop's bounding box in the original image.
+    upper : int
+        An int describing the position of the top border of the crop's bounding box in the original image.
+
+    Methods
+    -------
+    find(object_name: str)->List[ImagePatch]
+        Returns a list of new ImagePatch objects containing crops of the image centered around any objects found in the image matching the object_name.
+    simple_query(question: str=None)->str
+        Returns the answer to a basic question asked about the image. If no question is provided, returns the answer to ""What is this?"".
+    exists(object_name: str)->bool
+        Returns True if the object specified by object_name is found in the image, and False otherwise.
+    verify_property(property: str)->bool
+        Returns True if the property is met, and False otherwise.
+    best_text_match(string1: str, string2: str)->str
+        Returns the string that best matches the image.
+    crop(left: int, lower: int, right: int, upper: int)->ImagePatch
+        Returns a new ImagePatch object containing a crop of the image at the given coordinates.
+        """"""
+
+    def __init__(self, image, left: int=None, lower: int=None, right: int=None, upper: int=None):
+        """"""Initializes an ImagePatch object by cropping the image at the given coordinates and stores the coordinates as attributes.
+        If no coordinates are provided, the image is left unmodified, and the coordinates are set to the dimensions of the image.
+        Parameters
+        -------
+        image : array_like
+            An array-like of the original image.
+        left : int
+            An int describing the position of the left border of the crop's bounding box in the original image.
+        lower : int
+            An int describing the position of the bottom border of the crop's bounding box in the original image.
+        right : int
+            An int describing the position of the right border of the crop's bounding box in the original image.
+        upper : int
+            An int describing the position of the top border of the crop's bounding box in the original image.
+
+        """"""
+        if left is None and right is None and upper is None and lower is None:
+            self.cropped_image = image
+            self.left = 0
+            self.lower = 0
+            self.right = image.shape[2]  # width
+            self.upper = image.shape[1]  # height
+        else:
+            self.cropped_image = image[:, lower:upper, left:right]
+            self.left = left
+            self.upper = upper
+            self.right = right
+            self.lower = lower
+
+        self.width = self.cropped_image.shape[2]
+        self.height = self.cropped_image.shape[1]
+
+        self.horizontal_center = (self.left + self.right) / 2
+        self.vertical_center = (self.lower + self.upper) / 2
+
+    def find(self, object_name: str)->List[""ImagePatch""]:
+        """"""Returns a new ImagePatch object containing the crop of the image centered around the object specified by object_name.
+        Parameters
+        -------
+        object_name : str
+            A string describing the name of the object to be found in the image.
+        """"""
+        return find_in_image(self.cropped_image, object_name)
+
+    def simple_query(self, question: str=None)->str:
+        """"""Returns the answer to a basic question asked about the image. If no question is provided, returns the answer to ""What is this?"".
+        Parameters
+        -------
+        question : str
+            A string describing the question to be asked.
+
+        Examples
+        -------
+
+        >>> # Which kind of animal is not eating?
+        >>> def execute_command(image)->str:
+        >>>     image_patch = ImagePatch(image)
+        >>>     animal_patches = image_patch.find(""animal"")
+        >>>     for animal_patch in animal_patches:
+        >>>         if not animal_patch.verify_property(""animal"", ""eating""):
+        >>>             return animal_patch.simple_query(""What kind of animal is eating?"") # crop would include eating so keep it in the query
+        >>>     # If no animal is not eating, query the image directly
+        >>>     return image_patch.simple_query(""Which kind of animal is not eating?"")
+
+        >>> # What is in front of the horse?
+        >>> # contains a relation (around, next to, on, near, on top of, in front of, behind, etc), so ask directly
+        >>> return image_patch.simple_query(""What is in front of the horse?"")
+        >>>
+        """"""
+        return simple_qa(self.cropped_image, question)
+
+    def exists(self, object_name: str)->bool:
+        """"""Returns True if the object specified by object_name is found in the image, and False otherwise.
+        Parameters
+        -------
+        object_name : str
+            A string describing the name of the object to be found in the image.
+
+        Examples
+        -------
+        >>> # Are there both cakes and gummy bears in the photo?
+        >>> def execute_command(image)->str:
+        >>>     image_patch = ImagePatch(image)
+        >>>     is_cake = image_patch.exists(""cake"")
+        >>>     is_gummy_bear = image_patch.exists(""gummy bear"")
+        >>>     return bool_to_yesno(is_cake and is_gummy_bear)
+        """"""
+        return len(self.find(object_name)) > 0
+
+    def verify_property(self, object_name: str, property: str)->bool:
+        """"""Returns True if the object possesses the property, and False otherwise.
+        Differs from 'exists' in that it presupposes the existence of the object specified by object_name, instead checking whether the object possesses the property.
+        Parameters
+        -------
+        object_name : str
+            A string describing the name of the object to be found in the image.
+        property : str
+            A string describing the property to be checked.
+
+        Examples
+        -------
+        >>> # Do the letters have blue color?
+        >>> def execute_command(image)->str:
+        >>>     image_patch = ImagePatch(image)
+        >>>     letters_patches = image_patch.find(""letters"")
+        >>>     # Question assumes only one letter patch
+        >>>     if len(letters_patches) == 0:
+        >>>         # If no letters are found, query the image directly
+        >>>         return image_patch.simple_query(""Do the letters have blue color?"")
+        >>>     return bool_to_yesno(letters_patches[0].verify_property(""letters"", ""blue""))
+        """"""
+        return verify_property(self.cropped_image, object_name, property)
+
+    def best_text_match(self, option_list: List[str]) -> str:
+        """"""Returns the string that best matches the image.
+        Parameters
+        -------
+        option_list : str
+            A list with the names of the different options
+        prefix : str
+            A string with the prefixes to append to the options
+
+        Examples
+        -------
+        >>> # Is the cap gold or white?
+        >>> def execute_command(image)->str:
+        >>>     image_patch = ImagePatch(image)
+        >>>     cap_patches = image_patch.find(""cap"")
+        >>>     # Question assumes one cap patch
+        >>>     if len(cap_patches) == 0:
+        >>>         # If no cap is found, query the image directly
+        >>>         return image_patch.simple_query(""Is the cap gold or white?"")
+        >>>     return cap_patches[0].best_text_match([""gold"", ""white""])
+        """"""
+        return best_text_match(self.cropped_image, option_list)
+
+    def crop(self, left: int, lower: int, right: int, upper: int)->""ImagePatch"":
+        """"""Returns a new ImagePatch cropped from the current ImagePatch.
+        Parameters
+        -------
+        left : int
+            The leftmost pixel of the cropped image.
+        lower : int
+            The lowest pixel of the cropped image.
+        right : int
+            The rightmost pixel of the cropped image.
+        upper : int
+            The uppermost pixel of the cropped image.
+        -------
+        """"""
+        return ImagePatch(self.cropped_image, left, lower, right, upper)
+
+# Examples of using ImagePatch
+# Is there a backpack to the right of the man?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    man_patches = image_patch.find(""man"")
+    # Question assumes one man patch
+    if len(man_patches) == 0:
+        # If no man is found, query the image directly
+        return image_patch.simple_query(""Is there a backpack to the right of the man?"")
+    man_patch = man_patches[0]
+    backpack_patches = image_patch.find(""backpack"")
+    # Question assumes one backpack patch
+    if len(backpack_patches) == 0:
+        return ""no""
+    for backpack_patch in backpack_patches:
+        if backpack_patch.horizontal_center > man_patch.horizontal_center:
+            return ""yes""
+    return ""no""
+
+# In which part is the bread, the bottom or the top?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    bread_patches = image_patch.find(""bread"")
+    # Question assumes only one bread patch
+    if len(bread_patches) == 0:
+        # If no bread is found, query the image directly
+        return image_patch.simple_query(""In which part is the bread, the bottom or the top?"")
+    if bread_patches[0].vertical_center < image_patch.vertical_center:
+        return ""bottom""
+    else:
+        return ""top""
+
+# What type of weather do you see in the photograph?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    return image_patch.simple_query(""What type of weather do you see in the photograph?"")
+
+# Who is the man staring at?
+def execute_command(image)->str:
+    # asks for the predicate of a relational verb (staring at), so ask directly
+    image_patch = ImagePatch(image)
+    return image_patch.simple_query(""Who is the man staring at?"")
+
+# What toy is wearing a shirt?
+def execute_command(image)->str:
+    # not a relational verb so go step by step
+    image_patch = ImagePatch(image)
+    toy_patches = image_patch.find(""toy"")
+    # Question assumes only one toy patch
+    if len(toy_patches) == 0:
+        # If no toy is found, query the image directly
+        return image_patch.simple_query(""What toy is wearing a shirt?"")
+    for toy_patch in toy_patches:
+        is_wearing_shirt = (toy_patch.simple_query(""Is the toy wearing a shirt?"") == ""yes"")
+        if is_wearing_shirt:
+            return toy_patch.simple_query(""What toy is wearing a shirt?"") # crop would include the shirt so keep it in the query
+    # If no toy is wearing a shirt, pick the first toy
+    return toy_patches[0].simple_query(""What toy is wearing a shirt?"")
+
+# What is behind the pole?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    # contains a relation (around, next to, on, near, on top of, in front of, behind, etc), so ask directly
+    return image_patch.simple_query(""What is behind the pole?"")
+
+# Are there bagels or lemons?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    is_bagel = image_patch.exists(""bagel"")
+    is_lemon = image_patch.exists(""lemon"")
+    return bool_to_yesno(is_bagel or is_lemon)
+
+# Is that blanket to the right of a pillow?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    blanket_patches = image_patch.find(""blanket"")
+    # Question assumes only one blanket patch
+    if len(blanket_patches) == 0:
+        # If no blanket is found, query the image directly
+        return image_patch.simple_query(""Is that blanket to the right of a pillow?"")
+    for blanket_patch in blanket_patches:
+        pillow_patches = image_patch.find(""pillow"")
+        for pillow_patch in pillow_patches:
+            if pillow_patch.horizontal_center > blanket_patch.horizontal_center:
+                return ""yes""
+    return ""no""
+
+# What is the avocado on?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    avocado_patches = image_patch.find(""avocado"")
+    # Question assumes only one avocado patch
+    if len(avocado_patches) == 0:
+        # If no avocado is found, query the image directly
+        return image_patch.simple_query(""What is the avocado on?"")
+    return avocado_patches[0].simple_query(""What is the avocado on?"") # crop would include 'avocado' so keep it in the query
+
+# Does the elephant have two trunks and one tusk?
+# if I only answer yes/no I'll get yes/no questions, so use read specs to search for 2 trunks and 1 tusk
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    elephant_patches = image_patch.find(""elephant"")
+    # Question assumes only one elephant patch
+    if len(elephant_patches) == 0:
+        # If no elephant is found, query the image directly
+        return image_patch.simple_query(""Does the elephant have two trunks and one tusk?"")
+    attributes = {""2 trunks"": 0, ""1 tusk"": 0}
+    image_patch = elephant_patches[0]
+    # Assume only one patch and not searching max of 3
+    for attribute in attributes.keys():
+        if image_patch.verify_property(""trunk"", attribute):
+            attributes[attribute] += 1
+    return image_patch.best_text_match(attributes.keys())
+"
+15472689,What is the color of the shirt the woman is wearing?,"from PIL import Image
+from vision_functions import find_in_image, simple_qa, verify_property, best_text_match
+
+def bool_to_yesno(bool_answer: bool)->str:
+    return ""yes"" if bool_answer else ""no""
+
+class ImagePatch:
+    """"""A Python class containing a crop of an image centered around a particular object, as well as relevant information.
+    Attributes
+    ----------
+    cropped_image : array_like
+        An array-like of the cropped image taken from the original image.
+    left : int
+        An int describing the position of the left border of the crop's bounding box in the original image.
+    lower : int
+        An int describing the position of the bottom border of the crop's bounding box in the original image.
+    right : int
+        An int describing the position of the right border of the crop's bounding box in the original image.
+    upper : int
+        An int describing the position of the top border of the crop's bounding box in the original image.
+
+    Methods
+    -------
+    find(object_name: str)->List[ImagePatch]
+        Returns a list of new ImagePatch objects containing crops of the image centered around any objects found in the image matching the object_name.
+    simple_query(question: str=None)->str
+        Returns the answer to a basic question asked about the image. If no question is provided, returns the answer to ""What is this?"".
+    exists(object_name: str)->bool
+        Returns True if the object specified by object_name is found in the image, and False otherwise.
+    verify_property(property: str)->bool
+        Returns True if the property is met, and False otherwise.
+    best_text_match(string1: str, string2: str)->str
+        Returns the string that best matches the image.
+    crop(left: int, lower: int, right: int, upper: int)->ImagePatch
+        Returns a new ImagePatch object containing a crop of the image at the given coordinates.
+        """"""
+
+    def __init__(self, image, left: int=None, lower: int=None, right: int=None, upper: int=None):
+        """"""Initializes an ImagePatch object by cropping the image at the given coordinates and stores the coordinates as attributes.
+        If no coordinates are provided, the image is left unmodified, and the coordinates are set to the dimensions of the image.
+        Parameters
+        -------
+        image : array_like
+            An array-like of the original image.
+        left : int
+            An int describing the position of the left border of the crop's bounding box in the original image.
+        lower : int
+            An int describing the position of the bottom border of the crop's bounding box in the original image.
+        right : int
+            An int describing the position of the right border of the crop's bounding box in the original image.
+        upper : int
+            An int describing the position of the top border of the crop's bounding box in the original image.
+
+        """"""
+        if left is None and right is None and upper is None and lower is None:
+            self.cropped_image = image
+            self.left = 0
+            self.lower = 0
+            self.right = image.shape[2]  # width
+            self.upper = image.shape[1]  # height
+        else:
+            self.cropped_image = image[:, lower:upper, left:right]
+            self.left = left
+            self.upper = upper
+            self.right = right
+            self.lower = lower
+
+        self.width = self.cropped_image.shape[2]
+        self.height = self.cropped_image.shape[1]
+
+        self.horizontal_center = (self.left + self.right) / 2
+        self.vertical_center = (self.lower + self.upper) / 2
+
+    def find(self, object_name: str)->List[""ImagePatch""]:
+        """"""Returns a new ImagePatch object containing the crop of the image centered around the object specified by object_name.
+        Parameters
+        -------
+        object_name : str
+            A string describing the name of the object to be found in the image.
+        """"""
+        return find_in_image(self.cropped_image, object_name)
+
+    def simple_query(self, question: str=None)->str:
+        """"""Returns the answer to a basic question asked about the image. If no question is provided, returns the answer to ""What is this?"".
+        Parameters
+        -------
+        question : str
+            A string describing the question to be asked.
+
+        Examples
+        -------
+
+        >>> # Which kind of animal is not eating?
+        >>> def execute_command(image)->str:
+        >>>     image_patch = ImagePatch(image)
+        >>>     animal_patches = image_patch.find(""animal"")
+        >>>     for animal_patch in animal_patches:
+        >>>         if not animal_patch.verify_property(""animal"", ""eating""):
+        >>>             return animal_patch.simple_query(""What kind of animal is eating?"") # crop would include eating so keep it in the query
+        >>>     # If no animal is not eating, query the image directly
+        >>>     return image_patch.simple_query(""Which kind of animal is not eating?"")
+
+        >>> # What is in front of the horse?
+        >>> # contains a relation (around, next to, on, near, on top of, in front of, behind, etc), so ask directly
+        >>> return image_patch.simple_query(""What is in front of the horse?"")
+        >>>
+        """"""
+        return simple_qa(self.cropped_image, question)
+
+    def exists(self, object_name: str)->bool:
+        """"""Returns True if the object specified by object_name is found in the image, and False otherwise.
+        Parameters
+        -------
+        object_name : str
+            A string describing the name of the object to be found in the image.
+
+        Examples
+        -------
+        >>> # Are there both cakes and gummy bears in the photo?
+        >>> def execute_command(image)->str:
+        >>>     image_patch = ImagePatch(image)
+        >>>     is_cake = image_patch.exists(""cake"")
+        >>>     is_gummy_bear = image_patch.exists(""gummy bear"")
+        >>>     return bool_to_yesno(is_cake and is_gummy_bear)
+        """"""
+        return len(self.find(object_name)) > 0
+
+    def verify_property(self, object_name: str, property: str)->bool:
+        """"""Returns True if the object possesses the property, and False otherwise.
+        Differs from 'exists' in that it presupposes the existence of the object specified by object_name, instead checking whether the object possesses the property.
+        Parameters
+        -------
+        object_name : str
+            A string describing the name of the object to be found in the image.
+        property : str
+            A string describing the property to be checked.
+
+        Examples
+        -------
+        >>> # Do the letters have blue color?
+        >>> def execute_command(image)->str:
+        >>>     image_patch = ImagePatch(image)
+        >>>     letters_patches = image_patch.find(""letters"")
+        >>>     # Question assumes only one letter patch
+        >>>     if len(letters_patches) == 0:
+        >>>         # If no letters are found, query the image directly
+        >>>         return image_patch.simple_query(""Do the letters have blue color?"")
+        >>>     return bool_to_yesno(letters_patches[0].verify_property(""letters"", ""blue""))
+        """"""
+        return verify_property(self.cropped_image, object_name, property)
+
+    def best_text_match(self, option_list: List[str]) -> str:
+        """"""Returns the string that best matches the image.
+        Parameters
+        -------
+        option_list : str
+            A list with the names of the different options
+        prefix : str
+            A string with the prefixes to append to the options
+
+        Examples
+        -------
+        >>> # Is the cap gold or white?
+        >>> def execute_command(image)->str:
+        >>>     image_patch = ImagePatch(image)
+        >>>     cap_patches = image_patch.find(""cap"")
+        >>>     # Question assumes one cap patch
+        >>>     if len(cap_patches) == 0:
+        >>>         # If no cap is found, query the image directly
+        >>>         return image_patch.simple_query(""Is the cap gold or white?"")
+        >>>     return cap_patches[0].best_text_match([""gold"", ""white""])
+        """"""
+        return best_text_match(self.cropped_image, option_list)
+
+    def crop(self, left: int, lower: int, right: int, upper: int)->""ImagePatch"":
+        """"""Returns a new ImagePatch cropped from the current ImagePatch.
+        Parameters
+        -------
+        left : int
+            The leftmost pixel of the cropped image.
+        lower : int
+            The lowest pixel of the cropped image.
+        right : int
+            The rightmost pixel of the cropped image.
+        upper : int
+            The uppermost pixel of the cropped image.
+        -------
+        """"""
+        return ImagePatch(self.cropped_image, left, lower, right, upper)
+
+# Examples of using ImagePatch
+# Is there a backpack to the right of the man?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    man_patches = image_patch.find(""man"")
+    # Question assumes one man patch
+    if len(man_patches) == 0:
+        # If no man is found, query the image directly
+        return image_patch.simple_query(""Is there a backpack to the right of the man?"")
+    man_patch = man_patches[0]
+    backpack_patches = image_patch.find(""backpack"")
+    # Question assumes one backpack patch
+    if len(backpack_patches) == 0:
+        return ""no""
+    for backpack_patch in backpack_patches:
+        if backpack_patch.horizontal_center > man_patch.horizontal_center:
+            return ""yes""
+    return ""no""
+
+# In which part is the bread, the bottom or the top?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    bread_patches = image_patch.find(""bread"")
+    # Question assumes only one bread patch
+    if len(bread_patches) == 0:
+        # If no bread is found, query the image directly
+        return image_patch.simple_query(""In which part is the bread, the bottom or the top?"")
+    if bread_patches[0].vertical_center < image_patch.vertical_center:
+        return ""bottom""
+    else:
+        return ""top""
+
+# What type of weather do you see in the photograph?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    return image_patch.simple_query(""What type of weather do you see in the photograph?"")
+
+# Who is the man staring at?
+def execute_command(image)->str:
+    # asks for the predicate of a relational verb (staring at), so ask directly
+    image_patch = ImagePatch(image)
+    return image_patch.simple_query(""Who is the man staring at?"")
+
+# What toy is wearing a shirt?
+def execute_command(image)->str:
+    # not a relational verb so go step by step
+    image_patch = ImagePatch(image)
+    toy_patches = image_patch.find(""toy"")
+    # Question assumes only one toy patch
+    if len(toy_patches) == 0:
+        # If no toy is found, query the image directly
+        return image_patch.simple_query(""What toy is wearing a shirt?"")
+    for toy_patch in toy_patches:
+        is_wearing_shirt = (toy_patch.simple_query(""Is the toy wearing a shirt?"") == ""yes"")
+        if is_wearing_shirt:
+            return toy_patch.simple_query(""What toy is wearing a shirt?"") # crop would include the shirt so keep it in the query
+    # If no toy is wearing a shirt, pick the first toy
+    return toy_patches[0].simple_query(""What toy is wearing a shirt?"")
+
+# What is behind the pole?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    # contains a relation (around, next to, on, near, on top of, in front of, behind, etc), so ask directly
+    return image_patch.simple_query(""What is behind the pole?"")
+
+# Are there bagels or lemons?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    is_bagel = image_patch.exists(""bagel"")
+    is_lemon = image_patch.exists(""lemon"")
+    return bool_to_yesno(is_bagel or is_lemon)
+
+# Is that blanket to the right of a pillow?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    blanket_patches = image_patch.find(""blanket"")
+    # Question assumes only one blanket patch
+    if len(blanket_patches) == 0:
+        # If no blanket is found, query the image directly
+        return image_patch.simple_query(""Is that blanket to the right of a pillow?"")
+    for blanket_patch in blanket_patches:
+        pillow_patches = image_patch.find(""pillow"")
+        for pillow_patch in pillow_patches:
+            if pillow_patch.horizontal_center > blanket_patch.horizontal_center:
+                return ""yes""
+    return ""no""
+
+# What is the color of the shirt the woman is wearing?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    patches_with_shirt = image_patch.find(""shirt"")
+    # Question assumes only one shirt patch
+    if len(patches_with_shirt) == 0:
+        # If no shirt could be found, query the image directly
+        return image_patch.simple_query(""What is the color of the shirt the woman is wearing?"")
+    return patches_with_shirt[0].simple_query(""What is the color of the shirt the woman is wearing?"")
+
+# Is either man eating soup or are they watching TV?
+def execute_command(image)->str:
+    # checks for both the existance of the eating predicate and for the eating predicate
+    # efficient because both checks can be done together
+    image_patch = ImagePatch(image)
+    man1_patches = image_patch.find(""man"")
+    # Question assumes only one man patch
+    if len(man1_patches) == 0:
+        # If no man is found, query the image directly
+        return image_patch.simple_query(""Is either man eating soup or are they watching TV?"")
+    comp = ""eating soup""
+    man1_result = image_patch.veri_property(""man"", comp)
+    if man1_result:
+        return bool_to_yesno(man1_result)
+    comp = ""watching TV""
+    man1_result = image_patch.veri_property(""man"", comp)
+    # Question assumes only one man patch
+    return bool_to_yesno(man1_result)
+
+# Is that pineapple (to the right) red?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    pineapple_patches = image_patch.find(""pineapple"")
+    # Question assumes only one pineapple patch
+    if len(pineapple_patches) == 0:
+        # If no pineapple is found, query the image directly
+        return image_patch.simple_query(""Is that pineapple (to the right) red?"")
+    for pineapple_patch in pine"
+12757581,What cooking utensil is left of the oven?,"from PIL import Image
+from vision_functions import find_in_image, simple_qa, verify_property, best_text_match
+
+def bool_to_yesno(bool_answer: bool)->str:
+    return ""yes"" if bool_answer else ""no""
+
+class ImagePatch:
+    """"""A Python class containing a crop of an image centered around a particular object, as well as relevant information.
+    Attributes
+    ----------
+    cropped_image : array_like
+        An array-like of the cropped image taken from the original image.
+    left : int
+        An int describing the position of the left border of the crop's bounding box in the original image.
+    lower : int
+        An int describing the position of the bottom border of the crop's bounding box in the original image.
+    right : int
+        An int describing the position of the right border of the crop's bounding box in the original image.
+    upper : int
+        An int describing the position of the top border of the crop's bounding box in the original image.
+
+    Methods
+    -------
+    find(object_name: str)->List[ImagePatch]
+        Returns a list of new ImagePatch objects containing crops of the image centered around any objects found in the image matching the object_name.
+    simple_query(question: str=None)->str
+        Returns the answer to a basic question asked about the image. If no question is provided, returns the answer to ""What is this?"".
+    exists(object_name: str)->bool
+        Returns True if the object specified by object_name is found in the image, and False otherwise.
+    verify_property(property: str)->bool
+        Returns True if the property is met, and False otherwise.
+    best_text_match(string1: str, string2: str)->str
+        Returns the string that best matches the image.
+    crop(left: int, lower: int, right: int, upper: int)->ImagePatch
+        Returns a new ImagePatch object containing a crop of the image at the given coordinates.
+        """"""
+
+    def __init__(self, image, left: int=None, lower: int=None, right: int=None, upper: int=None):
+        """"""Initializes an ImagePatch object by cropping the image at the given coordinates and stores the coordinates as attributes.
+        If no coordinates are provided, the image is left unmodified, and the coordinates are set to the dimensions of the image.
+        Parameters
+        -------
+        image : array_like
+            An array-like of the original image.
+        left : int
+            An int describing the position of the left border of the crop's bounding box in the original image.
+        lower : int
+            An int describing the position of the bottom border of the crop's bounding box in the original image.
+        right : int
+            An int describing the position of the right border of the crop's bounding box in the original image.
+        upper : int
+            An int describing the position of the top border of the crop's bounding box in the original image.
+
+        """"""
+        if left is None and right is None and upper is None and lower is None:
+            self.cropped_image = image
+            self.left = 0
+            self.lower = 0
+            self.right = image.shape[2]  # width
+            self.upper = image.shape[1]  # height
+        else:
+            self.cropped_image = image[:, lower:upper, left:right]
+            self.left = left
+            self.upper = upper
+            self.right = right
+            self.lower = lower
+
+        self.width = self.cropped_image.shape[2]
+        self.height = self.cropped_image.shape[1]
+
+        self.horizontal_center = (self.left + self.right) / 2
+        self.vertical_center = (self.lower + self.upper) / 2
+
+    def find(self, object_name: str)->List[""ImagePatch""]:
+        """"""Returns a new ImagePatch object containing the crop of the image centered around the object specified by object_name.
+        Parameters
+        -------
+        object_name : str
+            A string describing the name of the object to be found in the image.
+        """"""
+        return find_in_image(self.cropped_image, object_name)
+
+    def simple_query(self, question: str=None)->str:
+        """"""Returns the answer to a basic question asked about the image. If no question is provided, returns the answer to ""What is this?"".
+        Parameters
+        -------
+        question : str
+            A string describing the question to be asked.
+
+        Examples
+        -------
+
+        >>> # Which kind of animal is not eating?
+        >>> def execute_command(image)->str:
+        >>>     image_patch = ImagePatch(image)
+        >>>     animal_patches = image_patch.find(""animal"")
+        >>>     for animal_patch in animal_patches:
+        >>>         if not animal_patch.verify_property(""animal"", ""eating""):
+        >>>             return animal_patch.simple_query(""What kind of animal is eating?"") # crop would include eating so keep it in the query
+        >>>     # If no animal is not eating, query the image directly
+        >>>     return image_patch.simple_query(""Which kind of animal is not eating?"")
+
+        >>> # What is in front of the horse?
+        >>> # contains a relation (around, next to, on, near, on top of, in front of, behind, etc), so ask directly
+        >>> return image_patch.simple_query(""What is in front of the horse?"")
+        >>>
+        """"""
+        return simple_qa(self.cropped_image, question)
+
+    def exists(self, object_name: str)->bool:
+        """"""Returns True if the object specified by object_name is found in the image, and False otherwise.
+        Parameters
+        -------
+        object_name : str
+            A string describing the name of the object to be found in the image.
+
+        Examples
+        -------
+        >>> # Are there both cakes and gummy bears in the photo?
+        >>> def execute_command(image)->str:
+        >>>     image_patch = ImagePatch(image)
+        >>>     is_cake = image_patch.exists(""cake"")
+        >>>     is_gummy_bear = image_patch.exists(""gummy bear"")
+        >>>     return bool_to_yesno(is_cake and is_gummy_bear)
+        """"""
+        return len(self.find(object_name)) > 0
+
+    def verify_property(self, object_name: str, property: str)->bool:
+        """"""Returns True if the object possesses the property, and False otherwise.
+        Differs from 'exists' in that it presupposes the existence of the object specified by object_name, instead checking whether the object possesses the property.
+        Parameters
+        -------
+        object_name : str
+            A string describing the name of the object to be found in the image.
+        property : str
+            A string describing the property to be checked.
+
+        Examples
+        -------
+        >>> # Do the letters have blue color?
+        >>> def execute_command(image)->str:
+        >>>     image_patch = ImagePatch(image)
+        >>>     letters_patches = image_patch.find(""letters"")
+        >>>     # Question assumes only one letter patch
+        >>>     if len(letters_patches) == 0:
+        >>>         # If no letters are found, query the image directly
+        >>>         return image_patch.simple_query(""Do the letters have blue color?"")
+        >>>     return bool_to_yesno(letters_patches[0].verify_property(""letters"", ""blue""))
+        """"""
+        return verify_property(self.cropped_image, object_name, property)
+
+    def best_text_match(self, option_list: List[str]) -> str:
+        """"""Returns the string that best matches the image.
+        Parameters
+        -------
+        option_list : str
+            A list with the names of the different options
+        prefix : str
+            A string with the prefixes to append to the options
+
+        Examples
+        -------
+        >>> # Is the cap gold or white?
+        >>> def execute_command(image)->str:
+        >>>     image_patch = ImagePatch(image)
+        >>>     cap_patches = image_patch.find(""cap"")
+        >>>     # Question assumes one cap patch
+        >>>     if len(cap_patches) == 0:
+        >>>         # If no cap is found, query the image directly
+        >>>         return image_patch.simple_query(""Is the cap gold or white?"")
+        >>>     return cap_patches[0].best_text_match([""gold"", ""white""])
+        """"""
+        return best_text_match(self.cropped_image, option_list)
+
+    def crop(self, left: int, lower: int, right: int, upper: int)->""ImagePatch"":
+        """"""Returns a new ImagePatch cropped from the current ImagePatch.
+        Parameters
+        -------
+        left : int
+            The leftmost pixel of the cropped image.
+        lower : int
+            The lowest pixel of the cropped image.
+        right : int
+            The rightmost pixel of the cropped image.
+        upper : int
+            The uppermost pixel of the cropped image.
+        -------
+        """"""
+        return ImagePatch(self.cropped_image, left, lower, right, upper)
+
+# Examples of using ImagePatch
+# Is there a backpack to the right of the man?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    man_patches = image_patch.find(""man"")
+    # Question assumes one man patch
+    if len(man_patches) == 0:
+        # If no man is found, query the image directly
+        return image_patch.simple_query(""Is there a backpack to the right of the man?"")
+    man_patch = man_patches[0]
+    backpack_patches = image_patch.find(""backpack"")
+    # Question assumes one backpack patch
+    if len(backpack_patches) == 0:
+        return ""no""
+    for backpack_patch in backpack_patches:
+        if backpack_patch.horizontal_center > man_patch.horizontal_center:
+            return ""yes""
+    return ""no""
+
+# In which part is the bread, the bottom or the top?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    bread_patches = image_patch.find(""bread"")
+    # Question assumes only one bread patch
+    if len(bread_patches) == 0:
+        # If no bread is found, query the image directly
+        return image_patch.simple_query(""In which part is the bread, the bottom or the top?"")
+    if bread_patches[0].vertical_center < image_patch.vertical_center:
+        return ""bottom""
+    else:
+        return ""top""
+
+# What type of weather do you see in the photograph?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    return image_patch.simple_query(""What type of weather do you see in the photograph?"")
+
+# Who is the man staring at?
+def execute_command(image)->str:
+    # asks for the predicate of a relational verb (staring at), so ask directly
+    image_patch = ImagePatch(image)
+    return image_patch.simple_query(""Who is the man staring at?"")
+
+# What toy is wearing a shirt?
+def execute_command(image)->str:
+    # not a relational verb so go step by step
+    image_patch = ImagePatch(image)
+    toy_patches = image_patch.find(""toy"")
+    # Question assumes only one toy patch
+    if len(toy_patches) == 0:
+        # If no toy is found, query the image directly
+        return image_patch.simple_query(""What toy is wearing a shirt?"")
+    for toy_patch in toy_patches:
+        is_wearing_shirt = (toy_patch.simple_query(""Is the toy wearing a shirt?"") == ""yes"")
+        if is_wearing_shirt:
+            return toy_patch.simple_query(""What toy is wearing a shirt?"") # crop would include the shirt so keep it in the query
+    # If no toy is wearing a shirt, pick the first toy
+    return toy_patches[0].simple_query(""What toy is wearing a shirt?"")
+
+# What is behind the pole?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    # contains a relation (around, next to, on, near, on top of, in front of, behind, etc), so ask directly
+    return image_patch.simple_query(""What is behind the pole?"")
+
+# Are there bagels or lemons?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    is_bagel = image_patch.exists(""bagel"")
+    is_lemon = image_patch.exists(""lemon"")
+    return bool_to_yesno(is_bagel or is_lemon)
+
+# Is that blanket to the right of a pillow?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    blanket_patches = image_patch.find(""blanket"")
+    # Question assumes only one blanket patch
+    if len(blanket_patches) == 0:
+        # If no blanket is found, query the image directly
+        return image_patch.simple_query(""Is that blanket to the right of a pillow?"")
+    for blanket_patch in blanket_patches:
+        pillow_patches = image_patch.find(""pillow"")
+        for pillow_patch in pillow_patches:
+            if pillow_patch.horizontal_center > blanket_patch.horizontal_center:
+                return ""yes""
+    return ""no""
+
+# What cooking utensil is left of the oven?
+def execute_command(image)->str:
+    # From the question explain about in your ""How do I ask it a question I wrote a crap description for myself?"" comment above
+    image_patch = ImagePatch(image)
+    cooking_utensil_patches = image_patch.find(""cooking_utensil"")
+    # Question assumes only one cooking_utensil patch
+    if len(cooking_utensil_patches) == 0:
+        # If no cooking_utensil is found, query the image directly
+        return image_patch.simple_query(""What cooking utensil is left of the oven?"")
+    for cooking_utensil_patch in cooking_utensil_patches:
+        oven_patches = image_patch.find(""oven"")
+        for oven_patch in oven_patches:
+            if cooking_utensil_patch.horizontal_center < oven_patch.horizontal_center:
+                return bool_to_yesno((cooking_utensil_patch.simple_query(""Is a knife?"") == ""yes"") or ((cooking_utensil_patch.simple_query(""Is a spatula?"") == ""yes"") or (cooking_utensil_patch.simple_query(""Is a stirring machine?"") == ""yes"")))
+    return ""yes""
+
+# What land is green?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    return image_patch.simple_query(""What land is green?"")
+
+# Is the bottle full?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    return image_patch.simple_query(""Is the bottle full?"")
+
+# Is that bird perched at the top of the tree?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    bird_patches = image_patch.find(""bird"")
+    # Question assumes only one bird patch
+    if len(bird_patches) == 0:
+        # If no bird is found, query the image directly
+        return image_patch.simple_query(""Is that bird perched at"
+7639953,What is in the box?,"from PIL import Image
+from vision_functions import find_in_image, simple_qa, verify_property, best_text_match
+
+def bool_to_yesno(bool_answer: bool)->str:
+    return ""yes"" if bool_answer else ""no""
+
+class ImagePatch:
+    """"""A Python class containing a crop of an image centered around a particular object, as well as relevant information.
+    Attributes
+    ----------
+    cropped_image : array_like
+        An array-like of the cropped image taken from the original image.
+    left : int
+        An int describing the position of the left border of the crop's bounding box in the original image.
+    lower : int
+        An int describing the position of the bottom border of the crop's bounding box in the original image.
+    right : int
+        An int describing the position of the right border of the crop's bounding box in the original image.
+    upper : int
+        An int describing the position of the top border of the crop's bounding box in the original image.
+
+    Methods
+    -------
+    find(object_name: str)->List[ImagePatch]
+        Returns a list of new ImagePatch objects containing crops of the image centered around any objects found in the image matching the object_name.
+    simple_query(question: str=None)->str
+        Returns the answer to a basic question asked about the image. If no question is provided, returns the answer to ""What is this?"".
+    exists(object_name: str)->bool
+        Returns True if the object specified by object_name is found in the image, and False otherwise.
+    verify_property(property: str)->bool
+        Returns True if the property is met, and False otherwise.
+    best_text_match(string1: str, string2: str)->str
+        Returns the string that best matches the image.
+    crop(left: int, lower: int, right: int, upper: int)->ImagePatch
+        Returns a new ImagePatch object containing a crop of the image at the given coordinates.
+        """"""
+
+    def __init__(self, image, left: int=None, lower: int=None, right: int=None, upper: int=None):
+        """"""Initializes an ImagePatch object by cropping the image at the given coordinates and stores the coordinates as attributes.
+        If no coordinates are provided, the image is left unmodified, and the coordinates are set to the dimensions of the image.
+        Parameters
+        -------
+        image : array_like
+            An array-like of the original image.
+        left : int
+            An int describing the position of the left border of the crop's bounding box in the original image.
+        lower : int
+            An int describing the position of the bottom border of the crop's bounding box in the original image.
+        right : int
+            An int describing the position of the right border of the crop's bounding box in the original image.
+        upper : int
+            An int describing the position of the top border of the crop's bounding box in the original image.
+
+        """"""
+        if left is None and right is None and upper is None and lower is None:
+            self.cropped_image = image
+            self.left = 0
+            self.lower = 0
+            self.right = image.shape[2]  # width
+            self.upper = image.shape[1]  # height
+        else:
+            self.cropped_image = image[:, lower:upper, left:right]
+            self.left = left
+            self.upper = upper
+            self.right = right
+            self.lower = lower
+
+        self.width = self.cropped_image.shape[2]
+        self.height = self.cropped_image.shape[1]
+
+        self.horizontal_center = (self.left + self.right) / 2
+        self.vertical_center = (self.lower + self.upper) / 2
+
+    def find(self, object_name: str)->List[""ImagePatch""]:
+        """"""Returns a new ImagePatch object containing the crop of the image centered around the object specified by object_name.
+        Parameters
+        -------
+        object_name : str
+            A string describing the name of the object to be found in the image.
+        """"""
+        return find_in_image(self.cropped_image, object_name)
+
+    def simple_query(self, question: str=None)->str:
+        """"""Returns the answer to a basic question asked about the image. If no question is provided, returns the answer to ""What is this?"".
+        Parameters
+        -------
+        question : str
+            A string describing the question to be asked.
+
+        Examples
+        -------
+
+        >>> # Which kind of animal is not eating?
+        >>> def execute_command(image)->str:
+        >>>     image_patch = ImagePatch(image)
+        >>>     animal_patches = image_patch.find(""animal"")
+        >>>     for animal_patch in animal_patches:
+        >>>         if not animal_patch.verify_property(""animal"", ""eating""):
+        >>>             return animal_patch.simple_query(""What kind of animal is eating?"") # crop would include eating so keep it in the query
+        >>>     # If no animal is not eating, query the image directly
+        >>>     return image_patch.simple_query(""Which kind of animal is not eating?"")
+
+        >>> # What is in front of the horse?
+        >>> # contains a relation (around, next to, on, near, on top of, in front of, behind, etc), so ask directly
+        >>> return image_patch.simple_query(""What is in front of the horse?"")
+        >>>
+        """"""
+        return simple_qa(self.cropped_image, question)
+
+    def exists(self, object_name: str)->bool:
+        """"""Returns True if the object specified by object_name is found in the image, and False otherwise.
+        Parameters
+        -------
+        object_name : str
+            A string describing the name of the object to be found in the image.
+
+        Examples
+        -------
+        >>> # Are there both cakes and gummy bears in the photo?
+        >>> def execute_command(image)->str:
+        >>>     image_patch = ImagePatch(image)
+        >>>     is_cake = image_patch.exists(""cake"")
+        >>>     is_gummy_bear = image_patch.exists(""gummy bear"")
+        >>>     return bool_to_yesno(is_cake and is_gummy_bear)
+        """"""
+        return len(self.find(object_name)) > 0
+
+    def verify_property(self, object_name: str, property: str)->bool:
+        """"""Returns True if the object possesses the property, and False otherwise.
+        Differs from 'exists' in that it presupposes the existence of the object specified by object_name, instead checking whether the object possesses the property.
+        Parameters
+        -------
+        object_name : str
+            A string describing the name of the object to be found in the image.
+        property : str
+            A string describing the property to be checked.
+
+        Examples
+        -------
+        >>> # Do the letters have blue color?
+        >>> def execute_command(image)->str:
+        >>>     image_patch = ImagePatch(image)
+        >>>     letters_patches = image_patch.find(""letters"")
+        >>>     # Question assumes only one letter patch
+        >>>     if len(letters_patches) == 0:
+        >>>         # If no letters are found, query the image directly
+        >>>         return image_patch.simple_query(""Do the letters have blue color?"")
+        >>>     return bool_to_yesno(letters_patches[0].verify_property(""letters"", ""blue""))
+        """"""
+        return verify_property(self.cropped_image, object_name, property)
+
+    def best_text_match(self, option_list: List[str]) -> str:
+        """"""Returns the string that best matches the image.
+        Parameters
+        -------
+        option_list : str
+            A list with the names of the different options
+        prefix : str
+            A string with the prefixes to append to the options
+
+        Examples
+        -------
+        >>> # Is the cap gold or white?
+        >>> def execute_command(image)->str:
+        >>>     image_patch = ImagePatch(image)
+        >>>     cap_patches = image_patch.find(""cap"")
+        >>>     # Question assumes one cap patch
+        >>>     if len(cap_patches) == 0:
+        >>>         # If no cap is found, query the image directly
+        >>>         return image_patch.simple_query(""Is the cap gold or white?"")
+        >>>     return cap_patches[0].best_text_match([""gold"", ""white""])
+        """"""
+        return best_text_match(self.cropped_image, option_list)
+
+    def crop(self, left: int, lower: int, right: int, upper: int)->""ImagePatch"":
+        """"""Returns a new ImagePatch cropped from the current ImagePatch.
+        Parameters
+        -------
+        left : int
+            The leftmost pixel of the cropped image.
+        lower : int
+            The lowest pixel of the cropped image.
+        right : int
+            The rightmost pixel of the cropped image.
+        upper : int
+            The uppermost pixel of the cropped image.
+        -------
+        """"""
+        return ImagePatch(self.cropped_image, left, lower, right, upper)
+
+# Examples of using ImagePatch
+# Is there a backpack to the right of the man?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    man_patches = image_patch.find(""man"")
+    # Question assumes one man patch
+    if len(man_patches) == 0:
+        # If no man is found, query the image directly
+        return image_patch.simple_query(""Is there a backpack to the right of the man?"")
+    man_patch = man_patches[0]
+    backpack_patches = image_patch.find(""backpack"")
+    # Question assumes one backpack patch
+    if len(backpack_patches) == 0:
+        return ""no""
+    for backpack_patch in backpack_patches:
+        if backpack_patch.horizontal_center > man_patch.horizontal_center:
+            return ""yes""
+    return ""no""
+
+# In which part is the bread, the bottom or the top?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    bread_patches = image_patch.find(""bread"")
+    # Question assumes only one bread patch
+    if len(bread_patches) == 0:
+        # If no bread is found, query the image directly
+        return image_patch.simple_query(""In which part is the bread, the bottom or the top?"")
+    if bread_patches[0].vertical_center < image_patch.vertical_center:
+        return ""bottom""
+    else:
+        return ""top""
+
+# What type of weather do you see in the photograph?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    return image_patch.simple_query(""What type of weather do you see in the photograph?"")
+
+# Who is the man staring at?
+def execute_command(image)->str:
+    # asks for the predicate of a relational verb (staring at), so ask directly
+    image_patch = ImagePatch(image)
+    return image_patch.simple_query(""Who is the man staring at?"")
+
+# What toy is wearing a shirt?
+def execute_command(image)->str:
+    # not a relational verb so go step by step
+    image_patch = ImagePatch(image)
+    toy_patches = image_patch.find(""toy"")
+    # Question assumes only one toy patch
+    if len(toy_patches) == 0:
+        # If no toy is found, query the image directly
+        return image_patch.simple_query(""What toy is wearing a shirt?"")
+    for toy_patch in toy_patches:
+        is_wearing_shirt = (toy_patch.simple_query(""Is the toy wearing a shirt?"") == ""yes"")
+        if is_wearing_shirt:
+            return toy_patch.simple_query(""What toy is wearing a shirt?"") # crop would include the shirt so keep it in the query
+    # If no toy is wearing a shirt, pick the first toy
+    return toy_patches[0].simple_query(""What toy is wearing a shirt?"")
+
+# What is behind the pole?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    # contains a relation (around, next to, on, near, on top of, in front of, behind, etc), so ask directly
+    return image_patch.simple_query(""What is behind the pole?"")
+
+# Are there bagels or lemons?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    is_bagel = image_patch.exists(""bagel"")
+    is_lemon = image_patch.exists(""lemon"")
+    return bool_to_yesno(is_bagel or is_lemon)
+
+# Is that blanket to the right of a pillow?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    blanket_patches = image_patch.find(""blanket"")
+    # Question assumes only one blanket patch
+    if len(blanket_patches) == 0:
+        # If no blanket is found, query the image directly
+        return image_patch.simple_query(""Is that blanket to the right of a pillow?"")
+    for blanket_patch in blanket_patches:
+        pillow_patches = image_patch.find(""pillow"")
+        for pillow_patch in pillow_patches:
+            if pillow_patch.horizontal_center > blanket_patch.horizontal_center:
+                return ""yes""
+    return ""no""
+
+# What is in the box?
+def execute_command(image)->str:
+    # Ask the question directly
+    image_patch = ImagePatch(image)
+    return image_patch.simple_query(""What is in the box?"")"
