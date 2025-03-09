@@ -1,3 +1,9 @@
 🦥 Unsloth: Will patch your computer to enable 2x faster free finetuning.
 🦥 Unsloth Zoo will now patch everything to make training faster!
-INFO 03-09 14:06:55 __init__.py:183] Automatically detected platform cuda.
+INFO 03-09 14:10:54 __init__.py:183] Automatically detected platform cuda.
+==((====))==  Unsloth 2025.2.15: Fast Llama patching. Transformers: 4.48.2.
+   \\   /|    GPU: NVIDIA A100-SXM4-80GB. Max memory: 79.15 GB. Platform: Linux.
+O^O/ \_/ \    Torch: 2.5.1+cu121. CUDA: 8.0. CUDA Toolkit: 12.1. Triton: 3.1.0
+\        /    Bfloat16 = TRUE. FA [Xformers = 0.0.28.post3. FA2 = False]
+ "-____-"     Free Apache license: http://github.com/unslothai/unsloth
+Unsloth: Fast downloading is enabled - ignore downloading bars which are red colored!

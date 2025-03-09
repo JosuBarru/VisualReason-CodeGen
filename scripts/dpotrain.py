@@ -80,8 +80,18 @@ def train_dpo(args):
     )
 
     logger.info(f"Loading dataset from {args.train_dataset} as train and {args.dev_dataset} as dev")
-    train_dataset = datasets.load_from_disk(args.train_dataset).map(return_prompt_and_responses, batched=True, load_from_cache_file=False)
-    dev_dataset = datasets.load_from_disk(args.dev_dataset).map(return_prompt_and_responses, batched=True, load_from_cache_file=False)
+    train_dataset = datasets.load_from_disk(args.train_dataset)
+    dev_dataset = datasets.load_from_disk(args.dev_dataset)
+    
+    train_dataset.map(
+        return_prompt_and_responses,
+        batched=True,
+    )
+
+    dev_dataset.map(
+        return_prompt_and_responses,
+        batched=True,
+    )
     
     PatchDPOTrainer()
     
