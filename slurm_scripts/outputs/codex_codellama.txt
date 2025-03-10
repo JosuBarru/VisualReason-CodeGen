@@ -1,0 +1,4 @@
+SELECTED CONFIG FILES: gqa/general_config,config_codellama,gqa/save_codex,gqa/train
+LOADING MODEL: DISABLED
+modelo: <class 'vision_models.codellama'> , proceso:  codellama
+{'codellama': <function make_fn.<locals>._function at 0x7ff8db73d440>}

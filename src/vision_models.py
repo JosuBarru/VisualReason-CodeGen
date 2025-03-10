@@ -1289,6 +1289,7 @@ class codellama(CodexModel):
     def __init__(self, gpu_number=0):
         super().__init__(gpu_number=gpu_number)
         model_name = config.codex.model_name
+        from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig, pipeline
 
         if model_name.startswith('/'):
             assert os.path.exists(model_name), \
@@ -1296,27 +1297,42 @@ class codellama(CodexModel):
         else:
             assert model_name in ['codellama/CodeLlama-7b-Instruct-hf']
         
-        from vllm import LLM, SamplingParams
-        self.llm = LLM(model_name)
-        self.sampling_params = SamplingParams(max_tokens=512)
+        self.tokenizer = AutoTokenizer.from_pretrained(model_name)
+        self.tokenizer.pad_token = self.tokenizer.eos_token
+        self.tokenizer.padding_side = 'left'
 
+
+        ##### Usar         attn_implementation="sdpa", SOLO EN A100 o V100
+
+        # self.model = AutoModelForCausalLM.from_pretrained(
+        #     model_name,
+        #     #torch_dtype=torch.float16,
+        #     device_map="auto"
+        # )
+
+
+        self.model = AutoModelForCausalLM.from_pretrained(
+            model_name,
+            device_map="auto"
+        )
+
+        self.model.eval()
     def run_code_Quantized_llama(self, prompt):
-        
-        results = self.llm.generate(prompt, self.sampling_params)
-        
-        # Combine prompt with generated output
-        full_responses = [f"{prompt[i]}{result.outputs[0].text}" for i, result in enumerate(results)]
-        print(full_responses)
-        return full_responses
-        
-        # """Generates text from a given prompt using vLLM offline inference."""
-        # # Call the generate method on the LLM instance.
-        # results = self.llm.generate(prompt, self.sampling_params)
-        # # Extract generated text from each result.
-        # generated_text = [result.outputs[0].text for result in results]
-        # # Optionally post-process the generated text.
-        # generated_text = [text.split('\n\n')[0] for text in generated_text]
-        # return generated_text
+        """Generates text from a given prompt using multi-GPU inference."""
+        inputs= self.tokenizer(prompt, return_tensors="pt", padding=True, truncation=True)
+        input_ids = inputs["input_ids"].to("cuda")
+        attention_mask = inputs["attention_mask"].to("cuda")
+
+        with torch.no_grad():
+            generated_ids = self.model.generate(input_ids, attention_mask=attention_mask, max_new_tokens=512)
+        generated_ids = generated_ids[:, input_ids.shape[-1]:]
+        generated_text = [self.tokenizer.decode(gen_id, skip_special_tokens=True) for gen_id in generated_ids]
+        generated_text = [text.split('\n\n')[0] for text in generated_text]
+
+        torch.cuda.empty_cache()  # Free unused GPU memory
+        return generated_text
+
+
 
     def forward_(self, extended_prompt):
         """Handles batch processing for large inputs."""
@@ -1332,8 +1348,6 @@ class codellama(CodexModel):
         except Exception as e:
             print(f"Error: {e}")
             logger.error(f"Error {e}")
-            # Optionally, re-raise the exception if you want it to propagate:
-            raise
     
 class codeLlamaQ(CodexModel):
     name = 'codellama_Q'
@@ -1436,11 +1450,11 @@ class llama31Q(CodexModel):
 
         ###### Cuantizar ######
         #quantization_config = BitsAndBytesConfig(load_in_4bit=True,bnb_4bit_compute_dtype=torch.float16)
-        quantization_config = BitsAndBytesConfig(load_in_8bit=True)
+        #quantization_config = BitsAndBytesConfig(load_in_8bit=True)
         
         self.model = AutoModelForCausalLM.from_pretrained(
             model_name,
-            quantization_config = quantization_config,
+           # quantization_config = quantization_config,
             device_map="auto"
         )
         ########################
@@ -1457,31 +1471,20 @@ class llama31Q(CodexModel):
 
         self.model.eval()
     def run_code_Quantized_llama(self, prompt):
-        # """Generates text from a given prompt using multi-GPU inference."""
-        # inputs= self.tokenizer(prompt, return_tensors="pt", padding=True, truncation=True)
-        # input_ids = inputs["input_ids"].to("cuda")
-        # attention_mask = inputs["attention_mask"].to("cuda")
-
-        # with torch.no_grad():
-        #     generated_ids = self.model.generate(input_ids, attention_mask=attention_mask, max_new_tokens=320)
-        # generated_ids = generated_ids[:, input_ids.shape[-1]:]
-        # generated_text = [self.tokenizer.decode(gen_id, skip_special_tokens=True) for gen_id in generated_ids]
-        # generated_text = [text.split('\n\n')[0] for text in generated_text]
-
-        # torch.cuda.empty_cache()  # Free unused GPU memory
-        # return generated_text
-
-
+        """Generates text from a given prompt using multi-GPU inference."""
         inputs= self.tokenizer(prompt, return_tensors="pt", padding=True, truncation=True)
         input_ids = inputs["input_ids"].to("cuda")
         attention_mask = inputs["attention_mask"].to("cuda")
 
         with torch.no_grad():
             generated_ids = self.model.generate(input_ids, attention_mask=attention_mask, max_new_tokens=320)
+        generated_ids = generated_ids[:, input_ids.shape[-1]:]
         generated_text = [self.tokenizer.decode(gen_id, skip_special_tokens=True) for gen_id in generated_ids]
+        generated_text = [text.split('\n\n')[0] for text in generated_text]
+
         torch.cuda.empty_cache()  # Free unused GPU memory
-        print(generated_text)
         return generated_text
+
 
 
     def forward_(self, extended_prompt):

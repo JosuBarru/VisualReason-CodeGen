@@ -1,0 +1,58 @@
+wandb: Currently logged in as: jbarrutia006 (jbarrutia006-upv-ehu). Use `wandb login --relogin` to force relogin
+wandb: wandb version 0.19.8 is available!  To upgrade, please run:
+wandb:  $ pip install wandb --upgrade
+wandb: Tracking run with wandb version 0.17.0
+wandb: Run data is saved locally in /sorgin1/users/jbarrutia006/viper/wandb/run-20250309_160803-lm6nq8xf
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run Prueba sin eval y full ft
+wandb: ⭐️ View project at https://wandb.ai/jbarrutia006-upv-ehu/viperDPO
+wandb: 🚀 View run at https://wandb.ai/jbarrutia006-upv-ehu/viperDPO/runs/lm6nq8xf
+2025-03-09 16:08:04,678 - INFO - Loading model and tokenizer...
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:00<00:02,  1.16it/s]Loading checkpoint shards:  50%|█████     | 2/4 [00:01<00:01,  1.04it/s]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:02<00:01,  1.01s/it]Loading checkpoint shards: 100%|██████████| 4/4 [00:03<00:00,  1.23it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:03<00:00,  1.15it/s]
+2025-03-09 16:08:15,260 - INFO - Loading dataset from /sorgin1/users/jbarrutia006/viper/PrefDatasets/dpo_dataset_single_train.arrow as train and /sorgin1/users/jbarrutia006/viper/PrefDatasets/dpo_dataset_single_train.arrow as dev
+2025-03-09 16:08:15,339 - INFO - Initializing DPOTrainer...
+Applying chat template to train dataset:   0%|          | 0/7381 [00:00<?, ? examples/s]Applying chat template to train dataset:  21%|██        | 1550/7381 [00:00<00:00, 15357.51 examples/s]Applying chat template to train dataset:  43%|████▎     | 3205/7381 [00:00<00:00, 16053.40 examples/s]Applying chat template to train dataset:  66%|██████▌   | 4871/7381 [00:00<00:00, 16328.62 examples/s]Applying chat template to train dataset:  89%|████████▉ | 6562/7381 [00:00<00:00, 16555.53 examples/s]Applying chat template to train dataset: 100%|██████████| 7381/7381 [00:00<00:00, 9659.16 examples/s] 
+Tokenizing train dataset:   0%|          | 0/7381 [00:00<?, ? examples/s]Tokenizing train dataset:   2%|▏         | 130/7381 [00:00<00:05, 1280.97 examples/s]Tokenizing train dataset:   4%|▎         | 270/7381 [00:00<00:05, 1346.81 examples/s]Tokenizing train dataset:   6%|▌         | 415/7381 [00:00<00:05, 1388.05 examples/s]Tokenizing train dataset:   8%|▊         | 560/7381 [00:00<00:04, 1405.49 examples/s]Tokenizing train dataset:  10%|▉         | 711/7381 [00:00<00:04, 1438.43 examples/s]Tokenizing train dataset:  12%|█▏        | 865/7381 [00:00<00:04, 1469.99 examples/s]Tokenizing train dataset:  14%|█▍        | 1020/7381 [00:00<00:04, 1490.77 examples/s]Tokenizing train dataset:  16%|█▌        | 1170/7381 [00:00<00:04, 1487.21 examples/s]Tokenizing train dataset:  18%|█▊        | 1324/7381 [00:00<00:04, 1500.24 examples/s]Tokenizing train dataset:  20%|██        | 1479/7381 [00:01<00:03, 1513.61 examples/s]Tokenizing train dataset:  23%|██▎       | 1705/7381 [00:01<00:03, 1508.57 examples/s]Tokenizing train dataset:  25%|██▌       | 1860/7381 [00:01<00:03, 1515.98 examples/s]Tokenizing train dataset:  28%|██▊       | 2083/7381 [00:01<00:03, 1503.99 examples/s]Tokenizing train dataset:  31%|███▏      | 2310/7381 [00:01<00:03, 1502.91 examples/s]Tokenizing train dataset:  34%|███▍      | 2538/7381 [00:01<00:03, 1503.93 examples/s]Tokenizing train dataset:  36%|███▋      | 2690/7381 [00:01<00:03, 1501.24 examples/s]Tokenizing train dataset:  39%|███▊      | 2843/7381 [00:01<00:03, 1507.16 examples/s]Tokenizing train dataset:  42%|████▏     | 3071/7381 [00:02<00:02, 1508.41 examples/s]Tokenizing train dataset:  44%|████▎     | 3223/7381 [00:02<00:02, 1508.49 examples/s]Tokenizing train dataset:  46%|████▌     | 3375/7381 [00:02<00:02, 1507.43 examples/s]Tokenizing train dataset:  48%|████▊     | 3530/7381 [00:02<00:02, 1516.49 examples/s]Tokenizing train dataset:  50%|████▉     | 3683/7381 [00:02<00:02, 1517.24 examples/s]Tokenizing train dataset:  52%|█████▏    | 3836/7381 [00:02<00:02, 1516.22 examples/s]Tokenizing train dataset:  55%|█████▌    | 4066/7381 [00:02<00:02, 1521.54 examples/s]Tokenizing train dataset:  57%|█████▋    | 4223/7381 [00:02<00:02, 1533.97 examples/s]Tokenizing train dataset:  60%|██████    | 4442/7381 [00:02<00:01, 1505.19 examples/s]Tokenizing train dataset:  63%|██████▎   | 4670/7381 [00:03<00:01, 1503.56 examples/s]Tokenizing train dataset:  65%|██████▌   | 4822/7381 [00:03<00:01, 1505.12 examples/s]Tokenizing train dataset:  67%|██████▋   | 4980/7381 [00:03<00:01, 1520.13 examples/s]Tokenizing train dataset:  70%|██████▉   | 5134/7381 [00:03<00:01, 1521.40 examples/s]Tokenizing train dataset:  72%|███████▏  | 5290/7381 [00:03<00:01, 1526.14 examples/s]Tokenizing train dataset:  74%|███████▎  | 5443/7381 [00:03<00:01, 1525.18 examples/s]Tokenizing train dataset:  76%|███████▌  | 5600/7381 [00:03<00:01, 1535.93 examples/s]Tokenizing train dataset:  79%|███████▉  | 5826/7381 [00:03<00:01, 1519.15 examples/s]Tokenizing train dataset:  81%|████████  | 5981/7381 [00:03<00:00, 1525.38 examples/s]Tokenizing train dataset:  83%|████████▎ | 6134/7381 [00:04<00:00, 1523.41 examples/s]Tokenizing train dataset:  85%|████████▌ | 6290/7381 [00:04<00:00, 1530.05 examples/s]Tokenizing train dataset:  87%|████████▋ | 6444/7381 [00:04<00:00, 1529.80 examples/s]Tokenizing train dataset:  89%|████████▉ | 6602/7381 [00:04<00:00, 1541.56 examples/s]Tokenizing train dataset:  92%|█████████▏| 6820/7381 [00:04<00:00, 1502.01 examples/s]Tokenizing train dataset:  95%|█████████▌| 7041/7381 [00:04<00:00, 1487.00 examples/s]Tokenizing train dataset:  98%|█████████▊| 7264/7381 [00:04<00:00, 1484.11 examples/s]Tokenizing train dataset: 100%|██████████| 7381/7381 [00:05<00:00, 1384.31 examples/s]
+2025-03-09 16:08:22,866 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-03-09 16:08:22,877 - INFO - Performing pre-training evaluation on the dev dataset...
+2025-03-09 16:08:22,877 - INFO - Starting training...
+==((====))==  Unsloth - 2x faster free finetuning | Num GPUs = 1
+   \\   /|    Num examples = 7,381 | Num Epochs = 4
+O^O/ \_/ \    Batch size per device = 8 | Gradient Accumulation steps = 1
+\        /    Total batch size = 8 | Total steps = 3,692
+ "-____-"     Number of trainable parameters = 7,504,924,672
+  0%|          | 0/3692 [00:00<?, ?it/s]Traceback (most recent call last):
+  File "/sorgin1/users/jbarrutia006/viper/scripts/dpotrain.py", line 144, in <module>
+    train_dpo(args)
+  File "/sorgin1/users/jbarrutia006/viper/scripts/dpotrain.py", line 134, in train_dpo
+    trainer.train()
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/transformers/trainer.py", line 2171, in train
+    return inner_training_loop(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 331, in _fast_inner_training_loop
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/unsloth/models/_utils.py", line 1024, in _unsloth_get_batch_samples
+    f = model.base_model.model.forward if hasattr(model, "base_model") else model.forward
+        ^^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1931, in __getattr__
+    raise AttributeError(
+AttributeError: 'LlamaModel' object has no attribute 'model'
+Traceback (most recent call last):
+  File "/sorgin1/users/jbarrutia006/viper/scripts/dpotrain.py", line 144, in <module>
+    train_dpo(args)
+  File "/sorgin1/users/jbarrutia006/viper/scripts/dpotrain.py", line 134, in train_dpo
+    trainer.train()
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/transformers/trainer.py", line 2171, in train
+    return inner_training_loop(
+           ^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 331, in _fast_inner_training_loop
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/unsloth/models/_utils.py", line 1024, in _unsloth_get_batch_samples
+    f = model.base_model.model.forward if hasattr(model, "base_model") else model.forward
+        ^^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1931, in __getattr__
+    raise AttributeError(
+AttributeError: 'LlamaModel' object has no attribute 'model'
+wandb: - 0.016 MB of 0.016 MB uploadedwandb: \ 0.016 MB of 0.016 MB uploadedwandb: | 0.016 MB of 0.016 MB uploadedwandb: / 0.016 MB of 0.016 MB uploadedwandb: - 0.016 MB of 0.016 MB uploadedwandb: \ 0.016 MB of 0.016 MB uploadedwandb: | 0.047 MB of 0.068 MB uploaded (0.006 MB deduped)wandb: / 0.068 MB of 0.068 MB uploaded (0.006 MB deduped)wandb: 🚀 View run Prueba sin eval y full ft at: https://wandb.ai/jbarrutia006-upv-ehu/viperDPO/runs/lm6nq8xf
+wandb: ⭐️ View project at: https://wandb.ai/jbarrutia006-upv-ehu/viperDPO
+wandb: Synced 5 W&B file(s), 0 media file(s), 2 artifact file(s) and 0 other file(s)
+wandb: Find logs at: ./wandb/run-20250309_160803-lm6nq8xf/logs
+srun: error: localhost: task 0: Exited with exit code 1

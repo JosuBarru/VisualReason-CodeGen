@@ -29,7 +29,7 @@ def parse_args():
     parser.add_argument("--max_steps", type=int, default=-1, help="Maximum number of training steps")
     parser.add_argument("--logging_steps", type=int, default=10, help="Logging frequency")
     parser.add_argument("--eval_steps", type=int, default=200, help="Evaluation frequency")
-    parser.add_argument("--save_steps", type=int, default=500, help="Model saving frequency")
+    parser.add_argument("--save_steps", type=int, help="Model saving frequency")
     parser.add_argument("--lr_scheduler_type", type=str, default="cosine", help="Type of learning rate scheduler")
     parser.add_argument("--warmup_ratio", type=float, default=0.1, help="Warmup ratio for learning rate scheduling")
     parser.add_argument("--device", type=str, default="cuda" if torch.cuda.is_available() else "cpu", help="Device to use for training")
@@ -53,6 +53,9 @@ def return_prompt_and_responses(samples) -> Dict[str, list[str]]:
 
 def train_dpo(args):
     wandb.init(project=args.project_name, name=args.run_name)
+
+    output_dir = os.path.join(args.output_dir, datetime.datetime.now().strftime("%m-%d_%H-%M"))
+
     logger.info("Loading model and tokenizer...")
 
     max_seq_length = 8192
@@ -116,10 +119,10 @@ def train_dpo(args):
             warmup_ratio=args.warmup_ratio,
             weight_decay=0.0,
             lr_scheduler_type=args.lr_scheduler_type,
-            output_dir=os.path.join(args.output_dir, datetime.datetime.now().strftime("%m-%d_%H-%M")),
+            output_dir=output_dir,
             report_to=args.report_to,
             run_name=args.run_name,
-            save_total_limit=1,
+            #save_total_limit=2,
             load_best_model_at_end=True,
             metric_for_best_model="eval_loss",
             greater_is_better=False,

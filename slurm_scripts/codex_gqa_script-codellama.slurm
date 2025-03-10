@@ -20,6 +20,6 @@ export EXEC_MODE='codex'
 export CODEX_MODEL='codellama'
 export TRAIN=True
 export BATCHSIZE=8
-export NUMINST=8
+export NUMINST=
 
 srun python src/main_project_slurm.py
