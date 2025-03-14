@@ -160,5 +160,3 @@ if mult:
 # unsafe_merge makes the individual configs unusable, but it is faster
 config = OmegaConf.merge(*configs)
 logging.info(config)
-if config.codex.adapter != "":
-    logging.info("SIIIIIIIIIIIIIIIIIIIIIIIIIIIIII")

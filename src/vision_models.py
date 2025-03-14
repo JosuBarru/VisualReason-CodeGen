@@ -30,6 +30,10 @@ from configs import config
 from utils import HiddenPrints
 
 
+
+from vllm import LLM, SamplingParams
+from vllm.lora.request import LoRARequest
+
 import logging
 
 logger = logging.getLogger(__name__)
@@ -1298,7 +1302,6 @@ class codellama(CodexModel):
         else:
             assert model_name in ['codellama/CodeLlama-7b-Instruct-hf']
         
-        from vllm import LLM, SamplingParams
         self.llm = LLM(model_name)
         self.sampling_params = SamplingParams(max_tokens=320)
 
@@ -1411,8 +1414,7 @@ class llama31Q(CodexModel):
         else:
             assert model_name in ['meta-llama/Meta-Llama-3.1-8B-Instruct']
 
-        from vllm import LLM, SamplingParams, lora.request.LoRARequest
-        self.llm = LLM(model_name)
+        self.llm = LLM(model_name, enable_lora=True, max_lora_rank=64)
         self.sampling_params = SamplingParams(max_tokens=320,temperature=0.6,top_p=0.9)
 
     def run_code_Quantized_llama(self, prompt):
@@ -1425,7 +1427,7 @@ class llama31Q(CodexModel):
         # Extract generated text from each result.
         generated_text = [result.outputs[0].text for result in results]
         # Optionally post-process the generated text.
-        #generated_text = [text.split('\n\n')[0] for text in generated_text]
+        generated_text = [text.split('\n\n')[0] for text in generated_text]
         return generated_text
 
     def forward_(self, extended_prompt):
@@ -1560,7 +1562,6 @@ class mixtral87B(CodexModel):
         import ray
         ray.init()
 
-        from vllm import LLM, SamplingParams
         self.llm = LLM(model_name, tensor_parallel_size=2, distributed_executor_backend="ray")
         self.sampling_params = SamplingParams(max_tokens=440)
         logger.info("Model loaded")
@@ -1608,7 +1609,6 @@ class Qwen257b(CodexModel):
             assert model_name in ['Qwen/Qwen2.5-Math-7B']
 
         # Initialize the vLLM LLM instance for offline inference.
-        from vllm import LLM, SamplingParams
         self.llm = LLM(model_name)
         self.sampling_params = SamplingParams(max_tokens=320)
 
@@ -1651,7 +1651,6 @@ class deepSeekQwen7b(CodexModel):
         else:
             assert model_name in ['deepseek-ai/DeepSeek-R1-Distill-Qwen-7B']
 
-        from vllm import LLM, SamplingParams
         self.llm = LLM(model_name)
         self.sampling_params = SamplingParams(max_tokens=2000)
         
@@ -1693,7 +1692,6 @@ class deepSeekLlama8b(CodexModel):
             assert model_name in ['deepseek-ai/DeepSeek-R1-Distill-Llama-8B']
 
         # Initialize the vLLM LLM instance for offline inference.
-        from vllm import LLM, SamplingParams
         self.llm = LLM(model_name)
         self.sampling_params = SamplingParams(max_tokens=2000)
         

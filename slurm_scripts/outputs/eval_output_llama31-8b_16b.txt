@@ -1,5 +1,6 @@
 SELECTED CONFIG FILES: gqa/general_config,gqa/train
 LOADING MODEL: ENABLED
+INFO 03-14 22:38:47 __init__.py:183] Automatically detected platform cuda.
 modelo: <class 'vision_models.BLIPModel'> , proceso:  blip
 VISION BACKBONE USE GRADIENT CHECKPOINTING:  False
 LANGUAGE BACKBONE USE GRADIENT CHECKPOINTING:  False
@@ -14,6 +15,5 @@ EARLY FUSION ON, USING MHA-B
 modelo: <class 'vision_models.GLIPModel'> , proceso:  glip
 modelo: <class 'vision_models.MaskRCNNModel'> , proceso:  maskrcnn
 modelo: <class 'vision_models.XVLMModel'> , proceso:  xvlm
-{'blip': <function make_fn.<locals>._function at 0x7f17977eb060>, 'glip': <function make_fn.<locals>._function at 0x7f140b57e020>, 'maskrcnn': <function make_fn.<locals>._function at 0x7f140b57e200>, 'xvlm': <function make_fn.<locals>._function at 0x7f13481a9760>}
-Error in xvlm model: 'int' object has no attribute 'lower'
-Final accuracy: 0.5034920634920635
+{'blip': <function make_fn.<locals>._function at 0x7fbf61f4b9c0>, 'glip': <function make_fn.<locals>._function at 0x7fbde61ac680>, 'maskrcnn': <function make_fn.<locals>._function at 0x7fbde61aca40>, 'xvlm': <function make_fn.<locals>._function at 0x7fbde5b5c4a0>}
+Error computing accuracy: 
