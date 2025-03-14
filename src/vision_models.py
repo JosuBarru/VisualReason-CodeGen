@@ -29,6 +29,7 @@ from typing import List, Union
 from configs import config
 from utils import HiddenPrints
 
+
 import logging
 
 logger = logging.getLogger(__name__)
@@ -1402,7 +1403,6 @@ class llama31Q(CodexModel):
     max_batch_size=64 
     def __init__(self, gpu_number=0):
         super().__init__(gpu_number=gpu_number)
-        from transformers import AutoModelForCausalLM, AutoTokenizer, BitsAndBytesConfig, pipeline
         model_name = config.codex.model_name
 
         if model_name.startswith('/'):
@@ -1411,18 +1411,21 @@ class llama31Q(CodexModel):
         else:
             assert model_name in ['meta-llama/Meta-Llama-3.1-8B-Instruct']
 
-        from vllm import LLM, SamplingParams
+        from vllm import LLM, SamplingParams, lora.request.LoRARequest
         self.llm = LLM(model_name)
         self.sampling_params = SamplingParams(max_tokens=320,temperature=0.6,top_p=0.9)
 
     def run_code_Quantized_llama(self, prompt):
         """Generates text from a given prompt using vLLM offline inference."""
         # Call the generate method on the LLM instance.
-        results = self.llm.generate(prompt, self.sampling_params)
+        if config.codex.adapter != "":
+            results = self.llm.generate(prompt, self.sampling_params, lora_request=LoRARequest("adapter", 1, config.codex.adapter))
+        else:
+            results = self.llm.generate(prompt, self.sampling_params)
         # Extract generated text from each result.
         generated_text = [result.outputs[0].text for result in results]
         # Optionally post-process the generated text.
-        generated_text = [text.split('\n\n')[0] for text in generated_text]
+        #generated_text = [text.split('\n\n')[0] for text in generated_text]
         return generated_text
 
     def forward_(self, extended_prompt):
@@ -1439,6 +1442,7 @@ class llama31Q(CodexModel):
         except Exception as e:
             print(f"Error: {e}")
             logger.error(f"Error {e}")
+
 
 
 # class llama31Q(CodexModel):

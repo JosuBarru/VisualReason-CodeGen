@@ -1,6 +1,0 @@
-codex:
-    model: llama31Q-dpo
-    model_name: ''
-    prompt: ./prompts/benchmarks/gqa.prompt
-load_models:
-    llama31Q-dpo: True

@@ -21,7 +21,11 @@ num_inst = int(num_inst_str) if num_inst_str not in (None, "") else None
 batch_size = os.getenv('BATCHSIZE')
 batch_size = int(batch_size) if batch_size is not None else None
 
+checkpoint = os.getenv('CHECKPOINT', None)
+
 mult = bool(int(os.getenv('MULT', '0')))
+
+
 
 config_names = []
 
@@ -37,6 +41,8 @@ model_configs = {
     "mixtral87b":"config_codex_mixtral8-7b",
     "llama31-dpo":"config_codex_llama3.1-8b-dpo"
 }
+
+
 
 # codes_dir = {
 #     "deepseek-llama8b" : 'results/gqa/codex_results/train/codex_results_deepSeekLlama8b-post.csv',
@@ -69,6 +75,10 @@ try:
             elif execution_mode == 'codex':
                 if codex_model in model_configs:
                     config_names.append(model_configs[codex_model])
+                    if checkpoint is not None:
+                        manual_adapter = OmegaConf.create({
+                                "codex": {"adapter": os.path.join("/sorgin1/users/jbarrutia006/viper/dpo_trained_models", checkpoint)}
+                            })
                 else:
                     raise UserWarning(
                         f"Model '{codex_model}' is not recognized. Please check the configuration mapping."
@@ -123,6 +133,11 @@ if "manual_config" in locals():
 if "manual_batch" in locals():
     configs.append(manual_batch)
 
+
+if "manual_adapter" in locals():
+    configs.append(manual_adapter)
+
+
 if mult:
     man_mult = OmegaConf.create({
                         "multiprocessing" : True
@@ -145,3 +160,5 @@ if mult:
 # unsafe_merge makes the individual configs unusable, but it is faster
 config = OmegaConf.merge(*configs)
 logging.info(config)
+if config.codex.adapter != "":
+    logging.info("SIIIIIIIIIIIIIIIIIIIIIIIIIIIIII")

@@ -23,7 +23,7 @@ srun python scripts/dpotrain.py \
     --output_dir "./dpo_trained_models" \
     --batch_size 4 \
     --gradient_accumulation 4 \
-    --learning_rate 1e-6 \
+    --learning_rate 1e-5 \
     --epochs 2 \
     --max_steps -1 \
     --logging_steps 40 \

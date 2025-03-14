@@ -2,5 +2,6 @@ codex:
     model: llama31Q
     model_name: 'meta-llama/Meta-Llama-3.1-8B-Instruct' 
     prompt: ./prompts/benchmarks/gqa.prompt
+    adapter: 
 load_models:
     llama31Q: True
