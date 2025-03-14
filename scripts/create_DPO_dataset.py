@@ -97,16 +97,16 @@ def create_pairs_for_ids(df, sample_ids, approach='single'):
             (incorrect_rows['code'].apply(remove_function_header).str.strip() != "") & 
             (incorrect_rows['code'].apply(remove_function_header).str.strip().str.lower() != "nan")]
         
-        if approach == 'single':
-            chosen_row = correct_rows.iloc[0]
+       if approach == 'single':
+            chosen_row = correct_rows.sample(n=1).iloc[0]
             if not valid_incorrect_rows.empty:
-                rejected_row = valid_incorrect_rows.iloc[0]
+                rejected_row = valid_incorrect_rows.sample(n=1).iloc[0]
             else:
                 continue
             pairs.append({
                 'prompt': chosen_row['query'],
                 'chosen': remove_function_header(chosen_row['code']),
-                'rejected': remove_function_header(rejected_row['code'])  # this might be empty or "nan"
+                'rejected': remove_function_header(rejected_row['code'])
             })
         elif approach == 'all':
             for _, correct_row in correct_rows.iterrows():
