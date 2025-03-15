@@ -1,21 +1,146 @@
-INFO:root:{'multiprocessing': False, 'path_pretrained_models': './pretrained_models', 'execute_code': False, 'dataset': {'dataset_name': 'GQA', 'data_path': './data/gqa', 'split': 'train', 'max_samples': 32, 'batch_size': 32, 'start_sample': 0, 'testing': False}, 'load_models': {'maskrcnn': False, 'clip': False, 'glip': False, 'owlvit': False, 'tcl': False, 'gpt3_qa': False, 'gpt3_general': False, 'depth': False, 'blip': False, 'saliency': False, 'xvlm': False, 'codex': False, 'codellama': False, 'codellama_Q': False, 'llm_query': False, 'llm_guess': False, 'gpt3_list': False, 'qa': False, 'guess': False, 'llama31Q': True, 'gpt3_guess': False}, 'detect_thresholds': {'glip': 0.5, 'maskrcnn': 0.8, 'owlvit': 0.1}, 'ratio_box_area_to_image_area': 0.0, 'crop_larger_margin': True, 'verify_property': {'model': 'xvlm', 'thresh_clip': 0.6, 'thresh_tcl': 0.25, 'thresh_xvlm': 0.6}, 'best_match_model': 'xvlm', 'gpt3': {'n_votes': 1, 'qa_prompt': './prompts/gpt3/gpt3_qa.txt', 'guess_prompt': './prompts/gpt3/gpt3_process_guess.txt', 'temperature': 0.0, 'model': 'text-davinci-003'}, 'codex': {'temperature': 0.0, 'best_of': 1, 'max_tokens': 512, 'prompt': './prompts/benchmarks/gqa.prompt', 'model': 'llama31Q', 'extra_context': None, 'model_name': 'meta-llama/Meta-Llama-3.1-8B-Instruct', 'adapter': '/sorgin1/users/jbarrutia006/viper/dpo_trained_models/03-12_21-47/checkpoint-2766'}, 'save': False, 'save_new_results': True, 'save_codex': True, 'results_dir': './results/gqa/codex_results/', 'use_cache': True, 'clear_cache': True, 'log_every': 20, 'wandb': False, 'blip_half_precision': False, 'blip_v2_model_type': 'blip2-flan-t5-xl', 'glip_model_type': 'large', 'use_fixed_code': False, 'fixed_code_file': './prompts/fixed_code/blip2.prompt', 'cognition': {'is_setted': False}, 'use_cached_codex': False, 'use_cache_codex': False}
+INFO:root:{'multiprocessing': False, 'path_pretrained_models': './pretrained_models', 'execute_code': False, 'dataset': {'dataset_name': 'GQA', 'data_path': './data/gqa', 'split': 'val', 'max_samples': 1000, 'batch_size': 32, 'start_sample': 0, 'testing': False}, 'load_models': {'maskrcnn': False, 'clip': False, 'glip': False, 'owlvit': False, 'tcl': False, 'gpt3_qa': False, 'gpt3_general': False, 'depth': False, 'blip': False, 'saliency': False, 'xvlm': False, 'codex': False, 'codellama': False, 'codellama_Q': False, 'llm_query': False, 'llm_guess': False, 'gpt3_list': False, 'qa': False, 'guess': False, 'llama31Q': True, 'gpt3_guess': False}, 'detect_thresholds': {'glip': 0.5, 'maskrcnn': 0.8, 'owlvit': 0.1}, 'ratio_box_area_to_image_area': 0.0, 'crop_larger_margin': True, 'verify_property': {'model': 'xvlm', 'thresh_clip': 0.6, 'thresh_tcl': 0.25, 'thresh_xvlm': 0.6}, 'best_match_model': 'xvlm', 'gpt3': {'n_votes': 1, 'qa_prompt': './prompts/gpt3/gpt3_qa.txt', 'guess_prompt': './prompts/gpt3/gpt3_process_guess.txt', 'temperature': 0.0, 'model': 'text-davinci-003'}, 'codex': {'temperature': 0.0, 'best_of': 1, 'max_tokens': 512, 'prompt': './prompts/benchmarks/gqa.prompt', 'model': 'llama31Q', 'extra_context': None, 'model_name': 'meta-llama/Meta-Llama-3.1-8B-Instruct', 'adapter': None}, 'save': False, 'save_new_results': True, 'save_codex': True, 'results_dir': './results/gqa/codex_results/', 'use_cache': True, 'clear_cache': True, 'log_every': 20, 'wandb': False, 'blip_half_precision': False, 'blip_v2_model_type': 'blip2-flan-t5-xl', 'glip_model_type': 'large', 'use_fixed_code': False, 'fixed_code_file': './prompts/fixed_code/blip2.prompt', 'cognition': {'is_setted': False}, 'use_cached_codex': False, 'use_cache_codex': False}
 INFO:__main__:Starting main
 Loading safetensors checkpoint shards:   0% Completed | 0/4 [00:00<?, ?it/s]
-Loading safetensors checkpoint shards:  25% Completed | 1/4 [00:00<00:00,  9.17it/s]
-Loading safetensors checkpoint shards:  50% Completed | 2/4 [00:00<00:00,  2.26it/s]
-Loading safetensors checkpoint shards:  75% Completed | 3/4 [00:01<00:00,  1.80it/s]
-Loading safetensors checkpoint shards: 100% Completed | 4/4 [00:02<00:00,  1.84it/s]
-Loading safetensors checkpoint shards: 100% Completed | 4/4 [00:02<00:00,  2.00it/s]
+Loading safetensors checkpoint shards:  25% Completed | 1/4 [00:00<00:00,  8.61it/s]
+Loading safetensors checkpoint shards:  50% Completed | 2/4 [00:00<00:00,  2.46it/s]
+Loading safetensors checkpoint shards:  75% Completed | 3/4 [00:01<00:00,  1.77it/s]
+Loading safetensors checkpoint shards: 100% Completed | 4/4 [00:02<00:00,  1.62it/s]
+Loading safetensors checkpoint shards: 100% Completed | 4/4 [00:02<00:00,  1.83it/s]
 
-Capturing CUDA graph shapes:   0%|          | 0/35 [00:00<?, ?it/s]Capturing CUDA graph shapes:   3%|▎         | 1/35 [00:00<00:29,  1.15it/s]Capturing CUDA graph shapes:   6%|▌         | 2/35 [00:01<00:28,  1.14it/s]Capturing CUDA graph shapes:   9%|▊         | 3/35 [00:02<00:28,  1.14it/s]Capturing CUDA graph shapes:  11%|█▏        | 4/35 [00:03<00:28,  1.11it/s]Capturing CUDA graph shapes:  14%|█▍        | 5/35 [00:04<00:30,  1.03s/it]Capturing CUDA graph shapes:  17%|█▋        | 6/35 [00:06<00:31,  1.10s/it]Capturing CUDA graph shapes:  20%|██        | 7/35 [00:06<00:28,  1.01s/it]Capturing CUDA graph shapes:  23%|██▎       | 8/35 [00:07<00:24,  1.10it/s]Capturing CUDA graph shapes:  26%|██▌       | 9/35 [00:08<00:21,  1.19it/s]Capturing CUDA graph shapes:  29%|██▊       | 10/35 [00:08<00:19,  1.26it/s]Capturing CUDA graph shapes:  31%|███▏      | 11/35 [00:09<00:18,  1.32it/s]Capturing CUDA graph shapes:  34%|███▍      | 12/35 [00:10<00:16,  1.36it/s]Capturing CUDA graph shapes:  37%|███▋      | 13/35 [00:11<00:15,  1.39it/s]Capturing CUDA graph shapes:  40%|████      | 14/35 [00:11<00:16,  1.26it/s]Capturing CUDA graph shapes:  43%|████▎     | 15/35 [00:13<00:19,  1.05it/s]Capturing CUDA graph shapes:  46%|████▌     | 16/35 [00:14<00:18,  1.00it/s]Capturing CUDA graph shapes:  49%|████▊     | 17/35 [00:15<00:18,  1.01s/it]Capturing CUDA graph shapes:  51%|█████▏    | 18/35 [00:16<00:18,  1.08s/it]Capturing CUDA graph shapes:  54%|█████▍    | 19/35 [00:17<00:17,  1.07s/it]Capturing CUDA graph shapes:  57%|█████▋    | 20/35 [00:18<00:14,  1.00it/s]Capturing CUDA graph shapes:  60%|██████    | 21/35 [00:19<00:13,  1.05it/s]Capturing CUDA graph shapes:  63%|██████▎   | 22/35 [00:20<00:12,  1.07it/s]Capturing CUDA graph shapes:  66%|██████▌   | 23/35 [00:21<00:11,  1.06it/s]Capturing CUDA graph shapes:  69%|██████▊   | 24/35 [00:22<00:10,  1.02it/s]Capturing CUDA graph shapes:  71%|███████▏  | 25/35 [00:23<00:10,  1.09s/it]Capturing CUDA graph shapes:  74%|███████▍  | 26/35 [00:24<00:09,  1.01s/it]Capturing CUDA graph shapes:  77%|███████▋  | 27/35 [00:25<00:07,  1.10it/s]Capturing CUDA graph shapes:  80%|████████  | 28/35 [00:25<00:06,  1.16it/s]Capturing CUDA graph shapes:  83%|████████▎ | 29/35 [00:26<00:04,  1.23it/s]Capturing CUDA graph shapes:  86%|████████▌ | 30/35 [00:27<00:04,  1.21it/s]Capturing CUDA graph shapes:  89%|████████▊ | 31/35 [00:28<00:03,  1.08it/s]Capturing CUDA graph shapes:  91%|█████████▏| 32/35 [00:29<00:02,  1.00it/s]Capturing CUDA graph shapes:  94%|█████████▍| 33/35 [00:30<00:01,  1.03it/s]Capturing CUDA graph shapes:  97%|█████████▋| 34/35 [00:31<00:00,  1.08it/s]Capturing CUDA graph shapes: 100%|██████████| 35/35 [00:32<00:00,  1.13it/s]Capturing CUDA graph shapes: 100%|██████████| 35/35 [00:32<00:00,  1.08it/s]
+Capturing CUDA graph shapes:   0%|          | 0/35 [00:00<?, ?it/s]Capturing CUDA graph shapes:   3%|▎         | 1/35 [00:00<00:22,  1.50it/s]Capturing CUDA graph shapes:   6%|▌         | 2/35 [00:01<00:20,  1.59it/s]Capturing CUDA graph shapes:   9%|▊         | 3/35 [00:01<00:19,  1.63it/s]Capturing CUDA graph shapes:  11%|█▏        | 4/35 [00:02<00:19,  1.62it/s]Capturing CUDA graph shapes:  14%|█▍        | 5/35 [00:03<00:18,  1.62it/s]Capturing CUDA graph shapes:  17%|█▋        | 6/35 [00:03<00:17,  1.66it/s]Capturing CUDA graph shapes:  20%|██        | 7/35 [00:04<00:16,  1.68it/s]Capturing CUDA graph shapes:  23%|██▎       | 8/35 [00:04<00:16,  1.66it/s]Capturing CUDA graph shapes:  26%|██▌       | 9/35 [00:05<00:15,  1.67it/s]Capturing CUDA graph shapes:  29%|██▊       | 10/35 [00:06<00:15,  1.64it/s]Capturing CUDA graph shapes:  31%|███▏      | 11/35 [00:06<00:14,  1.66it/s]Capturing CUDA graph shapes:  34%|███▍      | 12/35 [00:07<00:13,  1.69it/s]Capturing CUDA graph shapes:  37%|███▋      | 13/35 [00:07<00:12,  1.71it/s]Capturing CUDA graph shapes:  40%|████      | 14/35 [00:08<00:12,  1.71it/s]Capturing CUDA graph shapes:  43%|████▎     | 15/35 [00:08<00:11,  1.71it/s]Capturing CUDA graph shapes:  46%|████▌     | 16/35 [00:09<00:11,  1.70it/s]Capturing CUDA graph shapes:  49%|████▊     | 17/35 [00:10<00:10,  1.69it/s]Capturing CUDA graph shapes:  51%|█████▏    | 18/35 [00:10<00:10,  1.70it/s]Capturing CUDA graph shapes:  54%|█████▍    | 19/35 [00:11<00:09,  1.70it/s]Capturing CUDA graph shapes:  57%|█████▋    | 20/35 [00:11<00:08,  1.70it/s]Capturing CUDA graph shapes:  60%|██████    | 21/35 [00:12<00:08,  1.71it/s]Capturing CUDA graph shapes:  63%|██████▎   | 22/35 [00:13<00:07,  1.70it/s]Capturing CUDA graph shapes:  66%|██████▌   | 23/35 [00:13<00:07,  1.66it/s]Capturing CUDA graph shapes:  69%|██████▊   | 24/35 [00:14<00:06,  1.67it/s]Capturing CUDA graph shapes:  71%|███████▏  | 25/35 [00:14<00:05,  1.68it/s]Capturing CUDA graph shapes:  74%|███████▍  | 26/35 [00:15<00:05,  1.66it/s]Capturing CUDA graph shapes:  77%|███████▋  | 27/35 [00:16<00:04,  1.66it/s]Capturing CUDA graph shapes:  80%|████████  | 28/35 [00:16<00:04,  1.67it/s]Capturing CUDA graph shapes:  83%|████████▎ | 29/35 [00:17<00:03,  1.68it/s]Capturing CUDA graph shapes:  86%|████████▌ | 30/35 [00:17<00:03,  1.65it/s]Capturing CUDA graph shapes:  89%|████████▊ | 31/35 [00:18<00:02,  1.67it/s]Capturing CUDA graph shapes:  91%|█████████▏| 32/35 [00:19<00:01,  1.68it/s]Capturing CUDA graph shapes:  94%|█████████▍| 33/35 [00:19<00:01,  1.67it/s]Capturing CUDA graph shapes:  97%|█████████▋| 34/35 [00:20<00:00,  1.69it/s]Capturing CUDA graph shapes: 100%|██████████| 35/35 [00:20<00:00,  1.68it/s]Capturing CUDA graph shapes: 100%|██████████| 35/35 [00:20<00:00,  1.67it/s]
 INFO:__main__:Models successfully loaded
 WARNING:joblib:[Memory(location=cache/joblib)]: Flushing completely the cache
 INFO:__main__:Dataset loaded
-  0%|                                                                         | 0/1 [00:00<?, ?it/s]
+  0%|                                                                        | 0/32 [00:00<?, ?it/s]INFO:vision_models:Not using adapter
+
 Processed prompts:   0%|          | 0/32 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   3%|▎         | 1/32 [00:18<09:29, 18.38s/it, est. speed input: 148.24 toks/s, output: 17.41 toks/s][AProcessed prompts: 100%|██████████| 32/32 [00:18<00:00,  1.74it/s, est. speed input: 4741.73 toks/s, output: 557.01 toks/s]
+Processed prompts:   3%|▎         | 1/32 [00:14<07:23, 14.31s/it, est. speed input: 190.24 toks/s, output: 22.36 toks/s][AProcessed prompts: 100%|██████████| 32/32 [00:14<00:00,  2.24it/s, est. speed input: 6087.86 toks/s, output: 715.35 toks/s]
 /sorgin1/users/jbarrutia006/viper/src/main_project_slurm.py:275: UserWarning: Not executing code! This is only generating the code. We set the flag 'execute_code' to False by default, because executing code generated by a language model can be dangerous. Set the flag 'execute_code' to True if you want to execute it.
   warnings.warn("Not executing code! This is only generating the code. We set the flag "
-100%|#################################################################| 1/1 [00:19<00:00, 19.43s/it]100%|#################################################################| 1/1 [00:19<00:00, 19.43s/it]
-INFO:__main__:Saving results to llama31Q___03-14_22-29.csv
-[rank0]:[W314 22:29:31.622968246 ProcessGroupNCCL.cpp:1250] Warning: WARNING: process group has NOT been destroyed before we destruct ProcessGroupNCCL. On normal program exit, the application should call destroy_process_group to ensure that any pending NCCL operations have finished in this process. In rare cases this process can exit before this point and block the progress of another member of the process group. This constraint has always been present,  but this warning has only been added since PyTorch 2.4 (function operator())
+  3%|##                                                              | 1/32 [00:14<07:37, 14.75s/it]INFO:vision_models:Not using adapter
+
+Processed prompts:   0%|          | 0/32 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:   3%|▎         | 1/32 [00:14<07:25, 14.36s/it, est. speed input: 189.48 toks/s, output: 22.28 toks/s][AProcessed prompts: 100%|██████████| 32/32 [00:14<00:00,  2.23it/s, est. speed input: 6071.01 toks/s, output: 713.04 toks/s]
+  6%|####                                                            | 2/32 [00:29<07:30, 15.00s/it]INFO:vision_models:Not using adapter
+
+Processed prompts:   0%|          | 0/32 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:   3%|▎         | 1/32 [00:14<07:24, 14.35s/it, est. speed input: 189.87 toks/s, output: 22.30 toks/s][AProcessed prompts: 100%|██████████| 32/32 [00:14<00:00,  2.23it/s, est. speed input: 6076.58 toks/s, output: 713.70 toks/s]
+  9%|######                                                          | 3/32 [00:45<07:18, 15.12s/it]INFO:vision_models:Not using adapter
+
+Processed prompts:   0%|          | 0/32 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:   3%|▎         | 1/32 [00:14<07:27, 14.43s/it, est. speed input: 188.80 toks/s, output: 22.17 toks/s][AProcessed prompts: 100%|██████████| 32/32 [00:14<00:00,  2.22it/s, est. speed input: 6039.84 toks/s, output: 709.43 toks/s]
+ 12%|########                                                        | 4/32 [01:00<07:04, 15.14s/it]INFO:vision_models:Not using adapter
+
+Processed prompts:   0%|          | 0/32 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:   3%|▎         | 1/32 [00:14<07:26, 14.41s/it, est. speed input: 189.03 toks/s, output: 22.21 toks/s][AProcessed prompts: 100%|██████████| 32/32 [00:14<00:00,  2.22it/s, est. speed input: 6050.95 toks/s, output: 710.81 toks/s]
+ 16%|##########                                                      | 5/32 [01:15<06:48, 15.13s/it]INFO:vision_models:Not using adapter
+
+Processed prompts:   0%|          | 0/32 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:   3%|▎         | 1/32 [00:14<07:16, 14.08s/it, est. speed input: 193.30 toks/s, output: 22.72 toks/s][AProcessed prompts: 100%|██████████| 32/32 [00:14<00:00,  2.27it/s, est. speed input: 6189.76 toks/s, output: 727.15 toks/s]
+ 19%|############                                                    | 6/32 [01:30<06:30, 15.00s/it]INFO:vision_models:Not using adapter
+
+Processed prompts:   0%|          | 0/32 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:   3%|▎         | 1/32 [00:14<07:28, 14.47s/it, est. speed input: 188.27 toks/s, output: 22.11 toks/s][AProcessed prompts: 100%|██████████| 32/32 [00:14<00:00,  2.21it/s, est. speed input: 6022.71 toks/s, output: 707.42 toks/s]
+ 22%|##############                                                  | 7/32 [01:45<06:16, 15.05s/it]INFO:vision_models:Not using adapter
+
+Processed prompts:   0%|          | 0/32 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:   3%|▎         | 1/32 [00:14<07:37, 14.77s/it, est. speed input: 184.41 toks/s, output: 21.67 toks/s][AProcessed prompts: 100%|██████████| 32/32 [00:14<00:00,  2.17it/s, est. speed input: 5905.38 toks/s, output: 693.44 toks/s]
+ 25%|################                                                | 8/32 [02:00<06:04, 15.17s/it]INFO:vision_models:Not using adapter
+
+Processed prompts:   0%|          | 0/32 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:   3%|▎         | 1/32 [00:14<07:23, 14.29s/it, est. speed input: 190.78 toks/s, output: 22.39 toks/s][AProcessed prompts: 100%|██████████| 32/32 [00:14<00:00,  2.24it/s, est. speed input: 6097.90 toks/s, output: 716.34 toks/s]
+ 28%|##################                                              | 9/32 [02:15<05:47, 15.09s/it]INFO:vision_models:Not using adapter
+
+Processed prompts:   0%|          | 0/32 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:   3%|▎         | 1/32 [00:14<07:24, 14.35s/it, est. speed input: 190.00 toks/s, output: 22.30 toks/s][AProcessed prompts: 100%|██████████| 32/32 [00:14<00:00,  2.23it/s, est. speed input: 6072.71 toks/s, output: 713.42 toks/s]
+ 31%|###################6                                           | 10/32 [02:30<05:31, 15.06s/it]INFO:vision_models:Not using adapter
+
+Processed prompts:   0%|          | 0/32 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:   3%|▎         | 1/32 [00:14<07:22, 14.27s/it, est. speed input: 190.79 toks/s, output: 22.42 toks/s][AProcessed prompts: 100%|██████████| 32/32 [00:14<00:00,  2.24it/s, est. speed input: 6106.70 toks/s, output: 717.43 toks/s]
+ 34%|#####################6                                         | 11/32 [02:45<05:15, 15.05s/it]INFO:vision_models:Not using adapter
+
+Processed prompts:   0%|          | 0/32 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:   3%|▎         | 1/32 [00:14<07:26, 14.39s/it, est. speed input: 189.40 toks/s, output: 22.23 toks/s][AProcessed prompts: 100%|██████████| 32/32 [00:14<00:00,  2.22it/s, est. speed input: 6056.12 toks/s, output: 711.41 toks/s]
+ 38%|#######################6                                       | 12/32 [03:00<05:00, 15.05s/it]INFO:vision_models:Not using adapter
+
+Processed prompts:   0%|          | 0/32 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:   3%|▎         | 1/32 [00:14<07:34, 14.67s/it, est. speed input: 185.29 toks/s, output: 21.81 toks/s][AProcessed prompts: 100%|██████████| 32/32 [00:14<00:00,  2.18it/s, est. speed input: 5939.35 toks/s, output: 697.78 toks/s]
+ 41%|#########################5                                     | 13/32 [03:16<04:47, 15.14s/it]INFO:vision_models:Not using adapter
+
+Processed prompts:   0%|          | 0/32 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:   3%|▎         | 1/32 [00:15<07:54, 15.30s/it, est. speed input: 178.07 toks/s, output: 20.91 toks/s][AProcessed prompts: 100%|██████████| 32/32 [00:15<00:00,  2.09it/s, est. speed input: 5695.06 toks/s, output: 669.11 toks/s]
+ 44%|###########################5                                   | 14/32 [03:32<04:37, 15.42s/it]INFO:vision_models:Not using adapter
+
+Processed prompts:   0%|          | 0/32 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:   3%|▎         | 1/32 [00:14<07:27, 14.45s/it, est. speed input: 188.21 toks/s, output: 22.15 toks/s][AProcessed prompts: 100%|██████████| 32/32 [00:14<00:00,  2.21it/s, est. speed input: 6032.80 toks/s, output: 708.79 toks/s]
+ 47%|#############################5                                 | 15/32 [03:47<04:20, 15.33s/it]INFO:vision_models:Not using adapter
+
+Processed prompts:   0%|          | 0/32 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:   3%|▎         | 1/32 [00:14<07:28, 14.46s/it, est. speed input: 188.10 toks/s, output: 22.13 toks/s][AProcessed prompts: 100%|██████████| 32/32 [00:14<00:00,  2.21it/s, est. speed input: 6027.32 toks/s, output: 708.09 toks/s]
+ 50%|###############################5                               | 16/32 [04:02<04:04, 15.29s/it]INFO:vision_models:Not using adapter
+
+Processed prompts:   0%|          | 0/32 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:   3%|▎         | 1/32 [00:14<07:26, 14.40s/it, est. speed input: 189.02 toks/s, output: 22.22 toks/s][AProcessed prompts: 100%|██████████| 32/32 [00:14<00:00,  2.22it/s, est. speed input: 6052.21 toks/s, output: 711.04 toks/s]
+ 53%|#################################4                             | 17/32 [04:17<03:48, 15.20s/it]INFO:vision_models:Not using adapter
+
+Processed prompts:   0%|          | 0/32 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:   3%|▎         | 1/32 [00:14<07:29, 14.49s/it, est. speed input: 188.08 toks/s, output: 22.09 toks/s][AProcessed prompts: 100%|██████████| 32/32 [00:14<00:00,  2.21it/s, est. speed input: 6014.54 toks/s, output: 706.72 toks/s]
+ 56%|###################################4                           | 18/32 [04:32<03:32, 15.20s/it]INFO:vision_models:Not using adapter
+
+Processed prompts:   0%|          | 0/32 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:   3%|▎         | 1/32 [00:14<07:25, 14.38s/it, est. speed input: 189.27 toks/s, output: 22.25 toks/s][AProcessed prompts: 100%|██████████| 32/32 [00:14<00:00,  2.22it/s, est. speed input: 6059.69 toks/s, output: 711.97 toks/s]
+ 59%|#####################################4                         | 19/32 [04:47<03:17, 15.18s/it]INFO:vision_models:Not using adapter
+
+Processed prompts:   0%|          | 0/32 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:   3%|▎         | 1/32 [00:14<07:28, 14.46s/it, est. speed input: 188.39 toks/s, output: 22.13 toks/s][AProcessed prompts: 100%|██████████| 32/32 [00:14<00:00,  2.21it/s, est. speed input: 6027.38 toks/s, output: 708.14 toks/s]
+ 62%|#######################################3                       | 20/32 [05:02<03:01, 15.14s/it]INFO:vision_models:Not using adapter
+
+Processed prompts:   0%|          | 0/32 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:   3%|▎         | 1/32 [00:14<07:27, 14.44s/it, est. speed input: 188.53 toks/s, output: 22.16 toks/s][AProcessed prompts: 100%|██████████| 32/32 [00:14<00:00,  2.22it/s, est. speed input: 6035.22 toks/s, output: 709.20 toks/s]
+ 66%|#########################################3                     | 21/32 [05:18<02:46, 15.14s/it]INFO:vision_models:Not using adapter
+
+Processed prompts:   0%|          | 0/32 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:   3%|▎         | 1/32 [00:14<07:37, 14.76s/it, est. speed input: 184.67 toks/s, output: 21.69 toks/s][AProcessed prompts: 100%|██████████| 32/32 [00:14<00:00,  2.17it/s, est. speed input: 5906.40 toks/s, output: 693.91 toks/s]
+ 69%|###########################################3                   | 22/32 [05:33<02:32, 15.23s/it]INFO:vision_models:Not using adapter
+
+Processed prompts:   0%|          | 0/32 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:   3%|▎         | 1/32 [00:14<07:20, 14.22s/it, est. speed input: 191.76 toks/s, output: 22.50 toks/s][AProcessed prompts: 100%|██████████| 32/32 [00:14<00:00,  2.25it/s, est. speed input: 6129.96 toks/s, output: 720.01 toks/s]
+ 72%|#############################################2                 | 23/32 [05:48<02:16, 15.13s/it]INFO:vision_models:Not using adapter
+
+Processed prompts:   0%|          | 0/32 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:   3%|▎         | 1/32 [00:14<07:25, 14.38s/it, est. speed input: 189.41 toks/s, output: 22.25 toks/s][AProcessed prompts: 100%|██████████| 32/32 [00:14<00:00,  2.22it/s, est. speed input: 6060.90 toks/s, output: 711.98 toks/s]
+ 75%|###############################################2               | 24/32 [06:03<02:00, 15.11s/it]INFO:vision_models:Not using adapter
+
+Processed prompts:   0%|          | 0/32 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:   3%|▎         | 1/32 [00:14<07:28, 14.45s/it, est. speed input: 189.08 toks/s, output: 22.14 toks/s][AProcessed prompts: 100%|██████████| 32/32 [00:14<00:00,  2.21it/s, est. speed input: 6030.61 toks/s, output: 708.39 toks/s]
+ 78%|#################################################2             | 25/32 [06:18<01:45, 15.14s/it]INFO:vision_models:Not using adapter
+
+Processed prompts:   0%|          | 0/32 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:   3%|▎         | 1/32 [00:14<07:27, 14.45s/it, est. speed input: 188.28 toks/s, output: 22.15 toks/s][AProcessed prompts: 100%|██████████| 32/32 [00:14<00:00,  2.21it/s, est. speed input: 6031.66 toks/s, output: 708.78 toks/s]
+ 81%|###################################################1           | 26/32 [06:33<01:30, 15.16s/it]INFO:vision_models:Not using adapter
+
+Processed prompts:   0%|          | 0/32 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:   3%|▎         | 1/32 [00:14<07:29, 14.49s/it, est. speed input: 188.33 toks/s, output: 22.09 toks/s][AProcessed prompts: 100%|██████████| 32/32 [00:14<00:00,  2.21it/s, est. speed input: 6017.56 toks/s, output: 706.87 toks/s]
+ 84%|#####################################################1         | 27/32 [06:48<01:15, 15.15s/it]INFO:vision_models:Not using adapter
+
+Processed prompts:   0%|          | 0/32 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:   3%|▎         | 1/32 [00:14<07:26, 14.39s/it, est. speed input: 189.33 toks/s, output: 22.23 toks/s][AProcessed prompts: 100%|██████████| 32/32 [00:14<00:00,  2.22it/s, est. speed input: 6057.66 toks/s, output: 711.41 toks/s]
+ 88%|#######################################################1       | 28/32 [07:04<01:00, 15.15s/it]INFO:vision_models:Not using adapter
+
+Processed prompts:   0%|          | 0/32 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:   3%|▎         | 1/32 [00:14<07:26, 14.39s/it, est. speed input: 189.65 toks/s, output: 22.24 toks/s][AProcessed prompts: 100%|██████████| 32/32 [00:14<00:00,  2.22it/s, est. speed input: 6057.17 toks/s, output: 711.59 toks/s]
+ 91%|#########################################################      | 29/32 [07:19<00:45, 15.11s/it]INFO:vision_models:Not using adapter
+
+Processed prompts:   0%|          | 0/32 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:   3%|▎         | 1/32 [00:14<07:26, 14.41s/it, est. speed input: 189.04 toks/s, output: 22.21 toks/s][AProcessed prompts: 100%|██████████| 32/32 [00:14<00:00,  2.22it/s, est. speed input: 6049.71 toks/s, output: 710.58 toks/s]
+ 94%|###########################################################    | 30/32 [07:34<00:30, 15.08s/it]INFO:vision_models:Not using adapter
+
+Processed prompts:   0%|          | 0/32 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:   3%|▎         | 1/32 [00:14<07:36, 14.74s/it, est. speed input: 184.60 toks/s, output: 21.71 toks/s][AProcessed prompts: 100%|██████████| 32/32 [00:14<00:00,  2.17it/s, est. speed input: 5913.23 toks/s, output: 694.68 toks/s]
+ 97%|#############################################################  | 31/32 [07:49<00:15, 15.16s/it]INFO:vision_models:Not using adapter
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:06<00:46,  6.58s/it, est. speed input: 413.07 toks/s, output: 48.60 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:06<00:00,  1.21it/s, est. speed input: 3308.15 toks/s, output: 388.75 toks/s]
+100%|###############################################################| 32/32 [07:56<00:00, 14.88s/it]
+INFO:__main__:Saving results to llama31Q___03-15_13-18.csv
+[rank0]:[W315 13:18:50.342724910 ProcessGroupNCCL.cpp:1250] Warning: WARNING: process group has NOT been destroyed before we destruct ProcessGroupNCCL. On normal program exit, the application should call destroy_process_group to ensure that any pending NCCL operations have finished in this process. In rare cases this process can exit before this point and block the progress of another member of the process group. This constraint has always been present,  but this warning has only been added since PyTorch 2.4 (function operator())

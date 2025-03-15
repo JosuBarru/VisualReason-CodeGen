@@ -17,9 +17,9 @@ source /sorgin1/users/jbarrutia006/venvs/viper_tximista/bin/activate
 export LOAD_MODELS=1
 export DATASET='gqa'
 export EXEC_MODE='cache'
-export TRAIN=True
-export CODE='llama31DPO.csv'
+export PARTITION='val'
+export CODE='llama31NF.csv'
 export BATCHSIZE=32
-export NUMINST=32
+export NUMINST=
 
 srun python src/main_project_slurm.py

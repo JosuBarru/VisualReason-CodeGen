@@ -13,8 +13,7 @@ execution_mode = os.getenv('EXEC_MODE', None) # codex o cache  (generar codigos 
 enable_models = bool(int(os.getenv('LOAD_MODELS', '0'))) # which models to load (depends on wether we want to generate or execute, SO RELATED WITH ABOVE)
 cognition_models = os.getenv('COGNITION_MODEL', None) # Just for general knowledge datasets (okvqa)
 codex_model = os.getenv('CODEX_MODEL', None)  # Name of the model to generate code
-train = os.getenv('TRAIN', True) #  por defecto true porque va a ser lo que más usemos
-train = train.lower() == 'true'
+partition = os.getenv('PARTITION', None)
 code = os.getenv('CODE', None)
 num_inst_str = os.getenv('NUMINST')  # Defaults to None if the variable is not set
 num_inst = int(num_inst_str) if num_inst_str not in (None, "") else None
@@ -39,7 +38,6 @@ model_configs = {
     "deepseek-llama70b": "config_codex_deepseek-llama-70b",
     "qwen25":"config_codex_qwen2.5-7b",
     "mixtral87b":"config_codex_mixtral8-7b",
-    "llama31-dpo":"config_codex_llama3.1-8b-dpo"
 }
 
 
@@ -63,14 +61,13 @@ try:
             if execution_mode == 'cache':
                 if cognition_models is not None:
                     config_names.insert(0, cognition_models)
-                if code is not None:
+                if code is not None and partition in ['train', 'val', 'testdev']:
                     manual_config = OmegaConf.create({
                         "use_cached_codex": True, 
-                        "cached_codex_path": os.path.join('results/gqa/codex_results/', 'train' if train else 'testdev', code)
+                        "cached_codex_path": os.path.join('results/gqa/codex_results/', partition, code)
                     })
-                
                 else:
-                    raise UserWarning(f"Add input file")
+                    raise UserWarning(f"Add input file and partition")
 
             elif execution_mode == 'codex':
                 if codex_model in model_configs:
@@ -92,8 +89,8 @@ try:
                 raise NameError(f'Value from $EXEC_MODE variable is incorrect, obtained: {execution_mode} and must be: cache or codex')
             
             
-            if train:
-                config_names.append(dataset_name + '/' + 'train') 
+            if partition in ['train', 'val', 'testdev']:
+                config_names.append(dataset_name + '/' + partition) 
         config_names_=','.join(config_names)
         config_names = config_names_
     else: 

@@ -1,10 +1,10 @@
 dataset:
     data_path: './data/gqa'
     dataset_name: GQA
-    split: testdev
+    #split: testdev
     testing: False
-    max_samples: 
-    batch_size: 16 #for testdev set number 2
+    #max_samples: 
+    #batch_size: 16 #for testdev set number 2
     start_sample: 0
 codex:
     prompt : ./prompts/benchmarks/gqa.prompt
