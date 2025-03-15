@@ -21,6 +21,6 @@ export CODEX_MODEL='llama31Q'
 export PARTITION='val'
 export BATCHSIZE=32
 export NUMINST=
-export CHECKPOINT='03-12_21-47/checkpoint-2766'
+export CHECKPOINT='03-15_17-07-00/checkpoint-2100'
 
 srun python src/main_project_slurm.py

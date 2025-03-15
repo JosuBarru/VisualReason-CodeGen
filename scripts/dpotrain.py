@@ -1,3 +1,4 @@
+from unsloth import FastLanguageModel, PatchDPOTrainer, is_bfloat16_supported
 import torch
 import argparse
 import logging
@@ -5,7 +6,6 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 import datasets
 from trl import DPOTrainer, DPOConfig
 import os, sys
-from unsloth import FastLanguageModel, PatchDPOTrainer, is_bfloat16_supported
 from typing import Dict
 import datetime
 import wandb
@@ -32,6 +32,8 @@ def parse_args():
     parser.add_argument("--save_steps", type=int, help="Model saving frequency")
     parser.add_argument("--lr_scheduler_type", type=str, default="cosine", help="Type of learning rate scheduler")
     parser.add_argument("--warmup_ratio", type=float, default=0.1, help="Warmup ratio for learning rate scheduling")
+    parser.add_argument("--beta", type=float, default=0.1, help="Beta value for DPO loss")
+    parser.add_argument("--weight_decay", type=float, default=0.01, help="Weight decay for training")
     parser.add_argument("--device", type=str, default="cuda" if torch.cuda.is_available() else "cpu", help="Device to use for training")
     parser.add_argument("--report_to", type=str, default="wandb")
     parser.add_argument("--project_name", type=str, default="dpo_llama3_project", help="WandB project name")
@@ -54,7 +56,7 @@ def return_prompt_and_responses(samples) -> Dict[str, list[str]]:
 def train_dpo(args):
     wandb.init(project=args.project_name, name=args.run_name)
 
-    output_dir = os.path.join(args.output_dir, datetime.datetime.now().strftime("%m-%d_%H-%M"))
+    output_dir = os.path.join(args.output_dir, datetime.datetime.now().strftime("%m-%d_%H-%M-%S"))
 
     logger.info("Loading model and tokenizer...")
 
@@ -120,7 +122,7 @@ def train_dpo(args):
             adam_beta1=0.9,
             adam_beta2=0.999,
             adam_epsilon=1e-8,
-            weight_decay=0.01,
+            weight_decay=args.weight_decay,
             learning_rate=args.learning_rate,
             warmup_ratio=args.warmup_ratio,
             lr_scheduler_type=args.lr_scheduler_type,
@@ -131,7 +133,7 @@ def train_dpo(args):
             load_best_model_at_end=True,
             metric_for_best_model="eval_loss",
             greater_is_better=False,
-            beta=0.1,
+            beta=args.beta, 
         ),
     )
     
