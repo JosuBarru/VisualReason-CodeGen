@@ -1415,7 +1415,7 @@ class llama31Q(CodexModel):
             assert model_name in ['meta-llama/Meta-Llama-3.1-8B-Instruct']
 
         self.llm = LLM(model_name, enable_lora=True, max_lora_rank=64)
-        self.sampling_params = SamplingParams(max_tokens=320,temperature=0.6,top_p=0.9)
+        self.sampling_params = SamplingParams(max_tokens=320,temperature=config.codex.temperature,top_p=0.9)
 
     def run_code_Quantized_llama(self, prompt):
         """Generates text from a given prompt using vLLM offline inference."""

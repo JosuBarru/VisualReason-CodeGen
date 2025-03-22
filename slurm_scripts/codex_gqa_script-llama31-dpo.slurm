@@ -18,9 +18,10 @@ export LOAD_MODELS=0
 export DATASET='gqa'
 export EXEC_MODE='codex'
 export CODEX_MODEL='llama31Q'
-export PARTITION='val'
+export PARTITION='train'
 export BATCHSIZE=32
+export TEMP=0
 export NUMINST=
-export CHECKPOINT='03-15_17-07-00/checkpoint-2100'
+export CHECKPOINT='03-15_21-54-00/checkpoint-1050'
 
 srun python src/main_project_slurm.py

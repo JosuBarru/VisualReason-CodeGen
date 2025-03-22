@@ -144,18 +144,12 @@ def train_dpo(args):
     logger.info("Starting training...")
     trainer.train()
     
-    # Create a folder for the best checkpoint inside the output directory
-    best_ckpt_dir = os.path.join(output_dir, "best-checkpoint")
-    os.makedirs(best_ckpt_dir, exist_ok=True)
-    logger.info(f"Saving best model to {best_ckpt_dir}...")
-    trainer.save_model(best_ckpt_dir)
-    
-    # Save the trainer state to a file in the best-checkpoint directory
-    state_file = os.path.join(best_ckpt_dir, "trainer_state.json")
-    with open(state_file, "w") as f:
-        f.write(trainer.state.to_json_string())
-    logger.info(f"Trainer state saved to {state_file}")
-    
+    # # Create a folder for the best checkpoint inside the output directory
+    # best_ckpt_dir = os.path.join(output_dir, "best-checkpoint")
+    # os.makedirs(best_ckpt_dir, exist_ok=True)
+    # logger.info(f"Saving best model to {best_ckpt_dir}...")
+    # trainer.save_model(best_ckpt_dir)
+
     logger.info("Training completed and model saved!")
     wandb.finish()
 

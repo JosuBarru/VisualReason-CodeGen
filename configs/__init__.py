@@ -19,6 +19,8 @@ num_inst_str = os.getenv('NUMINST')  # Defaults to None if the variable is not s
 num_inst = int(num_inst_str) if num_inst_str not in (None, "") else None
 batch_size = os.getenv('BATCHSIZE')
 batch_size = int(batch_size) if batch_size is not None else None
+temp_str = os.getenv('TEMP', None)
+temp = int(temp_str) if temp_str is not None else None
 
 checkpoint = os.getenv('CHECKPOINT', None)
 
@@ -72,10 +74,16 @@ try:
             elif execution_mode == 'codex':
                 if codex_model in model_configs:
                     config_names.append(model_configs[codex_model])
-                    if checkpoint is not None:
+                    if checkpoint is not None and checkpoint != '':
                         manual_adapter = OmegaConf.create({
                                 "codex": {"adapter": os.path.join("/sorgin1/users/jbarrutia006/viper/dpo_trained_models", checkpoint)}
                             })
+                    if temp is not None:
+                        manual_temp = OmegaConf.create({
+                                "codex": {"temperature": temp}
+                            })
+                    else:
+                        raise UserWarning(f"Add temperature for codex model")
                 else:
                     raise UserWarning(
                         f"Model '{codex_model}' is not recognized. Please check the configuration mapping."
@@ -130,6 +138,8 @@ if "manual_config" in locals():
 if "manual_batch" in locals():
     configs.append(manual_batch)
 
+if "manual_temp" in locals():
+    configs.append(manual_temp)
 
 if "manual_adapter" in locals():
     configs.append(manual_adapter)
