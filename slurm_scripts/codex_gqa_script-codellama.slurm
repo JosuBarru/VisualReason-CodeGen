@@ -18,8 +18,10 @@ export LOAD_MODELS=0
 export DATASET='gqa'
 export EXEC_MODE='codex'
 export CODEX_MODEL='codellama'
-export TRAIN=True
-export BATCHSIZE=8
+export PARTITION='val'
+export BATCHSIZE=16
+export TEMP=0
 export NUMINST=
+export CHECKPOINT=
 
 srun python src/main_project_slurm.py

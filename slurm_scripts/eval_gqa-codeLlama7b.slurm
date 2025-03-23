@@ -6,6 +6,7 @@
 #SBATCH --ntasks-per-node=1
 #SBATCH --mem=18GB
 #SBATCH --gres=gpu:1
+#SBATCH --time=0
 #SBATCH --output=/sorgin1/users/jbarrutia006/viper/slurm_scripts/outputs/eval_output_codellama.txt
 #SBATCH --error=/sorgin1/users/jbarrutia006/viper/slurm_scripts/outputs/eval_output_codellama.err
 #SBATCH --mail-type=all
@@ -17,7 +18,9 @@ source /sorgin1/users/jbarrutia006/venvs/viper_tximista/bin/activate
 export LOAD_MODELS=1
 export DATASET='gqa'
 export EXEC_MODE='cache'
-export TRAIN=True
-export CODE='codellama7b-512.csv'
+export PARTITION='val'
+export CODE='codellamaNFTem0.csv'
+export BATCHSIZE=32
+export NUMINST=
 
 srun python src/main_project_slurm.py

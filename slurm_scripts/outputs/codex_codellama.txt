@@ -1,4 +1,21 @@
-SELECTED CONFIG FILES: gqa/general_config,config_codellama,gqa/save_codex,gqa/train
+SELECTED CONFIG FILES: gqa/general_config,config_codellama,gqa/save_codex,gqa/val
 LOADING MODEL: DISABLED
+INFO 03-23 22:46:16 __init__.py:183] Automatically detected platform cuda.
+INFO 03-23 22:46:29 config.py:526] This model supports multiple tasks: {'reward', 'embed', 'classify', 'generate', 'score'}. Defaulting to 'generate'.
+INFO 03-23 22:46:29 llm_engine.py:232] Initializing a V0 LLM engine (v0.7.1) with config: model='codellama/CodeLlama-7b-Instruct-hf', speculative_config=None, tokenizer='codellama/CodeLlama-7b-Instruct-hf', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, override_neuron_config=None, tokenizer_revision=None, trust_remote_code=False, dtype=torch.bfloat16, max_seq_len=16384, download_dir=None, load_format=LoadFormat.AUTO, tensor_parallel_size=1, pipeline_parallel_size=1, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, kv_cache_dtype=auto,  device_config=cuda, decoding_config=DecodingConfig(guided_decoding_backend='xgrammar'), observability_config=ObservabilityConfig(otlp_traces_endpoint=None, collect_model_forward_time=False, collect_model_execute_time=False), seed=0, served_model_name=codellama/CodeLlama-7b-Instruct-hf, num_scheduler_steps=1, multi_step_stream_outputs=True, enable_prefix_caching=False, chunked_prefill_enabled=False, use_async_output_proc=True, disable_mm_preprocessor_cache=False, mm_processor_kwargs=None, pooler_config=None, compilation_config={"splitting_ops":[],"compile_sizes":[],"cudagraph_capture_sizes":[256,248,240,232,224,216,208,200,192,184,176,168,160,152,144,136,128,120,112,104,96,88,80,72,64,56,48,40,32,24,16,8,4,2,1],"max_capture_size":256}, use_cached_outputs=False, 
+INFO 03-23 22:46:31 cuda.py:235] Using Flash Attention backend.
+INFO 03-23 22:46:31 model_runner.py:1111] Starting to load model codellama/CodeLlama-7b-Instruct-hf...
+INFO 03-23 22:46:32 weight_utils.py:251] Using model weights format ['*.safetensors']
+INFO 03-23 22:46:35 model_runner.py:1116] Loading model weights took 12.5616 GB
+INFO 03-23 22:46:35 punica_selector.py:16] Using PunicaWrapperGPU.
+INFO 03-23 22:46:38 worker.py:266] Memory profiling takes 2.62 seconds
+INFO 03-23 22:46:38 worker.py:266] the current vLLM instance can use total_gpu_memory (79.15GiB) x gpu_memory_utilization (0.90) = 71.24GiB
+INFO 03-23 22:46:38 worker.py:266] model weights take 12.56GiB; non_torch_memory takes 0.09GiB; PyTorch activation peak memory takes 1.39GiB; the rest of the memory reserved for KV Cache is 57.19GiB.
+INFO 03-23 22:46:38 executor_base.py:108] # CUDA blocks: 7320, # CPU blocks: 512
+INFO 03-23 22:46:38 executor_base.py:113] Maximum concurrency for 16384 tokens per request: 7.15x
+INFO 03-23 22:46:39 model_runner.py:1435] Capturing cudagraphs for decoding. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI. If out-of-memory error occurs during cudagraph capture, consider decreasing `gpu_memory_utilization` or switching to eager mode. You can also reduce the `max_num_seqs` as needed to decrease memory usage.
+INFO 03-23 22:47:02 model_runner.py:1563] Graph capturing finished in 23 secs, took 2.14 GiB
+INFO 03-23 22:47:02 llm_engine.py:429] init engine (profile, create kv cache, warmup model) took 27.43 seconds
 modelo: <class 'vision_models.codellama'> , proceso:  codellama
-{'codellama': <function make_fn.<locals>._function at 0x7ff8db73d440>}
+{'codellama': <function make_fn.<locals>._function at 0x7f206c54aca0>}
+Final accuracy: 0.158

@@ -1302,13 +1302,18 @@ class codellama(CodexModel):
         else:
             assert model_name in ['codellama/CodeLlama-7b-Instruct-hf']
         
-        self.llm = LLM(model_name)
-        self.sampling_params = SamplingParams(max_tokens=320)
+        self.llm = LLM(model_name, enable_lora=True, max_lora_rank=64)
+        self.sampling_params = SamplingParams(max_tokens=320,temperature=config.codex.temperature,top_p=0.9)
 
     def run_code_Quantized_llama(self, prompt):
         """Generates text from a given prompt using vLLM offline inference."""
         # Call the generate method on the LLM instance.
-        results = self.llm.generate(prompt, self.sampling_params)
+        if config.codex.adapter and config.codex.adapter != "":
+            logger.info(f"Using adapter {config.codex.adapter}")
+            results = self.llm.generate(prompt, self.sampling_params, lora_request=LoRARequest("adapter", 1, config.codex.adapter))
+        else:
+            logger.info("Not using adapter")
+            results = self.llm.generate(prompt, self.sampling_params)
         # Extract generated text from each result.
         generated_text = [result.outputs[0].text for result in results]
         # Optionally post-process the generated text.
