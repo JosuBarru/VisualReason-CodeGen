@@ -32,9 +32,21 @@ def select_multiple_csv_files(csv_files):
             print("Entrada no válida. Por favor, introduce un número o 'fin'.")
     return selected_files
 
+def parse_model_name(file_name: str) -> str:
+    """
+    Given a filename like 'eval_modelName.csv',
+    return just 'modelName' via regex.
+    If it doesn't match the pattern, return the full filename as fallback.
+    """
+    match = re.match(r'^eval_(.*)\.csv$', file_name)
+    if match:
+        return match.group(1)
+    return file_name
+
 def load_csvs(file_paths):
     """
     Load multiple CSV files into a single pandas DataFrame.
+    Each CSV file is assigned a 'model' column derived from its file name.
     Assumes each CSV has a header and an extra footer line that should be removed.
     """
     df_list = []
@@ -43,7 +55,12 @@ def load_csvs(file_paths):
         # Remove the last line (footer) if present.
         if len(df) > 0:
             df = df.iloc[:-1]
+        # Extract model name from the file name and add it as a new column.
+        file_name = os.path.basename(file_path)
+        df['model'] = parse_model_name(file_name)
+
         df_list.append(df)
+
     combined_df = pd.concat(df_list, ignore_index=True)
     # Optionally filter out rows with invalid sample_id (e.g., non-numeric)
     combined_df = combined_df[combined_df['sample_id'].apply(lambda x: str(x).isnumeric())]
@@ -60,10 +77,9 @@ def remove_function_header(code_str):
     'def execute_command_' and ends with a colon.
     """
     pattern = r"^def\s+execute_command_[^(]+\([^)]*\):\n"
-    code_without_headers = re.sub(pattern, "", code_str, flags=re.MULTILINE)
-    return code_without_headers
+    return re.sub(pattern, "", code_str, flags=re.MULTILINE)
 
-def create_pairs_for_ids(df, sample_ids, approach='single'):
+def create_pairs_for_ids(df, sample_ids):
     """
     Create preference pairs for DPO training from the DataFrame for given sample_ids.
     
@@ -88,47 +104,33 @@ def create_pairs_for_ids(df, sample_ids, approach='single'):
         # Select correct and incorrect codes based on 'accuracy'
         correct_rows = group[group['accuracy'] == 1]
         incorrect_rows = group[group['accuracy'] != 1]
-        # These conditions are assumed to be met since we already filtered sample_ids
         if correct_rows.empty or incorrect_rows.empty:
             continue
         
         # For the rejected code, try to select a code that is not NaN or empty.
         valid_incorrect_rows = incorrect_rows[
+            (incorrect_rows['model'] == "llama31-8B-16b___02-20_01-18") &
             incorrect_rows['code'].notna() & 
             (incorrect_rows['code'].apply(remove_function_header).str.strip() != "") & 
             (incorrect_rows['code'].apply(remove_function_header).str.strip().str.lower() != "nan")
         ]
-        
-        if approach == 'single':
-            chosen_row = correct_rows.sample(n=1).iloc[0]
+
+        for _, correct_row in correct_rows.iterrows():
             if not valid_incorrect_rows.empty:
-                rejected_row = valid_incorrect_rows.sample(n=1).iloc[0]
+                target_incorrect = valid_incorrect_rows
             else:
                 continue
-            pairs.append({
-                'prompt': chosen_row['query'],
-                'chosen': remove_function_header(chosen_row['code']),
-                'rejected': remove_function_header(rejected_row['code']),
-                'model': chosen_row['model'],
-                'rejected_model': rejected_row['model']
-            })
-        elif approach == 'all':
-            for _, correct_row in correct_rows.iterrows():
-                if not valid_incorrect_rows.empty:
-                    target_incorrect = valid_incorrect_rows
-                else:
-                    continue
-                for _, incorrect_row in target_incorrect.iterrows():
-                    pairs.append({
-                        'prompt': correct_row['query'],
-                        'chosen': remove_function_header(correct_row['code']),
-                        'rejected': remove_function_header(incorrect_row['code']),
-                        'model': correct_row['model'],
-                        'rejected_model': incorrect_row['model']
-                    })
+            for _, incorrect_row in target_incorrect.iterrows():
+                pairs.append({
+                    'prompt': correct_row['query'],
+                    'chosen': remove_function_header(correct_row['code']),
+                    'rejected': remove_function_header(incorrect_row['code']),
+                    'model': correct_row['model'],
+                    'rejected_model': incorrect_row['model']
+                })
     return pairs
 
-def visualize_dataset(dataset, title_suffix, approach):
+def visualize_dataset(dataset, title_suffix):
     """
     Visualizes the dataset by printing a sample and plotting the distribution
     of the code lengths (number of characters) for the 'chosen' and 'rejected' fields,
@@ -154,11 +156,10 @@ def visualize_dataset(dataset, title_suffix, approach):
     plt.ylabel('Frequency')
     plt.title(f'Distribution of Code Lengths in the Dataset {title_suffix}')
     plt.legend()
-    plt.savefig(os.path.join(output_folder, f"plot_{approach}_{title_suffix}.png"))
+    plt.savefig(os.path.join(output_folder, f"plot_justLlamaErr_{title_suffix}.png"))
     plt.show()
 
 def main():
-    
     os.makedirs(output_folder, exist_ok=True)
     
     # List available CSV files.
@@ -176,16 +177,8 @@ def main():
     file_paths = [os.path.join(input_folder, f) for f in selected_files]
     df = load_csvs(file_paths)
     
-    # Check if the 'model' column exists. If not, ask the user for the model name.
-    if 'model' not in df.columns:
-        model_name = input("Ingrese el nombre del modelo que generó el código: ")
-        df['model'] = model_name
-    
     # Ask the user which pairing approach to use.
-    approach = input("Selecciona el enfoque ('single' para un par por instancia, 'all' para todos los pares): ").strip().lower()
-    if approach not in ['single', 'all']:
-        print("Enfoque no reconocido, se utilizará 'single' por defecto.")
-        approach = 'single'
+    print("Default approach is all for llama31 specific dataset")
     
     valid_sample_ids = []
     grouped = df.groupby('sample_id')
@@ -193,32 +186,23 @@ def main():
         group = grouped.get_group(sample_id)
         correct_rows = group[group['accuracy'] == 1]
         incorrect_rows = group[group['accuracy'] != 1]
-        # Check if there is at least one incorrect row with a valid 'code'
-        valid_incorrect = incorrect_rows[
-            incorrect_rows['code'].notna() & 
-            (incorrect_rows['code'].apply(remove_function_header).str.strip() != "") & 
-            (incorrect_rows['code'].apply(remove_function_header).str.strip().str.lower() != "nan")
+        incorrect_rows = group[
+            (group['accuracy'] != 1) & 
+            (group['model'] == "llama31-8B-16b___02-20_01-18") & 
+            group['code'].notna() & 
+            (group['code'].apply(remove_function_header).str.strip() != "") & 
+            (group['code'].apply(remove_function_header).str.strip().str.lower() != "nan")
         ]
-        if correct_rows.empty or valid_incorrect.empty:
-            continue
-        valid_sample_ids.append(sample_id)
+        if not correct_rows.empty and not incorrect_rows.empty:
+            valid_sample_ids.append(sample_id)
     
-    print(f"Found {len(valid_sample_ids)} valid instances.")
-    
-    # Reserve 1000 valid instances for the development partition (without shuffling)
-    if len(valid_sample_ids) < 1000:
-        print("No hay 1000 instancias válidas; se usarán todas para la partición de desarrollo.")
-        dev_ids = valid_sample_ids
-        train_ids = []
-    else:
-        dev_ids = valid_sample_ids[:1000]
-        train_ids = valid_sample_ids[1000:]
+    print(f"Found {len(valid_sample_ids)} valid instances with rejected code from 'llama31'.")    
+
     
     # Create preference pairs separately for development and training partitions.
-    dev_pairs = create_pairs_for_ids(df, dev_ids, approach=approach)
-    train_pairs = create_pairs_for_ids(df, train_ids, approach=approach)
+    train_pairs = create_pairs_for_ids(df, valid_sample_ids)
     
-    # Create HuggingFace Datasets including the model and rejected_model columns.
+    # Create HuggingFace Datasets including both model and rejected_model columns.
     dataset_train = Dataset.from_dict({
         'prompt': [pair['prompt'] for pair in train_pairs],
         'chosen': [pair['chosen'] for pair in train_pairs],
@@ -227,28 +211,15 @@ def main():
         'rejected_model': [pair['rejected_model'] for pair in train_pairs]
     })
     
-    dataset_dev = Dataset.from_dict({
-        'prompt': [pair['prompt'] for pair in dev_pairs],
-        'chosen': [pair['chosen'] for pair in dev_pairs],
-        'rejected': [pair['rejected'] for pair in dev_pairs],
-        'model': [pair['model'] for pair in dev_pairs],
-        'rejected_model': [pair['rejected_model'] for pair in dev_pairs]
-    })
-    
-    output_train = os.path.join(output_folder, f"dpo_dataset_{approach}_train.arrow")
-    output_dev = os.path.join(output_folder, f"dpo_dataset_{approach}_dev.arrow")
+    output_train = os.path.join(output_folder, f"dpo_dataset_llama_train.arrow")
     
     dataset_train.save_to_disk(output_train)
-    dataset_dev.save_to_disk(output_dev)
     
     print(f"\nDataset de entrenamiento guardado en: {output_train}")
-    print(f"Dataset de desarrollo guardado en: {output_dev}")
     print(f"Número de instancias en el dataset de entrenamiento: {len(dataset_train)}")
-    print(f"Número de instancias en el dataset de desarrollo: {len(dataset_dev)}")
     
     # Visualize both partitions.
-    visualize_dataset(dataset_train, title_suffix="(Entrenamiento)", approach=approach)
-    visualize_dataset(dataset_dev, title_suffix="(Desarrollo)", approach=approach)
+    visualize_dataset(dataset_train, title_suffix="(Entrenamiento)")
 
 if __name__ == "__main__":
     main()

@@ -5,12 +5,12 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 
-data_dir = "/sorgin1/users/jbarrutia006/viper/syntData" 
+data_dir = "/sorgin1/users/jbarrutia006/viper/syntData/PrefDatasets" 
 
-# Search for directories that end with '.arrow' (one or two levels deep)
-dirs_level1 = [d for d in glob.glob(os.path.join(data_dir, "*")) if os.path.isdir(d) and d.endswith('.arrow')]
-dirs_level2 = [d for d in glob.glob(os.path.join(data_dir, "*", "*")) if os.path.isdir(d) and d.endswith('.arrow')]
-dataset_paths = dirs_level1 + dirs_level2
+dataset_paths = [
+    d for d in glob.glob(os.path.join(data_dir, '**', '*.arrow'), recursive=True)
+    if os.path.isdir(d)
+]
 
 if not dataset_paths:
     print("No HuggingFace datasets (.arrow folders) found in the directory at the expected depth!")

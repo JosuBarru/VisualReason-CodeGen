@@ -46,7 +46,7 @@ def return_prompt_and_responses(samples) -> Dict[str, list[str]]:
         prompt_template = file.read()
     
     prompts = [prompt_template.replace("INSERT_QUERY_HERE", question) for question in samples["prompt"]]
-    
+    # It just prints ones because then it is cached
     logger.info(f"Prompt example: {prompts[1]}")
     logger.info(f"Chosen response: {samples['chosen'][1]}")
     logger.info(f"Rejected response: {samples['rejected'][1]}")
@@ -61,14 +61,14 @@ def train_dpo(args):
     logger.info("Loading model and tokenizer...")
 
     max_seq_length = 8192
-    dtype = None
+    dtype = torch.bfloat16 if is_bfloat16_supported() else torch.float16    
     load_in_4bit = False
 
     model, tokenizer = FastLanguageModel.from_pretrained(
         model_name=args.model_name,
         max_seq_length=max_seq_length,
         dtype=dtype,
-        load_in_4bit=load_in_4bit,
+        #load_in_4bit=load_in_4bit,
     )
 
     model = FastLanguageModel.get_peft_model(

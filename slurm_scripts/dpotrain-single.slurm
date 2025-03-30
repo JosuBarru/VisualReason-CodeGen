@@ -23,7 +23,7 @@ srun python scripts/dpotrain.py \
     --output_dir "./dpo_trained_models" \
     --batch_size 4 \
     --gradient_accumulation 4 \
-    --learning_rate  \
+    --learning_rate 5e-5 \
     --beta 0.1 \
     --weight_decay 0.01 \
     --epochs 6 \
