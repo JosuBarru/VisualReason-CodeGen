@@ -6,7 +6,7 @@ import re
 import numpy as np
 
 input_folder = "/sorgin1/users/jbarrutia006/viper/results/gqa/all/train"
-output_folder = "/sorgin1/users/jbarrutia006/viper/PrefDatasets"
+output_folder = "/sorgin1/users/jbarrutia006/viper/syntData/PrefDatasets"
 
 def get_csv_files(directory):
     """Return a list of CSV filenames in the given directory."""
@@ -32,9 +32,21 @@ def select_multiple_csv_files(csv_files):
             print("Entrada no válida. Por favor, introduce un número o 'fin'.")
     return selected_files
 
+def parse_model_name(file_name: str) -> str:
+    """
+    Given a filename like 'eval_modelName.csv',
+    return just 'modelName' via regex.
+    If it doesn't match the pattern, return the full filename as fallback.
+    """
+    match = re.match(r'^eval_(.*)\.csv$', file_name)
+    if match:
+        return match.group(1)
+    return file_name
+
 def load_csvs(file_paths):
     """
     Load multiple CSV files into a single pandas DataFrame.
+    Each CSV file is assigned a 'model' column derived from its file name.
     Assumes each CSV has a header and an extra footer line that should be removed.
     """
     df_list = []
@@ -43,7 +55,12 @@ def load_csvs(file_paths):
         # Remove the last line (footer) if present.
         if len(df) > 0:
             df = df.iloc[:-1]
+        # Extract model name from the file name and add it as a new column.
+        file_name = os.path.basename(file_path)
+        df['model'] = parse_model_name(file_name)
+
         df_list.append(df)
+
     combined_df = pd.concat(df_list, ignore_index=True)
     # Optionally filter out rows with invalid sample_id (e.g., non-numeric)
     combined_df = combined_df[combined_df['sample_id'].apply(lambda x: str(x).isnumeric())]
@@ -60,9 +77,7 @@ def remove_function_header(code_str):
     'def execute_command_' and ends with a colon.
     """
     pattern = r"^def\s+execute_command_[^(]+\([^)]*\):\n"
-    code_without_headers = re.sub(pattern, "", code_str, flags=re.MULTILINE)
-    return code_without_headers
-
+    return re.sub(pattern, "", code_str, flags=re.MULTILINE)
 
 def create_pairs_for_ids(df, sample_ids, approach='single'):
     """
@@ -73,13 +88,14 @@ def create_pairs_for_ids(df, sample_ids, approach='single'):
       - query as the prompt.
       - code as the generated code.
       - accuracy: 1 means correct; otherwise, it's considered an error.
+      - model: the model that generated the code.
     
     Parameters:
       - sample_ids: a list of sample_ids (instances) to process.
       - approach: 'single' for one pair per instance; 'all' for all possible pairs.
     
     Returns:
-      - A list of dictionaries with keys: 'prompt', 'chosen', 'rejected'.
+      - A list of dictionaries with keys: 'prompt', 'chosen', 'rejected', 'model', 'rejected_model'.
     """
     pairs = []
     grouped = df.groupby('sample_id')
@@ -88,16 +104,17 @@ def create_pairs_for_ids(df, sample_ids, approach='single'):
         # Select correct and incorrect codes based on 'accuracy'
         correct_rows = group[group['accuracy'] == 1]
         incorrect_rows = group[group['accuracy'] != 1]
-        # These conditions are assumed to be met since we already filtered sample_ids
         if correct_rows.empty or incorrect_rows.empty:
             continue
         
         # For the rejected code, try to select a code that is not NaN or empty.
-        valid_incorrect_rows = incorrect_rows[incorrect_rows['code'].notna() & 
+        valid_incorrect_rows = incorrect_rows[
+            incorrect_rows['code'].notna() & 
             (incorrect_rows['code'].apply(remove_function_header).str.strip() != "") & 
-            (incorrect_rows['code'].apply(remove_function_header).str.strip().str.lower() != "nan")]
+            (incorrect_rows['code'].apply(remove_function_header).str.strip().str.lower() != "nan")
+        ]
         
-       if approach == 'single':
+        if approach == 'single':
             chosen_row = correct_rows.sample(n=1).iloc[0]
             if not valid_incorrect_rows.empty:
                 rejected_row = valid_incorrect_rows.sample(n=1).iloc[0]
@@ -106,11 +123,12 @@ def create_pairs_for_ids(df, sample_ids, approach='single'):
             pairs.append({
                 'prompt': chosen_row['query'],
                 'chosen': remove_function_header(chosen_row['code']),
-                'rejected': remove_function_header(rejected_row['code'])
+                'rejected': remove_function_header(rejected_row['code']),
+                'model': chosen_row['model'],
+                'rejected_model': rejected_row['model']
             })
         elif approach == 'all':
             for _, correct_row in correct_rows.iterrows():
-                # Use valid incorrect rows if available; otherwise, use all incorrect rows.
                 if not valid_incorrect_rows.empty:
                     target_incorrect = valid_incorrect_rows
                 else:
@@ -119,11 +137,13 @@ def create_pairs_for_ids(df, sample_ids, approach='single'):
                     pairs.append({
                         'prompt': correct_row['query'],
                         'chosen': remove_function_header(correct_row['code']),
-                        'rejected': remove_function_header(incorrect_row['code'])
+                        'rejected': remove_function_header(incorrect_row['code']),
+                        'model': correct_row['model'],
+                        'rejected_model': incorrect_row['model']
                     })
     return pairs
 
-def visualize_dataset(dataset, title_suffix,approach):
+def visualize_dataset(dataset, title_suffix, approach):
     """
     Visualizes the dataset by printing a sample and plotting the distribution
     of the code lengths (number of characters) for the 'chosen' and 'rejected' fields,
@@ -142,8 +162,6 @@ def visualize_dataset(dataset, title_suffix,approach):
     max_val = max(df['chosen_length'].max(), df['rejected_length'].max())
     bins = np.linspace(min_val, max_val, 41)  # 40 bins
 
-
-    
     plt.figure(figsize=(10, 5))
     plt.hist(df['chosen_length'], bins=bins, alpha=0.5, label='Chosen Code Length', rwidth=0.9)
     plt.hist(df['rejected_length'], bins=bins, alpha=0.5, label='Rejected Code Length', rwidth=0.9)
@@ -155,7 +173,6 @@ def visualize_dataset(dataset, title_suffix,approach):
     plt.show()
 
 def main():
-    
     os.makedirs(output_folder, exist_ok=True)
     
     # List available CSV files.
@@ -185,7 +202,6 @@ def main():
         group = grouped.get_group(sample_id)
         correct_rows = group[group['accuracy'] == 1]
         incorrect_rows = group[group['accuracy'] != 1]
-        # Check if there is at least one incorrect row with a valid 'code'
         valid_incorrect = incorrect_rows[
             incorrect_rows['code'].notna() & 
             (incorrect_rows['code'].apply(remove_function_header).str.strip() != "") & 
@@ -210,17 +226,21 @@ def main():
     dev_pairs = create_pairs_for_ids(df, dev_ids, approach=approach)
     train_pairs = create_pairs_for_ids(df, train_ids, approach=approach)
     
-    # Create HuggingFace Datasets.
+    # Create HuggingFace Datasets including both model and rejected_model columns.
     dataset_train = Dataset.from_dict({
         'prompt': [pair['prompt'] for pair in train_pairs],
         'chosen': [pair['chosen'] for pair in train_pairs],
-        'rejected': [pair['rejected'] for pair in train_pairs]
+        'rejected': [pair['rejected'] for pair in train_pairs],
+        'model': [pair['model'] for pair in train_pairs],
+        'rejected_model': [pair['rejected_model'] for pair in train_pairs]
     })
     
     dataset_dev = Dataset.from_dict({
         'prompt': [pair['prompt'] for pair in dev_pairs],
         'chosen': [pair['chosen'] for pair in dev_pairs],
-        'rejected': [pair['rejected'] for pair in dev_pairs]
+        'rejected': [pair['rejected'] for pair in dev_pairs],
+        'model': [pair['model'] for pair in dev_pairs],
+        'rejected_model': [pair['rejected_model'] for pair in dev_pairs]
     })
     
     output_train = os.path.join(output_folder, f"dpo_dataset_{approach}_train.arrow")
@@ -236,7 +256,7 @@ def main():
     
     # Visualize both partitions.
     visualize_dataset(dataset_train, title_suffix="(Entrenamiento)", approach=approach)
-    visualize_dataset(dataset_dev, title_suffix="(Desarrollo)",approach=approach)
+    visualize_dataset(dataset_dev, title_suffix="(Desarrollo)", approach=approach)
 
 if __name__ == "__main__":
     main()

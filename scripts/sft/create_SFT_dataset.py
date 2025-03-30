@@ -9,7 +9,7 @@ from typing import List, Dict
 
 # Constants for input and output folders
 INPUT_FOLDER = "/sorgin1/users/jbarrutia006/viper/results/gqa/all/train"
-OUTPUT_FOLDER = "/sorgin1/users/jbarrutia006/viper/SFTDatasets"
+OUTPUT_FOLDER = "/sorgin1/users/jbarrutia006/viper/syntData/SFTDatasets"
 
 def get_csv_files(directory: str) -> List[str]:
     """
@@ -39,17 +39,36 @@ def select_multiple_csv_files(csv_files: List[str]) -> List[str]:
             print("Entrada no válida. Por favor, introduce un número o 'fin'.")
     return selected_files
 
+def parse_model_name(file_name: str) -> str:
+    """
+    Given a filename like 'eval_modelName.csv',
+    return just 'modelName' via regex.
+    If it doesn't match the pattern, return the full filename as fallback.
+    """
+    match = re.match(r'^eval_(.*)\.csv$', file_name)
+    if match:
+        return match.group(1)
+    return file_name
+
 def load_csvs(file_paths: List[str]) -> pd.DataFrame:
     """
     Load multiple CSV files into a single pandas DataFrame.
+    Adds a column 'model_name' extracted from each file's name.
+    
     Assumes each CSV has a header and an extra footer line that should be removed.
     """
     df_list = []
     for file_path in file_paths:
         df = pd.read_csv(file_path, engine='python')
-        if not df.empty:
-            df = df.iloc[:-1]  # Remove potential footer line
+        # Remove the last line (footer) if present.
+        if len(df) > 0:
+            df = df.iloc[:-1]
+        # Extract model name and add as a constant column in this DF
+        base_name = os.path.basename(file_path)  
+        df["model_name"] = parse_model_name(base_name)
+        
         df_list.append(df)
+    
     combined_df = pd.concat(df_list, ignore_index=True)
     # Filter rows with a numeric sample_id
     combined_df = combined_df[combined_df['sample_id'].apply(lambda x: str(x).isnumeric())]
@@ -71,6 +90,7 @@ def create_sft_instances(df: pd.DataFrame, sample_ids: List[str]) -> List[Dict[s
     Returns a list of dictionaries with keys:
       - 'prompt': the query text.
       - 'output': the cleaned correct code.
+      - 'model_name': the model from which the correct code came.
     """
     instances = []
     grouped = df.groupby('sample_id')
@@ -78,20 +98,17 @@ def create_sft_instances(df: pd.DataFrame, sample_ids: List[str]) -> List[Dict[s
         group = grouped.get_group(sample_id)
         # Filter for correct rows and further ensure the code is valid
         correct_rows = group[group['accuracy'] == 1]
-        valid_correct = correct_rows[
-            correct_rows['code'].notna() &
-            (correct_rows['code'].apply(remove_function_header).str.strip() != "") &
-            (correct_rows['code'].apply(remove_function_header).str.strip().str.lower() != "nan")
-        ]
-        if valid_correct.empty:
+        if correct_rows.empty:
             continue
         # Randomly select one correct example per instance
-        chosen_row = valid_correct.sample(n=1).iloc[0]
+        chosen_row = correct_rows.sample(n=1).iloc[0]
         instances.append({
             'prompt': chosen_row['query'],
-            'output': remove_function_header(chosen_row['code'])
+            'output': remove_function_header(chosen_row['code']),
+            'model_name': chosen_row['model_name']
         })
     return instances
+
 
 def main() -> None:
     os.makedirs(OUTPUT_FOLDER, exist_ok=True)
@@ -115,21 +132,14 @@ def main() -> None:
     for sample_id in df['sample_id'].unique():
         group = grouped.get_group(sample_id)
         correct_rows = group[group['accuracy'] == 1]
-        valid_correct = correct_rows[
-            correct_rows['code'].notna() &
-            (correct_rows['code'].apply(remove_function_header).str.strip() != "") &
-            (correct_rows['code'].apply(remove_function_header).str.strip().str.lower() != "nan")
-        ]
-        if not valid_correct.empty:
+        if not correct_rows.empty:
             valid_sample_ids.append(sample_id)
 
     print(f"Found {len(valid_sample_ids)} valid instances for SFT.")
 
     # Reserve 1000 instances for the development partition (if available)
     if len(valid_sample_ids) < 1000:
-        print("No hay 1000 instancias válidas; se usarán todas para la partición de desarrollo.")
-        dev_ids = valid_sample_ids
-        train_ids = []
+        raise ValueError("Not enough valid instances for SFT. Need at least 1000.")
     else:
         dev_ids = valid_sample_ids[:1000]
         train_ids = valid_sample_ids[1000:]
@@ -138,15 +148,17 @@ def main() -> None:
     dev_instances = create_sft_instances(df, dev_ids)
     train_instances = create_sft_instances(df, train_ids)
 
-    # Create HuggingFace Datasets for SFT (with 'prompt' and 'output' fields)
+    # Create HuggingFace Datasets for SFT (with 'prompt', 'output', 'model_name')
     dataset_train = Dataset.from_dict({
         'prompt': [inst['prompt'] for inst in train_instances],
-        'output': [inst['output'] for inst in train_instances]
+        'output': [inst['output'] for inst in train_instances],
+        'model_name': [inst['model_name'] for inst in train_instances]
     })
 
     dataset_dev = Dataset.from_dict({
         'prompt': [inst['prompt'] for inst in dev_instances],
-        'output': [inst['output'] for inst in dev_instances]
+        'output': [inst['output'] for inst in dev_instances],
+        'model_name': [inst['model_name'] for inst in dev_instances]
     })
 
     output_train_path = os.path.join(OUTPUT_FOLDER, "sft_dataset_train.arrow")
