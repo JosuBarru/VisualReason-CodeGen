@@ -137,12 +137,12 @@ def main() -> None:
 
     print(f"Found {len(valid_sample_ids)} valid instances for SFT.")
 
-    # Reserve 1000 instances for the development partition (if available)
-    if len(valid_sample_ids) < 1000:
-        raise ValueError("Not enough valid instances for SFT. Need at least 1000.")
+    # Reserve 200 instances for the development partition (if available)
+    if len(valid_sample_ids) < 200:
+        raise ValueError("Not enough valid instances for SFT. Need at least 200.")
     else:
-        dev_ids = valid_sample_ids[:1000]
-        train_ids = valid_sample_ids[1000:]
+        dev_ids = valid_sample_ids[:200]
+        train_ids = valid_sample_ids[200:]
 
     # Create SFT instances for training and development partitions
     dev_instances = create_sft_instances(df, dev_ids)
