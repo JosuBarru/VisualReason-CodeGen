@@ -1209,11 +1209,13 @@ class CodexModel(BaseModel):
             #     raise TypeError("prompt must be a string or a list of strings")
             self.query = prompt
 
+            logger.info("Llegas a la parte de codex")
+
             if isinstance(prompt, list):
                 messages_template = []
 
                 # System prompt
-                system_prompt, few_shot_prompt = base_prompt.split("# Examples of using ImagePatc\n")
+                system_prompt, few_shot_prompt = base_prompt.split("# Examples of using ImagePatch\n")
                 system_prompt = (
                     "You are an AI that uses a special ImagePatch class to answer questions about images.\n"
                     "Here is the class definition:\n\n"
@@ -1493,9 +1495,9 @@ class llama31Q(CodexModel):
 
 
         if config.codex.adapter and config.codex.adapter != "":
-            self.llm = LLM(model=model_name, max_model_len=100768, gpu_memory_utilization=0.95, dtype=dtype, enable_lora=True, max_lora_rank=64)
+            self.llm = LLM(model=model_name, max_model_len=49888, gpu_memory_utilization=0.95, dtype=dtype, enable_lora=True, max_lora_rank=64)
         else:
-            self.llm = LLM(model=model_name, max_model_len=100768, gpu_memory_utilization=0.95, dtype=dtype)
+            self.llm = LLM(model=model_name, max_model_len=49888, gpu_memory_utilization=0.95, dtype=dtype)
 
         self.sampling_params = SamplingParams(
             max_tokens=320,
@@ -1516,7 +1518,7 @@ class llama31Q(CodexModel):
         # Extract generated text from each result.
         generated_text = [result.outputs[0].text for result in results]
         # Optionally post-process the generated text.
-        generated_text = [text.split('\n\n')[0] for text in generated_text]
+        #generated_text = [text.split('\n\n')[0] for text in generated_text]
         return generated_text
 
     def forward_(self, extended_prompt):
@@ -1531,6 +1533,8 @@ class llama31Q(CodexModel):
 
             # Use tokenizer's native chat template application
             tokenizer = self.llm.get_tokenizer()  # Assuming your LLM instance exposes this
+            if hasattr(tokenizer, "chat_template"):
+                tokenizer.chat_template = tokenizer.chat_template.replace("{%-", "{%").replace("-%}", "%}")
             chat_prompts = [tokenizer.apply_chat_template(p, tokenize=False) for p in extended_prompt]
 
             logger.info(f"Chat prompts: {chat_prompts}")
