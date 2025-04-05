@@ -1196,22 +1196,86 @@ class CodexModel(BaseModel):
                 with open(extra_context) as f:
                     extra_prompt = f.read().strip()
                 extra_context = extra_prompt
-            if isinstance(prompt, list):
-                extended_prompt = [base_prompt.replace("INSERT_QUERY_HERE", p).
-                                    replace('INSERT_TYPE_HERE', input_type).
-                                    replace('EXTRA_CONTEXT_HERE', str(ec))
-                                    for p, ec in zip(prompt, extra_context)]
-            elif isinstance(prompt, str):
-                extended_prompt = [base_prompt.replace("INSERT_QUERY_HERE", prompt).
-                                    replace('INSERT_TYPE_HERE', input_type).
-                                    replace('EXTRA_CONTEXT_HERE', extra_context)]
-            else:
-                raise TypeError("prompt must be a string or a list of strings")
+            # if isinstance(prompt, list):
+            #     extended_prompt = [base_prompt.replace("INSERT_QUERY_HERE", p).
+            #                         replace('INSERT_TYPE_HERE', input_type).
+            #                         replace('EXTRA_CONTEXT_HERE', str(ec))
+            #                         for p, ec in zip(prompt, extra_context)]
+            # elif isinstance(prompt, str):
+            #     extended_prompt = [base_prompt.replace("INSERT_QUERY_HERE", prompt).
+            #                         replace('INSERT_TYPE_HERE', input_type).
+            #                         replace('EXTRA_CONTEXT_HERE', extra_context)]
+            # else:
+            #     raise TypeError("prompt must be a string or a list of strings")
             self.query = prompt
-            result = self.forward_(extended_prompt)
-            if not isinstance(prompt, list):
-                if not isinstance(result, str):
+
+            if isinstance(prompt, list):
+                messages_template = []
+
+                # System prompt
+                system_prompt, few_shot_prompt = base_prompt.split("# Examples of using ImagePatc\n")
+                system_prompt = (
+                    "You are an AI that uses a special ImagePatch class to answer questions about images.\n"
+                    "Here is the class definition:\n\n"
+                    f"{self.base_prompt}\n\n"
+                    "Please use this class to answer queries about images.\n"
+                    "When writing the final solution, you typically define a function:\n\n"
+                    "def execute_command(image)->str:\n"
+                    "    # put your logic here\n"
+                    "Your job is to produce the correct code in that function "
+                    "so that it answers the question or does the operation asked by the user.\n"
+                )
+                messages_template.append({"role": "system", "content": system_prompt})
+
+                # Few-shot examples
+                few_shot_prompt = few_shot_prompt.split("\n\n")[:-1]
+                for example in few_shot_prompt:
+                    lines = example.splitlines()
+                    messages_template.append({"role": "user", "content": "\n".join(lines[:2])})
+                    messages_template.append({"role": "assistant", "content": "\n" + "\n".join(lines[2:])})
+
+                batch_messages = []
+                for single_prompt in prompt:
+                    messages = list(messages_template)
+                    messages.append({"role": "user", "content": f"{single_prompt}\ndef execute_command(image)->str:"})
+                    batch_messages.append(messages)
+
+                logger.info(f"Batch prompts: {batch_messages}")
+
+                result = self.forward_(batch_messages)
+
+            else:
+                messages = []
+
+                system_prompt, few_shot_prompt = base_prompt.split("# Examples of using ImagePatch\n")
+                system_prompt = (
+                    "You are an AI that uses a special ImagePatch class to answer questions about images.\n"
+                    "Here is the class definition:\n\n"
+                    f"{self.base_prompt}\n\n"
+                    "Please use this class to answer queries about images.\n"
+                    "When writing the final solution, you typically define a function:\n\n"
+                    "def execute_command(image)->str:\n"
+                    "    # put your logic here\n"
+                    "Your job is to produce the correct code in that function "
+                    "so that it answers the question or does the operation asked by the user.\n"
+                )
+                messages.append({"role": "system", "content": system_prompt})
+
+                few_shot_prompt = few_shot_prompt.split("\n\n")[:-1]
+                for example in few_shot_prompt:
+                    lines = example.splitlines()
+                    messages.append({"role": "user", "content": "\n".join(lines[:2])})
+                    messages.append({"role": "assistant", "content": "\n" + "\n".join(lines[2:])})
+
+                messages.append({"role": "user", "content": f"{prompt}\ndef execute_command(image)->str:"})
+                logger.info(f"Prompt: {messages}")
+
+                result = self.forward_(messages)
+                if isinstance(result, list):
                     result = result[0]
+
+
+
         elif process_name == 'llm_query':
             with open(config.gpt3.qa_prompt) as f:
                 self.qa_prompt = f.read().strip()
@@ -1419,8 +1483,26 @@ class llama31Q(CodexModel):
         else:
             assert model_name in ['meta-llama/Meta-Llama-3.1-8B-Instruct']
 
-        self.llm = LLM(model_name, enable_lora=True, max_lora_rank=64)
-        self.sampling_params = SamplingParams(max_tokens=320,temperature=config.codex.temperature,top_p=0.9)
+
+        capability = torch.cuda.get_device_capability(gpu_number)
+        compute_capability = capability[0] + capability[1] / 10.0
+
+        # Set dtype based on GPU support
+        dtype = 'bfloat16' if compute_capability >= 8.0 else 'float16'
+        logger.info(f"Using dtype={dtype} based on compute capability={compute_capability}")
+
+
+        if config.codex.adapter and config.codex.adapter != "":
+            self.llm = LLM(model=model_name, max_model_len=100768, gpu_memory_utilization=0.95, dtype=dtype, enable_lora=True, max_lora_rank=64)
+        else:
+            self.llm = LLM(model=model_name, max_model_len=100768, gpu_memory_utilization=0.95, dtype=dtype)
+
+        self.sampling_params = SamplingParams(
+            max_tokens=320,
+            temperature=config.codex.temperature,
+            top_p=0.9
+        )
+
 
     def run_code_Quantized_llama(self, prompt):
         """Generates text from a given prompt using vLLM offline inference."""
@@ -1446,11 +1528,18 @@ class llama31Q(CodexModel):
                     response += self.forward_(extended_prompt[i:i + self.max_batch_size])
                 return response
 
-            response = self.run_code_Quantized_llama(extended_prompt)
+
+            # Use tokenizer's native chat template application
+            tokenizer = self.llm.get_tokenizer()  # Assuming your LLM instance exposes this
+            chat_prompts = [tokenizer.apply_chat_template(p, tokenize=False) for p in extended_prompt]
+
+            logger.info(f"Chat prompts: {chat_prompts}")
+
+            response = self.run_code_Quantized_llama(chat_prompts)
             return response
         except Exception as e:
-            print(f"Error: {e}")
-            logger.error(f"Error {e}")
+            print(f"Error de llama: {e}")
+            logger.error(f"Error de llama: {e}")
 
 
 

@@ -50,7 +50,7 @@ def return_prompt_and_responses(samples) -> Dict[str, list[str]]:
     logger.info(f"Prompt example: {prompts[1]}")
     logger.info(f"Chosen response: {samples['chosen'][1]}")
     logger.info(f"Rejected response: {samples['rejected'][1]}")
-d
+
     return {"prompt": prompts, "chosen": samples["chosen"], "rejected": samples["rejected"]}
 
 def train_dpo(args):
