@@ -1,6 +1,6 @@
-SELECTED CONFIG FILES: gqa/general_config,gqa/train
+SELECTED CONFIG FILES: gqa/general_config,gqa/val
 LOADING MODEL: ENABLED
-INFO 03-18 20:25:49 __init__.py:183] Automatically detected platform cuda.
+INFO 04-08 22:57:54 __init__.py:183] Automatically detected platform cuda.
 modelo: <class 'vision_models.BLIPModel'> , proceso:  blip
 VISION BACKBONE USE GRADIENT CHECKPOINTING:  False
 LANGUAGE BACKBONE USE GRADIENT CHECKPOINTING:  False
@@ -15,6 +15,5 @@ EARLY FUSION ON, USING MHA-B
 modelo: <class 'vision_models.GLIPModel'> , proceso:  glip
 modelo: <class 'vision_models.MaskRCNNModel'> , proceso:  maskrcnn
 modelo: <class 'vision_models.XVLMModel'> , proceso:  xvlm
-{'blip': <function make_fn.<locals>._function at 0x7ff58be13d80>, 'glip': <function make_fn.<locals>._function at 0x7ff23bfb4a40>, 'maskrcnn': <function make_fn.<locals>._function at 0x7ff23bfb4e00>, 'xvlm': <function make_fn.<locals>._function at 0x7ff23a12c860>}
-No answer is a number, so this will be wrong
-Final accuracy: 0.5305555555555556
+{'blip': <function make_fn.<locals>._function at 0x7f1a1d5c7b00>, 'glip': <function make_fn.<locals>._function at 0x7f1b4f46e0c0>, 'maskrcnn': <function make_fn.<locals>._function at 0x7f1b4f46e2a0>, 'xvlm': <function make_fn.<locals>._function at 0x7f19c9846ca0>}
+Final accuracy: 0.532

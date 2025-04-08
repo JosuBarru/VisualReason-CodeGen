@@ -237,9 +237,16 @@ class GQADataset(Dataset):
         Returns:
             score (float): Score of the prediction.
         """
+
+        logger.debug(f"Prediction: {prediction}")
+        logger.debug(f"Ground truth: {ground_truth}")
+        
         if len(prediction) == 0 or (len(prediction)==1 and prediction[0]==None):  # if no prediction, return 0
-            return 0
-        assert len(prediction) == len(ground_truth)
+            return 0, [0]*len(ground_truth)
+        if len(prediction) != len(ground_truth):
+            raise ValueError(f"Prediction and ground truth lists must have the same length. "
+                             f"Got {len(prediction)} and {len(ground_truth)}.")
+
         score = 0
         score_vector = []
         for p, g in zip(prediction, ground_truth):

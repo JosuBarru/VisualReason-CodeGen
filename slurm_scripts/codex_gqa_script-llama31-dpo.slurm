@@ -20,9 +20,9 @@ export DATASET='gqa'
 export EXEC_MODE='codex'
 export CODEX_MODEL='llama31Q'
 export PARTITION='val'
-export BATCHSIZE=4
+export BATCHSIZE=16
 export TEMP=0
-export NUMINST=16
+export NUMINST=
 export CHECKPOINT=''
 
 srun python src/main_project_slurm.py

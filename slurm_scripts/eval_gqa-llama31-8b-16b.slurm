@@ -17,8 +17,8 @@ source /sorgin1/users/jbarrutia006/venvs/viper_tximista/bin/activate
 export LOAD_MODELS=1
 export DATASET='gqa'
 export EXEC_MODE='cache'
-export PARTITION='train'
-export CODE='llama31DPO-1050Temp0.csv'
+export PARTITION='val'
+export CODE='llama31Q___04-08_22-55.csv'
 export BATCHSIZE=32
 export NUMINST=
 

@@ -1,22 +1,22 @@
 SELECTED CONFIG FILES: gqa/general_config,config_codex_llama3.1-8b,gqa/save_codex,gqa/val
 LOADING MODEL: DISABLED
-INFO 04-05 18:40:09 __init__.py:183] Automatically detected platform cuda.
-INFO 04-05 18:40:24 config.py:526] This model supports multiple tasks: {'generate', 'score', 'reward', 'embed', 'classify'}. Defaulting to 'generate'.
-WARNING 04-05 18:40:24 arg_utils.py:1119] Chunked prefill is enabled by default for models with max_model_len > 32K. Currently, chunked prefill might not work with some features or models. If you encounter any issues, please disable chunked prefill by setting --enable-chunked-prefill=False.
-INFO 04-05 18:40:24 config.py:1538] Chunked prefill is enabled with max_num_batched_tokens=2048.
-INFO 04-05 18:40:24 llm_engine.py:232] Initializing a V0 LLM engine (v0.7.1) with config: model='meta-llama/Meta-Llama-3.1-8B-Instruct', speculative_config=None, tokenizer='meta-llama/Meta-Llama-3.1-8B-Instruct', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, override_neuron_config=None, tokenizer_revision=None, trust_remote_code=False, dtype=torch.bfloat16, max_seq_len=49888, download_dir=None, load_format=LoadFormat.AUTO, tensor_parallel_size=1, pipeline_parallel_size=1, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, kv_cache_dtype=auto,  device_config=cuda, decoding_config=DecodingConfig(guided_decoding_backend='xgrammar'), observability_config=ObservabilityConfig(otlp_traces_endpoint=None, collect_model_forward_time=False, collect_model_execute_time=False), seed=0, served_model_name=meta-llama/Meta-Llama-3.1-8B-Instruct, num_scheduler_steps=1, multi_step_stream_outputs=True, enable_prefix_caching=False, chunked_prefill_enabled=True, use_async_output_proc=True, disable_mm_preprocessor_cache=False, mm_processor_kwargs=None, pooler_config=None, compilation_config={"splitting_ops":[],"compile_sizes":[],"cudagraph_capture_sizes":[256,248,240,232,224,216,208,200,192,184,176,168,160,152,144,136,128,120,112,104,96,88,80,72,64,56,48,40,32,24,16,8,4,2,1],"max_capture_size":256}, use_cached_outputs=False, 
-INFO 04-05 18:40:26 cuda.py:235] Using Flash Attention backend.
-INFO 04-05 18:40:26 model_runner.py:1111] Starting to load model meta-llama/Meta-Llama-3.1-8B-Instruct...
-INFO 04-05 18:40:27 weight_utils.py:251] Using model weights format ['*.safetensors']
-INFO 04-05 18:40:33 model_runner.py:1116] Loading model weights took 14.9888 GB
-INFO 04-05 18:40:34 worker.py:266] Memory profiling takes 1.10 seconds
-INFO 04-05 18:40:34 worker.py:266] the current vLLM instance can use total_gpu_memory (23.50GiB) x gpu_memory_utilization (0.95) = 22.32GiB
-INFO 04-05 18:40:34 worker.py:266] model weights take 14.99GiB; non_torch_memory takes 0.06GiB; PyTorch activation peak memory takes 1.19GiB; the rest of the memory reserved for KV Cache is 6.09GiB.
-INFO 04-05 18:40:35 executor_base.py:108] # CUDA blocks: 3118, # CPU blocks: 2048
-INFO 04-05 18:40:35 executor_base.py:113] Maximum concurrency for 49888 tokens per request: 1.00x
-INFO 04-05 18:40:37 model_runner.py:1435] Capturing cudagraphs for decoding. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI. If out-of-memory error occurs during cudagraph capture, consider decreasing `gpu_memory_utilization` or switching to eager mode. You can also reduce the `max_num_seqs` as needed to decrease memory usage.
-INFO 04-05 18:40:57 model_runner.py:1563] Graph capturing finished in 20 secs, took 0.83 GiB
-INFO 04-05 18:40:57 llm_engine.py:429] init engine (profile, create kv cache, warmup model) took 23.86 seconds
+INFO 04-08 22:47:40 __init__.py:183] Automatically detected platform cuda.
+INFO 04-08 22:47:53 config.py:526] This model supports multiple tasks: {'generate', 'score', 'classify', 'reward', 'embed'}. Defaulting to 'generate'.
+WARNING 04-08 22:47:53 arg_utils.py:1119] Chunked prefill is enabled by default for models with max_model_len > 32K. Currently, chunked prefill might not work with some features or models. If you encounter any issues, please disable chunked prefill by setting --enable-chunked-prefill=False.
+INFO 04-08 22:47:53 config.py:1538] Chunked prefill is enabled with max_num_batched_tokens=2048.
+INFO 04-08 22:47:53 llm_engine.py:232] Initializing a V0 LLM engine (v0.7.1) with config: model='meta-llama/Meta-Llama-3.1-8B-Instruct', speculative_config=None, tokenizer='meta-llama/Meta-Llama-3.1-8B-Instruct', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, override_neuron_config=None, tokenizer_revision=None, trust_remote_code=False, dtype=torch.bfloat16, max_seq_len=49888, download_dir=None, load_format=LoadFormat.AUTO, tensor_parallel_size=1, pipeline_parallel_size=1, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, kv_cache_dtype=auto,  device_config=cuda, decoding_config=DecodingConfig(guided_decoding_backend='xgrammar'), observability_config=ObservabilityConfig(otlp_traces_endpoint=None, collect_model_forward_time=False, collect_model_execute_time=False), seed=0, served_model_name=meta-llama/Meta-Llama-3.1-8B-Instruct, num_scheduler_steps=1, multi_step_stream_outputs=True, enable_prefix_caching=False, chunked_prefill_enabled=True, use_async_output_proc=True, disable_mm_preprocessor_cache=False, mm_processor_kwargs=None, pooler_config=None, compilation_config={"splitting_ops":[],"compile_sizes":[],"cudagraph_capture_sizes":[256,248,240,232,224,216,208,200,192,184,176,168,160,152,144,136,128,120,112,104,96,88,80,72,64,56,48,40,32,24,16,8,4,2,1],"max_capture_size":256}, use_cached_outputs=False, 
+INFO 04-08 22:47:55 cuda.py:235] Using Flash Attention backend.
+INFO 04-08 22:47:58 model_runner.py:1111] Starting to load model meta-llama/Meta-Llama-3.1-8B-Instruct...
+INFO 04-08 22:47:59 weight_utils.py:251] Using model weights format ['*.safetensors']
+INFO 04-08 22:48:02 model_runner.py:1116] Loading model weights took 14.9888 GB
+INFO 04-08 22:48:03 worker.py:266] Memory profiling takes 0.82 seconds
+INFO 04-08 22:48:03 worker.py:266] the current vLLM instance can use total_gpu_memory (79.15GiB) x gpu_memory_utilization (0.95) = 75.19GiB
+INFO 04-08 22:48:03 worker.py:266] model weights take 14.99GiB; non_torch_memory takes 0.09GiB; PyTorch activation peak memory takes 1.19GiB; the rest of the memory reserved for KV Cache is 58.92GiB.
+INFO 04-08 22:48:03 executor_base.py:108] # CUDA blocks: 30169, # CPU blocks: 2048
+INFO 04-08 22:48:03 executor_base.py:113] Maximum concurrency for 49888 tokens per request: 9.68x
+INFO 04-08 22:48:07 model_runner.py:1435] Capturing cudagraphs for decoding. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI. If out-of-memory error occurs during cudagraph capture, consider decreasing `gpu_memory_utilization` or switching to eager mode. You can also reduce the `max_num_seqs` as needed to decrease memory usage.
+INFO 04-08 22:48:39 model_runner.py:1563] Graph capturing finished in 32 secs, took 0.88 GiB
+INFO 04-08 22:48:39 llm_engine.py:429] init engine (profile, create kv cache, warmup model) took 36.83 seconds
 modelo: <class 'vision_models.llama31Q'> , proceso:  llama31Q
-{'llama31Q': <function make_fn.<locals>._function at 0x7f5f5c21aca0>}
-Final accuracy: 0.0
+{'llama31Q': <function make_fn.<locals>._function at 0x7fae9a6daac0>}
+Final accuracy: 0.158

@@ -8,6 +8,11 @@ from typing import Dict, Optional
 import torch
 import wandb
 import datasets
+import numpy as np
+
+import matplotlib.pyplot as plt
+from matplotlib.ticker import PercentFormatter
+
 
 from unsloth import FastLanguageModel, is_bfloat16_supported
 from transformers import (
@@ -63,40 +68,56 @@ def parse_args():
 
     parser.add_argument("--device", type=str, default="cuda" if torch.cuda.is_available() else "cpu",
                         help="Device to use for training")
-
-    # Whether to append <|end_of_text|> to the end of the answer
-    parser.add_argument("--append_eot", action="store_true",
-                        help="If set, appends <|end_of_text|> at the end of each answer")
+    parser.add_argument("--plot_dist", type=bool, default=False,
+                        help="Whether to plot the distribution of the dataset")
+    parser.add_argument("--dir_plot", type=str, default="./", 
+                        help="Directory to save the plot")
 
     return parser.parse_args()
 
 
-def prepare_sft_prompt_and_answer(samples, prompt_template, append_eot=False):
+def prepare_sft_prompt_and_answer(row, prompt_template, tokenizer):
+    
+    messages = []
+
+    system_prompt, few_shot_prompt = prompt_template.split("# Examples of using ImagePatch\n")
+    system_prompt_full = (
+        "You are an AI that uses a special ImagePatch class to answer questions about images.\n"
+        "Here is the class definition:\n\n"
+        f"{system_prompt}\n\n"
+        "Please use this class to answer queries about images.\n"
+        "When writing the final solution, you typically define a function:\n\n"
+        "def execute_command(image)->str:\n"
+        "    # put your logic here\n"
+        "Your job is to produce the correct code in that function "
+        "so that it answers the question or does the operation asked by the user.\n"
+    )
+
+    messages.append({"role": "system", "content": system_prompt_full})
+    few_shot_prompt = few_shot_prompt.split("\n\n")[:-1]
+    for example in few_shot_prompt:
+        lines = example.splitlines()
+        messages.append({"role": "user", "content": "\n".join(lines[:2])})
+        messages.append({"role": "assistant", "content": "\n".join(lines[2:])})
+
+    messages.append({"role": "user", "content": f"{row["prompt"]}\ndef execute_command(image)->str:"})
+    
+    messages.append({"role": "assistant", "content": row["output"]})
+
+    #Verify that the messages are correct
+    logger.info(f"Prompt: {messages[0]['content']}")
+
+    return tokenizer.apply_chat_template(messages, tokenize=False)
+    
+
+def count_tokens(text, tokenizer):
     """
-    For each sample with fields "question" and "answer", construct a prompt using
-    the prompt template (where 'INSERT_QUERY_HERE' is replaced with the question).
-    Optionally append <|end_of_text|> to the answer.
+    Count the number of tokens in a given text using the specified tokenizer.
     """
-
-    questions = samples["question"]
-    answers = samples["answer"]
-
-    # Read the prompt template just once in your main code, pass it here
-    prompts = []
-    final_answers = []
-    for q, a in zip(questions, answers):
-        # Replace the placeholder with the question
-        current_prompt = prompt_template.replace("INSERT_QUERY_HERE", q)
-
-        # Optionally append <|end_of_text|>
-        if append_eot:
-            a = a + "<|end_of_text|>"
-
-        prompts.append(current_prompt)
-        final_answers.append(a)
-
-    return {"prompt": prompts, "answer": final_answers}
-
+    if isinstance(text, str):
+        text = [text]
+    return tokenizer(text, add_special_tokens=True, return_attention_mask=False)["input_ids"].size(1)
+    
 
 def tokenize_for_sft(examples, tokenizer, max_seq_length=8192):
     """
@@ -202,46 +223,51 @@ def main():
     train_sft = datasets.load_from_disk(args.train_dataset_sft)
     dev_sft = datasets.load_from_disk(args.dev_dataset_sft)
 
-    # Prepare the SFT data: question+answer -> prompt, answer
-    train_sft = train_sft.map(
-        lambda x: prepare_sft_prompt_and_answer(
-            x,
-            prompt_template=prompt_template,
-            append_eot=args.append_eot
-        ),
-        batched=True
-    )
+    #Convert to pandas DataFrame
 
-    dev_sft = dev_sft.map(
-        lambda x: prepare_sft_prompt_and_answer(
-            x,
-            prompt_template=prompt_template,
-            append_eot=args.append_eot
-        ),
-        batched=True
-    )
+    train_sft = train_sft.to_pandas()
+    dev_sft = dev_sft.to_pandas()
 
-    # Tokenize SFT data
-    train_sft = train_sft.map(
-        lambda x: tokenize_for_sft(x, tokenizer, max_seq_length=max_seq_length),
-        batched=True,
-        remove_columns=train_sft.column_names
-    )
-    dev_sft = dev_sft.map(
-        lambda x: tokenize_for_sft(x, tokenizer, max_seq_length=max_seq_length),
-        batched=True,
-        remove_columns=dev_sft.column_names
-    )
+    train_sft.head(5)
+    dev_sft.head(5)
 
-    # Set dataset format to pytorch
-    train_sft.set_format(type="torch")
-    dev_sft.set_format(type="torch")
+    # Create the text column for SFT
 
-    # A data collator for causal LM. This sets up a shifting of labels by 1, etc.
-    # If you want to mask out the prompt portion, you can implement a custom collator.
-    data_collator = DataCollatorForLanguageModeling(
-        tokenizer=tokenizer, mlm=False
-    )
+    train_sft["text"] = train_sft.apply(prepare_sft_prompt_and_answer, axis=1, args=(prompt_template, tokenizer))
+    dev_sft["text"] = dev_sft.apply(prepare_sft_prompt_and_answer, axis=1, args=(prompt_template, tokenizer))
+
+    # Count tokens in the text column
+    train_sft["num_tokens"] = train_sft["text"].apply(lambda x: count_tokens(x, tokenizer))
+    dev_sft["num_tokens"] = dev_sft["text"].apply(lambda x: count_tokens(x, tokenizer))
+
+    if args.plot_dist:
+        plt.hist(train_sft.num_tokens, weights=np.ones(len(train_sft.num_tokens)) / len(train_sft.num_tokens))
+        plt.gca().yaxis.set_major_formatter(PercentFormatter(1))
+        plt.xlabel("Tokens")
+        plt.ylabel("Percentage")
+        plt.title("Token Distribution in SFT Dataset")
+        plt.savefig(os.path.join(args.dir_plot, "token_distribution_train.png"))
+        plt.show()
+
+    # Optionally, you can also plot the distribution of the dev dataset
+    if args.plot_dist:
+        plt.hist(dev_sft.num_tokens, weights=np.ones(len(dev_sft.num_tokens)) / len(dev_sft.num_tokens))
+        plt.gca().yaxis.set_major_formatter(PercentFormatter(1))
+        plt.xlabel("Tokens")
+        plt.ylabel("Percentage")
+        plt.title("Token Distribution in SFT Dataset")
+        plt.savefig(os.path.join(args.dir_plot, "token_distribution_dev.png"))
+        plt.show()
+
+    # Create the dataset for SFT
+    train_sft = Dataset.from_pandas(train_sft)
+    dev_sft = Dataset.from_pandas(dev_sft)
+
+    response_template = "<|end_header_id|>"
+    collator = DataCollatorForCompletionOnlyLM(
+        response_template, tokenizer=tokenizer)
+
+    
 
     # Standard huggingface TrainingArguments
     training_args = TrainingArguments(

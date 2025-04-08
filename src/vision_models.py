@@ -1209,17 +1209,17 @@ class CodexModel(BaseModel):
             #     raise TypeError("prompt must be a string or a list of strings")
             self.query = prompt
 
-            logger.info("Llegas a la parte de codex")
+            logger.debug("Llegas a la parte de codex")
 
             if isinstance(prompt, list):
                 messages_template = []
 
                 # System prompt
                 system_prompt, few_shot_prompt = base_prompt.split("# Examples of using ImagePatch\n")
-                system_prompt = (
+                system_prompt_full = (
                     "You are an AI that uses a special ImagePatch class to answer questions about images.\n"
                     "Here is the class definition:\n\n"
-                    f"{self.base_prompt}\n\n"
+                    f"{system_prompt}\n\n"
                     "Please use this class to answer queries about images.\n"
                     "When writing the final solution, you typically define a function:\n\n"
                     "def execute_command(image)->str:\n"
@@ -1227,22 +1227,25 @@ class CodexModel(BaseModel):
                     "Your job is to produce the correct code in that function "
                     "so that it answers the question or does the operation asked by the user.\n"
                 )
-                messages_template.append({"role": "system", "content": system_prompt})
+                messages_template.append({"role": "system", "content": system_prompt_full})
 
                 # Few-shot examples
                 few_shot_prompt = few_shot_prompt.split("\n\n")[:-1]
                 for example in few_shot_prompt:
                     lines = example.splitlines()
                     messages_template.append({"role": "user", "content": "\n".join(lines[:2])})
-                    messages_template.append({"role": "assistant", "content": "\n" + "\n".join(lines[2:])})
+                    messages_template.append({"role": "assistant", "content": "\n".join(lines[2:])})
 
                 batch_messages = []
                 for single_prompt in prompt:
                     messages = list(messages_template)
                     messages.append({"role": "user", "content": f"{single_prompt}\ndef execute_command(image)->str:"})
+                    #messages.append({"role": "assistant", "content": ""})
+
                     batch_messages.append(messages)
 
-                logger.info(f"Batch prompts: {batch_messages}")
+
+                logger.debug(f"Batch prompts: {batch_messages}")
 
                 result = self.forward_(batch_messages)
 
@@ -1250,10 +1253,10 @@ class CodexModel(BaseModel):
                 messages = []
 
                 system_prompt, few_shot_prompt = base_prompt.split("# Examples of using ImagePatch\n")
-                system_prompt = (
+                system_prompt_full = (
                     "You are an AI that uses a special ImagePatch class to answer questions about images.\n"
                     "Here is the class definition:\n\n"
-                    f"{self.base_prompt}\n\n"
+                    f"{system_prompt}\n\n"
                     "Please use this class to answer queries about images.\n"
                     "When writing the final solution, you typically define a function:\n\n"
                     "def execute_command(image)->str:\n"
@@ -1261,16 +1264,17 @@ class CodexModel(BaseModel):
                     "Your job is to produce the correct code in that function "
                     "so that it answers the question or does the operation asked by the user.\n"
                 )
-                messages.append({"role": "system", "content": system_prompt})
+                messages.append({"role": "system", "content": system_prompt_full})
 
                 few_shot_prompt = few_shot_prompt.split("\n\n")[:-1]
                 for example in few_shot_prompt:
                     lines = example.splitlines()
                     messages.append({"role": "user", "content": "\n".join(lines[:2])})
-                    messages.append({"role": "assistant", "content": "\n" + "\n".join(lines[2:])})
+                    #messages.append({"role": "assistant", "content": "\n".join(lines[2:])})
 
                 messages.append({"role": "user", "content": f"{prompt}\ndef execute_command(image)->str:"})
-                logger.info(f"Prompt: {messages}")
+
+                logger.debug(f"Prompt: {messages}")
 
                 result = self.forward_(messages)
                 if isinstance(result, list):
@@ -1531,13 +1535,20 @@ class llama31Q(CodexModel):
                 return response
 
 
-            # Use tokenizer's native chat template application
-            tokenizer = self.llm.get_tokenizer()  # Assuming your LLM instance exposes this
-            if hasattr(tokenizer, "chat_template"):
-                tokenizer.chat_template = tokenizer.chat_template.replace("{%-", "{%").replace("-%}", "%}")
-            chat_prompts = [tokenizer.apply_chat_template(p, tokenize=False) for p in extended_prompt]
+            tokenizer = self.llm.get_tokenizer()
 
-            logger.info(f"Chat prompts: {chat_prompts}")
+            # Cleanly patch chat template to preserve leading spaces
+            tokenizer.chat_template = tokenizer.chat_template.replace(
+                "message['content'] | trim",
+                "message['content']"
+            ).replace(
+                "messages[0]['content'] | trim",
+                "messages[0]['content']"
+            )
+
+            chat_prompts = [tokenizer.apply_chat_template(p, tokenize=False, add_generation_prompt=True) for p in extended_prompt]
+
+            logger.debug(f"Chat prompts: {chat_prompts}")
 
             response = self.run_code_Quantized_llama(chat_prompts)
             return response

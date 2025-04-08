@@ -280,4 +280,4 @@ Reason about the following query and generate the corresponding function.
 
 Please do not write ImagePatch class again, just define the new execute_command function.
 
-<think>
+<think>\n

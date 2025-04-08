@@ -1,0 +1,5 @@
+srun: error: ioctl(TIOCGWINSZ): Inappropriate ioctl for device
+srun: error: Not using a pseudo-terminal, disregarding --pty option
+bash: cannot set terminal process group (-1): Inappropriate ioctl for device
+bash: no job control in this shell
+bash-4.4$ exit
