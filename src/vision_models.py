@@ -1245,7 +1245,7 @@ class CodexModel(BaseModel):
                     batch_messages.append(messages)
 
 
-                logger.debug(f"Batch prompts: {batch_messages}")
+                logger.info(f"Batch prompts:\n{batch_messages}")
 
                 result = self.forward_(batch_messages)
 
