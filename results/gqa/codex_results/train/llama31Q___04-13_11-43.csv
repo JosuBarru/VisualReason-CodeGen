@@ -1,0 +1,25 @@
+sample_id,query,generated_code
+14145991,Are the white blinds to the right of a clock?,"    image_patch = ImagePatch(image)
+    white_blinds_patches = image_patch.find(""white blinds"")
+    # Question assumes only one white blinds patch
+    if len(white_blinds_patches) == 0:
+        # If no white blinds are found, query the image directly
+        return image_patch.simple_query(""Are the white blinds to the right of a clock?"")
+    for white_blinds_patch in white_blinds_patches:
+        clock_patches = image_patch.find(""clock"")
+        for clock_patch in clock_patches:
+            if clock_patch.horizontal_center < white_blinds_patch.horizontal_center:
+                return ""yes""
+    return ""no"""
+16906415,Which kind of furniture is to the left of the bed?,"    image_patch = ImagePatch(image)
+    bed_patches = image_patch.find(""bed"")
+    # Question assumes only one bed patch
+    if len(bed_patches) == 0:
+        # If no bed is found, query the image directly
+        return image_patch.simple_query(""Which kind of furniture is to the left of the bed?"")
+    bed_patch = bed_patches[0]
+    furniture_patches = image_patch.find(""furniture"")
+    for furniture_patch in furniture_patches:
+        if furniture_patch.horizontal_center < bed_patch.horizontal_center:
+            return furniture_patch.simple_query(""What kind of furniture is to the left of the bed?"") # crop would include the furniture so keep it in the query
+    return ""no"""

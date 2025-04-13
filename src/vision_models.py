@@ -1548,7 +1548,7 @@ class llama31Q(CodexModel):
 
             chat_prompts = [tokenizer.apply_chat_template(p, tokenize=False, add_generation_prompt=True) for p in extended_prompt]
 
-            logger.debug(f"Chat prompts: {chat_prompts}")
+            logger.info(f"Chat prompts: {chat_prompts}")
 
             response = self.run_code_Quantized_llama(chat_prompts)
             return response

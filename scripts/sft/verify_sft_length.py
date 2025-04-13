@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 from matplotlib.ticker import PercentFormatter
 
 
-from unsloth import FastLanguageModel, is_bfloat16_supported
+from unsloth import FastLanguageModel, is_bfloat16_supported, get_chat_template
 from transformers import (
     Trainer,
     TrainingArguments,
@@ -124,16 +124,28 @@ def main():
     train_sft.head(5)
     dev_sft.head(5)
 
+    # Chat template
+
+    tokenizer = get_chat_template(
+        tokenizer,
+        chat_template = "llama",
+        mapping = {"role": "role", "content": "content", "user": "user", "assistant": "assistant"},
+        map_eos_token = True,
+    )
+
+    logger.info("Chat template: \n" + str(tokenizer.chat_template))
+    
     # Create the text column for SFT
+
 
     train_sft["text"] = train_sft.apply(prepare_sft_prompt_and_answer, axis=1, args=(prompt_template, tokenizer))
     dev_sft["text"] = dev_sft.apply(prepare_sft_prompt_and_answer, axis=1, args=(prompt_template, tokenizer))
 
     # Check the prompt and answer
 
-    print(train_sft["text"][0])
-    print("\n\n")
-    print(train_sft["text"][1])
+    logger.info("First text entry: \n" + train_sft["text"][0])
+    logger.info("\n\n")
+    logger.info("Second text entry: \n" + train_sft["text"][1])
 
     
     # Count tokens in the text column
