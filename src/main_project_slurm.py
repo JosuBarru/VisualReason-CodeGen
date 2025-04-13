@@ -70,6 +70,11 @@ def run_program(parameters, queues_in_, input_type_, retrying=False):
                   f'{input_type_}, possible_answers, query, ' \
                   f'ImagePatch, VideoSegment, ' \
                   'llm_query, bool_to_yesno, distance, best_image_match):\n'
+
+    if code.startswith('def execute_command'):
+        # If the code already has a function definition, remove it
+        code = code.split('\n', 1)[1]
+    logger.debug(f"Code: {code}")
     code = code_header + str(code)
 
 

@@ -1233,19 +1233,19 @@ class CodexModel(BaseModel):
                 few_shot_prompt = few_shot_prompt.split("\n\n")[:-1]
                 for example in few_shot_prompt:
                     lines = example.splitlines()
-                    messages_template.append({"role": "user", "content": "\n".join(lines[:2])})
-                    messages_template.append({"role": "assistant", "content": "\n".join(lines[2:])})
+                    messages_template.append({"role": "user", "content": "\n".join(lines[:1])})
+                    messages_template.append({"role": "assistant", "content": "\n".join(lines[1:])})
 
                 batch_messages = []
                 for single_prompt in prompt:
                     messages = list(messages_template)
-                    messages.append({"role": "user", "content": f"{single_prompt}\ndef execute_command(image)->str:"})
+                    messages.append({"role": "user", "content": f"{single_prompt}"})
                     #messages.append({"role": "assistant", "content": ""})
 
                     batch_messages.append(messages)
 
 
-                logger.info(f"Batch prompts:\n{batch_messages}")
+                #logger.info(f"Batch prompts:\n{batch_messages}")
 
                 result = self.forward_(batch_messages)
 
@@ -1548,7 +1548,7 @@ class llama31Q(CodexModel):
 
             chat_prompts = [tokenizer.apply_chat_template(p, tokenize=False, add_generation_prompt=True) for p in extended_prompt]
 
-            logger.info(f"Chat prompts: {chat_prompts}")
+            #logger.info(f"Chat prompts: {chat_prompts}")
 
             response = self.run_code_Quantized_llama(chat_prompts)
             return response

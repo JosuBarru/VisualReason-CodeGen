@@ -12,7 +12,6 @@
 #SBATCH --mail-type=all
 #SBATCH --mail-user=jbarrutia006@ikasle.ehu.eus
 
-
 source /sorgin1/users/jbarrutia006/venvs/viper_tximista/bin/activate
 
 export LOAD_MODELS=0
@@ -27,3 +26,17 @@ export CHECKPOINT=''
 
 srun python src/main_project_slurm.py
 
+
+
+export CODE=$(basename "$(ls -t results/gqa/codex_results/val/llama31Q___*.csv | head -n 1)")
+
+if [ -z "$CODE" ]; then
+    echo "Error: No file matching pattern 'llama31Q___*.csv' was found."
+    exit 1
+fi
+
+export LOAD_MODELS=1
+export EXEC_MODE='cache'
+export BATCHSIZE=32
+
+srun python src/main_project_slurm.py
