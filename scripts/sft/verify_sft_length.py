@@ -74,7 +74,7 @@ def prepare_sft_prompt_and_answer(row, prompt_template, tokenizer):
     messages.append({"role": "assistant", "content": row["output"]})
 
     #Verify that the messages are correct
-    logger.info(f"Prompt:\n{messages}")
+    #logger.info(f"Prompt:\n{messages}")
 
     return tokenizer.apply_chat_template(messages, tokenize=False)
     
