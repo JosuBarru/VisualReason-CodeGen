@@ -34,6 +34,7 @@ config_names = []
 model_configs = {
     "codellama": "config_codellama",
     "llama31Q": "config_codex_llama3.1-8b",
+    "llama31Q_Base": "config_codex_llama3.1-8b-base",
     "llama33Q": "config_codex_llama3.3-70b",
     "deepseek-qwen7b": "config_codex_deepseek-Qwen-7b",
     "deepseek-llama8b": "config_codex_deepseek-llama-8b",

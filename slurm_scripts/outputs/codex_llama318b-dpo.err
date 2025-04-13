@@ -1,871 +1,25 @@
-2025-04-13 12:53:01,531 - INFO - {'multiprocessing': False, 'path_pretrained_models': './pretrained_models', 'execute_code': False, 'dataset': {'dataset_name': 'GQA', 'data_path': './data/gqa', 'split': 'val', 'max_samples': 1000, 'batch_size': 16, 'start_sample': 0, 'testing': False}, 'load_models': {'maskrcnn': False, 'clip': False, 'glip': False, 'owlvit': False, 'tcl': False, 'gpt3_qa': False, 'gpt3_general': False, 'depth': False, 'blip': False, 'saliency': False, 'xvlm': False, 'codex': False, 'codellama': False, 'codellama_Q': False, 'llm_query': False, 'llm_guess': False, 'gpt3_list': False, 'qa': False, 'guess': False, 'llama31Q': True, 'gpt3_guess': False}, 'detect_thresholds': {'glip': 0.5, 'maskrcnn': 0.8, 'owlvit': 0.1}, 'ratio_box_area_to_image_area': 0.0, 'crop_larger_margin': True, 'verify_property': {'model': 'xvlm', 'thresh_clip': 0.6, 'thresh_tcl': 0.25, 'thresh_xvlm': 0.6}, 'best_match_model': 'xvlm', 'gpt3': {'n_votes': 1, 'qa_prompt': './prompts/gpt3/gpt3_qa.txt', 'guess_prompt': './prompts/gpt3/gpt3_process_guess.txt', 'temperature': 0.0, 'model': 'text-davinci-003'}, 'codex': {'temperature': 0, 'best_of': 1, 'max_tokens': 512, 'prompt': './prompts/benchmarks/gqa.prompt', 'model': 'llama31Q', 'extra_context': None, 'model_name': 'meta-llama/Meta-Llama-3.1-8B-Instruct', 'adapter': None}, 'save': False, 'save_new_results': True, 'save_codex': True, 'results_dir': './results/gqa/codex_results/', 'use_cache': True, 'clear_cache': True, 'log_every': 20, 'wandb': False, 'blip_half_precision': False, 'blip_v2_model_type': 'blip2-flan-t5-xl', 'glip_model_type': 'large', 'use_fixed_code': False, 'fixed_code_file': './prompts/fixed_code/blip2.prompt', 'cognition': {'is_setted': False}, 'use_cached_codex': False, 'use_cache_codex': False}
-2025-04-13 12:53:05,396 - INFO - Starting main
-2025-04-13 12:53:14,056 - INFO - Using dtype=bfloat16 based on compute capability=8.0
+2025-04-13 16:17:06,265 - INFO - {'multiprocessing': False, 'path_pretrained_models': './pretrained_models', 'execute_code': False, 'dataset': {'dataset_name': 'GQA', 'data_path': './data/gqa', 'split': 'val', 'max_samples': 16, 'batch_size': 16, 'start_sample': 0, 'testing': False}, 'load_models': {'maskrcnn': False, 'clip': False, 'glip': False, 'owlvit': False, 'tcl': False, 'gpt3_qa': False, 'gpt3_general': False, 'depth': False, 'blip': False, 'saliency': False, 'xvlm': False, 'codex': False, 'codellama': False, 'codellama_Q': False, 'llm_query': False, 'llm_guess': False, 'gpt3_list': False, 'qa': False, 'guess': False, 'llama31Q_Base': True, 'gpt3_guess': False}, 'detect_thresholds': {'glip': 0.5, 'maskrcnn': 0.8, 'owlvit': 0.1}, 'ratio_box_area_to_image_area': 0.0, 'crop_larger_margin': True, 'verify_property': {'model': 'xvlm', 'thresh_clip': 0.6, 'thresh_tcl': 0.25, 'thresh_xvlm': 0.6}, 'best_match_model': 'xvlm', 'gpt3': {'n_votes': 1, 'qa_prompt': './prompts/gpt3/gpt3_qa.txt', 'guess_prompt': './prompts/gpt3/gpt3_process_guess.txt', 'temperature': 0.0, 'model': 'text-davinci-003'}, 'codex': {'temperature': 0, 'best_of': 1, 'max_tokens': 512, 'prompt': './prompts/benchmarks/gqa.prompt', 'model': 'llama31Q_Base', 'extra_context': None, 'model_name': 'meta-llama/Meta-Llama-3.1-8B', 'adapter': None}, 'save': False, 'save_new_results': True, 'save_codex': True, 'results_dir': './results/gqa/codex_results/', 'use_cache': True, 'clear_cache': True, 'log_every': 20, 'wandb': False, 'blip_half_precision': False, 'blip_v2_model_type': 'blip2-flan-t5-xl', 'glip_model_type': 'large', 'use_fixed_code': False, 'fixed_code_file': './prompts/fixed_code/blip2.prompt', 'cognition': {'is_setted': False}, 'use_cached_codex': False, 'use_cache_codex': False}
+2025-04-13 16:17:09,908 - INFO - Starting main
+2025-04-13 16:17:21,332 - INFO - Using dtype=bfloat16 based on compute capability=8.0
 Loading safetensors checkpoint shards:   0% Completed | 0/4 [00:00<?, ?it/s]
-Loading safetensors checkpoint shards:  25% Completed | 1/4 [00:00<00:00,  8.40it/s]
-Loading safetensors checkpoint shards:  50% Completed | 2/4 [00:00<00:00,  2.76it/s]
-Loading safetensors checkpoint shards:  75% Completed | 3/4 [00:01<00:00,  2.01it/s]
-Loading safetensors checkpoint shards: 100% Completed | 4/4 [00:01<00:00,  1.85it/s]
-Loading safetensors checkpoint shards: 100% Completed | 4/4 [00:01<00:00,  2.09it/s]
+Loading safetensors checkpoint shards:  25% Completed | 1/4 [00:00<00:00,  7.78it/s]
+Loading safetensors checkpoint shards:  50% Completed | 2/4 [00:00<00:00,  2.80it/s]
+Loading safetensors checkpoint shards:  75% Completed | 3/4 [00:01<00:00,  2.10it/s]
+Loading safetensors checkpoint shards: 100% Completed | 4/4 [00:01<00:00,  1.81it/s]
+Loading safetensors checkpoint shards: 100% Completed | 4/4 [00:01<00:00,  2.07it/s]
 
-Capturing CUDA graph shapes:   0%|          | 0/35 [00:00<?, ?it/s]Capturing CUDA graph shapes:   3%|▎         | 1/35 [00:00<00:14,  2.28it/s]Capturing CUDA graph shapes:   6%|▌         | 2/35 [00:00<00:14,  2.25it/s]Capturing CUDA graph shapes:   9%|▊         | 3/35 [00:01<00:14,  2.27it/s]Capturing CUDA graph shapes:  11%|█▏        | 4/35 [00:01<00:13,  2.27it/s]Capturing CUDA graph shapes:  14%|█▍        | 5/35 [00:02<00:13,  2.27it/s]Capturing CUDA graph shapes:  17%|█▋        | 6/35 [00:02<00:12,  2.29it/s]Capturing CUDA graph shapes:  20%|██        | 7/35 [00:03<00:12,  2.32it/s]Capturing CUDA graph shapes:  23%|██▎       | 8/35 [00:03<00:11,  2.31it/s]Capturing CUDA graph shapes:  26%|██▌       | 9/35 [00:03<00:11,  2.32it/s]Capturing CUDA graph shapes:  29%|██▊       | 10/35 [00:04<00:10,  2.33it/s]Capturing CUDA graph shapes:  31%|███▏      | 11/35 [00:04<00:10,  2.35it/s]Capturing CUDA graph shapes:  34%|███▍      | 12/35 [00:05<00:09,  2.35it/s]Capturing CUDA graph shapes:  37%|███▋      | 13/35 [00:05<00:09,  2.35it/s]Capturing CUDA graph shapes:  40%|████      | 14/35 [00:06<00:08,  2.35it/s]Capturing CUDA graph shapes:  43%|████▎     | 15/35 [00:06<00:08,  2.35it/s]Capturing CUDA graph shapes:  46%|████▌     | 16/35 [00:06<00:08,  2.35it/s]Capturing CUDA graph shapes:  49%|████▊     | 17/35 [00:07<00:07,  2.31it/s]Capturing CUDA graph shapes:  51%|█████▏    | 18/35 [00:07<00:07,  2.19it/s]Capturing CUDA graph shapes:  54%|█████▍    | 19/35 [00:08<00:07,  2.14it/s]Capturing CUDA graph shapes:  57%|█████▋    | 20/35 [00:08<00:07,  2.11it/s]Capturing CUDA graph shapes:  60%|██████    | 21/35 [00:09<00:06,  2.12it/s]Capturing CUDA graph shapes:  63%|██████▎   | 22/35 [00:09<00:06,  2.13it/s]Capturing CUDA graph shapes:  66%|██████▌   | 23/35 [00:10<00:05,  2.16it/s]Capturing CUDA graph shapes:  69%|██████▊   | 24/35 [00:10<00:05,  2.17it/s]Capturing CUDA graph shapes:  71%|███████▏  | 25/35 [00:11<00:04,  2.20it/s]Capturing CUDA graph shapes:  74%|███████▍  | 26/35 [00:11<00:04,  2.21it/s]Capturing CUDA graph shapes:  77%|███████▋  | 27/35 [00:11<00:03,  2.22it/s]Capturing CUDA graph shapes:  80%|████████  | 28/35 [00:12<00:03,  2.24it/s]Capturing CUDA graph shapes:  83%|████████▎ | 29/35 [00:12<00:02,  2.24it/s]Capturing CUDA graph shapes:  86%|████████▌ | 30/35 [00:13<00:02,  2.26it/s]Capturing CUDA graph shapes:  89%|████████▊ | 31/35 [00:13<00:01,  2.27it/s]Capturing CUDA graph shapes:  91%|█████████▏| 32/35 [00:14<00:01,  2.29it/s]Capturing CUDA graph shapes:  94%|█████████▍| 33/35 [00:14<00:00,  2.30it/s]Capturing CUDA graph shapes:  97%|█████████▋| 34/35 [00:15<00:00,  2.33it/s]Capturing CUDA graph shapes: 100%|██████████| 35/35 [00:15<00:00,  2.35it/s]Capturing CUDA graph shapes: 100%|██████████| 35/35 [00:15<00:00,  2.27it/s]
-2025-04-13 12:53:53,090 - INFO - Models successfully loaded
-2025-04-13 12:53:53,090 - WARNING - [Memory(location=cache/joblib)]: Flushing completely the cache
-2025-04-13 12:53:57,674 - INFO - Dataset loaded
-  0%|                                                                        | 0/63 [00:00<?, ?it/s]2025-04-13 12:53:57,790 - INFO - Not using adapter
+Capturing CUDA graph shapes:   0%|          | 0/35 [00:00<?, ?it/s]Capturing CUDA graph shapes:   3%|▎         | 1/35 [00:00<00:15,  2.19it/s]Capturing CUDA graph shapes:   6%|▌         | 2/35 [00:00<00:14,  2.23it/s]Capturing CUDA graph shapes:   9%|▊         | 3/35 [00:01<00:14,  2.25it/s]Capturing CUDA graph shapes:  11%|█▏        | 4/35 [00:01<00:13,  2.28it/s]Capturing CUDA graph shapes:  14%|█▍        | 5/35 [00:02<00:13,  2.30it/s]Capturing CUDA graph shapes:  17%|█▋        | 6/35 [00:02<00:12,  2.30it/s]Capturing CUDA graph shapes:  20%|██        | 7/35 [00:03<00:12,  2.29it/s]Capturing CUDA graph shapes:  23%|██▎       | 8/35 [00:03<00:11,  2.28it/s]Capturing CUDA graph shapes:  26%|██▌       | 9/35 [00:03<00:11,  2.28it/s]Capturing CUDA graph shapes:  29%|██▊       | 10/35 [00:04<00:10,  2.28it/s]Capturing CUDA graph shapes:  31%|███▏      | 11/35 [00:04<00:10,  2.29it/s]Capturing CUDA graph shapes:  34%|███▍      | 12/35 [00:05<00:10,  2.30it/s]Capturing CUDA graph shapes:  37%|███▋      | 13/35 [00:05<00:09,  2.30it/s]Capturing CUDA graph shapes:  40%|████      | 14/35 [00:06<00:09,  2.31it/s]Capturing CUDA graph shapes:  43%|████▎     | 15/35 [00:06<00:08,  2.31it/s]Capturing CUDA graph shapes:  46%|████▌     | 16/35 [00:06<00:08,  2.33it/s]Capturing CUDA graph shapes:  49%|████▊     | 17/35 [00:07<00:07,  2.34it/s]Capturing CUDA graph shapes:  51%|█████▏    | 18/35 [00:07<00:07,  2.35it/s]Capturing CUDA graph shapes:  54%|█████▍    | 19/35 [00:08<00:06,  2.32it/s]Capturing CUDA graph shapes:  57%|█████▋    | 20/35 [00:08<00:06,  2.33it/s]Capturing CUDA graph shapes:  60%|██████    | 21/35 [00:09<00:05,  2.35it/s]Capturing CUDA graph shapes:  63%|██████▎   | 22/35 [00:09<00:05,  2.37it/s]Capturing CUDA graph shapes:  66%|██████▌   | 23/35 [00:09<00:05,  2.39it/s]Capturing CUDA graph shapes:  69%|██████▊   | 24/35 [00:10<00:04,  2.36it/s]Capturing CUDA graph shapes:  71%|███████▏  | 25/35 [00:10<00:04,  2.37it/s]Capturing CUDA graph shapes:  74%|███████▍  | 26/35 [00:11<00:03,  2.38it/s]Capturing CUDA graph shapes:  77%|███████▋  | 27/35 [00:11<00:03,  2.40it/s]Capturing CUDA graph shapes:  80%|████████  | 28/35 [00:12<00:02,  2.42it/s]Capturing CUDA graph shapes:  83%|████████▎ | 29/35 [00:12<00:02,  2.43it/s]Capturing CUDA graph shapes:  86%|████████▌ | 30/35 [00:12<00:02,  2.44it/s]Capturing CUDA graph shapes:  89%|████████▊ | 31/35 [00:13<00:01,  2.45it/s]Capturing CUDA graph shapes:  91%|█████████▏| 32/35 [00:13<00:01,  2.46it/s]Capturing CUDA graph shapes:  94%|█████████▍| 33/35 [00:14<00:00,  2.47it/s]Capturing CUDA graph shapes:  97%|█████████▋| 34/35 [00:14<00:00,  2.48it/s]Capturing CUDA graph shapes: 100%|██████████| 35/35 [00:14<00:00,  2.48it/s]Capturing CUDA graph shapes: 100%|██████████| 35/35 [00:14<00:00,  2.36it/s]
+2025-04-13 16:18:05,384 - INFO - Models successfully loaded
+2025-04-13 16:18:05,384 - WARNING - [Memory(location=cache/joblib)]: Flushing completely the cache
+2025-04-13 16:18:10,568 - INFO - Dataset loaded
+  0%|                                                                         | 0/1 [00:00<?, ?it/s]2025-04-13 16:18:11,855 - INFO - Not using adapter
 
 Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:03<00:51,  3.45s/it, est. speed input: 840.29 toks/s, output: 8.10 toks/s][A
-Processed prompts:  12%|█▎        | 2/16 [00:03<00:21,  1.52s/it, est. speed input: 1606.29 toks/s, output: 15.77 toks/s][A
-Processed prompts:  19%|█▉        | 3/16 [00:03<00:11,  1.09it/s, est. speed input: 2280.09 toks/s, output: 27.48 toks/s][A
-Processed prompts:  25%|██▌       | 4/16 [00:04<00:07,  1.56it/s, est. speed input: 2876.50 toks/s, output: 40.35 toks/s][A
-Processed prompts:  31%|███▏      | 5/16 [00:04<00:05,  2.14it/s, est. speed input: 3463.16 toks/s, output: 54.11 toks/s][A
-Processed prompts:  38%|███▊      | 6/16 [00:04<00:04,  2.33it/s, est. speed input: 3830.15 toks/s, output: 72.28 toks/s][A
-Processed prompts:  44%|████▍     | 7/16 [00:04<00:03,  2.72it/s, est. speed input: 4242.76 toks/s, output: 92.19 toks/s][A
-Processed prompts:  56%|█████▋    | 9/16 [00:05<00:01,  3.92it/s, est. speed input: 5166.69 toks/s, output: 135.33 toks/s][A
-Processed prompts:  81%|████████▏ | 13/16 [00:05<00:00,  4.29it/s, est. speed input: 6371.45 toks/s, output: 218.86 toks/s][A
-Processed prompts:  88%|████████▊ | 14/16 [00:06<00:00,  4.12it/s, est. speed input: 6542.49 toks/s, output: 242.62 toks/s][A
-Processed prompts:  94%|█████████▍| 15/16 [00:06<00:00,  3.50it/s, est. speed input: 6529.32 toks/s, output: 264.54 toks/s][A
-Processed prompts: 100%|██████████| 16/16 [00:07<00:00,  2.56it/s, est. speed input: 6249.17 toks/s, output: 280.25 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:07<00:00,  2.15it/s, est. speed input: 6249.17 toks/s, output: 280.25 toks/s]
-/sorgin1/users/jbarrutia006/viper/src/main_project_slurm.py:275: UserWarning: Not executing code! This is only generating the code. We set the flag 'execute_code' to False by default, because executing code generated by a language model can be dangerous. Set the flag 'execute_code' to True if you want to execute it.
+Processed prompts:   6%|▋         | 1/16 [00:07<01:57,  7.87s/it, est. speed input: 346.21 toks/s, output: 40.69 toks/s][A
+Processed prompts:  44%|████▍     | 7/16 [00:07<00:07,  1.19it/s, est. speed input: 2383.88 toks/s, output: 280.31 toks/s][A
+Processed prompts:  81%|████████▏ | 13/16 [00:08<00:01,  2.64it/s, est. speed input: 4371.13 toks/s, output: 513.54 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:08<00:00,  1.96it/s, est. speed input: 5346.73 toks/s, output: 628.20 toks/s]
+/sorgin1/users/jbarrutia006/viper/src/main_project_slurm.py:280: UserWarning: Not executing code! This is only generating the code. We set the flag 'execute_code' to False by default, because executing code generated by a language model can be dangerous. Set the flag 'execute_code' to True if you want to execute it.
   warnings.warn("Not executing code! This is only generating the code. We set the flag "
-2025-04-13 12:54:05,433 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:03<00:50,  3.37s/it, est. speed input: 862.23 toks/s, output: 8.61 toks/s][A
-Processed prompts:  12%|█▎        | 2/16 [00:03<00:22,  1.61s/it, est. speed input: 1552.49 toks/s, output: 20.58 toks/s][A
-Processed prompts:  19%|█▉        | 3/16 [00:03<00:12,  1.07it/s, est. speed input: 2243.95 toks/s, output: 33.45 toks/s][A
-Processed prompts:  31%|███▏      | 5/16 [00:04<00:05,  2.04it/s, est. speed input: 3475.89 toks/s, output: 61.92 toks/s][A
-Processed prompts:  38%|███▊      | 6/16 [00:04<00:04,  2.38it/s, est. speed input: 3937.96 toks/s, output: 80.82 toks/s][A
-Processed prompts:  50%|█████     | 8/16 [00:04<00:02,  3.79it/s, est. speed input: 5081.59 toks/s, output: 119.97 toks/s][A
-Processed prompts:  56%|█████▋    | 9/16 [00:05<00:02,  3.15it/s, est. speed input: 5168.46 toks/s, output: 134.16 toks/s][A
-Processed prompts:  62%|██████▎   | 10/16 [00:05<00:01,  3.59it/s, est. speed input: 5563.34 toks/s, output: 155.78 toks/s][A
-Processed prompts:  88%|████████▊ | 14/16 [00:05<00:00,  7.20it/s, est. speed input: 7533.38 toks/s, output: 263.35 toks/s][A
-Processed prompts: 100%|██████████| 16/16 [00:06<00:00,  3.99it/s, est. speed input: 7235.88 toks/s, output: 291.13 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:06<00:00,  2.49it/s, est. speed input: 7235.88 toks/s, output: 291.13 toks/s]
-  3%|##                                                              | 2/63 [00:14<07:14,  7.13s/it]2025-04-13 12:54:12,018 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:03<00:52,  3.53s/it, est. speed input: 822.90 toks/s, output: 8.22 toks/s][A
-Processed prompts:  12%|█▎        | 2/16 [00:04<00:25,  1.84s/it, est. speed input: 1387.97 toks/s, output: 21.97 toks/s][A
-Processed prompts:  19%|█▉        | 3/16 [00:04<00:14,  1.15s/it, est. speed input: 1928.58 toks/s, output: 42.92 toks/s][A
-Processed prompts:  31%|███▏      | 5/16 [00:04<00:06,  1.81it/s, est. speed input: 3087.06 toks/s, output: 86.46 toks/s][A
-Processed prompts:  44%|████▍     | 7/16 [00:04<00:03,  2.89it/s, est. speed input: 4161.78 toks/s, output: 125.98 toks/s][A
-Processed prompts:  50%|█████     | 8/16 [00:05<00:02,  2.86it/s, est. speed input: 4432.72 toks/s, output: 144.62 toks/s][A
-Processed prompts:  62%|██████▎   | 10/16 [00:05<00:01,  4.21it/s, est. speed input: 5387.19 toks/s, output: 197.25 toks/s][A
-Processed prompts:  69%|██████▉   | 11/16 [00:05<00:01,  4.42it/s, est. speed input: 5724.82 toks/s, output: 220.82 toks/s][A
-Processed prompts:  75%|███████▌  | 12/16 [00:05<00:00,  4.47it/s, est. speed input: 6014.92 toks/s, output: 242.79 toks/s][A
-Processed prompts:  81%|████████▏ | 13/16 [00:06<00:00,  4.32it/s, est. speed input: 6243.38 toks/s, output: 265.29 toks/s][A
-Processed prompts:  88%|████████▊ | 14/16 [00:06<00:00,  3.36it/s, est. speed input: 6233.38 toks/s, output: 282.16 toks/s][A
-Processed prompts:  94%|█████████▍| 15/16 [00:06<00:00,  3.86it/s, est. speed input: 6521.95 toks/s, output: 311.79 toks/s][A
-Processed prompts: 100%|██████████| 16/16 [00:07<00:00,  3.60it/s, est. speed input: 6635.18 toks/s, output: 336.38 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:07<00:00,  2.28it/s, est. speed input: 6635.18 toks/s, output: 336.38 toks/s]
-2025-04-13 12:54:19,174 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A  3%|##                                                              | 2/63 [00:24<07:14,  7.13s/it]
-Processed prompts:   6%|▋         | 1/16 [00:03<00:51,  3.46s/it, est. speed input: 839.11 toks/s, output: 8.67 toks/s][A
-Processed prompts:  19%|█▉        | 3/16 [00:03<00:12,  1.05it/s, est. speed input: 2417.13 toks/s, output: 24.96 toks/s][A
-Processed prompts:  25%|██▌       | 4/16 [00:03<00:08,  1.42it/s, est. speed input: 3025.93 toks/s, output: 39.05 toks/s][A
-Processed prompts:  38%|███▊      | 6/16 [00:03<00:03,  2.60it/s, est. speed input: 4402.13 toks/s, output: 64.83 toks/s][A
-Processed prompts:  50%|█████     | 8/16 [00:04<00:02,  3.59it/s, est. speed input: 5507.91 toks/s, output: 91.14 toks/s][A
-Processed prompts:  56%|█████▋    | 9/16 [00:04<00:01,  3.55it/s, est. speed input: 5797.08 toks/s, output: 105.42 toks/s][A
-Processed prompts:  69%|██████▉   | 11/16 [00:04<00:01,  4.64it/s, est. speed input: 6741.62 toks/s, output: 146.68 toks/s][A
-Processed prompts:  81%|████████▏ | 13/16 [00:05<00:00,  5.38it/s, est. speed input: 7544.00 toks/s, output: 190.74 toks/s][A
-Processed prompts:  94%|█████████▍| 15/16 [00:05<00:00,  6.58it/s, est. speed input: 8414.61 toks/s, output: 240.91 toks/s][A
-Processed prompts: 100%|██████████| 16/16 [00:05<00:00,  4.89it/s, est. speed input: 8303.51 toks/s, output: 255.34 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:05<00:00,  2.85it/s, est. speed input: 8303.51 toks/s, output: 255.34 toks/s]
-  6%|####                                                            | 4/63 [00:27<06:37,  6.73s/it]2025-04-13 12:54:24,934 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:03<00:52,  3.53s/it, est. speed input: 823.25 toks/s, output: 9.34 toks/s][A
-Processed prompts:  19%|█▉        | 3/16 [00:03<00:13,  1.08s/it, est. speed input: 2199.50 toks/s, output: 31.27 toks/s][A
-Processed prompts:  25%|██▌       | 4/16 [00:04<00:10,  1.18it/s, est. speed input: 2648.52 toks/s, output: 49.65 toks/s][A
-Processed prompts:  31%|███▏      | 5/16 [00:04<00:07,  1.52it/s, est. speed input: 3121.84 toks/s, output: 67.88 toks/s][A
-Processed prompts:  44%|████▍     | 7/16 [00:04<00:03,  2.52it/s, est. speed input: 4154.03 toks/s, output: 110.63 toks/s][A
-Processed prompts:  56%|█████▋    | 9/16 [00:05<00:01,  3.80it/s, est. speed input: 5193.03 toks/s, output: 152.98 toks/s][A
-Processed prompts:  62%|██████▎   | 10/16 [00:05<00:01,  3.45it/s, est. speed input: 5363.17 toks/s, output: 172.80 toks/s][A
-Processed prompts:  75%|███████▌  | 12/16 [00:05<00:00,  4.63it/s, est. speed input: 6205.49 toks/s, output: 225.44 toks/s][A
-Processed prompts:  81%|████████▏ | 13/16 [00:05<00:00,  4.10it/s, est. speed input: 6336.93 toks/s, output: 244.48 toks/s][A
-Processed prompts:  94%|█████████▍| 15/16 [00:06<00:00,  5.83it/s, est. speed input: 7177.72 toks/s, output: 308.88 toks/s][A
-Processed prompts: 100%|██████████| 16/16 [00:06<00:00,  5.52it/s, est. speed input: 7393.79 toks/s, output: 333.86 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:06<00:00,  2.54it/s, est. speed input: 7393.79 toks/s, output: 333.86 toks/s]
-2025-04-13 12:54:31,370 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:03<00:55,  3.67s/it, est. speed input: 792.41 toks/s, output: 11.72 toks/s][A
-Processed prompts:  12%|█▎        | 2/16 [00:03<00:22,  1.60s/it, est. speed input: 1525.21 toks/s, output: 25.70 toks/s][A
-Processed prompts:  19%|█▉        | 3/16 [00:04<00:12,  1.00it/s, est. speed input: 2127.91 toks/s, output: 39.04 toks/s][A
-Processed prompts:  44%|████▍     | 7/16 [00:04<00:03,  2.90it/s, est. speed input: 4546.66 toks/s, output: 101.60 toks/s][A
-Processed prompts:  50%|█████     | 8/16 [00:04<00:02,  3.08it/s, est. speed input: 4927.62 toks/s, output: 119.02 toks/s][A
-Processed prompts:  69%|██████▉   | 11/16 [00:04<00:00,  5.22it/s, est. speed input: 6602.79 toks/s, output: 184.31 toks/s][A
-Processed prompts:  81%|████████▏ | 13/16 [00:05<00:00,  4.26it/s, est. speed input: 6865.70 toks/s, output: 222.07 toks/s][A  6%|####                                                            | 4/63 [00:39<06:37,  6.73s/it]
-Processed prompts:  94%|█████████▍| 15/16 [00:06<00:00,  2.87it/s, est. speed input: 6495.45 toks/s, output: 244.12 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:06<00:00,  2.36it/s, est. speed input: 6880.19 toks/s, output: 283.76 toks/s]
- 10%|######                                                          | 6/63 [00:40<06:22,  6.71s/it]2025-04-13 12:54:38,296 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:03<00:58,  3.91s/it, est. speed input: 743.27 toks/s, output: 15.85 toks/s][A
-Processed prompts:  19%|█▉        | 3/16 [00:04<00:14,  1.12s/it, est. speed input: 2078.89 toks/s, output: 45.98 toks/s][A
-Processed prompts:  31%|███▏      | 5/16 [00:04<00:06,  1.72it/s, est. speed input: 3354.75 toks/s, output: 75.61 toks/s][A
-Processed prompts:  38%|███▊      | 6/16 [00:04<00:05,  1.84it/s, est. speed input: 3649.76 toks/s, output: 91.93 toks/s][A
-Processed prompts:  44%|████▍     | 7/16 [00:05<00:04,  2.15it/s, est. speed input: 4039.43 toks/s, output: 111.61 toks/s][A
-Processed prompts:  50%|█████     | 8/16 [00:05<00:03,  2.39it/s, est. speed input: 4355.69 toks/s, output: 133.93 toks/s][A
-Processed prompts:  62%|██████▎   | 10/16 [00:05<00:01,  3.38it/s, est. speed input: 5164.22 toks/s, output: 182.08 toks/s][A
-Processed prompts:  69%|██████▉   | 11/16 [00:05<00:01,  3.89it/s, est. speed input: 5547.31 toks/s, output: 209.33 toks/s][A
-Processed prompts:  81%|████████▏ | 13/16 [00:05<00:00,  5.44it/s, est. speed input: 6383.81 toks/s, output: 267.24 toks/s][A
-Processed prompts: 100%|██████████| 16/16 [00:06<00:00,  6.90it/s, est. speed input: 7476.86 toks/s, output: 348.90 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:06<00:00,  2.57it/s, est. speed input: 7476.86 toks/s, output: 348.90 toks/s]
-2025-04-13 12:54:44,683 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:03<00:55,  3.70s/it, est. speed input: 786.23 toks/s, output: 8.92 toks/s][A
-Processed prompts:  19%|█▉        | 3/16 [00:03<00:13,  1.05s/it, est. speed input: 2214.05 toks/s, output: 31.99 toks/s][A
-Processed prompts:  25%|██▌       | 4/16 [00:04<00:09,  1.23it/s, est. speed input: 2702.93 toks/s, output: 49.76 toks/s][A
-Processed prompts:  31%|███▏      | 5/16 [00:04<00:06,  1.65it/s, est. speed input: 3236.74 toks/s, output: 67.95 toks/s][A
-Processed prompts:  38%|███▊      | 6/16 [00:04<00:04,  2.20it/s, est. speed input: 3766.70 toks/s, output: 85.34 toks/s][A
-Processed prompts:  50%|█████     | 8/16 [00:04<00:02,  3.53it/s, est. speed input: 4825.73 toks/s, output: 127.84 toks/s][A
-Processed prompts:  69%|██████▉   | 11/16 [00:04<00:00,  5.90it/s, est. speed input: 6403.52 toks/s, output: 193.83 toks/s][A
-Processed prompts:  81%|████████▏ | 13/16 [00:05<00:00,  5.62it/s, est. speed input: 7018.85 toks/s, output: 233.94 toks/s][A
-Processed prompts:  88%|████████▊ | 14/16 [00:05<00:00,  5.56it/s, est. speed input: 7302.96 toks/s, output: 257.43 toks/s][A
-Processed prompts:  94%|█████████▍| 15/16 [00:06<00:00,  3.77it/s, est. speed input: 7085.64 toks/s, output: 270.29 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:06<00:00,  2.59it/s, est. speed input: 7543.68 toks/s, output: 304.29 toks/s]
- 13%|########1                                                       | 8/63 [00:53<06:01,  6.57s/it]2025-04-13 12:54:50,982 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:03<00:50,  3.34s/it, est. speed input: 869.85 toks/s, output: 8.67 toks/s][A
-Processed prompts:  19%|█▉        | 3/16 [00:03<00:12,  1.01it/s, est. speed input: 2370.04 toks/s, output: 24.20 toks/s][A
-Processed prompts:  25%|██▌       | 4/16 [00:04<00:09,  1.31it/s, est. speed input: 2899.69 toks/s, output: 37.42 toks/s][A
-Processed prompts:  31%|███▏      | 5/16 [00:04<00:06,  1.80it/s, est. speed input: 3502.57 toks/s, output: 51.58 toks/s][A
-Processed prompts:  38%|███▊      | 6/16 [00:04<00:05,  1.95it/s, est. speed input: 3818.72 toks/s, output: 70.08 toks/s][A
-Processed prompts:  50%|█████     | 8/16 [00:04<00:02,  3.35it/s, est. speed input: 4948.88 toks/s, output: 114.08 toks/s][A
-Processed prompts:  62%|██████▎   | 10/16 [00:04<00:01,  4.74it/s, est. speed input: 5977.15 toks/s, output: 156.05 toks/s][A
-Processed prompts:  69%|██████▉   | 11/16 [00:05<00:01,  4.46it/s, est. speed input: 6229.38 toks/s, output: 173.95 toks/s][A
-Processed prompts:  75%|███████▌  | 12/16 [00:05<00:00,  4.15it/s, est. speed input: 6427.04 toks/s, output: 193.45 toks/s][A
-Processed prompts:  81%|████████▏ | 13/16 [00:05<00:00,  4.87it/s, est. speed input: 6835.65 toks/s, output: 219.00 toks/s][A
-Processed prompts:  88%|████████▊ | 14/16 [00:05<00:00,  3.68it/s, est. speed input: 6804.71 toks/s, output: 236.37 toks/s][A
-Processed prompts:  94%|█████████▍| 15/16 [00:06<00:00,  3.75it/s, est. speed input: 6995.28 toks/s, output: 263.46 toks/s][A
-Processed prompts: 100%|██████████| 16/16 [00:06<00:00,  2.53it/s, est. speed input: 6689.29 toks/s, output: 275.55 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:06<00:00,  2.30it/s, est. speed input: 6689.29 toks/s, output: 275.55 toks/s]
-2025-04-13 12:54:58,077 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:03<00:53,  3.58s/it, est. speed input: 810.77 toks/s, output: 8.10 toks/s][A
-Processed prompts:  19%|█▉        | 3/16 [00:03<00:13,  1.02s/it, est. speed input: 2271.79 toks/s, output: 28.41 toks/s][A
-Processed prompts:  25%|██▌       | 4/16 [00:04<00:08,  1.35it/s, est. speed input: 2876.72 toks/s, output: 40.83 toks/s][A
-Processed prompts:  31%|███▏      | 5/16 [00:04<00:05,  1.86it/s, est. speed input: 3489.86 toks/s, output: 56.17 toks/s][A 13%|########1                                                       | 8/63 [01:04<06:01,  6.57s/it]
-Processed prompts:  44%|████▍     | 7/16 [00:04<00:03,  2.69it/s, est. speed input: 4463.55 toks/s, output: 89.46 toks/s][A
-Processed prompts:  50%|█████     | 8/16 [00:04<00:02,  2.86it/s, est. speed input: 4799.52 toks/s, output: 109.95 toks/s][A
-Processed prompts:  62%|██████▎   | 10/16 [00:04<00:01,  4.45it/s, est. speed input: 5866.61 toks/s, output: 157.13 toks/s][A
-Processed prompts:  75%|███████▌  | 12/16 [00:05<00:00,  6.24it/s, est. speed input: 6890.61 toks/s, output: 200.99 toks/s][A
-Processed prompts:  88%|████████▊ | 14/16 [00:05<00:00,  5.15it/s, est. speed input: 7297.51 toks/s, output: 241.23 toks/s][A
-Processed prompts:  94%|█████████▍| 15/16 [00:05<00:00,  4.85it/s, est. speed input: 7479.41 toks/s, output: 262.09 toks/s][A
-Processed prompts: 100%|██████████| 16/16 [00:06<00:00,  2.62it/s, est. speed input: 6816.17 toks/s, output: 265.02 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:06<00:00,  2.34it/s, est. speed input: 6816.17 toks/s, output: 265.02 toks/s]
- 16%|##########                                                     | 10/63 [01:07<05:56,  6.74s/it]2025-04-13 12:55:05,036 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:03<00:49,  3.33s/it, est. speed input: 872.52 toks/s, output: 8.40 toks/s][A
-Processed prompts:  12%|█▎        | 2/16 [00:03<00:23,  1.68s/it, est. speed input: 1510.79 toks/s, output: 21.82 toks/s][A
-Processed prompts:  19%|█▉        | 3/16 [00:04<00:15,  1.17s/it, est. speed input: 1971.49 toks/s, output: 40.01 toks/s][A
-Processed prompts:  31%|███▏      | 5/16 [00:04<00:06,  1.64it/s, est. speed input: 3038.98 toks/s, output: 76.52 toks/s][A
-Processed prompts:  38%|███▊      | 6/16 [00:04<00:04,  2.13it/s, est. speed input: 3555.07 toks/s, output: 97.21 toks/s][A
-Processed prompts:  56%|█████▋    | 9/16 [00:05<00:01,  3.77it/s, est. speed input: 5028.46 toks/s, output: 160.66 toks/s][A
-Processed prompts:  62%|██████▎   | 10/16 [00:05<00:01,  4.10it/s, est. speed input: 5416.22 toks/s, output: 184.07 toks/s][A
-Processed prompts:  69%|██████▉   | 11/16 [00:05<00:01,  4.69it/s, est. speed input: 5839.54 toks/s, output: 210.92 toks/s][A
-Processed prompts:  75%|███████▌  | 12/16 [00:05<00:00,  5.35it/s, est. speed input: 6248.55 toks/s, output: 236.06 toks/s][A
-Processed prompts:  81%|████████▏ | 13/16 [00:05<00:00,  5.05it/s, est. speed input: 6503.09 toks/s, output: 257.71 toks/s][A
-Processed prompts:  88%|████████▊ | 14/16 [00:06<00:00,  4.78it/s, est. speed input: 6727.43 toks/s, output: 279.76 toks/s][A
-Processed prompts:  94%|█████████▍| 15/16 [00:06<00:00,  3.46it/s, est. speed input: 6663.27 toks/s, output: 296.43 toks/s][A
-Processed prompts: 100%|██████████| 16/16 [00:07<00:00,  2.14it/s, est. speed input: 6240.03 toks/s, output: 303.11 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:07<00:00,  2.14it/s, est. speed input: 6240.03 toks/s, output: 303.11 toks/s]
-2025-04-13 12:55:12,633 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:03<00:50,  3.37s/it, est. speed input: 863.43 toks/s, output: 8.62 toks/s][A
-Processed prompts:  19%|█▉        | 3/16 [00:03<00:12,  1.05it/s, est. speed input: 2438.63 toks/s, output: 24.34 toks/s][A
-Processed prompts:  38%|███▊      | 6/16 [00:03<00:04,  2.49it/s, est. speed input: 4656.13 toks/s, output: 54.47 toks/s][A
-Processed prompts:  56%|█████▋    | 9/16 [00:04<00:01,  3.61it/s, est. speed input: 6304.64 toks/s, output: 88.68 toks/s][A
-Processed prompts:  62%|██████▎   | 10/16 [00:04<00:01,  3.11it/s, est. speed input: 6226.01 toks/s, output: 102.59 toks/s][A 16%|##########                                                     | 10/63 [01:19<05:56,  6.74s/it]
-Processed prompts:  75%|███████▌  | 12/16 [00:05<00:01,  3.18it/s, est. speed input: 6618.99 toks/s, output: 141.35 toks/s][A
-Processed prompts:  81%|████████▏ | 13/16 [00:05<00:01,  2.90it/s, est. speed input: 6583.77 toks/s, output: 162.16 toks/s][A
-Processed prompts:  88%|████████▊ | 14/16 [00:05<00:00,  3.13it/s, est. speed input: 6821.78 toks/s, output: 189.50 toks/s][A
-Processed prompts:  94%|█████████▍| 15/16 [00:06<00:00,  3.42it/s, est. speed input: 7064.95 toks/s, output: 219.93 toks/s][A
-Processed prompts: 100%|██████████| 16/16 [00:06<00:00,  2.72it/s, est. speed input: 6878.91 toks/s, output: 242.69 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:06<00:00,  2.36it/s, est. speed input: 6878.91 toks/s, output: 242.69 toks/s]
- 19%|############                                                   | 12/63 [01:21<05:52,  6.91s/it]2025-04-13 12:55:19,533 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:03<00:58,  3.92s/it, est. speed input: 742.26 toks/s, output: 14.79 toks/s][A
-Processed prompts:  25%|██▌       | 4/16 [00:04<00:09,  1.28it/s, est. speed input: 2863.66 toks/s, output: 57.35 toks/s][A
-Processed prompts:  38%|███▊      | 6/16 [00:04<00:05,  1.78it/s, est. speed input: 3776.37 toks/s, output: 85.28 toks/s][A
-Processed prompts:  44%|████▍     | 7/16 [00:04<00:04,  2.17it/s, est. speed input: 4278.93 toks/s, output: 105.53 toks/s][A
-Processed prompts:  50%|█████     | 8/16 [00:05<00:03,  2.30it/s, est. speed input: 4546.87 toks/s, output: 124.52 toks/s][A
-Processed prompts:  62%|██████▎   | 10/16 [00:05<00:01,  3.06it/s, est. speed input: 5314.33 toks/s, output: 170.32 toks/s][A
-Processed prompts:  75%|███████▌  | 12/16 [00:05<00:01,  3.88it/s, est. speed input: 6064.37 toks/s, output: 218.95 toks/s][A
-Processed prompts:  88%|████████▊ | 14/16 [00:05<00:00,  5.40it/s, est. speed input: 6953.48 toks/s, output: 278.35 toks/s][A
-Processed prompts: 100%|██████████| 16/16 [00:06<00:00,  6.33it/s, est. speed input: 7679.51 toks/s, output: 338.03 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:06<00:00,  2.64it/s, est. speed input: 7679.51 toks/s, output: 338.03 toks/s]
-2025-04-13 12:55:25,731 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:04<01:00,  4.01s/it, est. speed input: 724.82 toks/s, output: 13.21 toks/s][A
-Processed prompts:  12%|█▎        | 2/16 [00:04<00:24,  1.77s/it, est. speed input: 1383.81 toks/s, output: 28.54 toks/s][A
-Processed prompts:  19%|█▉        | 3/16 [00:04<00:13,  1.06s/it, est. speed input: 1970.55 toks/s, output: 48.56 toks/s][A
-Processed prompts:  31%|███▏      | 5/16 [00:04<00:05,  1.93it/s, est. speed input: 3139.41 toks/s, output: 85.96 toks/s][A
-Processed prompts:  38%|███▊      | 6/16 [00:05<00:04,  2.06it/s, est. speed input: 3465.32 toks/s, output: 104.91 toks/s][A
-Processed prompts:  44%|████▍     | 7/16 [00:05<00:03,  2.67it/s, est. speed input: 3959.51 toks/s, output: 126.28 toks/s][A
-Processed prompts:  50%|█████     | 8/16 [00:05<00:02,  2.80it/s, est. speed input: 4263.92 toks/s, output: 147.01 toks/s][A
-Processed prompts:  62%|██████▎   | 10/16 [00:05<00:01,  4.43it/s, est. speed input: 5198.53 toks/s, output: 199.86 toks/s][A
-Processed prompts:  81%|████████▏ | 13/16 [00:05<00:00,  6.45it/s, est. speed input: 6471.56 toks/s, output: 280.55 toks/s][A
-Processed prompts:  88%|████████▊ | 14/16 [00:06<00:00,  6.29it/s, est. speed input: 6765.97 toks/s, output: 305.57 toks/s][A
-Processed prompts:  94%|█████████▍| 15/16 [00:06<00:00,  6.51it/s, est. speed input: 7093.30 toks/s, output: 332.92 toks/s][A
-Processed prompts: 100%|██████████| 16/16 [00:06<00:00,  7.00it/s, est. speed input: 7436.20 toks/s, output: 360.55 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:06<00:00,  2.56it/s, est. speed input: 7436.20 toks/s, output: 360.55 toks/s]
- 22%|##############                                                 | 14/63 [01:34<05:28,  6.71s/it]2025-04-13 12:55:32,147 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:03<00:56,  3.77s/it, est. speed input: 770.18 toks/s, output: 14.05 toks/s][A
-Processed prompts:  19%|█▉        | 3/16 [00:03<00:13,  1.03s/it, est. speed input: 2236.99 toks/s, output: 34.61 toks/s][A
-Processed prompts:  25%|██▌       | 4/16 [00:04<00:09,  1.30it/s, est. speed input: 2781.49 toks/s, output: 48.75 toks/s][A
-Processed prompts:  38%|███▊      | 6/16 [00:04<00:04,  2.23it/s, est. speed input: 3938.79 toks/s, output: 81.45 toks/s][A
-Processed prompts:  50%|█████     | 8/16 [00:04<00:02,  3.49it/s, est. speed input: 5115.11 toks/s, output: 122.21 toks/s][A
-Processed prompts:  62%|██████▎   | 10/16 [00:04<00:01,  3.97it/s, est. speed input: 5892.61 toks/s, output: 160.22 toks/s][A
-Processed prompts:  69%|██████▉   | 11/16 [00:05<00:01,  4.45it/s, est. speed input: 6325.81 toks/s, output: 181.07 toks/s][A
-Processed prompts:  75%|███████▌  | 12/16 [00:05<00:01,  3.72it/s, est. speed input: 6377.11 toks/s, output: 195.48 toks/s][A
-Processed prompts:  81%|████████▏ | 13/16 [00:05<00:00,  3.17it/s, est. speed input: 6375.40 toks/s, output: 214.95 toks/s][A
-Processed prompts:  88%|████████▊ | 14/16 [00:06<00:00,  2.04it/s, est. speed input: 5888.22 toks/s, output: 224.22 toks/s][A
-Processed prompts:  94%|█████████▍| 15/16 [00:07<00:00,  2.21it/s, est. speed input: 6002.35 toks/s, output: 255.84 toks/s][A
-Processed prompts: 100%|██████████| 16/16 [00:07<00:00,  2.78it/s, est. speed input: 6299.74 toks/s, output: 292.94 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:07<00:00,  2.16it/s, est. speed input: 6299.74 toks/s, output: 292.94 toks/s]
-2025-04-13 12:55:39,702 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A 22%|##############                                                 | 14/63 [01:44<05:28,  6.71s/it]
-Processed prompts:   6%|▋         | 1/16 [00:03<00:57,  3.82s/it, est. speed input: 761.56 toks/s, output: 14.65 toks/s][A
-Processed prompts:  12%|█▎        | 2/16 [00:04<00:26,  1.87s/it, est. speed input: 1346.91 toks/s, output: 28.68 toks/s][A
-Processed prompts:  19%|█▉        | 3/16 [00:04<00:14,  1.14s/it, est. speed input: 1899.91 toks/s, output: 48.54 toks/s][A
-Processed prompts:  25%|██▌       | 4/16 [00:04<00:09,  1.29it/s, est. speed input: 2416.14 toks/s, output: 67.71 toks/s][A
-Processed prompts:  38%|███▊      | 6/16 [00:05<00:05,  1.98it/s, est. speed input: 3266.36 toks/s, output: 110.26 toks/s][A
-Processed prompts:  44%|████▍     | 7/16 [00:05<00:03,  2.43it/s, est. speed input: 3695.46 toks/s, output: 136.14 toks/s][A
-Processed prompts:  62%|██████▎   | 10/16 [00:05<00:01,  4.14it/s, est. speed input: 5013.89 toks/s, output: 209.49 toks/s][A
-Processed prompts:  69%|██████▉   | 11/16 [00:05<00:01,  4.49it/s, est. speed input: 5377.93 toks/s, output: 234.98 toks/s][A
-Processed prompts:  81%|████████▏ | 13/16 [00:06<00:00,  5.32it/s, est. speed input: 6094.36 toks/s, output: 289.38 toks/s][A
-Processed prompts:  88%|████████▊ | 14/16 [00:06<00:00,  5.80it/s, est. speed input: 6446.68 toks/s, output: 319.15 toks/s][A
-Processed prompts:  94%|█████████▍| 15/16 [00:06<00:00,  5.64it/s, est. speed input: 6702.27 toks/s, output: 345.44 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:06<00:00,  2.42it/s, est. speed input: 7044.99 toks/s, output: 374.91 toks/s]
- 25%|################                                               | 16/63 [01:48<05:22,  6.85s/it]2025-04-13 12:55:46,452 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:03<00:52,  3.52s/it, est. speed input: 825.66 toks/s, output: 8.53 toks/s][A
-Processed prompts:  12%|█▎        | 2/16 [00:03<00:21,  1.56s/it, est. speed input: 1565.14 toks/s, output: 16.16 toks/s][A
-Processed prompts:  19%|█▉        | 3/16 [00:04<00:13,  1.05s/it, est. speed input: 2106.60 toks/s, output: 30.67 toks/s][A
-Processed prompts:  25%|██▌       | 4/16 [00:04<00:09,  1.32it/s, est. speed input: 2610.08 toks/s, output: 48.70 toks/s][A
-Processed prompts:  31%|███▏      | 5/16 [00:04<00:05,  1.91it/s, est. speed input: 3183.92 toks/s, output: 67.24 toks/s][A
-Processed prompts:  38%|███▊      | 6/16 [00:04<00:04,  2.48it/s, est. speed input: 3683.43 toks/s, output: 85.72 toks/s][A
-Processed prompts:  50%|█████     | 8/16 [00:04<00:01,  4.35it/s, est. speed input: 4807.80 toks/s, output: 130.20 toks/s][A
-Processed prompts:  62%|██████▎   | 10/16 [00:05<00:01,  4.61it/s, est. speed input: 5555.05 toks/s, output: 169.20 toks/s][A
-Processed prompts:  81%|████████▏ | 13/16 [00:05<00:00,  6.34it/s, est. speed input: 6865.34 toks/s, output: 239.48 toks/s][A
-Processed prompts: 100%|██████████| 16/16 [00:06<00:00,  4.48it/s, est. speed input: 7195.30 toks/s, output: 296.13 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:06<00:00,  2.47it/s, est. speed input: 7195.30 toks/s, output: 296.13 toks/s]
-2025-04-13 12:55:53,053 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:03<00:53,  3.59s/it, est. speed input: 809.64 toks/s, output: 8.36 toks/s][A
-Processed prompts:  12%|█▎        | 2/16 [00:03<00:23,  1.66s/it, est. speed input: 1492.77 toks/s, output: 21.06 toks/s][A
-Processed prompts:  38%|███▊      | 6/16 [00:04<00:04,  2.44it/s, est. speed input: 4307.44 toks/s, output: 77.29 toks/s][A
-Processed prompts:  50%|█████     | 8/16 [00:04<00:02,  3.34it/s, est. speed input: 5479.40 toks/s, output: 104.12 toks/s][A
-Processed prompts:  62%|██████▎   | 10/16 [00:04<00:01,  4.41it/s, est. speed input: 6593.15 toks/s, output: 139.63 toks/s][A 25%|################                                               | 16/63 [01:59<05:22,  6.85s/it]
-Processed prompts:  75%|███████▌  | 12/16 [00:04<00:00,  4.82it/s, est. speed input: 7351.90 toks/s, output: 173.78 toks/s][A
-Processed prompts:  81%|████████▏ | 13/16 [00:05<00:00,  3.85it/s, est. speed input: 7228.44 toks/s, output: 188.11 toks/s][A
-Processed prompts: 100%|██████████| 16/16 [00:05<00:00,  3.95it/s, est. speed input: 7796.08 toks/s, output: 252.64 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:05<00:00,  2.68it/s, est. speed input: 7796.08 toks/s, output: 252.64 toks/s]
- 29%|##################                                             | 18/63 [02:01<05:01,  6.70s/it]2025-04-13 12:55:59,160 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:03<00:52,  3.49s/it, est. speed input: 831.96 toks/s, output: 8.31 toks/s][A
-Processed prompts:  12%|█▎        | 2/16 [00:03<00:21,  1.52s/it, est. speed input: 1597.98 toks/s, output: 16.50 toks/s][A
-Processed prompts:  19%|█▉        | 3/16 [00:04<00:13,  1.00s/it, est. speed input: 2171.04 toks/s, output: 28.88 toks/s][A
-Processed prompts:  25%|██▌       | 4/16 [00:04<00:07,  1.54it/s, est. speed input: 2817.37 toks/s, output: 42.41 toks/s][A
-Processed prompts:  31%|███▏      | 5/16 [00:04<00:05,  2.20it/s, est. speed input: 3432.07 toks/s, output: 57.13 toks/s][A
-Processed prompts:  38%|███▊      | 6/16 [00:04<00:04,  2.29it/s, est. speed input: 3761.32 toks/s, output: 75.47 toks/s][A
-Processed prompts:  44%|████▍     | 7/16 [00:04<00:03,  2.75it/s, est. speed input: 4195.86 toks/s, output: 93.80 toks/s][A
-Processed prompts:  56%|█████▋    | 9/16 [00:05<00:01,  3.97it/s, est. speed input: 5115.44 toks/s, output: 135.06 toks/s][A
-Processed prompts:  62%|██████▎   | 10/16 [00:05<00:01,  3.88it/s, est. speed input: 5395.27 toks/s, output: 158.24 toks/s][A
-Processed prompts:  81%|████████▏ | 13/16 [00:05<00:00,  6.11it/s, est. speed input: 6722.66 toks/s, output: 239.48 toks/s][A
-Processed prompts:  88%|████████▊ | 14/16 [00:05<00:00,  5.22it/s, est. speed input: 6870.13 toks/s, output: 260.28 toks/s][A
-Processed prompts:  94%|█████████▍| 15/16 [00:06<00:00,  5.13it/s, est. speed input: 7113.87 toks/s, output: 286.56 toks/s][A
-Processed prompts: 100%|██████████| 16/16 [00:06<00:00,  3.00it/s, est. speed input: 6744.21 toks/s, output: 293.07 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:06<00:00,  2.32it/s, est. speed input: 6744.21 toks/s, output: 293.07 toks/s]
-2025-04-13 12:56:06,201 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:03<00:50,  3.37s/it, est. speed input: 861.06 toks/s, output: 8.89 toks/s][A
-Processed prompts:  25%|██▌       | 4/16 [00:03<00:08,  1.45it/s, est. speed input: 3259.84 toks/s, output: 33.39 toks/s][A
-Processed prompts:  31%|███▏      | 5/16 [00:03<00:06,  1.79it/s, est. speed input: 3841.53 toks/s, output: 44.68 toks/s][A
-Processed prompts:  38%|███▊      | 6/16 [00:04<00:04,  2.15it/s, est. speed input: 4343.63 toks/s, output: 57.30 toks/s][A
-Processed prompts:  44%|████▍     | 7/16 [00:04<00:03,  2.52it/s, est. speed input: 4796.95 toks/s, output: 70.26 toks/s][A
-Processed prompts:  50%|█████     | 8/16 [00:04<00:03,  2.51it/s, est. speed input: 5005.25 toks/s, output: 84.39 toks/s][A
-Processed prompts:  62%|██████▎   | 10/16 [00:04<00:01,  3.49it/s, est. speed input: 5875.05 toks/s, output: 126.11 toks/s][A
-Processed prompts:  69%|██████▉   | 11/16 [00:05<00:01,  3.63it/s, est. speed input: 6159.96 toks/s, output: 149.28 toks/s][A
-Processed prompts:  75%|███████▌  | 12/16 [00:05<00:01,  3.17it/s, est. speed input: 6206.57 toks/s, output: 169.01 toks/s][A 29%|##################                                             | 18/63 [02:14<05:01,  6.70s/it]
-Processed prompts:  94%|█████████▍| 15/16 [00:06<00:00,  3.02it/s, est. speed input: 6554.95 toks/s, output: 236.25 toks/s][A
-Processed prompts: 100%|██████████| 16/16 [00:06<00:00,  3.27it/s, est. speed input: 6784.20 toks/s, output: 268.13 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:06<00:00,  2.33it/s, est. speed input: 6784.20 toks/s, output: 268.13 toks/s]
- 32%|####################                                           | 20/63 [02:15<04:52,  6.80s/it]2025-04-13 12:56:13,228 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:03<00:51,  3.46s/it, est. speed input: 839.72 toks/s, output: 8.96 toks/s][A
-Processed prompts:  12%|█▎        | 2/16 [00:03<00:21,  1.52s/it, est. speed input: 1605.42 toks/s, output: 20.99 toks/s][A
-Processed prompts:  25%|██▌       | 4/16 [00:03<00:07,  1.56it/s, est. speed input: 3014.31 toks/s, output: 40.96 toks/s][A
-Processed prompts:  38%|███▊      | 6/16 [00:04<00:04,  2.48it/s, est. speed input: 4217.27 toks/s, output: 65.27 toks/s][A
-Processed prompts:  44%|████▍     | 7/16 [00:04<00:03,  2.72it/s, est. speed input: 4632.19 toks/s, output: 81.23 toks/s][A
-Processed prompts:  50%|█████     | 8/16 [00:04<00:02,  3.13it/s, est. speed input: 5077.93 toks/s, output: 101.28 toks/s][A
-Processed prompts:  62%|██████▎   | 10/16 [00:04<00:01,  4.80it/s, est. speed input: 6181.18 toks/s, output: 144.75 toks/s][A
-Processed prompts:  69%|██████▉   | 11/16 [00:05<00:01,  3.83it/s, est. speed input: 6227.13 toks/s, output: 159.43 toks/s][A
-Processed prompts:  75%|███████▌  | 12/16 [00:05<00:01,  3.96it/s, est. speed input: 6504.36 toks/s, output: 180.43 toks/s][A
-Processed prompts:  81%|████████▏ | 13/16 [00:05<00:00,  4.23it/s, est. speed input: 6803.77 toks/s, output: 203.01 toks/s][A
-Processed prompts:  88%|████████▊ | 14/16 [00:05<00:00,  3.87it/s, est. speed input: 6934.04 toks/s, output: 224.96 toks/s][A
-Processed prompts:  94%|█████████▍| 15/16 [00:06<00:00,  3.78it/s, est. speed input: 7091.82 toks/s, output: 249.01 toks/s][A
-Processed prompts: 100%|██████████| 16/16 [00:06<00:00,  3.20it/s, est. speed input: 7068.70 toks/s, output: 270.78 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:06<00:00,  2.43it/s, est. speed input: 7068.70 toks/s, output: 270.78 toks/s]
-2025-04-13 12:56:19,959 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:04<01:00,  4.03s/it, est. speed input: 721.15 toks/s, output: 15.63 toks/s][A
-Processed prompts:  12%|█▎        | 2/16 [00:04<00:24,  1.76s/it, est. speed input: 1381.18 toks/s, output: 29.47 toks/s][A
-Processed prompts:  19%|█▉        | 3/16 [00:04<00:14,  1.10s/it, est. speed input: 1926.21 toks/s, output: 47.28 toks/s][A
-Processed prompts:  31%|███▏      | 5/16 [00:04<00:05,  1.96it/s, est. speed input: 3134.33 toks/s, output: 88.44 toks/s][A
-Processed prompts:  44%|████▍     | 7/16 [00:04<00:02,  3.27it/s, est. speed input: 4288.80 toks/s, output: 129.22 toks/s][A
-Processed prompts:  62%|██████▎   | 10/16 [00:04<00:01,  5.59it/s, est. speed input: 5952.77 toks/s, output: 193.12 toks/s][A
-Processed prompts:  75%|███████▌  | 12/16 [00:05<00:00,  4.50it/s, est. speed input: 6327.17 toks/s, output: 220.02 toks/s][A
-Processed prompts:  88%|████████▊ | 14/16 [00:05<00:00,  5.24it/s, est. speed input: 7072.80 toks/s, output: 272.26 toks/s][A
-Processed prompts: 100%|██████████| 16/16 [00:06<00:00,  4.24it/s, est. speed input: 7238.38 toks/s, output: 313.41 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:06<00:00,  2.49it/s, est. speed input: 7238.38 toks/s, output: 313.41 toks/s]
- 35%|######################                                         | 22/63 [02:28<04:36,  6.76s/it]2025-04-13 12:56:26,530 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:03<00:51,  3.45s/it, est. speed input: 843.61 toks/s, output: 9.29 toks/s][A
-Processed prompts:  19%|█▉        | 3/16 [00:03<00:13,  1.06s/it, est. speed input: 2240.12 toks/s, output: 30.30 toks/s][A
-Processed prompts:  38%|███▊      | 6/16 [00:04<00:04,  2.27it/s, est. speed input: 4309.82 toks/s, output: 67.66 toks/s][A
-Processed prompts:  50%|█████     | 8/16 [00:04<00:02,  2.85it/s, est. speed input: 5236.92 toks/s, output: 96.33 toks/s][A
-Processed prompts:  62%|██████▎   | 10/16 [00:04<00:01,  3.87it/s, est. speed input: 6312.42 toks/s, output: 129.58 toks/s][A
-Processed prompts:  75%|███████▌  | 12/16 [00:04<00:00,  4.96it/s, est. speed input: 7298.60 toks/s, output: 171.07 toks/s][A
-Processed prompts:  88%|████████▊ | 14/16 [00:05<00:00,  3.40it/s, est. speed input: 7069.80 toks/s, output: 195.64 toks/s][A
-Processed prompts:  94%|█████████▍| 15/16 [00:05<00:00,  3.60it/s, est. speed input: 7313.34 toks/s, output: 225.41 toks/s][A
-Processed prompts: 100%|██████████| 16/16 [00:06<00:00,  3.03it/s, est. speed input: 7168.13 toks/s, output: 244.97 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:06<00:00,  2.46it/s, est. speed input: 7168.13 toks/s, output: 244.97 toks/s]
-2025-04-13 12:56:33,162 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:03<00:50,  3.35s/it, est. speed input: 865.80 toks/s, output: 8.65 toks/s][A
-Processed prompts:  12%|█▎        | 2/16 [00:03<00:20,  1.46s/it, est. speed input: 1668.13 toks/s, output: 17.23 toks/s][A
-Processed prompts:  19%|█▉        | 3/16 [00:03<00:10,  1.19it/s, est. speed input: 2424.70 toks/s, output: 25.04 toks/s][A
-Processed prompts:  25%|██▌       | 4/16 [00:04<00:09,  1.32it/s, est. speed input: 2754.73 toks/s, output: 39.32 toks/s][A 35%|######################                                         | 22/63 [02:40<04:36,  6.76s/it]
-Processed prompts:  38%|███▊      | 6/16 [00:04<00:04,  2.09it/s, est. speed input: 3722.50 toks/s, output: 77.02 toks/s][A
-Processed prompts:  44%|████▍     | 7/16 [00:04<00:03,  2.60it/s, est. speed input: 4219.05 toks/s, output: 95.98 toks/s][A
-Processed prompts:  56%|█████▋    | 9/16 [00:05<00:01,  3.91it/s, est. speed input: 5225.79 toks/s, output: 137.61 toks/s][A
-Processed prompts:  69%|██████▉   | 11/16 [00:05<00:00,  5.02it/s, est. speed input: 6122.51 toks/s, output: 184.34 toks/s][A
-Processed prompts:  75%|███████▌  | 12/16 [00:05<00:00,  4.31it/s, est. speed input: 6260.32 toks/s, output: 202.72 toks/s][A
-Processed prompts:  88%|████████▊ | 14/16 [00:06<00:00,  3.41it/s, est. speed input: 6401.93 toks/s, output: 240.42 toks/s][A
-Processed prompts: 100%|██████████| 16/16 [00:07<00:00,  2.72it/s, est. speed input: 6315.40 toks/s, output: 282.13 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:07<00:00,  2.17it/s, est. speed input: 6315.40 toks/s, output: 282.13 toks/s]
- 38%|########################                                       | 24/63 [02:42<04:27,  6.85s/it]2025-04-13 12:56:40,671 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:03<00:59,  3.94s/it, est. speed input: 737.41 toks/s, output: 12.94 toks/s][A
-Processed prompts:  12%|█▎        | 2/16 [00:04<00:26,  1.87s/it, est. speed input: 1333.34 toks/s, output: 28.90 toks/s][A
-Processed prompts:  19%|█▉        | 3/16 [00:04<00:14,  1.15s/it, est. speed input: 1869.84 toks/s, output: 49.33 toks/s][A
-Processed prompts:  31%|███▏      | 5/16 [00:05<00:06,  1.67it/s, est. speed input: 2902.38 toks/s, output: 90.48 toks/s][A
-Processed prompts:  44%|████▍     | 7/16 [00:05<00:03,  2.29it/s, est. speed input: 3712.04 toks/s, output: 133.00 toks/s][A
-Processed prompts:  62%|██████▎   | 10/16 [00:05<00:01,  4.11it/s, est. speed input: 5184.85 toks/s, output: 215.31 toks/s][A
-Processed prompts:  75%|███████▌  | 12/16 [00:05<00:00,  5.33it/s, est. speed input: 6075.67 toks/s, output: 268.25 toks/s][A
-Processed prompts:  88%|████████▊ | 14/16 [00:06<00:00,  4.51it/s, est. speed input: 6423.85 toks/s, output: 307.75 toks/s][A
-Processed prompts:  94%|█████████▍| 15/16 [00:06<00:00,  3.68it/s, est. speed input: 6383.85 toks/s, output: 324.31 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:06<00:00,  2.33it/s, est. speed input: 6786.43 toks/s, output: 361.36 toks/s]
-2025-04-13 12:56:47,665 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:03<00:51,  3.40s/it, est. speed input: 853.94 toks/s, output: 8.23 toks/s][A
-Processed prompts:  12%|█▎        | 2/16 [00:03<00:21,  1.52s/it, est. speed input: 1609.11 toks/s, output: 16.33 toks/s][A
-Processed prompts:  19%|█▉        | 3/16 [00:03<00:12,  1.06it/s, est. speed input: 2255.00 toks/s, output: 27.67 toks/s][A
-Processed prompts:  31%|███▏      | 5/16 [00:04<00:05,  2.12it/s, est. speed input: 3560.81 toks/s, output: 56.05 toks/s][A
-Processed prompts:  38%|███▊      | 6/16 [00:04<00:04,  2.43it/s, est. speed input: 4014.21 toks/s, output: 73.13 toks/s][A
-Processed prompts:  44%|████▍     | 7/16 [00:04<00:03,  2.63it/s, est. speed input: 4376.55 toks/s, output: 88.12 toks/s][A 38%|########################                                       | 24/63 [02:54<04:27,  6.85s/it]
-Processed prompts:  56%|█████▋    | 9/16 [00:04<00:01,  3.73it/s, est. speed input: 5321.71 toks/s, output: 132.32 toks/s][A
-Processed prompts:  69%|██████▉   | 11/16 [00:05<00:01,  4.41it/s, est. speed input: 6100.88 toks/s, output: 176.35 toks/s][A
-Processed prompts:  75%|███████▌  | 12/16 [00:05<00:01,  3.73it/s, est. speed input: 6166.60 toks/s, output: 193.45 toks/s][A
-Processed prompts:  81%|████████▏ | 13/16 [00:05<00:00,  4.38it/s, est. speed input: 6561.97 toks/s, output: 221.95 toks/s][A
-Processed prompts:  88%|████████▊ | 14/16 [00:05<00:00,  5.10it/s, est. speed input: 6945.69 toks/s, output: 249.69 toks/s][A
-Processed prompts:  94%|█████████▍| 15/16 [00:06<00:00,  5.29it/s, est. speed input: 7233.30 toks/s, output: 275.00 toks/s][A
-Processed prompts: 100%|██████████| 16/16 [00:06<00:00,  5.88it/s, est. speed input: 7564.43 toks/s, output: 305.39 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:06<00:00,  2.60it/s, est. speed input: 7564.43 toks/s, output: 305.39 toks/s]
- 41%|##########################                                     | 26/63 [02:56<04:11,  6.79s/it]2025-04-13 12:56:53,956 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:03<00:52,  3.50s/it, est. speed input: 831.24 toks/s, output: 9.72 toks/s][A
-Processed prompts:  19%|█▉        | 3/16 [00:03<00:12,  1.03it/s, est. speed input: 2373.67 toks/s, output: 26.94 toks/s][A
-Processed prompts:  25%|██▌       | 4/16 [00:03<00:08,  1.36it/s, est. speed input: 2939.69 toks/s, output: 37.65 toks/s][A
-Processed prompts:  31%|███▏      | 5/16 [00:04<00:05,  1.90it/s, est. speed input: 3576.20 toks/s, output: 49.67 toks/s][A
-Processed prompts:  38%|███▊      | 6/16 [00:04<00:04,  2.29it/s, est. speed input: 4044.64 toks/s, output: 67.45 toks/s][A
-Processed prompts:  44%|████▍     | 7/16 [00:04<00:03,  2.59it/s, est. speed input: 4436.19 toks/s, output: 83.48 toks/s][A
-Processed prompts:  56%|█████▋    | 9/16 [00:04<00:01,  4.22it/s, est. speed input: 5534.66 toks/s, output: 127.08 toks/s][A
-Processed prompts:  69%|██████▉   | 11/16 [00:05<00:01,  4.64it/s, est. speed input: 6277.05 toks/s, output: 164.42 toks/s][A
-Processed prompts:  75%|███████▌  | 12/16 [00:05<00:00,  4.29it/s, est. speed input: 6472.20 toks/s, output: 185.07 toks/s][A
-Processed prompts:  81%|████████▏ | 13/16 [00:05<00:00,  4.48it/s, est. speed input: 6770.64 toks/s, output: 207.72 toks/s][A
-Processed prompts:  88%|████████▊ | 14/16 [00:05<00:00,  3.95it/s, est. speed input: 6873.53 toks/s, output: 231.09 toks/s][A
-Processed prompts: 100%|██████████| 16/16 [00:06<00:00,  4.35it/s, est. speed input: 7364.03 toks/s, output: 286.21 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:06<00:00,  2.53it/s, est. speed input: 7364.03 toks/s, output: 286.21 toks/s]
-2025-04-13 12:57:00,410 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:03<00:52,  3.50s/it, est. speed input: 831.38 toks/s, output: 10.00 toks/s][A
-Processed prompts:  12%|█▎        | 2/16 [00:03<00:22,  1.59s/it, est. speed input: 1548.44 toks/s, output: 22.62 toks/s][A
-Processed prompts:  19%|█▉        | 3/16 [00:03<00:12,  1.08it/s, est. speed input: 2245.07 toks/s, output: 33.72 toks/s][A
-Processed prompts:  31%|███▏      | 5/16 [00:03<00:04,  2.32it/s, est. speed input: 3638.88 toks/s, output: 64.09 toks/s][A
-Processed prompts:  44%|████▍     | 7/16 [00:04<00:03,  2.77it/s, est. speed input: 4481.39 toks/s, output: 90.95 toks/s][A
-Processed prompts:  50%|█████     | 8/16 [00:04<00:02,  2.75it/s, est. speed input: 4733.00 toks/s, output: 106.42 toks/s][A
-Processed prompts:  56%|█████▋    | 9/16 [00:05<00:02,  2.53it/s, est. speed input: 4844.30 toks/s, output: 123.85 toks/s][A
-Processed prompts:  81%|████████▏ | 13/16 [00:05<00:00,  5.17it/s, est. speed input: 6720.83 toks/s, output: 236.65 toks/s][A
-Processed prompts:  94%|█████████▍| 15/16 [00:06<00:00,  5.20it/s, est. speed input: 7267.31 toks/s, output: 284.21 toks/s][A
-Processed prompts: 100%|██████████| 16/16 [00:06<00:00,  5.15it/s, est. speed input: 7497.04 toks/s, output: 309.34 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:06<00:00,  2.58it/s, est. speed input: 7497.04 toks/s, output: 309.34 toks/s]
- 44%|############################                                   | 28/63 [03:09<03:53,  6.67s/it]2025-04-13 12:57:06,749 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:03<00:53,  3.55s/it, est. speed input: 819.34 toks/s, output: 10.41 toks/s][A
-Processed prompts:  19%|█▉        | 3/16 [00:03<00:12,  1.04it/s, est. speed input: 2379.29 toks/s, output: 30.54 toks/s][A
-Processed prompts:  31%|███▏      | 5/16 [00:04<00:06,  1.76it/s, est. speed input: 3580.88 toks/s, output: 48.77 toks/s][A
-Processed prompts:  38%|███▊      | 6/16 [00:04<00:05,  1.89it/s, est. speed input: 3895.94 toks/s, output: 64.99 toks/s][A
-Processed prompts:  44%|████▍     | 7/16 [00:04<00:04,  2.25it/s, est. speed input: 4324.13 toks/s, output: 82.66 toks/s][A
-Processed prompts:  50%|█████     | 8/16 [00:04<00:02,  2.88it/s, est. speed input: 4837.70 toks/s, output: 106.31 toks/s][A
-Processed prompts:  62%|██████▎   | 10/16 [00:04<00:01,  4.55it/s, est. speed input: 5896.33 toks/s, output: 151.10 toks/s][A
-Processed prompts:  69%|██████▉   | 11/16 [00:05<00:00,  5.19it/s, est. speed input: 6345.65 toks/s, output: 173.43 toks/s][A
-Processed prompts:  75%|███████▌  | 12/16 [00:05<00:00,  5.63it/s, est. speed input: 6745.23 toks/s, output: 195.22 toks/s][A
-Processed prompts:  88%|████████▊ | 14/16 [00:05<00:00,  4.50it/s, est. speed input: 7093.88 toks/s, output: 235.37 toks/s][A
-Processed prompts:  94%|█████████▍| 15/16 [00:05<00:00,  4.35it/s, est. speed input: 7278.29 toks/s, output: 258.91 toks/s][A
-Processed prompts: 100%|██████████| 16/16 [00:07<00:00,  1.98it/s, est. speed input: 6353.99 toks/s, output: 253.90 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:07<00:00,  2.18it/s, est. speed input: 6353.99 toks/s, output: 253.90 toks/s]
-2025-04-13 12:57:14,222 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A 44%|############################                                   | 28/63 [03:20<03:53,  6.67s/it]
-Processed prompts:   6%|▋         | 1/16 [00:03<00:55,  3.68s/it, est. speed input: 788.99 toks/s, output: 8.15 toks/s][A
-Processed prompts:  19%|█▉        | 3/16 [00:03<00:13,  1.04s/it, est. speed input: 2234.00 toks/s, output: 32.79 toks/s][A
-Processed prompts:  31%|███▏      | 5/16 [00:04<00:06,  1.75it/s, est. speed input: 3486.95 toks/s, output: 61.65 toks/s][A
-Processed prompts:  38%|███▊      | 6/16 [00:04<00:05,  1.98it/s, est. speed input: 3879.65 toks/s, output: 76.97 toks/s][A
-Processed prompts:  44%|████▍     | 7/16 [00:04<00:03,  2.53it/s, est. speed input: 4421.17 toks/s, output: 96.68 toks/s][A
-Processed prompts:  62%|██████▎   | 10/16 [00:04<00:01,  4.33it/s, est. speed input: 5957.98 toks/s, output: 157.56 toks/s][A
-Processed prompts:  75%|███████▌  | 12/16 [00:05<00:00,  4.77it/s, est. speed input: 6688.29 toks/s, output: 194.17 toks/s][A
-Processed prompts:  81%|████████▏ | 13/16 [00:05<00:00,  4.38it/s, est. speed input: 6845.76 toks/s, output: 214.23 toks/s][A
-Processed prompts:  94%|█████████▍| 15/16 [00:05<00:00,  5.93it/s, est. speed input: 7726.78 toks/s, output: 273.32 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:05<00:00,  2.81it/s, est. speed input: 8172.07 toks/s, output: 300.86 toks/s]
- 48%|##############################                                 | 30/63 [03:22<03:39,  6.66s/it]2025-04-13 12:57:20,067 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:03<00:57,  3.80s/it, est. speed input: 765.12 toks/s, output: 12.62 toks/s][A
-Processed prompts:  12%|█▎        | 2/16 [00:03<00:22,  1.63s/it, est. speed input: 1484.89 toks/s, output: 28.08 toks/s][A
-Processed prompts:  25%|██▌       | 4/16 [00:04<00:08,  1.49it/s, est. speed input: 2821.34 toks/s, output: 53.62 toks/s][A
-Processed prompts:  38%|███▊      | 6/16 [00:04<00:04,  2.44it/s, est. speed input: 4006.90 toks/s, output: 84.06 toks/s][A
-Processed prompts:  50%|█████     | 8/16 [00:04<00:02,  3.14it/s, est. speed input: 4929.99 toks/s, output: 118.92 toks/s][A
-Processed prompts:  62%|██████▎   | 10/16 [00:05<00:01,  3.55it/s, est. speed input: 5637.74 toks/s, output: 153.22 toks/s][A
-Processed prompts:  75%|███████▌  | 12/16 [00:05<00:00,  4.85it/s, est. speed input: 6611.69 toks/s, output: 205.99 toks/s][A
-Processed prompts:  88%|████████▊ | 14/16 [00:05<00:00,  5.44it/s, est. speed input: 7328.74 toks/s, output: 254.24 toks/s][A
-Processed prompts: 100%|██████████| 16/16 [00:06<00:00,  2.88it/s, est. speed input: 6698.68 toks/s, output: 268.51 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:06<00:00,  2.30it/s, est. speed input: 6698.68 toks/s, output: 268.51 toks/s]
-2025-04-13 12:57:27,154 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:03<00:50,  3.39s/it, est. speed input: 855.85 toks/s, output: 8.55 toks/s][A
-Processed prompts:  12%|█▎        | 2/16 [00:03<00:22,  1.58s/it, est. speed input: 1570.85 toks/s, output: 17.57 toks/s][A
-Processed prompts:  19%|█▉        | 3/16 [00:03<00:12,  1.06it/s, est. speed input: 2240.60 toks/s, output: 30.58 toks/s][A
-Processed prompts:  31%|███▏      | 5/16 [00:04<00:04,  2.27it/s, est. speed input: 3632.85 toks/s, output: 57.49 toks/s][A
-Processed prompts:  44%|████▍     | 7/16 [00:04<00:03,  2.86it/s, est. speed input: 4550.48 toks/s, output: 87.84 toks/s][A
-Processed prompts:  50%|█████     | 8/16 [00:04<00:02,  3.09it/s, est. speed input: 4931.21 toks/s, output: 106.19 toks/s][A
-Processed prompts:  69%|██████▉   | 11/16 [00:04<00:00,  5.04it/s, est. speed input: 6465.93 toks/s, output: 166.91 toks/s][A 48%|##############################                                 | 30/63 [03:34<03:39,  6.66s/it]
-Processed prompts:  75%|███████▌  | 12/16 [00:05<00:01,  3.51it/s, est. speed input: 6243.74 toks/s, output: 176.36 toks/s][A
-Processed prompts:  88%|████████▊ | 14/16 [00:05<00:00,  3.92it/s, est. speed input: 6793.85 toks/s, output: 227.54 toks/s][A
-Processed prompts:  94%|█████████▍| 15/16 [00:06<00:00,  3.26it/s, est. speed input: 6709.55 toks/s, output: 248.93 toks/s][A
-Processed prompts: 100%|██████████| 16/16 [00:07<00:00,  2.19it/s, est. speed input: 6227.25 toks/s, output: 259.36 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:07<00:00,  2.14it/s, est. speed input: 6227.25 toks/s, output: 259.36 toks/s]
- 51%|################################                               | 32/63 [03:37<03:33,  6.87s/it]2025-04-13 12:57:34,784 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:03<00:54,  3.64s/it, est. speed input: 797.52 toks/s, output: 7.96 toks/s][A
-Processed prompts:  19%|█▉        | 3/16 [00:03<00:13,  1.07s/it, est. speed input: 2191.46 toks/s, output: 30.91 toks/s][A
-Processed prompts:  31%|███▏      | 5/16 [00:04<00:07,  1.47it/s, est. speed input: 3155.39 toks/s, output: 63.39 toks/s][A
-Processed prompts:  50%|█████     | 8/16 [00:04<00:02,  2.76it/s, est. speed input: 4817.27 toks/s, output: 124.50 toks/s][A
-Processed prompts:  56%|█████▋    | 9/16 [00:04<00:02,  3.09it/s, est. speed input: 5238.89 toks/s, output: 144.37 toks/s][A
-Processed prompts:  69%|██████▉   | 11/16 [00:05<00:01,  3.99it/s, est. speed input: 6105.19 toks/s, output: 185.34 toks/s][A
-Processed prompts:  81%|████████▏ | 13/16 [00:05<00:00,  5.48it/s, est. speed input: 7076.54 toks/s, output: 237.95 toks/s][A
-Processed prompts:  94%|█████████▍| 15/16 [00:06<00:00,  3.74it/s, est. speed input: 7005.77 toks/s, output: 265.81 toks/s][A
-Processed prompts: 100%|██████████| 16/16 [00:06<00:00,  2.92it/s, est. speed input: 6757.23 toks/s, output: 280.55 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:06<00:00,  2.32it/s, est. speed input: 6757.23 toks/s, output: 280.55 toks/s]
-2025-04-13 12:57:41,802 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:03<00:53,  3.58s/it, est. speed input: 811.68 toks/s, output: 8.11 toks/s][A
-Processed prompts:  12%|█▎        | 2/16 [00:03<00:22,  1.58s/it, est. speed input: 1547.38 toks/s, output: 21.57 toks/s][A
-Processed prompts:  19%|█▉        | 3/16 [00:03<00:11,  1.09it/s, est. speed input: 2245.06 toks/s, output: 36.58 toks/s][A
-Processed prompts:  25%|██▌       | 4/16 [00:04<00:09,  1.25it/s, est. speed input: 2576.87 toks/s, output: 51.44 toks/s][A
-Processed prompts:  31%|███▏      | 5/16 [00:04<00:06,  1.81it/s, est. speed input: 3144.84 toks/s, output: 69.71 toks/s][A
-Processed prompts:  44%|████▍     | 7/16 [00:04<00:03,  2.99it/s, est. speed input: 4182.00 toks/s, output: 108.55 toks/s][A
-Processed prompts:  56%|█████▋    | 9/16 [00:05<00:01,  3.82it/s, est. speed input: 5042.06 toks/s, output: 148.03 toks/s][A
-Processed prompts:  69%|██████▉   | 11/16 [00:05<00:01,  4.95it/s, est. speed input: 5930.53 toks/s, output: 198.98 toks/s][A
-Processed prompts:  94%|█████████▍| 15/16 [00:05<00:00,  9.02it/s, est. speed input: 7938.79 toks/s, output: 309.86 toks/s][A 51%|################################                               | 32/63 [03:50<03:33,  6.87s/it]Processed prompts: 100%|██████████| 16/16 [00:06<00:00,  2.53it/s, est. speed input: 7346.19 toks/s, output: 305.70 toks/s]
- 54%|##################################                             | 34/63 [03:50<03:18,  6.84s/it]2025-04-13 12:57:48,278 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:03<00:51,  3.45s/it, est. speed input: 843.59 toks/s, output: 8.70 toks/s][A
-Processed prompts:  12%|█▎        | 2/16 [00:03<00:20,  1.50s/it, est. speed input: 1624.67 toks/s, output: 18.17 toks/s][A
-Processed prompts:  25%|██▌       | 4/16 [00:03<00:07,  1.65it/s, est. speed input: 3111.97 toks/s, output: 33.73 toks/s][A
-Processed prompts:  31%|███▏      | 5/16 [00:04<00:06,  1.58it/s, est. speed input: 3287.36 toks/s, output: 48.87 toks/s][A
-Processed prompts:  38%|███▊      | 6/16 [00:04<00:04,  2.02it/s, est. speed input: 3785.37 toks/s, output: 70.13 toks/s][A
-Processed prompts:  50%|█████     | 8/16 [00:04<00:02,  3.36it/s, est. speed input: 4892.74 toks/s, output: 110.91 toks/s][A
-Processed prompts:  56%|█████▋    | 9/16 [00:04<00:01,  3.87it/s, est. speed input: 5348.61 toks/s, output: 133.93 toks/s][A
-Processed prompts:  69%|██████▉   | 11/16 [00:05<00:01,  4.40it/s, est. speed input: 6080.74 toks/s, output: 174.41 toks/s][A
-Processed prompts:  75%|███████▌  | 12/16 [00:05<00:00,  4.02it/s, est. speed input: 6250.87 toks/s, output: 194.64 toks/s][A
-Processed prompts:  81%|████████▏ | 13/16 [00:05<00:00,  4.70it/s, est. speed input: 6649.93 toks/s, output: 221.25 toks/s][A
-Processed prompts:  88%|████████▊ | 14/16 [00:06<00:00,  3.28it/s, est. speed input: 6513.76 toks/s, output: 235.63 toks/s][A
-Processed prompts:  94%|█████████▍| 15/16 [00:06<00:00,  3.69it/s, est. speed input: 6782.61 toks/s, output: 266.13 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:06<00:00,  2.46it/s, est. speed input: 7155.00 toks/s, output: 299.01 toks/s]
-2025-04-13 12:57:54,915 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:03<00:59,  3.95s/it, est. speed input: 736.77 toks/s, output: 16.46 toks/s][A
-Processed prompts:  12%|█▎        | 2/16 [00:04<00:24,  1.78s/it, est. speed input: 1382.49 toks/s, output: 30.66 toks/s][A
-Processed prompts:  31%|███▏      | 5/16 [00:04<00:06,  1.67it/s, est. speed input: 3160.92 toks/s, output: 79.33 toks/s][A
-Processed prompts:  44%|████▍     | 7/16 [00:04<00:03,  2.34it/s, est. speed input: 4109.82 toks/s, output: 117.51 toks/s][A
-Processed prompts:  56%|█████▋    | 9/16 [00:05<00:02,  3.37it/s, est. speed input: 5139.28 toks/s, output: 163.75 toks/s][A
-Processed prompts:  75%|███████▌  | 12/16 [00:05<00:00,  5.27it/s, est. speed input: 6642.25 toks/s, output: 235.74 toks/s][A
-Processed prompts:  88%|████████▊ | 14/16 [00:05<00:00,  6.41it/s, est. speed input: 7531.95 toks/s, output: 285.55 toks/s][A
-Processed prompts: 100%|██████████| 16/16 [00:06<00:00,  4.85it/s, est. speed input: 7684.26 toks/s, output: 318.44 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:06<00:00,  2.64it/s, est. speed input: 7684.26 toks/s, output: 318.44 toks/s]
- 57%|####################################                           | 36/63 [04:03<03:01,  6.71s/it]2025-04-13 12:58:01,101 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:03<00:50,  3.37s/it, est. speed input: 862.97 toks/s, output: 8.32 toks/s][A
-Processed prompts:  25%|██▌       | 4/16 [00:04<00:10,  1.19it/s, est. speed input: 2821.25 toks/s, output: 34.93 toks/s][A
-Processed prompts:  38%|███▊      | 6/16 [00:04<00:06,  1.62it/s, est. speed input: 3653.57 toks/s, output: 64.73 toks/s][A
-Processed prompts:  50%|█████     | 8/16 [00:05<00:03,  2.36it/s, est. speed input: 4645.58 toks/s, output: 108.27 toks/s][A
-Processed prompts:  56%|█████▋    | 9/16 [00:05<00:02,  2.62it/s, est. speed input: 5003.65 toks/s, output: 132.54 toks/s][A
-Processed prompts:  75%|███████▌  | 12/16 [00:05<00:00,  4.42it/s, est. speed input: 6455.60 toks/s, output: 209.29 toks/s][A
-Processed prompts:  81%|████████▏ | 13/16 [00:05<00:00,  4.86it/s, est. speed input: 6847.92 toks/s, output: 234.30 toks/s][A
-Processed prompts:  88%|████████▊ | 14/16 [00:05<00:00,  5.45it/s, est. speed input: 7242.95 toks/s, output: 259.30 toks/s][A
-Processed prompts: 100%|██████████| 16/16 [00:07<00:00,  2.34it/s, est. speed input: 6381.84 toks/s, output: 266.13 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:07<00:00,  2.19it/s, est. speed input: 6381.84 toks/s, output: 266.13 toks/s]
-2025-04-13 12:58:08,540 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:03<00:50,  3.40s/it, est. speed input: 854.74 toks/s, output: 9.12 toks/s][A
-Processed prompts:  12%|█▎        | 2/16 [00:03<00:22,  1.58s/it, est. speed input: 1568.24 toks/s, output: 16.46 toks/s][A
-Processed prompts:  19%|█▉        | 3/16 [00:03<00:12,  1.08it/s, est. speed input: 2265.84 toks/s, output: 30.39 toks/s][A 57%|####################################                           | 36/63 [04:14<03:01,  6.71s/it]
-Processed prompts:  38%|███▊      | 6/16 [00:03<00:03,  2.94it/s, est. speed input: 4387.18 toks/s, output: 70.94 toks/s][A
-Processed prompts:  50%|█████     | 8/16 [00:04<00:02,  3.33it/s, est. speed input: 5225.86 toks/s, output: 98.66 toks/s][A
-Processed prompts:  56%|█████▋    | 9/16 [00:04<00:02,  3.42it/s, est. speed input: 5550.49 toks/s, output: 115.63 toks/s][A
-Processed prompts:  69%|██████▉   | 11/16 [00:04<00:01,  4.96it/s, est. speed input: 6634.27 toks/s, output: 160.94 toks/s][A
-Processed prompts:  81%|████████▏ | 13/16 [00:04<00:00,  6.34it/s, est. speed input: 7595.75 toks/s, output: 202.53 toks/s][A
-Processed prompts:  94%|█████████▍| 15/16 [00:07<00:00,  2.20it/s, est. speed input: 6177.83 toks/s, output: 206.01 toks/s][A
-Processed prompts: 100%|██████████| 16/16 [00:07<00:00,  2.45it/s, est. speed input: 6394.98 toks/s, output: 243.84 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:07<00:00,  2.20it/s, est. speed input: 6394.98 toks/s, output: 243.84 toks/s]
- 60%|######################################                         | 38/63 [04:18<02:53,  6.93s/it]2025-04-13 12:58:15,953 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:03<00:51,  3.47s/it, est. speed input: 837.41 toks/s, output: 8.08 toks/s][A
-Processed prompts:  12%|█▎        | 2/16 [00:03<00:21,  1.52s/it, est. speed input: 1601.90 toks/s, output: 15.44 toks/s][A
-Processed prompts:  19%|█▉        | 3/16 [00:03<00:12,  1.06it/s, est. speed input: 2243.99 toks/s, output: 26.52 toks/s][A
-Processed prompts:  38%|███▊      | 6/16 [00:04<00:03,  2.70it/s, est. speed input: 4235.31 toks/s, output: 70.92 toks/s][A
-Processed prompts:  44%|████▍     | 7/16 [00:04<00:03,  2.34it/s, est. speed input: 4305.64 toks/s, output: 84.66 toks/s][A
-Processed prompts:  56%|█████▋    | 9/16 [00:04<00:02,  3.44it/s, est. speed input: 5329.88 toks/s, output: 125.92 toks/s][A
-Processed prompts:  69%|██████▉   | 11/16 [00:05<00:01,  4.32it/s, est. speed input: 6190.56 toks/s, output: 172.88 toks/s][A
-Processed prompts:  75%|███████▌  | 12/16 [00:05<00:00,  4.80it/s, est. speed input: 6599.07 toks/s, output: 195.61 toks/s][A
-Processed prompts:  88%|████████▊ | 14/16 [00:05<00:00,  6.03it/s, est. speed input: 7434.36 toks/s, output: 244.04 toks/s][A
-Processed prompts:  94%|█████████▍| 15/16 [00:05<00:00,  5.50it/s, est. speed input: 7628.00 toks/s, output: 263.77 toks/s][A
-Processed prompts: 100%|██████████| 16/16 [00:06<00:00,  2.92it/s, est. speed input: 7057.57 toks/s, output: 268.02 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:06<00:00,  2.43it/s, est. speed input: 7057.57 toks/s, output: 268.02 toks/s]
-2025-04-13 12:58:22,682 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:03<00:54,  3.61s/it, est. speed input: 805.77 toks/s, output: 12.20 toks/s][A
-Processed prompts:  31%|███▏      | 5/16 [00:03<00:06,  1.67it/s, est. speed input: 3722.86 toks/s, output: 52.50 toks/s][A
-Processed prompts:  50%|█████     | 8/16 [00:04<00:03,  2.29it/s, est. speed input: 4968.62 toks/s, output: 90.80 toks/s][A 60%|######################################                         | 38/63 [04:30<02:53,  6.93s/it]
-Processed prompts:  62%|██████▎   | 10/16 [00:05<00:02,  2.66it/s, est. speed input: 5632.93 toks/s, output: 129.83 toks/s][A
-Processed prompts:  81%|████████▏ | 13/16 [00:05<00:00,  3.93it/s, est. speed input: 7026.19 toks/s, output: 208.91 toks/s][A
-Processed prompts:  88%|████████▊ | 14/16 [00:05<00:00,  3.82it/s, est. speed input: 7166.09 toks/s, output: 228.09 toks/s][A
-Processed prompts:  94%|█████████▍| 15/16 [00:05<00:00,  3.80it/s, est. speed input: 7333.55 toks/s, output: 251.10 toks/s][A
-Processed prompts: 100%|██████████| 16/16 [00:06<00:00,  3.87it/s, est. speed input: 7518.50 toks/s, output: 277.16 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:06<00:00,  2.58it/s, est. speed input: 7518.50 toks/s, output: 277.16 toks/s]
- 63%|########################################                       | 40/63 [04:31<02:36,  6.81s/it]2025-04-13 12:58:29,012 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:03<00:50,  3.34s/it, est. speed input: 870.14 toks/s, output: 8.38 toks/s][A
-Processed prompts:  12%|█▎        | 2/16 [00:03<00:20,  1.48s/it, est. speed input: 1651.83 toks/s, output: 16.20 toks/s][A
-Processed prompts:  19%|█▉        | 3/16 [00:03<00:11,  1.17it/s, est. speed input: 2402.28 toks/s, output: 23.42 toks/s][A
-Processed prompts:  38%|███▊      | 6/16 [00:03<00:03,  2.88it/s, est. speed input: 4476.82 toks/s, output: 53.15 toks/s][A
-Processed prompts:  44%|████▍     | 7/16 [00:04<00:02,  3.10it/s, est. speed input: 4920.07 toks/s, output: 68.41 toks/s][A
-Processed prompts:  50%|█████     | 8/16 [00:04<00:02,  2.89it/s, est. speed input: 5109.19 toks/s, output: 81.47 toks/s][A
-Processed prompts:  56%|█████▋    | 9/16 [00:04<00:02,  3.48it/s, est. speed input: 5594.12 toks/s, output: 102.80 toks/s][A
-Processed prompts:  75%|███████▌  | 12/16 [00:04<00:00,  6.52it/s, est. speed input: 7289.57 toks/s, output: 168.57 toks/s][A
-Processed prompts:  88%|████████▊ | 14/16 [00:05<00:00,  3.59it/s, est. speed input: 6976.01 toks/s, output: 198.58 toks/s][A
-Processed prompts:  94%|█████████▍| 15/16 [00:05<00:00,  4.03it/s, est. speed input: 7323.36 toks/s, output: 230.46 toks/s][A
-Processed prompts: 100%|██████████| 16/16 [00:06<00:00,  2.75it/s, est. speed input: 6907.59 toks/s, output: 244.89 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:06<00:00,  2.37it/s, est. speed input: 6907.59 toks/s, output: 244.89 toks/s]
-2025-04-13 12:58:35,877 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:03<00:53,  3.56s/it, est. speed input: 816.19 toks/s, output: 8.43 toks/s][A
-Processed prompts:  12%|█▎        | 2/16 [00:03<00:23,  1.65s/it, est. speed input: 1503.46 toks/s, output: 21.47 toks/s][A
-Processed prompts:  31%|███▏      | 5/16 [00:03<00:05,  2.01it/s, est. speed input: 3641.34 toks/s, output: 61.64 toks/s][A
-Processed prompts:  44%|████▍     | 7/16 [00:04<00:02,  3.06it/s, est. speed input: 4911.22 toks/s, output: 86.89 toks/s][A
-Processed prompts:  62%|██████▎   | 10/16 [00:04<00:01,  4.16it/s, est. speed input: 6365.21 toks/s, output: 132.00 toks/s][A
-Processed prompts:  81%|████████▏ | 13/16 [00:04<00:00,  5.65it/s, est. speed input: 7852.70 toks/s, output: 190.95 toks/s][A
-Processed prompts: 100%|██████████| 16/16 [00:05<00:00,  5.80it/s, est. speed input: 8768.40 toks/s, output: 250.31 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:05<00:00,  3.02it/s, est. speed input: 8768.40 toks/s, output: 250.31 toks/s]
- 67%|##########################################                     | 42/63 [04:43<02:18,  6.61s/it]2025-04-13 12:58:41,356 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:03<00:51,  3.42s/it, est. speed input: 848.27 toks/s, output: 8.77 toks/s][A
-Processed prompts:  19%|█▉        | 3/16 [00:03<00:13,  1.05s/it, est. speed input: 2251.98 toks/s, output: 28.42 toks/s][A
-Processed prompts:  25%|██▌       | 4/16 [00:04<00:10,  1.15it/s, est. speed input: 2647.96 toks/s, output: 45.11 toks/s][A
-Processed prompts:  38%|███▊      | 6/16 [00:04<00:04,  2.05it/s, est. speed input: 3797.91 toks/s, output: 86.47 toks/s][A
-Processed prompts:  44%|████▍     | 7/16 [00:04<00:03,  2.43it/s, est. speed input: 4247.56 toks/s, output: 105.65 toks/s][A
-Processed prompts:  50%|█████     | 8/16 [00:04<00:02,  3.03it/s, est. speed input: 4740.59 toks/s, output: 124.99 toks/s][A
-Processed prompts:  56%|█████▋    | 9/16 [00:05<00:01,  3.51it/s, est. speed input: 5157.29 toks/s, output: 144.93 toks/s][A
-Processed prompts:  62%|██████▎   | 10/16 [00:05<00:01,  3.93it/s, est. speed input: 5536.18 toks/s, output: 166.50 toks/s][A
-Processed prompts:  69%|██████▉   | 11/16 [00:05<00:01,  4.55it/s, est. speed input: 5937.23 toks/s, output: 191.82 toks/s][A
-Processed prompts:  75%|███████▌  | 12/16 [00:05<00:00,  5.24it/s, est. speed input: 6334.58 toks/s, output: 215.21 toks/s][A
-Processed prompts:  88%|████████▊ | 14/16 [00:05<00:00,  7.69it/s, est. speed input: 7240.35 toks/s, output: 269.35 toks/s][A
-Processed prompts: 100%|██████████| 16/16 [00:07<00:00,  2.24it/s, est. speed input: 6213.69 toks/s, output: 276.80 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:07<00:00,  2.14it/s, est. speed input: 6213.69 toks/s, output: 276.80 toks/s]
-2025-04-13 12:58:48,968 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:03<00:51,  3.42s/it, est. speed input: 848.79 toks/s, output: 8.48 toks/s][A 67%|##########################################                     | 42/63 [04:54<02:18,  6.61s/it]
-Processed prompts:  12%|█▎        | 2/16 [00:03<00:21,  1.50s/it, est. speed input: 1621.14 toks/s, output: 16.47 toks/s][A
-Processed prompts:  25%|██▌       | 4/16 [00:04<00:09,  1.20it/s, est. speed input: 2613.93 toks/s, output: 45.42 toks/s][A
-Processed prompts:  38%|███▊      | 6/16 [00:04<00:05,  1.99it/s, est. speed input: 3701.06 toks/s, output: 87.02 toks/s][A
-Processed prompts:  56%|█████▋    | 9/16 [00:04<00:01,  3.67it/s, est. speed input: 5391.85 toks/s, output: 149.61 toks/s][A
-Processed prompts:  69%|██████▉   | 11/16 [00:05<00:01,  3.52it/s, est. speed input: 5848.39 toks/s, output: 188.35 toks/s][A
-Processed prompts:  75%|███████▌  | 12/16 [00:05<00:01,  3.43it/s, est. speed input: 6025.95 toks/s, output: 209.44 toks/s][A
-Processed prompts:  81%|████████▏ | 13/16 [00:05<00:00,  3.85it/s, est. speed input: 6374.43 toks/s, output: 238.04 toks/s][A
-Processed prompts:  88%|████████▊ | 14/16 [00:06<00:00,  4.38it/s, est. speed input: 6721.92 toks/s, output: 267.43 toks/s][A
-Processed prompts:  94%|█████████▍| 15/16 [00:06<00:00,  4.20it/s, est. speed input: 6898.55 toks/s, output: 290.48 toks/s][A
-Processed prompts: 100%|██████████| 16/16 [00:06<00:00,  3.35it/s, est. speed input: 6853.06 toks/s, output: 308.02 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:06<00:00,  2.36it/s, est. speed input: 6853.06 toks/s, output: 308.02 toks/s]
- 70%|############################################                   | 44/63 [04:58<02:09,  6.81s/it]2025-04-13 12:58:55,910 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:03<00:55,  3.73s/it, est. speed input: 778.50 toks/s, output: 8.04 toks/s][A
-Processed prompts:  12%|█▎        | 2/16 [00:03<00:23,  1.67s/it, est. speed input: 1469.63 toks/s, output: 19.97 toks/s][A
-Processed prompts:  19%|█▉        | 3/16 [00:04<00:12,  1.01it/s, est. speed input: 2103.25 toks/s, output: 34.48 toks/s][A
-Processed prompts:  25%|██▌       | 4/16 [00:04<00:09,  1.30it/s, est. speed input: 2543.09 toks/s, output: 50.95 toks/s][A
-Processed prompts:  38%|███▊      | 6/16 [00:04<00:04,  2.41it/s, est. speed input: 3652.78 toks/s, output: 94.25 toks/s][A
-Processed prompts:  50%|█████     | 8/16 [00:05<00:02,  3.49it/s, est. speed input: 4645.05 toks/s, output: 135.58 toks/s][A
-Processed prompts:  56%|█████▋    | 9/16 [00:05<00:01,  3.55it/s, est. speed input: 4962.22 toks/s, output: 156.24 toks/s][A
-Processed prompts:  69%|██████▉   | 11/16 [00:05<00:01,  4.97it/s, est. speed input: 5883.84 toks/s, output: 209.81 toks/s][A
-Processed prompts:  75%|███████▌  | 12/16 [00:05<00:00,  5.28it/s, est. speed input: 6250.00 toks/s, output: 233.81 toks/s][A
-Processed prompts:  88%|████████▊ | 14/16 [00:05<00:00,  5.57it/s, est. speed input: 6886.86 toks/s, output: 281.53 toks/s][A
-Processed prompts:  94%|█████████▍| 15/16 [00:06<00:00,  3.29it/s, est. speed input: 6546.66 toks/s, output: 286.55 toks/s][A
-Processed prompts: 100%|██████████| 16/16 [00:07<00:00,  2.69it/s, est. speed input: 6418.61 toks/s, output: 304.81 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:07<00:00,  2.21it/s, est. speed input: 6418.61 toks/s, output: 304.81 toks/s]
-2025-04-13 12:59:03,299 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:03<00:52,  3.52s/it, est. speed input: 826.26 toks/s, output: 7.96 toks/s][A
-Processed prompts:  12%|█▎        | 2/16 [00:03<00:22,  1.62s/it, est. speed input: 1526.57 toks/s, output: 22.06 toks/s][A
-Processed prompts:  25%|██▌       | 4/16 [00:04<00:08,  1.45it/s, est. speed input: 2852.94 toks/s, output: 48.83 toks/s][A
-Processed prompts:  31%|███▏      | 5/16 [00:04<00:05,  1.96it/s, est. speed input: 3473.19 toks/s, output: 62.61 toks/s][A 70%|############################################                   | 44/63 [05:10<02:09,  6.81s/it]
-Processed prompts:  38%|███▊      | 6/16 [00:04<00:05,  1.98it/s, est. speed input: 3726.59 toks/s, output: 78.42 toks/s][A
-Processed prompts:  44%|████▍     | 7/16 [00:04<00:03,  2.61it/s, est. speed input: 4251.72 toks/s, output: 100.28 toks/s][A
-Processed prompts:  56%|█████▋    | 9/16 [00:04<00:01,  4.32it/s, est. speed input: 5340.99 toks/s, output: 145.10 toks/s][A
-Processed prompts:  75%|███████▌  | 12/16 [00:05<00:00,  5.60it/s, est. speed input: 6613.09 toks/s, output: 202.21 toks/s][A
-Processed prompts:  88%|████████▊ | 14/16 [00:05<00:00,  6.42it/s, est. speed input: 7413.72 toks/s, output: 251.63 toks/s][A
-Processed prompts: 100%|██████████| 16/16 [00:06<00:00,  3.58it/s, est. speed input: 7064.77 toks/s, output: 274.44 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:06<00:00,  2.43it/s, est. speed input: 7064.77 toks/s, output: 274.44 toks/s]
- 73%|##############################################                 | 46/63 [05:12<01:57,  6.89s/it]2025-04-13 12:59:10,027 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:03<00:52,  3.49s/it, est. speed input: 831.62 toks/s, output: 8.87 toks/s][A
-Processed prompts:  19%|█▉        | 3/16 [00:03<00:12,  1.03it/s, est. speed input: 2373.48 toks/s, output: 25.60 toks/s][A
-Processed prompts:  31%|███▏      | 5/16 [00:03<00:05,  2.00it/s, est. speed input: 3841.13 toks/s, output: 49.72 toks/s][A
-Processed prompts:  44%|████▍     | 7/16 [00:04<00:04,  2.14it/s, est. speed input: 4401.05 toks/s, output: 76.38 toks/s][A
-Processed prompts:  50%|█████     | 8/16 [00:04<00:03,  2.39it/s, est. speed input: 4762.94 toks/s, output: 94.25 toks/s][A
-Processed prompts:  62%|██████▎   | 10/16 [00:05<00:02,  2.88it/s, est. speed input: 5421.12 toks/s, output: 136.90 toks/s][A
-Processed prompts:  75%|███████▌  | 12/16 [00:05<00:01,  3.91it/s, est. speed input: 6286.61 toks/s, output: 189.91 toks/s][A
-Processed prompts: 100%|██████████| 16/16 [00:07<00:00,  2.67it/s, est. speed input: 6197.43 toks/s, output: 252.71 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:07<00:00,  2.13it/s, est. speed input: 6197.43 toks/s, output: 252.71 toks/s]
-2025-04-13 12:59:17,671 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:03<00:53,  3.54s/it, est. speed input: 820.30 toks/s, output: 9.03 toks/s][A
-Processed prompts:  12%|█▎        | 2/16 [00:03<00:21,  1.53s/it, est. speed input: 1589.48 toks/s, output: 16.96 toks/s][A
-Processed prompts:  25%|██▌       | 4/16 [00:03<00:07,  1.64it/s, est. speed input: 3074.41 toks/s, output: 43.35 toks/s][A
-Processed prompts:  38%|███▊      | 6/16 [00:04<00:03,  2.66it/s, est. speed input: 4343.77 toks/s, output: 68.47 toks/s][A
-Processed prompts:  56%|█████▋    | 9/16 [00:04<00:01,  4.84it/s, est. speed input: 6332.23 toks/s, output: 112.73 toks/s][A 73%|##############################################                 | 46/63 [05:24<01:57,  6.89s/it]
-Processed prompts:  69%|██████▉   | 11/16 [00:05<00:01,  3.37it/s, est. speed input: 6271.48 toks/s, output: 142.53 toks/s][A
-Processed prompts:  81%|████████▏ | 13/16 [00:05<00:00,  3.53it/s, est. speed input: 6739.68 toks/s, output: 189.32 toks/s][A
-Processed prompts:  88%|████████▊ | 14/16 [00:05<00:00,  3.86it/s, est. speed input: 7068.66 toks/s, output: 216.28 toks/s][A
-Processed prompts: 100%|██████████| 16/16 [00:05<00:00,  4.93it/s, est. speed input: 7818.04 toks/s, output: 273.97 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:05<00:00,  2.69it/s, est. speed input: 7818.04 toks/s, output: 273.97 toks/s]
- 76%|################################################               | 48/63 [05:26<01:43,  6.88s/it]2025-04-13 12:59:23,765 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:03<00:51,  3.40s/it, est. speed input: 854.27 toks/s, output: 8.82 toks/s][A
-Processed prompts:  12%|█▎        | 2/16 [00:03<00:20,  1.49s/it, est. speed input: 1638.49 toks/s, output: 16.64 toks/s][A
-Processed prompts:  19%|█▉        | 3/16 [00:03<00:12,  1.07it/s, est. speed input: 2273.46 toks/s, output: 27.91 toks/s][A
-Processed prompts:  31%|███▏      | 5/16 [00:04<00:05,  1.93it/s, est. speed input: 3440.43 toks/s, output: 54.22 toks/s][A
-Processed prompts:  38%|███▊      | 6/16 [00:04<00:04,  2.47it/s, est. speed input: 4011.53 toks/s, output: 70.39 toks/s][A
-Processed prompts:  44%|████▍     | 7/16 [00:04<00:02,  3.15it/s, est. speed input: 4567.73 toks/s, output: 89.36 toks/s][A
-Processed prompts:  50%|█████     | 8/16 [00:04<00:02,  3.28it/s, est. speed input: 4919.22 toks/s, output: 107.47 toks/s][A
-Processed prompts:  62%|██████▎   | 10/16 [00:05<00:01,  3.99it/s, est. speed input: 5701.38 toks/s, output: 147.46 toks/s][A
-Processed prompts:  69%|██████▉   | 11/16 [00:05<00:01,  4.37it/s, est. speed input: 6077.13 toks/s, output: 168.73 toks/s][A
-Processed prompts:  75%|███████▌  | 12/16 [00:05<00:00,  4.30it/s, est. speed input: 6337.44 toks/s, output: 191.43 toks/s][A
-Processed prompts:  81%|████████▏ | 13/16 [00:05<00:00,  4.31it/s, est. speed input: 6590.41 toks/s, output: 214.43 toks/s][A
-Processed prompts:  88%|████████▊ | 14/16 [00:06<00:00,  3.87it/s, est. speed input: 6714.84 toks/s, output: 236.66 toks/s][A
-Processed prompts: 100%|██████████| 16/16 [00:07<00:00,  2.41it/s, est. speed input: 6387.25 toks/s, output: 268.25 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:07<00:00,  2.20it/s, est. speed input: 6387.25 toks/s, output: 268.25 toks/s]
-2025-04-13 12:59:31,213 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:03<00:50,  3.38s/it, est. speed input: 858.07 toks/s, output: 8.57 toks/s][A
-Processed prompts:  12%|█▎        | 2/16 [00:03<00:21,  1.53s/it, est. speed input: 1608.47 toks/s, output: 15.79 toks/s][A
-Processed prompts:  19%|█▉        | 3/16 [00:03<00:12,  1.05it/s, est. speed input: 2246.69 toks/s, output: 28.61 toks/s][A
-Processed prompts:  38%|███▊      | 6/16 [00:04<00:03,  2.75it/s, est. speed input: 4289.45 toks/s, output: 70.31 toks/s][A
-Processed prompts:  50%|█████     | 8/16 [00:04<00:02,  2.90it/s, est. speed input: 4948.08 toks/s, output: 95.09 toks/s][A
-Processed prompts:  75%|███████▌  | 12/16 [00:05<00:00,  4.30it/s, est. speed input: 6679.51 toks/s, output: 177.07 toks/s][A
-Processed prompts:  88%|████████▊ | 14/16 [00:05<00:00,  5.36it/s, est. speed input: 7609.26 toks/s, output: 231.18 toks/s][A
-Processed prompts:  94%|█████████▍| 15/16 [00:05<00:00,  4.56it/s, est. speed input: 7603.33 toks/s, output: 248.34 toks/s][A
-Processed prompts: 100%|██████████| 16/16 [00:06<00:00,  3.82it/s, est. speed input: 7528.92 toks/s, output: 265.12 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:06<00:00,  2.59it/s, est. speed input: 7528.92 toks/s, output: 265.12 toks/s]
- 79%|##################################################             | 50/63 [05:39<01:29,  6.88s/it]2025-04-13 12:59:37,547 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:03<00:51,  3.40s/it, est. speed input: 853.13 toks/s, output: 8.52 toks/s][A
-Processed prompts:  12%|█▎        | 2/16 [00:04<00:24,  1.75s/it, est. speed input: 1452.65 toks/s, output: 22.75 toks/s][A
-Processed prompts:  31%|███▏      | 5/16 [00:04<00:06,  1.75it/s, est. speed input: 3372.05 toks/s, output: 67.47 toks/s][A
-Processed prompts:  38%|███▊      | 6/16 [00:04<00:05,  1.98it/s, est. speed input: 3774.58 toks/s, output: 83.71 toks/s][A
-Processed prompts:  44%|████▍     | 7/16 [00:04<00:03,  2.50it/s, est. speed input: 4304.15 toks/s, output: 105.50 toks/s][A
-Processed prompts:  50%|█████     | 8/16 [00:05<00:02,  2.74it/s, est. speed input: 4650.97 toks/s, output: 124.53 toks/s][A
-Processed prompts:  56%|█████▋    | 9/16 [00:05<00:02,  2.91it/s, est. speed input: 4942.94 toks/s, output: 145.99 toks/s][A
-Processed prompts:  69%|██████▉   | 11/16 [00:05<00:01,  4.65it/s, est. speed input: 5919.17 toks/s, output: 200.75 toks/s][A
-Processed prompts:  75%|███████▌  | 12/16 [00:05<00:00,  5.29it/s, est. speed input: 6330.63 toks/s, output: 228.04 toks/s][A
-Processed prompts:  88%|████████▊ | 14/16 [00:05<00:00,  7.01it/s, est. speed input: 7186.84 toks/s, output: 278.62 toks/s][A
-Processed prompts: 100%|██████████| 16/16 [00:06<00:00,  4.21it/s, est. speed input: 7198.78 toks/s, output: 316.13 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:06<00:00,  2.48it/s, est. speed input: 7198.78 toks/s, output: 316.13 toks/s]
-2025-04-13 12:59:44,147 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A 79%|##################################################             | 50/63 [05:50<01:29,  6.88s/it]
-Processed prompts:   6%|▋         | 1/16 [00:03<00:54,  3.63s/it, est. speed input: 800.10 toks/s, output: 8.26 toks/s][A
-Processed prompts:  12%|█▎        | 2/16 [00:03<00:22,  1.64s/it, est. speed input: 1501.86 toks/s, output: 21.95 toks/s][A
-Processed prompts:  19%|█▉        | 3/16 [00:03<00:12,  1.06it/s, est. speed input: 2190.65 toks/s, output: 35.64 toks/s][A
-Processed prompts:  25%|██▌       | 4/16 [00:04<00:08,  1.39it/s, est. speed input: 2667.77 toks/s, output: 52.72 toks/s][A
-Processed prompts:  38%|███▊      | 6/16 [00:04<00:04,  2.43it/s, est. speed input: 3759.05 toks/s, output: 89.38 toks/s][A
-Processed prompts:  62%|██████▎   | 10/16 [00:04<00:01,  5.41it/s, est. speed input: 6079.48 toks/s, output: 177.49 toks/s][A
-Processed prompts:  75%|███████▌  | 12/16 [00:05<00:00,  5.56it/s, est. speed input: 6815.88 toks/s, output: 212.31 toks/s][A
-Processed prompts:  88%|████████▊ | 14/16 [00:05<00:00,  6.04it/s, est. speed input: 7561.70 toks/s, output: 255.18 toks/s][A
-Processed prompts:  94%|█████████▍| 15/16 [00:05<00:00,  6.17it/s, est. speed input: 7889.39 toks/s, output: 277.04 toks/s][A
-Processed prompts: 100%|██████████| 16/16 [00:05<00:00,  6.12it/s, est. speed input: 8167.42 toks/s, output: 300.10 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:05<00:00,  2.81it/s, est. speed input: 8167.42 toks/s, output: 300.10 toks/s]
- 83%|####################################################           | 52/63 [05:52<01:13,  6.69s/it]2025-04-13 12:59:49,986 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:03<00:52,  3.50s/it, est. speed input: 829.45 toks/s, output: 8.85 toks/s][A
-Processed prompts:  12%|█▎        | 2/16 [00:03<00:21,  1.51s/it, est. speed input: 1606.37 toks/s, output: 16.32 toks/s][A
-Processed prompts:  25%|██▌       | 4/16 [00:03<00:07,  1.52it/s, est. speed input: 2966.44 toks/s, output: 35.74 toks/s][A
-Processed prompts:  31%|███▏      | 5/16 [00:04<00:07,  1.55it/s, est. speed input: 3200.46 toks/s, output: 50.44 toks/s][A
-Processed prompts:  44%|████▍     | 7/16 [00:04<00:03,  2.47it/s, est. speed input: 4237.61 toks/s, output: 89.78 toks/s][A
-Processed prompts:  50%|█████     | 8/16 [00:04<00:02,  2.98it/s, est. speed input: 4716.41 toks/s, output: 112.97 toks/s][A
-Processed prompts:  56%|█████▋    | 9/16 [00:05<00:02,  2.83it/s, est. speed input: 4905.07 toks/s, output: 133.85 toks/s][A
-Processed prompts:  62%|██████▎   | 10/16 [00:05<00:01,  3.27it/s, est. speed input: 5273.83 toks/s, output: 158.72 toks/s][A
-Processed prompts:  69%|██████▉   | 11/16 [00:05<00:01,  3.33it/s, est. speed input: 5515.89 toks/s, output: 183.99 toks/s][A
-Processed prompts:  75%|███████▌  | 12/16 [00:06<00:01,  3.52it/s, est. speed input: 5776.80 toks/s, output: 208.38 toks/s][A
-Processed prompts:  81%|████████▏ | 13/16 [00:06<00:00,  3.95it/s, est. speed input: 6079.72 toks/s, output: 237.12 toks/s][A
-Processed prompts:  94%|█████████▍| 15/16 [00:06<00:00,  3.77it/s, est. speed input: 6436.65 toks/s, output: 286.11 toks/s][A
-Processed prompts: 100%|██████████| 16/16 [00:07<00:00,  3.17it/s, est. speed input: 6423.50 toks/s, output: 309.71 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:07<00:00,  2.21it/s, est. speed input: 6423.50 toks/s, output: 309.71 toks/s]
-2025-04-13 12:59:57,373 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:03<00:52,  3.50s/it, est. speed input: 828.44 toks/s, output: 7.99 toks/s][A
-Processed prompts:  19%|█▉        | 3/16 [00:03<00:12,  1.03it/s, est. speed input: 2379.20 toks/s, output: 25.11 toks/s][A
-Processed prompts:  25%|██▌       | 4/16 [00:04<00:09,  1.23it/s, est. speed input: 2775.78 toks/s, output: 37.01 toks/s][A
-Processed prompts:  31%|███▏      | 5/16 [00:04<00:06,  1.66it/s, est. speed input: 3332.92 toks/s, output: 56.42 toks/s][A
-Processed prompts:  44%|████▍     | 7/16 [00:04<00:03,  2.80it/s, est. speed input: 4461.38 toks/s, output: 93.66 toks/s][A
-Processed prompts:  56%|█████▋    | 9/16 [00:04<00:01,  3.94it/s, est. speed input: 5484.08 toks/s, output: 133.37 toks/s][A 83%|####################################################           | 52/63 [06:04<01:13,  6.69s/it]
-Processed prompts:  62%|██████▎   | 10/16 [00:05<00:01,  3.42it/s, est. speed input: 5596.24 toks/s, output: 147.50 toks/s][A
-Processed prompts:  69%|██████▉   | 11/16 [00:05<00:01,  3.98it/s, est. speed input: 6015.16 toks/s, output: 170.45 toks/s][A
-Processed prompts:  81%|████████▏ | 13/16 [00:05<00:00,  5.10it/s, est. speed input: 6809.72 toks/s, output: 223.43 toks/s][A
-Processed prompts:  94%|█████████▍| 15/16 [00:05<00:00,  6.64it/s, est. speed input: 7656.12 toks/s, output: 280.17 toks/s][A
-Processed prompts: 100%|██████████| 16/16 [00:06<00:00,  2.94it/s, est. speed input: 6891.38 toks/s, output: 275.47 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:06<00:00,  2.37it/s, est. speed input: 6891.38 toks/s, output: 275.47 toks/s]
- 86%|######################################################         | 54/63 [06:06<01:01,  6.82s/it]2025-04-13 13:00:04,274 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:03<00:53,  3.58s/it, est. speed input: 811.28 toks/s, output: 8.09 toks/s][A
-Processed prompts:  12%|█▎        | 2/16 [00:03<00:22,  1.63s/it, est. speed input: 1514.54 toks/s, output: 21.35 toks/s][A
-Processed prompts:  19%|█▉        | 3/16 [00:03<00:12,  1.07it/s, est. speed input: 2207.43 toks/s, output: 33.40 toks/s][A
-Processed prompts:  38%|███▊      | 6/16 [00:04<00:03,  2.83it/s, est. speed input: 4230.88 toks/s, output: 75.18 toks/s][A
-Processed prompts:  56%|█████▋    | 9/16 [00:04<00:01,  4.18it/s, est. speed input: 5842.59 toks/s, output: 119.25 toks/s][A
-Processed prompts:  62%|██████▎   | 10/16 [00:04<00:01,  4.24it/s, est. speed input: 6187.87 toks/s, output: 138.57 toks/s][A
-Processed prompts:  69%|██████▉   | 11/16 [00:04<00:01,  4.72it/s, est. speed input: 6633.98 toks/s, output: 157.88 toks/s][A
-Processed prompts:  75%|███████▌  | 12/16 [00:05<00:00,  4.38it/s, est. speed input: 6836.22 toks/s, output: 176.77 toks/s][A
-Processed prompts:  81%|████████▏ | 13/16 [00:05<00:00,  4.77it/s, est. speed input: 7191.05 toks/s, output: 200.54 toks/s][A
-Processed prompts:  88%|████████▊ | 14/16 [00:05<00:00,  5.15it/s, est. speed input: 7528.84 toks/s, output: 226.02 toks/s][A
-Processed prompts:  94%|█████████▍| 15/16 [00:05<00:00,  5.24it/s, est. speed input: 7804.56 toks/s, output: 252.13 toks/s][A
-Processed prompts: 100%|██████████| 16/16 [00:06<00:00,  2.26it/s, est. speed input: 6966.16 toks/s, output: 250.59 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:06<00:00,  2.40it/s, est. speed input: 6966.16 toks/s, output: 250.59 toks/s]
-2025-04-13 13:00:11,084 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:03<00:58,  3.89s/it, est. speed input: 747.17 toks/s, output: 12.34 toks/s][A
-Processed prompts:  12%|█▎        | 2/16 [00:04<00:24,  1.76s/it, est. speed input: 1396.60 toks/s, output: 26.90 toks/s][A
-Processed prompts:  19%|█▉        | 3/16 [00:04<00:15,  1.16s/it, est. speed input: 1891.83 toks/s, output: 45.78 toks/s][A
-Processed prompts:  31%|███▏      | 5/16 [00:04<00:05,  1.85it/s, est. speed input: 3070.32 toks/s, output: 89.55 toks/s][A
-Processed prompts:  44%|████▍     | 7/16 [00:05<00:03,  2.63it/s, est. speed input: 3988.85 toks/s, output: 127.00 toks/s][A
-Processed prompts:  50%|█████     | 8/16 [00:05<00:03,  2.30it/s, est. speed input: 4074.55 toks/s, output: 143.65 toks/s][A
-Processed prompts:  69%|██████▉   | 11/16 [00:06<00:01,  3.50it/s, est. speed input: 5217.62 toks/s, output: 219.85 toks/s][A
-Processed prompts:  75%|███████▌  | 12/16 [00:06<00:01,  3.83it/s, est. speed input: 5546.78 toks/s, output: 249.61 toks/s][A 86%|######################################################         | 54/63 [06:20<01:01,  6.82s/it]
-Processed prompts:  88%|████████▊ | 14/16 [00:06<00:00,  4.05it/s, est. speed input: 6049.86 toks/s, output: 301.97 toks/s][A
-Processed prompts:  94%|█████████▍| 15/16 [00:07<00:00,  2.74it/s, est. speed input: 5774.90 toks/s, output: 311.36 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:07<00:00,  2.10it/s, est. speed input: 6121.54 toks/s, output: 351.42 toks/s]
- 89%|########################################################       | 56/63 [06:21<00:48,  6.96s/it]2025-04-13 13:00:18,828 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:03<00:51,  3.40s/it, est. speed input: 853.47 toks/s, output: 8.52 toks/s][A
-Processed prompts:  12%|█▎        | 2/16 [00:03<00:23,  1.71s/it, est. speed input: 1482.59 toks/s, output: 21.68 toks/s][A
-Processed prompts:  31%|███▏      | 5/16 [00:04<00:06,  1.67it/s, est. speed input: 3299.34 toks/s, output: 70.13 toks/s][A
-Processed prompts:  44%|████▍     | 7/16 [00:04<00:03,  2.52it/s, est. speed input: 4418.80 toks/s, output: 107.48 toks/s][A
-Processed prompts:  56%|█████▋    | 9/16 [00:04<00:02,  3.30it/s, est. speed input: 5355.84 toks/s, output: 143.91 toks/s][A
-Processed prompts:  62%|██████▎   | 10/16 [00:05<00:01,  3.43it/s, est. speed input: 5664.96 toks/s, output: 165.23 toks/s][A
-Processed prompts:  75%|███████▌  | 12/16 [00:05<00:00,  4.70it/s, est. speed input: 6589.06 toks/s, output: 213.07 toks/s][A
-Processed prompts:  81%|████████▏ | 13/16 [00:05<00:00,  4.26it/s, est. speed input: 6733.62 toks/s, output: 230.77 toks/s][A
-Processed prompts:  88%|████████▊ | 14/16 [00:05<00:00,  4.24it/s, est. speed input: 6955.63 toks/s, output: 254.65 toks/s][A
-Processed prompts:  94%|█████████▍| 15/16 [00:06<00:00,  3.91it/s, est. speed input: 7072.35 toks/s, output: 275.21 toks/s][A
-Processed prompts: 100%|██████████| 16/16 [00:06<00:00,  3.66it/s, est. speed input: 7167.24 toks/s, output: 297.67 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:06<00:00,  2.47it/s, est. speed input: 7167.24 toks/s, output: 297.67 toks/s]
-2025-04-13 13:00:25,464 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:03<00:51,  3.42s/it, est. speed input: 849.29 toks/s, output: 9.06 toks/s][A
-Processed prompts:  12%|█▎        | 2/16 [00:03<00:21,  1.52s/it, est. speed input: 1608.76 toks/s, output: 17.15 toks/s][A
-Processed prompts:  19%|█▉        | 3/16 [00:04<00:13,  1.07s/it, est. speed input: 2103.07 toks/s, output: 30.13 toks/s][A
-Processed prompts:  25%|██▌       | 4/16 [00:04<00:08,  1.41it/s, est. speed input: 2702.34 toks/s, output: 44.59 toks/s][A
-Processed prompts:  31%|███▏      | 5/16 [00:04<00:06,  1.78it/s, est. speed input: 3158.83 toks/s, output: 64.74 toks/s][A
-Processed prompts:  44%|████▍     | 7/16 [00:04<00:03,  2.86it/s, est. speed input: 4159.10 toks/s, output: 104.43 toks/s][A
-Processed prompts:  56%|█████▋    | 9/16 [00:05<00:01,  4.36it/s, est. speed input: 5215.20 toks/s, output: 149.42 toks/s][A
-Processed prompts:  62%|██████▎   | 10/16 [00:05<00:01,  3.91it/s, est. speed input: 5424.09 toks/s, output: 168.79 toks/s][A
-Processed prompts:  75%|███████▌  | 12/16 [00:05<00:00,  4.82it/s, est. speed input: 6198.08 toks/s, output: 215.40 toks/s][A
-Processed prompts:  81%|████████▏ | 13/16 [00:05<00:00,  4.97it/s, est. speed input: 6509.77 toks/s, output: 240.97 toks/s][A
-Processed prompts:  88%|████████▊ | 14/16 [00:06<00:00,  4.82it/s, est. speed input: 6746.73 toks/s, output: 265.54 toks/s][A
-Processed prompts:  94%|█████████▍| 15/16 [00:06<00:00,  3.90it/s, est. speed input: 6781.25 toks/s, output: 285.86 toks/s][A 89%|########################################################       | 56/63 [06:34<00:48,  6.96s/it]
-Processed prompts: 100%|██████████| 16/16 [00:07<00:00,  2.82it/s, est. speed input: 6595.26 toks/s, output: 299.55 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:07<00:00,  2.27it/s, est. speed input: 6595.26 toks/s, output: 299.55 toks/s]
- 92%|##########################################################     | 58/63 [06:34<00:34,  6.95s/it]2025-04-13 13:00:32,655 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:03<00:52,  3.49s/it, est. speed input: 833.20 toks/s, output: 8.32 toks/s][A
-Processed prompts:  12%|█▎        | 2/16 [00:03<00:21,  1.54s/it, est. speed input: 1585.79 toks/s, output: 16.11 toks/s][A
-Processed prompts:  25%|██▌       | 4/16 [00:04<00:08,  1.40it/s, est. speed input: 2833.58 toks/s, output: 42.40 toks/s][A
-Processed prompts:  31%|███▏      | 5/16 [00:04<00:05,  1.87it/s, est. speed input: 3424.51 toks/s, output: 56.53 toks/s][A
-Processed prompts:  38%|███▊      | 6/16 [00:04<00:05,  1.98it/s, est. speed input: 3728.13 toks/s, output: 73.94 toks/s][A
-Processed prompts:  44%|████▍     | 7/16 [00:04<00:03,  2.46it/s, est. speed input: 4185.74 toks/s, output: 96.65 toks/s][A
-Processed prompts:  56%|█████▋    | 9/16 [00:05<00:01,  4.00it/s, est. speed input: 5230.51 toks/s, output: 139.70 toks/s][A
-Processed prompts:  62%|██████▎   | 10/16 [00:05<00:01,  4.43it/s, est. speed input: 5641.72 toks/s, output: 159.86 toks/s][A
-Processed prompts:  69%|██████▉   | 11/16 [00:05<00:01,  3.09it/s, est. speed input: 5561.78 toks/s, output: 175.40 toks/s][A
-Processed prompts:  88%|████████▊ | 14/16 [00:05<00:00,  5.87it/s, est. speed input: 6955.92 toks/s, output: 266.24 toks/s][A
-Processed prompts: 100%|██████████| 16/16 [00:06<00:00,  4.07it/s, est. speed input: 7005.32 toks/s, output: 308.75 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:06<00:00,  2.41it/s, est. speed input: 7005.32 toks/s, output: 308.75 toks/s]
-2025-04-13 13:00:39,439 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:03<00:50,  3.34s/it, est. speed input: 869.63 toks/s, output: 8.39 toks/s][A
-Processed prompts:  19%|█▉        | 3/16 [00:03<00:13,  1.04s/it, est. speed input: 2294.18 toks/s, output: 28.41 toks/s][A
-Processed prompts:  31%|███▏      | 5/16 [00:04<00:06,  1.75it/s, est. speed input: 3573.48 toks/s, output: 55.32 toks/s][A
-Processed prompts:  38%|███▊      | 6/16 [00:04<00:04,  2.06it/s, est. speed input: 4043.56 toks/s, output: 68.14 toks/s][A
-Processed prompts:  44%|████▍     | 7/16 [00:04<00:04,  2.15it/s, est. speed input: 4307.39 toks/s, output: 84.02 toks/s][A
-Processed prompts:  56%|█████▋    | 9/16 [00:04<00:01,  3.56it/s, est. speed input: 5422.62 toks/s, output: 129.11 toks/s][A
-Processed prompts:  62%|██████▎   | 10/16 [00:05<00:01,  3.14it/s, est. speed input: 5524.16 toks/s, output: 144.20 toks/s][A
-Processed prompts:  69%|██████▉   | 11/16 [00:05<00:01,  3.58it/s, est. speed input: 5893.92 toks/s, output: 169.36 toks/s][A
-Processed prompts:  75%|███████▌  | 12/16 [00:05<00:01,  3.44it/s, est. speed input: 6068.55 toks/s, output: 192.71 toks/s][A
-Processed prompts:  88%|████████▊ | 14/16 [00:05<00:00,  5.36it/s, est. speed input: 6959.32 toks/s, output: 251.78 toks/s][A
-Processed prompts:  94%|█████████▍| 15/16 [00:06<00:00,  5.56it/s, est. speed input: 7261.14 toks/s, output: 278.79 toks/s][A
-Processed prompts: 100%|██████████| 16/16 [00:06<00:00,  5.47it/s, est. speed input: 7506.60 toks/s, output: 304.51 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:06<00:00,  2.58it/s, est. speed input: 7506.60 toks/s, output: 304.51 toks/s]
- 95%|############################################################   | 60/63 [06:48<00:20,  6.83s/it]2025-04-13 13:00:45,768 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:03<00:53,  3.54s/it, est. speed input: 820.05 toks/s, output: 8.47 toks/s][A
-Processed prompts:  12%|█▎        | 2/16 [00:03<00:21,  1.55s/it, est. speed input: 1568.50 toks/s, output: 15.94 toks/s][A
-Processed prompts:  19%|█▉        | 3/16 [00:04<00:12,  1.02it/s, est. speed input: 2176.57 toks/s, output: 27.97 toks/s][A
-Processed prompts:  31%|███▏      | 5/16 [00:04<00:05,  2.03it/s, est. speed input: 3428.59 toks/s, output: 57.09 toks/s][A
-Processed prompts:  38%|███▊      | 6/16 [00:04<00:03,  2.50it/s, est. speed input: 3954.48 toks/s, output: 75.52 toks/s][A
-Processed prompts:  44%|████▍     | 7/16 [00:04<00:02,  3.05it/s, est. speed input: 4460.05 toks/s, output: 94.26 toks/s][A
-Processed prompts:  56%|█████▋    | 9/16 [00:05<00:02,  3.41it/s, est. speed input: 5162.79 toks/s, output: 131.05 toks/s][A
-Processed prompts:  75%|███████▌  | 12/16 [00:05<00:00,  4.18it/s, est. speed input: 6208.66 toks/s, output: 197.20 toks/s][A
-Processed prompts:  88%|████████▊ | 14/16 [00:05<00:00,  5.17it/s, est. speed input: 7007.51 toks/s, output: 255.32 toks/s][A
-Processed prompts: 100%|██████████| 16/16 [00:07<00:00,  2.49it/s, est. speed input: 6183.82 toks/s, output: 265.36 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:07<00:00,  2.13it/s, est. speed input: 6183.82 toks/s, output: 265.36 toks/s]
-2025-04-13 13:00:53,427 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/16 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:   6%|▋         | 1/16 [00:03<00:51,  3.42s/it, est. speed input: 848.40 toks/s, output: 9.64 toks/s][A
-Processed prompts:  19%|█▉        | 3/16 [00:03<00:12,  1.06it/s, est. speed input: 2442.88 toks/s, output: 25.52 toks/s][A
-Processed prompts:  25%|██▌       | 4/16 [00:03<00:07,  1.53it/s, est. speed input: 3160.09 toks/s, output: 36.18 toks/s][A
-Processed prompts:  31%|███▏      | 5/16 [00:03<00:05,  2.04it/s, est. speed input: 3789.71 toks/s, output: 49.30 toks/s][A
-Processed prompts:  38%|███▊      | 6/16 [00:04<00:04,  2.27it/s, est. speed input: 4176.87 toks/s, output: 59.90 toks/s][A 95%|############################################################   | 60/63 [07:00<00:20,  6.83s/it]
-Processed prompts:  44%|████▍     | 7/16 [00:05<00:05,  1.66it/s, est. speed input: 3963.28 toks/s, output: 74.62 toks/s][A
-Processed prompts:  50%|█████     | 8/16 [00:05<00:03,  2.19it/s, est. speed input: 4418.62 toks/s, output: 98.80 toks/s][A
-Processed prompts:  62%|██████▎   | 10/16 [00:05<00:01,  3.36it/s, est. speed input: 5287.96 toks/s, output: 149.50 toks/s][A
-Processed prompts:  75%|███████▌  | 12/16 [00:05<00:00,  4.57it/s, est. speed input: 6120.23 toks/s, output: 206.43 toks/s][A
-Processed prompts:  94%|█████████▍| 15/16 [00:06<00:00,  5.44it/s, est. speed input: 7116.39 toks/s, output: 281.85 toks/s][A
-Processed prompts: 100%|██████████| 16/16 [00:06<00:00,  4.06it/s, est. speed input: 6989.95 toks/s, output: 297.03 toks/s][AProcessed prompts: 100%|██████████| 16/16 [00:06<00:00,  2.40it/s, est. speed input: 6989.95 toks/s, output: 297.03 toks/s]
- 98%|############################################################## | 62/63 [07:02<00:06,  6.95s/it]2025-04-13 13:01:00,183 - INFO - Not using adapter
-
-Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
-Processed prompts:  12%|█▎        | 1/8 [00:01<00:13,  1.89s/it, est. speed input: 1538.85 toks/s, output: 15.89 toks/s][A
-Processed prompts:  38%|███▊      | 3/8 [00:01<00:02,  1.89it/s, est. speed input: 4363.97 toks/s, output: 45.56 toks/s][A
-Processed prompts:  62%|██████▎   | 5/8 [00:02<00:01,  2.06it/s, est. speed input: 5040.72 toks/s, output: 84.97 toks/s][A
-Processed prompts:  75%|███████▌  | 6/8 [00:03<00:00,  2.53it/s, est. speed input: 5749.78 toks/s, output: 118.66 toks/s][A
-Processed prompts:  88%|████████▊ | 7/8 [00:03<00:00,  2.36it/s, est. speed input: 5763.37 toks/s, output: 144.42 toks/s][A
-Processed prompts: 100%|██████████| 8/8 [00:03<00:00,  2.72it/s, est. speed input: 6188.36 toks/s, output: 181.67 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:03<00:00,  2.13it/s, est. speed input: 6188.36 toks/s, output: 181.67 toks/s]
-100%|###############################################################| 63/63 [07:06<00:00,  6.77s/it]
-2025-04-13 13:01:03,998 - INFO - Saving results to llama31Q___04-13_13-01.csv
-[rank0]:[W413 13:01:04.940071992 ProcessGroupNCCL.cpp:1250] Warning: WARNING: process group has NOT been destroyed before we destruct ProcessGroupNCCL. On normal program exit, the application should call destroy_process_group to ensure that any pending NCCL operations have finished in this process. In rare cases this process can exit before this point and block the progress of another member of the process group. This constraint has always been present,  but this warning has only been added since PyTorch 2.4 (function operator())
+100%|#################################################################| 1/1 [00:09<00:00,  9.51s/it]
+2025-04-13 16:18:20,088 - INFO - Saving results to llama31Q_Base___04-13_16-18.csv
+[rank0]:[W413 16:18:20.945106287 ProcessGroupNCCL.cpp:1250] Warning: WARNING: process group has NOT been destroyed before we destruct ProcessGroupNCCL. On normal program exit, the application should call destroy_process_group to ensure that any pending NCCL operations have finished in this process. In rare cases this process can exit before this point and block the progress of another member of the process group. This constraint has always been present,  but this warning has only been added since PyTorch 2.4 (function operator())

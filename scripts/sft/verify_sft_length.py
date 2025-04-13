@@ -107,6 +107,17 @@ def main():
         dtype=dtype,
     )
 
+    hugg_tokenizer = AutoTokenizer.from_pretrained(args.model_name)
+
+    hugg_tokenizer.chat_template = hugg_tokenizer.chat_template.replace(
+                "message['content'] | trim",
+                "message['content']"
+            ).replace(
+                "messages[0]['content'] | trim",
+                "messages[0]['content']"
+            )
+
+    tokenizer.chat_template = hugg_tokenizer.chat_template
 
     # Read the prompt template once
     with open("prompts/benchmarks/gqa.prompt", "r") as f:
@@ -123,15 +134,6 @@ def main():
 
     train_sft.head(5)
     dev_sft.head(5)
-
-    # Chat template
-
-    tokenizer = get_chat_template(
-        tokenizer,
-        chat_template = "llama",
-        mapping = {"role": "role", "content": "content", "user": "user", "assistant": "assistant"},
-        map_eos_token = True,
-    )
 
     logger.info("Chat template: \n" + str(tokenizer.chat_template))
     

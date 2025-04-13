@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "/sorgin1/users/jbarrutia006/viper/src/main_project_slurm.py", line 40, in <module>
+    from configs import config
+  File "/sorgin1/users/jbarrutia006/viper/configs/__init__.py", line 118, in <module>
+    print("SELECTED CONFIG FILES: " + config_names) 
+          ~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~
+TypeError: can only concatenate str (not "list") to str
+srun: error: localhost: task 0: Exited with exit code 1
+ls: cannot access 'results/gqa/codex_results/val/llama31Q_Base___*.csv': No such file or directory

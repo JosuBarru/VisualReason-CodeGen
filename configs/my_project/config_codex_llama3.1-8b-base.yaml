@@ -1,0 +1,8 @@
+codex:
+    model: llama31Q_Base
+    model_name: 'meta-llama/Meta-Llama-3.1-8B' 
+    prompt: ./prompts/benchmarks/gqa.prompt
+    temperature: 0.6
+    adapter: 
+load_models:
+    llama31Q_Base: True

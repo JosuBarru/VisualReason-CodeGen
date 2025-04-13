@@ -18,11 +18,11 @@ source /sorgin1/users/jbarrutia006/venvs/viper_tximista/bin/activate
 export LOAD_MODELS=0
 export DATASET='gqa'
 export EXEC_MODE='codex'
-export CODEX_MODEL='llama31Q'
+export CODEX_MODEL='llama31Q_Base'
 export PARTITION='val'
 export BATCHSIZE=16
 export TEMP=0
-export NUMINST=
+export NUMINST=16
 export CHECKPOINT=''
 
 srun python src/main_project_slurm.py
