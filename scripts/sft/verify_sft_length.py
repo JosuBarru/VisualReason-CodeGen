@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 from matplotlib.ticker import PercentFormatter
 
 
-from unsloth import FastLanguageModel, is_bfloat16_supported, get_chat_template
+from unsloth import FastLanguageModel, is_bfloat16_supported
 from transformers import (
     Trainer,
     TrainingArguments,
@@ -79,25 +79,18 @@ def prepare_sft_prompt_and_answer(row, prompt_template, tokenizer):
     return tokenizer.apply_chat_template(messages, tokenize=False)
     
 
-def count_tokens(text, tokenizer):
+def count_tokens(row: Dict, tokenizer):
     """
     Count the number of tokens in a given text using the specified tokenizer.
     """
-    if isinstance(text, str):
-        text = [text]
-    return tokenizer(text, add_special_tokens=True, return_attention_mask=False)["input_ids"].size(1)
+    return len(tokenizer(row["text"], add_special_tokens=True, return_attention_mask=False)["input_ids"])
     
-
-
-
-
 
 def main():
     args = parse_args()
 
-
     logger.info("Loading model and tokenizer...")
-    max_seq_length = 8192
+    max_seq_length = 14000
     dtype = torch.bfloat16 if is_bfloat16_supported() else torch.float16
 
     # Load base model
@@ -107,7 +100,6 @@ def main():
         dtype=dtype,
     )
 
-    hugg_tokenizer = AutoTokenizer.from_pretrained(args.model_name)
 
     hugg_tokenizer.chat_template = hugg_tokenizer.chat_template.replace(
                 "message['content'] | trim",
@@ -135,24 +127,33 @@ def main():
     train_sft.head(5)
     dev_sft.head(5)
 
-    logger.info("Chat template: \n" + str(tokenizer.chat_template))
+    logger.debug("Chat template: \n" + str(tokenizer.chat_template))
     
     # Create the text column for SFT
-
 
     train_sft["text"] = train_sft.apply(prepare_sft_prompt_and_answer, axis=1, args=(prompt_template, tokenizer))
     dev_sft["text"] = dev_sft.apply(prepare_sft_prompt_and_answer, axis=1, args=(prompt_template, tokenizer))
 
     # Check the prompt and answer
+    first_entry = train_sft['text'][0].replace('\n', '\\n')
+    second_entry = train_sft['text'][1].replace('\n', '\\n')
 
-    logger.info("First text entry: \n" + train_sft["text"][0])
-    logger.info("\n\n")
-    logger.info("Second text entry: \n" + train_sft["text"][1])
+    logger.debug(f"First text entry: \n{first_entry}")
+    logger.debug("\n\n")
+    logger.debug(f"Second text entry: \n{second_entry}")
 
     
     # Count tokens in the text column
-    train_sft["num_tokens"] = train_sft["text"].apply(lambda x: count_tokens(x, tokenizer))
-    dev_sft["num_tokens"] = dev_sft["text"].apply(lambda x: count_tokens(x, tokenizer))
+    train_sft["num_tokens"] = train_sft.apply(lambda x: count_tokens(x, tokenizer), axis=1)
+    dev_sft["num_tokens"] = dev_sft.apply(lambda x: count_tokens(x, tokenizer), axis=1)
+
+    # Check the highest number of tokens
+    max_train_tokens = train_sft["num_tokens"].max()
+    max_dev_tokens = dev_sft["num_tokens"].max()
+    logger.info(f"Max tokens in train dataset: {max_train_tokens}")
+    logger.info(f"Max tokens in dev dataset: {max_dev_tokens}")
+    
+
 
     plt.hist(train_sft.num_tokens, weights=np.ones(len(train_sft.num_tokens)) / len(train_sft.num_tokens))
     plt.gca().yaxis.set_major_formatter(PercentFormatter(1))

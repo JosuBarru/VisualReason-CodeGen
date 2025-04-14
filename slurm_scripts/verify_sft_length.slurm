@@ -16,7 +16,7 @@
 source /sorgin1/users/jbarrutia006/venvs/viper_tximista/bin/activate
 
 srun python scripts/sft/verify_sft_length.py \
-    --model_name "meta-llama/Meta-Llama-3-8B" \
+    --model_name "meta-llama/Meta-Llama-3-8B-Instruct" \
     --train_dataset "/sorgin1/users/jbarrutia006/viper/syntData/SFTDatasets/sft_dataset_train.arrow" \
     --dev_dataset "/sorgin1/users/jbarrutia006/viper/syntData/SFTDatasets/sft_dataset_dev.arrow" \
     --dir_plot "/sorgin1/users/jbarrutia006/viper/syntData/SFTDatasets"

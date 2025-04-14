@@ -16,7 +16,7 @@
 source /sorgin1/users/jbarrutia006/venvs/viper_tximista/bin/activate
 
 # Run your SFT script
-srun python scripts/sft/sftrain.py \
+srun python scripts/sft/sftrain_checkings.py \
     --project_name "viperSFT" \
     --run_name "Llama with SFT dataset. First go!" \
     --model_name "meta-llama/Meta-Llama-3-8B-Instruct" \

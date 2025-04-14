@@ -13,10 +13,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.ticker import PercentFormatter
 
-from datasets import Dataset
 
 from unsloth import FastLanguageModel, is_bfloat16_supported
 from transformers import (
+    Trainer,
     TrainingArguments,
     AutoTokenizer,
     DataCollatorForLanguageModeling,
@@ -107,6 +107,7 @@ def prepare_sft_prompt_and_answer(row, prompt_template, tokenizer):
 
     return tokenizer.apply_chat_template(messages, tokenize=False)
 
+
 def count_tokens(row: Dict, tokenizer):
     """
     Count the number of tokens in a given text using the specified tokenizer.
@@ -171,6 +172,7 @@ def main():
         max_seq_length=max_seq_length,
         dtype=dtype,
     )
+
     hugg_tokenizer = AutoTokenizer.from_pretrained(args.model_name)
 
     hugg_tokenizer.chat_template = hugg_tokenizer.chat_template.replace(
@@ -211,32 +213,79 @@ def main():
     train_sft = train_sft.to_pandas()
     dev_sft = dev_sft.to_pandas()
 
+    train_sft.head(5)
+    dev_sft.head(5)
+
     # Create the text column for SFT
 
     train_sft["text"] = train_sft.apply(prepare_sft_prompt_and_answer, axis=1, args=(prompt_template, tokenizer))
     dev_sft["text"] = dev_sft.apply(prepare_sft_prompt_and_answer, axis=1, args=(prompt_template, tokenizer))
 
 
+    def print_tokens_with_ids(txt):
+        tokens = tokenizer.tokenize(txt, add_special_tokens=False)
+        token_ids = tokenizer.encode(txt, add_special_tokens=False)
+        print(list(zip(tokens, token_ids)))
 
-    train_sft_dataset = Dataset.from_pandas(train_sft)
-    dev_sft_dataset   = Dataset.from_pandas(dev_sft)
+    prompt = """<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nAre there both frisbees and dogs in the image?\ndef execute_command(image)->str:<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n\n    image_patch = ImagePatch(image)\n    frisbees = image_patch.find("frisbee")\n    dogs = image_patch.find("dog")\n    return "yes" if len(frisbees) > 0 and len(dogs) > 0 else "no"\n<|eot_id|>"""
+    print_tokens_with_ids(prompt)
+
+    print("Second promtpt")
+    prompt = """<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nAre there both frisbees and dogs in the image?\ndef execute_command(image)->str:<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n\n"""
+    print_tokens_with_ids(prompt)
 
     #Check the collator
     response_template = "<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nAre there both frisbees and dogs in the image?\ndef execute_command(image)->str:<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n\n"
     collator = DataCollatorForCompletionOnlyLM(response_template, tokenizer=tokenizer)
 
+    examples = [train_sft["text"][0]]
 
-    # Define a simple metric function to track cross-entropy loss and/or perplexity
-    def compute_metrics(eval_pred):
-        """
-        eval_pred is (predictions, labels), but for causal LM training, 
-        huggingface sets it to None. We'll rely on the Trainer’s built-in perplexity.
-        If you want your own custom metrics, parse them here.
-        """
-        return {}
+    imprimpir = examples[0].replace('\n', '\\n')
 
+    logger.info(f"Examples: \n{imprimpir}")
+
+    encodings = [tokenizer(e) for e in examples]
+
+    dataloader = DataLoader(encodings, collate_fn=collator, batch_size=1)
+
+        
+    batch = next(iter(dataloader))
+    batch.keys()
+
+
+    #Print the token count for the first example and the token count for the first example after the response_template
+    logger.info(f"Token count for the first example: {len(tokenizer(train_sft['text'][0])['input_ids'])}")
+    logger.info(f"the last part: {train_sft['text'][0].split(response_template)[-1]}")
+    logger.info(f"Token count for the first example after the response_template: {len(tokenizer(train_sft['text'][0].split(response_template)[-1])['input_ids'])}")
+
+    logger.info(f"Batch attention_mask: {batch['attention_mask'].tolist()}")
+    logger.info(f"Batch labels: {batch['labels'].tolist()}")
+
+    # Decode the input_ids to strings.
+    decoded_input_ids = tokenizer.convert_ids_to_tokens(
+        batch["input_ids"][0].tolist(), 
+        skip_special_tokens=False
+    )
+
+    print("Index | Input ID | Input Token              | Label ID | Label Token")
+    print("--------------------------------------------------------------------")
+    for idx, (inp_id, label_id) in enumerate(zip(
+        batch["input_ids"][0].tolist(), 
+        batch["labels"][0].tolist()
+    )):
+        input_token_str = decoded_input_ids[idx]
+
+        if label_id == -100:
+            # This indicates the token is ignored in the loss
+            print(f"{idx:5d} | {inp_id:8d} | {input_token_str:25s} |  -100   | (ignored)")
+        else:
+            # Convert label ID to an actual token string
+            label_token_str = tokenizer.convert_ids_to_tokens([label_id], skip_special_tokens=False)[0]
+            print(f"{idx:5d} | {inp_id:8d} | {input_token_str:25s} | {label_id:6d} | {label_token_str}")
+
+    sys.exit(0)
     # Standard huggingface TrainingArguments
-    training_args = SFTConfig(
+    training_args = TrainingArguments(
         per_device_train_batch_size=args.batch_size,
         gradient_accumulation_steps=args.gradient_accumulation,
         fp16=(not is_bfloat16_supported()),
@@ -245,8 +294,8 @@ def main():
         evaluation_strategy="steps",
         eval_steps=args.eval_steps,
         save_steps=args.save_steps,
-        max_steps=args.max_steps,
-        num_train_epochs=args.epochs,
+        max_steps=args.max_steps if args.max_steps > 0 else None,
+        num_train_epochs=args.epochs if args.max_steps <= 0 else 100,  # or any large number if max_steps is controlling
         optim="adamw_torch",
         adam_beta1=0.9,
         adam_beta2=0.999,
@@ -261,19 +310,26 @@ def main():
         save_total_limit=1,
         load_best_model_at_end=True,
         metric_for_best_model="eval_loss",
-        greater_is_better=False,
-        max_length=max_seq_length,
+        greater_is_better=False
     )
 
-    trainer = SFTTrainer(
+    # Define a simple metric function to track cross-entropy loss and/or perplexity
+    def compute_metrics(eval_pred):
+        """
+        eval_pred is (predictions, labels), but for causal LM training, 
+        huggingface sets it to None. We'll rely on the Trainer’s built-in perplexity.
+        If you want your own custom metrics, parse them here.
+        """
+        return {}
+
+    trainer = Trainer(
         model=model,
         args=training_args,
-        train_dataset=train_sft_dataset,
-        eval_dataset=dev_sft_dataset,
+        train_dataset=train_sft,
+        eval_dataset=dev_sft,
         tokenizer=tokenizer,
-        data_collator=collator,
-        dataset_text_field = "text"
-        #compute_metrics=compute_metrics
+        data_collator=data_collator,
+        compute_metrics=compute_metrics
     )
 
     logger.info("Performing an initial evaluation on the dev_sft dataset...")
