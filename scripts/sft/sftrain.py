@@ -30,6 +30,42 @@ logger = logging.getLogger(__name__)
 
 os.chdir("/sorgin1/users/jbarrutia006/viper")  # Adjust to your working directory if needed
 
+# Custom collator that assumes tokenized input and masks tokens before the last assistant marker.
+class CustomDataCollatorForCompletionOnlyLM(DataCollatorForCompletionOnlyLM):
+    def __init__(self, response_template, tokenizer):
+        # Although response_template is not needed to extract text (since examples are already tokenized),
+        # we pass it to the superclass for consistency.
+        super().__init__(response_template, tokenizer=tokenizer)
+        self.response_template = response_template  # kept in case you want a fallback
+
+    def __call__(self, examples):
+        # The SFTTrainer already tokenizes the texts, so here each example is a dict that includes "input_ids".
+        # We pad the batch using the tokenizer’s pad() method.
+        batch = self.tokenizer.pad(examples, return_tensors="pt")
+        labels = batch["input_ids"].clone()
+
+        # Define the assistant marker we will search for.
+        marker = "<|start_header_id|>assistant<|end_header_id|>"
+        for i in range(len(labels)):
+            # Decode the padded input_ids to a string.
+            decoded_text = self.tokenizer.decode(labels[i], skip_special_tokens=False)
+            # Locate the last occurrence of the assistant marker.
+            pos = decoded_text.rfind(marker)
+            if pos != -1:
+                # Calculate the number of tokens in the substring before the marker.
+                token_boundary = len(
+                    self.tokenizer(decoded_text[:pos], add_special_tokens=False)["input_ids"]
+                )
+            else:
+                # Fallback: if marker isn't found in the decoded text, mask the entire sequence.
+                token_boundary = len(labels[i])
+            # For the current sequence, all tokens before token_boundary are set to -100.
+            labels[i, :token_boundary] = -100
+
+        batch["labels"] = labels
+        return batch
+
+
 def parse_args():
     parser = argparse.ArgumentParser(description="Train a model using supervised fine-tuning on a QA dataset")
 
@@ -171,6 +207,7 @@ def main():
         max_seq_length=max_seq_length,
         dtype=dtype,
     )
+
     hugg_tokenizer = AutoTokenizer.from_pretrained(args.model_name)
 
     hugg_tokenizer.chat_template = hugg_tokenizer.chat_template.replace(
@@ -222,9 +259,8 @@ def main():
     dev_sft_dataset   = Dataset.from_pandas(dev_sft)
 
     #Check the collator
-    response_template = "<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nAre there both frisbees and dogs in the image?\ndef execute_command(image)->str:<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n\n"
-    collator = DataCollatorForCompletionOnlyLM(response_template, tokenizer=tokenizer)
-
+    response_template = "<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nAre there both frisbees and dogs in the image?\ndef execute_command(image)->str:<|eot_id|><|start_header_id|>assistant<|end_header_id|>"
+    collator = CustomDataCollatorForCompletionOnlyLM(response_template, tokenizer=tokenizer)
 
     # Define a simple metric function to track cross-entropy loss and/or perplexity
     def compute_metrics(eval_pred):
@@ -241,10 +277,10 @@ def main():
         gradient_accumulation_steps=args.gradient_accumulation,
         fp16=(not is_bfloat16_supported()),
         bf16=is_bfloat16_supported(),
-        logging_steps=args.logging_steps,
+        logging_steps=args.logging_steps/args.gradient_accumulation*args.batch_size*32,
         evaluation_strategy="steps",
-        eval_steps=args.eval_steps,
-        save_steps=args.save_steps,
+        eval_steps=args.eval_steps/args.gradient_accumulation*args.batch_size*32,
+        save_steps=args.save_steps/args.gradient_accumulation*args.batch_size*32,
         max_steps=args.max_steps,
         num_train_epochs=args.epochs,
         optim="adamw_torch",
@@ -262,18 +298,19 @@ def main():
         load_best_model_at_end=True,
         metric_for_best_model="eval_loss",
         greater_is_better=False,
-        max_length=max_seq_length,
     )
 
     trainer = SFTTrainer(
         model=model,
+        tokenizer=tokenizer,
         args=training_args,
         train_dataset=train_sft_dataset,
         eval_dataset=dev_sft_dataset,
-        tokenizer=tokenizer,
         data_collator=collator,
-        dataset_text_field = "text"
-        #compute_metrics=compute_metrics
+        dataset_text_field = "text",
+        max_seq_length=max_seq_length,
+        packing = False,
+        #compute_metrics=compute_metrics,
     )
 
     logger.info("Performing an initial evaluation on the dev_sft dataset...")

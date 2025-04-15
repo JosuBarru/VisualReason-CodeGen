@@ -13,10 +13,10 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.ticker import PercentFormatter
 
+from datasets import Dataset
 
 from unsloth import FastLanguageModel, is_bfloat16_supported
 from transformers import (
-    Trainer,
     TrainingArguments,
     AutoTokenizer,
     DataCollatorForLanguageModeling,
@@ -106,7 +106,6 @@ def prepare_sft_prompt_and_answer(row, prompt_template, tokenizer):
     #logger.info(f"Prompt: {messages[0]['content']}")
 
     return tokenizer.apply_chat_template(messages, tokenize=False)
-
 
 def count_tokens(row: Dict, tokenizer):
     """
@@ -234,138 +233,116 @@ def main():
     prompt = """<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nAre there both frisbees and dogs in the image?\ndef execute_command(image)->str:<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n\n"""
     print_tokens_with_ids(prompt)
 
+
+    train_sft_dataset = Dataset.from_pandas(train_sft)
+    dev_sft_dataset   = Dataset.from_pandas(dev_sft)
+
     #Check the collator
-    response_template = "<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nAre there both frisbees and dogs in the image?\ndef execute_command(image)->str:<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n\n"
+    response_template = r'(<\|start_header_id\>assistant<\|end_header_id\>)(?!.*<\|start_header_id\>assistant<\|end_header_id\>)'
     collator = DataCollatorForCompletionOnlyLM(response_template, tokenizer=tokenizer)
 
-    examples = [train_sft["text"][0]]
+    # examples = [train_sft["text"][0]]
 
-    imprimpir = examples[0].replace('\n', '\\n')
+    # imprimpir = examples[0].replace('\n', '\\n')
 
-    logger.info(f"Examples: \n{imprimpir}")
+    # logger.info(f"Examples: \n{imprimpir}")
 
-    encodings = [tokenizer(e) for e in examples]
+    # encodings = [tokenizer(e) for e in examples]
 
-    dataloader = DataLoader(encodings, collate_fn=collator, batch_size=1)
+    # dataloader = DataLoader(encodings, collate_fn=collator, batch_size=1)
 
         
-    batch = next(iter(dataloader))
-    batch.keys()
+    # batch = next(iter(dataloader))
+    # batch.keys()
 
 
-    #Print the token count for the first example and the token count for the first example after the response_template
-    logger.info(f"Token count for the first example: {len(tokenizer(train_sft['text'][0])['input_ids'])}")
-    logger.info(f"the last part: {train_sft['text'][0].split(response_template)[-1]}")
-    logger.info(f"Token count for the first example after the response_template: {len(tokenizer(train_sft['text'][0].split(response_template)[-1])['input_ids'])}")
+    # #Print the token count for the first example and the token count for the first example after the response_template
+    # logger.info(f"Token count for the first example: {len(tokenizer(train_sft['text'][0])['input_ids'])}")
+    # logger.info(f"the last part: {train_sft['text'][0].split(response_template)[-1]}")
+    # logger.info(f"Token count for the first example after the response_template: {len(tokenizer(train_sft['text'][0].split(response_template)[-1])['input_ids'])}")
 
-    logger.info(f"Batch attention_mask: {batch['attention_mask'].tolist()}")
-    logger.info(f"Batch labels: {batch['labels'].tolist()}")
+    # logger.info(f"Batch attention_mask: {batch['attention_mask'].tolist()}")
+    # logger.info(f"Batch labels: {batch['labels'].tolist()}")
 
-    # Decode the input_ids to strings.
-    decoded_input_ids = tokenizer.convert_ids_to_tokens(
-        batch["input_ids"][0].tolist(), 
-        skip_special_tokens=False
-    )
+    # # Decode the input_ids to strings.
+    # decoded_input_ids = tokenizer.convert_ids_to_tokens(
+    #     batch["input_ids"][0].tolist(), 
+    #     skip_special_tokens=False
+    # )
 
-    print("Index | Input ID | Input Token              | Label ID | Label Token")
-    print("--------------------------------------------------------------------")
-    for idx, (inp_id, label_id) in enumerate(zip(
-        batch["input_ids"][0].tolist(), 
-        batch["labels"][0].tolist()
-    )):
-        input_token_str = decoded_input_ids[idx]
+    # print("Index | Input ID | Input Token              | Label ID | Label Token")
+    # print("--------------------------------------------------------------------")
+    # for idx, (inp_id, label_id) in enumerate(zip(
+    #     batch["input_ids"][0].tolist(), 
+    #     batch["labels"][0].tolist()
+    # )):
+    #     input_token_str = decoded_input_ids[idx]
 
-        if label_id == -100:
-            # This indicates the token is ignored in the loss
-            print(f"{idx:5d} | {inp_id:8d} | {input_token_str:25s} |  -100   | (ignored)")
-        else:
-            # Convert label ID to an actual token string
-            label_token_str = tokenizer.convert_ids_to_tokens([label_id], skip_special_tokens=False)[0]
-            print(f"{idx:5d} | {inp_id:8d} | {input_token_str:25s} | {label_id:6d} | {label_token_str}")
+    #     if label_id == -100:
+    #         # This indicates the token is ignored in the loss
+    #         print(f"{idx:5d} | {inp_id:8d} | {input_token_str:25s} |  -100   | (ignored)")
+    #     else:
+    #         # Convert label ID to an actual token string
+    #         label_token_str = tokenizer.convert_ids_to_tokens([label_id], skip_special_tokens=False)[0]
+    #         print(f"{idx:5d} | {inp_id:8d} | {input_token_str:25s} | {label_id:6d} | {label_token_str}")
+
+
+
+    # # Another verification:
+
+
+    # # Tokeniza manualmente
+
+    # train_sft_dataset = train_sft_dataset.map(
+    #     lambda x: tokenizer(x["text"], truncation=True, max_length=max_seq_length),
+    #     batched=True,
+    #     remove_columns=["text", "output", "prompt", "model_name"],
+    # )
+
+    # dev_sft_dataset = dev_sft_dataset.map(  
+    #     lambda x: tokenizer(x["text"], truncation=True, max_length=max_seq_length),
+    #     batched=True,
+    #     remove_columns=["text", "output", "prompt"],
+    # )
+
+    # dl = DataLoader(train_sft_dataset.select([0]), batch_size=1, collate_fn=collator)
+    # batch = next(iter(dl))
+
+    # input_ids = batch["input_ids"][0]
+    # labels = batch["labels"][0]
+
+    # # Muestra los tokens target (donde label ≠ -100)
+    # target_tokens = input_ids[labels != -100]
+    # print("Tokens con loss:")
+    # print(tokenizer.decode(target_tokens))
+
+
+
+    # Muestra 3 ejemplos del dev set de dev_sft_dataset
+    for i in range(3):
+        print("Ejemplo", i)
+        print("Text:", dev_sft_dataset[i]["text"])
+
+    # Revisa cuántos ejemplos del dev set dan 0 tokens con loss
+    from tqdm import tqdm
+
+    def check_loss_tokens(row):
+        print(row["text"])
+        tokens = tokenizer(row["text"])
+        try:
+            batch = collator([tokens])
+            labels = batch["labels"][0]
+            return (labels != -100).sum().item()
+        except Exception as e:
+            print("Error:", e)
+            return 0
+
+    counts = [check_loss_tokens(row) for _, row in tqdm(train_sft[:5].iterrows(), total=len(train_sft[:5]))]
+
+    print("Número de ejemplos sin tokens con pérdida:", sum([1 for c in counts if c == 0]))
+
 
     sys.exit(0)
-    # Standard huggingface TrainingArguments
-    training_args = TrainingArguments(
-        per_device_train_batch_size=args.batch_size,
-        gradient_accumulation_steps=args.gradient_accumulation,
-        fp16=(not is_bfloat16_supported()),
-        bf16=is_bfloat16_supported(),
-        logging_steps=args.logging_steps,
-        evaluation_strategy="steps",
-        eval_steps=args.eval_steps,
-        save_steps=args.save_steps,
-        max_steps=args.max_steps if args.max_steps > 0 else None,
-        num_train_epochs=args.epochs if args.max_steps <= 0 else 100,  # or any large number if max_steps is controlling
-        optim="adamw_torch",
-        adam_beta1=0.9,
-        adam_beta2=0.999,
-        adam_epsilon=1e-8,
-        weight_decay=args.weight_decay,
-        learning_rate=args.learning_rate,
-        warmup_ratio=args.warmup_ratio,
-        lr_scheduler_type=args.lr_scheduler_type,
-        output_dir=output_dir,
-        report_to=args.report_to,
-        run_name=args.run_name,
-        save_total_limit=1,
-        load_best_model_at_end=True,
-        metric_for_best_model="eval_loss",
-        greater_is_better=False
-    )
-
-    # Define a simple metric function to track cross-entropy loss and/or perplexity
-    def compute_metrics(eval_pred):
-        """
-        eval_pred is (predictions, labels), but for causal LM training, 
-        huggingface sets it to None. We'll rely on the Trainer’s built-in perplexity.
-        If you want your own custom metrics, parse them here.
-        """
-        return {}
-
-    trainer = Trainer(
-        model=model,
-        args=training_args,
-        train_dataset=train_sft,
-        eval_dataset=dev_sft,
-        tokenizer=tokenizer,
-        data_collator=data_collator,
-        compute_metrics=compute_metrics
-    )
-
-    logger.info("Performing an initial evaluation on the dev_sft dataset...")
-    eval_results = trainer.evaluate()
-    logger.info(f"Initial SFT dev set evaluation results: {eval_results}")
-
-    logger.info("Starting SFT training...")
-    trainer.train()
-    logger.info("SFT training completed.")
-
-    logger.info("Evaluating final performance on dev_sft dataset...")
-    final_eval_results = trainer.evaluate()
-    logger.info(f"Final SFT dev set results: {final_eval_results}")
-
-    # Optionally evaluate DPO loss on a separate dev dataset (if provided).
-    if args.dev_dataset_dpo is not None:
-        logger.info("Loading DPO dev dataset for additional eval...")
-        dpo_dev = datasets.load_from_disk(args.dev_dataset_dpo)
-        # Possibly reuse the "return_prompt_and_responses" logic from your existing code
-        # if your DPO dev dataset has "prompt", "chosen", "rejected"
-        # For example:
-        #   dpo_dev = dpo_dev.map(
-        #       return_prompt_and_responses,
-        #       batched=True
-        #   )
-        dpo_loss_results = evaluate_dpo_loss(model, dpo_dev, tokenizer, args.device)
-        logger.info(f"DPO-style dev set results: {dpo_loss_results}")
-        # You can log them to wandb:
-        wandb.log(dpo_loss_results)
-
-    logger.info(f"Saving final model to {output_dir} ...")
-    trainer.save_model(output_dir)
-
-    logger.info("Training completed and model saved!")
-    wandb.finish()
-
 
 if __name__ == "__main__":
     main()
