@@ -8,7 +8,7 @@
 #SBATCH --gres=gpu:1
 #SBATCH --time=0
 #SBATCH --output=/sorgin1/users/jbarrutia006/viper/slurm_scripts/outputs/sftTrain-pruebas.txt
-#SBATCH --error=/sorgin1/users/jbarrutia006/viper/slurm_scripts/outputs/sftTrain2-pruebas.err
+#SBATCH --error=/sorgin1/users/jbarrutia006/viper/slurm_scripts/outputs/sftTrain-pruebas.err
 #SBATCH --mail-type=all
 #SBATCH --mail-user=jbarrutia006@ikasle.ehu.eus
 
@@ -24,9 +24,9 @@ srun python scripts/sft/sftrain.py \
     --dev_dataset_sft "/sorgin1/users/jbarrutia006/viper/syntData/SFTDatasets/sft_dataset_dev.arrow" \
     --dev_dataset_dpo "/sorgin1/users/jbarrutia006/viper/syntData/PrefDatasets/dpo_dataset_single_dev.arrow" \
     --output_dir "./sft_trained_models" \
-    --batch_size 4 \
-    --gradient_accumulation 8 \
-    --learning_rate 5e-5 \
+    --batch_size 32 \
+    --gradient_accumulation 1 \
+    --learning_rate 1e-5 \
     --weight_decay 0.01 \
     --epochs 1 \
     --max_steps -1 \

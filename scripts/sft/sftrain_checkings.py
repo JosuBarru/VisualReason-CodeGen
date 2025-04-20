@@ -30,6 +30,41 @@ logger = logging.getLogger(__name__)
 
 os.chdir("/sorgin1/users/jbarrutia006/viper")  # Adjust to your working directory if needed
 
+# Custom collator that assumes tokenized input and masks tokens before the last assistant marker.
+class CustomDataCollatorForCompletionOnlyLM(DataCollatorForCompletionOnlyLM):
+    def __init__(self, response_template, tokenizer):
+        # Although response_template is not needed to extract text (since examples are already tokenized),
+        # we pass it to the superclass for consistency.
+        super().__init__(response_template, tokenizer=tokenizer)
+        self.response_template = response_template  # kept in case you want a fallback
+
+    def __call__(self, examples):
+        # The SFTTrainer already tokenizes the texts, so here each example is a dict that includes "input_ids".
+        # We pad the batch using the tokenizer’s pad() method.
+        batch = self.tokenizer.pad(examples, return_tensors="pt")
+        labels = batch["input_ids"].clone()
+
+        # Define the assistant marker we will search for.
+        marker = "<|start_header_id|>assistant<|end_header_id|>"
+        for i in range(len(labels)):
+            # Decode the padded input_ids to a string.
+            decoded_text = self.tokenizer.decode(labels[i], skip_special_tokens=False)
+            # Locate the last occurrence of the assistant marker.
+            pos = decoded_text.rfind(marker)
+            if pos != -1:
+                # Calculate the number of tokens in the substring before the marker.
+                token_boundary = len(
+                    self.tokenizer(decoded_text[:pos], add_special_tokens=False)["input_ids"]
+                )
+            else:
+                # Fallback: if marker isn't found in the decoded text, mask the entire sequence.
+                token_boundary = len(labels[i])
+            # For the current sequence, all tokens before token_boundary are set to -100.
+            labels[i, :token_boundary] = -100
+
+        batch["labels"] = labels
+        return batch
+
 def parse_args():
     parser = argparse.ArgumentParser(description="Train a model using supervised fine-tuning on a QA dataset")
 
@@ -74,11 +109,14 @@ def parse_args():
     return parser.parse_args()
 
 
-def prepare_sft_prompt_and_answer(row, prompt_template, tokenizer):
-    
-    messages = []
+def prepare_sft_prompt_and_answer(batch: Dict[str, list], prompt_template: str, tokenizer) -> Dict[str, list]:
+    """
+    Recibe un *batch* (dict con listas) y devuelve
+    {"text": [...]} con tantos elementos como ejemplos haya.
+    Está pensada para usarse con  `dataset.map(batched=True)`.
+    """
+    system_prompt, few_shot_part = prompt_template.split("# Examples of using ImagePatch\n")
 
-    system_prompt, few_shot_prompt = prompt_template.split("# Examples of using ImagePatch\n")
     system_prompt_full = (
         "You are an AI that uses a special ImagePatch class to answer questions about images.\n"
         "Here is the class definition:\n\n"
@@ -91,21 +129,34 @@ def prepare_sft_prompt_and_answer(row, prompt_template, tokenizer):
         "so that it answers the question or does the operation asked by the user.\n"
     )
 
-    messages.append({"role": "system", "content": system_prompt_full})
-    few_shot_prompt = few_shot_prompt.split("\n\n")[:-1]
-    for example in few_shot_prompt:
+    few_shot_examples = []
+    for example in few_shot_part.split("\n\n")[:-1]:
         lines = example.splitlines()
-        messages.append({"role": "user", "content": "\n".join(lines[:2])})
-        messages.append({"role": "assistant", "content": "\n".join(lines[2:])})
+        few_shot_examples.append(
+            {"role": "user", "content": "\n".join(lines[:2])}
+        )
+        few_shot_examples.append(
+            {"role": "assistant", "content": "\n".join(lines[2:])}
+        )
 
-    messages.append({"role": "user", "content": f"{row['prompt']}\ndef execute_command(image)->str:"})
-    
-    messages.append({"role": "assistant", "content": row["output"]})
+    out_texts = []
+    for prompt, answer in zip(batch["prompt"], batch["output"]):
+        messages = (
+            [{"role": "system", "content": system_prompt_full}]
+            + few_shot_examples
+            + [
+                {
+                    "role": "user",
+                    "content": f"{prompt}\ndef execute_command(image)->str:",
+                },
+                {"role": "assistant", "content": answer},
+            ]
+        )
+        out_texts.append(
+            tokenizer.apply_chat_template(messages, tokenize=False)
+        )
 
-    #Verify that the messages are correct
-    #logger.info(f"Prompt: {messages[0]['content']}")
-
-    return tokenizer.apply_chat_template(messages, tokenize=False)
+    return {"text": out_texts}
 
 def count_tokens(row: Dict, tokenizer):
     """
@@ -156,7 +207,6 @@ def evaluate_dpo_loss(model, dpo_dataset, tokenizer, device="cuda"):
 
 def main():
     args = parse_args()
-    wandb.init(project=args.project_name, name=args.run_name)
 
     output_dir = os.path.join(args.output_dir, datetime.datetime.now().strftime("%m-%d_%H-%M-%S"))
     logger.info(f"Results will be saved to: {output_dir}")
@@ -170,6 +220,7 @@ def main():
         model_name=args.model_name,
         max_seq_length=max_seq_length,
         dtype=dtype,
+        load_in_4bit=False
     )
 
     hugg_tokenizer = AutoTokenizer.from_pretrained(args.model_name)
@@ -207,142 +258,132 @@ def main():
     train_sft = datasets.load_from_disk(args.train_dataset_sft)
     dev_sft = datasets.load_from_disk(args.dev_dataset_sft)
 
-    #Convert to pandas DataFrame
-
-    train_sft = train_sft.to_pandas()
-    dev_sft = dev_sft.to_pandas()
-
-    train_sft.head(5)
-    dev_sft.head(5)
 
     # Create the text column for SFT
+    train_sft = train_sft.map(
+        prepare_sft_prompt_and_answer,
+        fn_kwargs={"prompt_template": prompt_template, "tokenizer": tokenizer},
+        batched=True,
+        desc="Formateando train SFT",
+    )
 
-    train_sft["text"] = train_sft.apply(prepare_sft_prompt_and_answer, axis=1, args=(prompt_template, tokenizer))
-    dev_sft["text"] = dev_sft.apply(prepare_sft_prompt_and_answer, axis=1, args=(prompt_template, tokenizer))
+    dev_sft = dev_sft.map(
+        prepare_sft_prompt_and_answer,
+        fn_kwargs={"prompt_template": prompt_template, "tokenizer": tokenizer},
+        batched=True,
+        desc="Formateando dev SFT",
+    )
 
+   
 
-    def print_tokens_with_ids(txt):
-        tokens = tokenizer.tokenize(txt, add_special_tokens=False)
-        token_ids = tokenizer.encode(txt, add_special_tokens=False)
-        print(list(zip(tokens, token_ids)))
+    # def print_tokens_with_ids(txt):
+    #     tokens = tokenizer.tokenize(txt, add_special_tokens=False)
+    #     token_ids = tokenizer.encode(txt, add_special_tokens=False)
+    #     print(list(zip(tokens, token_ids)))
 
-    prompt = """<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nAre there both frisbees and dogs in the image?\ndef execute_command(image)->str:<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n\n    image_patch = ImagePatch(image)\n    frisbees = image_patch.find("frisbee")\n    dogs = image_patch.find("dog")\n    return "yes" if len(frisbees) > 0 and len(dogs) > 0 else "no"\n<|eot_id|>"""
-    print_tokens_with_ids(prompt)
+    # prompt = """<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nAre there both frisbees and dogs in the image?\ndef execute_command(image)->str:<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n\n    image_patch = ImagePatch(image)\n    frisbees = image_patch.find("frisbee")\n    dogs = image_patch.find("dog")\n    return "yes" if len(frisbees) > 0 and len(dogs) > 0 else "no"\n<|eot_id|>"""
+    # print_tokens_with_ids(prompt)
 
-    print("Second promtpt")
-    prompt = """<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nAre there both frisbees and dogs in the image?\ndef execute_command(image)->str:<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n\n"""
-    print_tokens_with_ids(prompt)
+    # print("Second promtpt")
+    # prompt = """<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nAre there both frisbees and dogs in the image?\ndef execute_command(image)->str:<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n\n"""
+    # print_tokens_with_ids(prompt)
 
-
-    train_sft_dataset = Dataset.from_pandas(train_sft)
-    dev_sft_dataset   = Dataset.from_pandas(dev_sft)
 
     #Check the collator
-    response_template = r'(<\|start_header_id\>assistant<\|end_header_id\>)(?!.*<\|start_header_id\>assistant<\|end_header_id\>)'
-    collator = DataCollatorForCompletionOnlyLM(response_template, tokenizer=tokenizer)
+    response_template = "<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nAre there both frisbees and dogs in the image?\ndef execute_command(image)->str:<|eot_id|><|start_header_id|>assistant<|end_header_id|>"
+    collator = CustomDataCollatorForCompletionOnlyLM(response_template, tokenizer=tokenizer)
 
-    # examples = [train_sft["text"][0]]
+    examples = [train_sft["text"][1]]
 
-    # imprimpir = examples[0].replace('\n', '\\n')
+    imprimpir = examples[0].replace('\n', '\\n')
 
-    # logger.info(f"Examples: \n{imprimpir}")
+    logger.info(f"Examples: \n{imprimpir}")
 
-    # encodings = [tokenizer(e) for e in examples]
+    encodings = [tokenizer(e) for e in examples]
 
-    # dataloader = DataLoader(encodings, collate_fn=collator, batch_size=1)
+    dataloader = DataLoader(encodings, collate_fn=collator, batch_size=1)
 
         
-    # batch = next(iter(dataloader))
-    # batch.keys()
+    batch = next(iter(dataloader))
+    batch.keys()
 
 
-    # #Print the token count for the first example and the token count for the first example after the response_template
-    # logger.info(f"Token count for the first example: {len(tokenizer(train_sft['text'][0])['input_ids'])}")
-    # logger.info(f"the last part: {train_sft['text'][0].split(response_template)[-1]}")
-    # logger.info(f"Token count for the first example after the response_template: {len(tokenizer(train_sft['text'][0].split(response_template)[-1])['input_ids'])}")
+    #Print the token count for the first example and the token count for the first example after the response_template
+    logger.info(f"Token count for the first example: {len(tokenizer(train_sft['text'][0])['input_ids'])}")
+    logger.info(f"the last part: {train_sft['text'][0].split(response_template)[-1]}")
+    logger.info(f"Token count for the first example after the response_template: {len(tokenizer(train_sft['text'][0].split(response_template)[-1])['input_ids'])}")
 
-    # logger.info(f"Batch attention_mask: {batch['attention_mask'].tolist()}")
-    # logger.info(f"Batch labels: {batch['labels'].tolist()}")
+    logger.info(f"Batch attention_mask: {batch['attention_mask'].tolist()}")
+    logger.info(f"Batch labels: {batch['labels'].tolist()}")
 
-    # # Decode the input_ids to strings.
-    # decoded_input_ids = tokenizer.convert_ids_to_tokens(
-    #     batch["input_ids"][0].tolist(), 
-    #     skip_special_tokens=False
-    # )
+    # Decode the input_ids to strings.
+    decoded_input_ids = tokenizer.convert_ids_to_tokens(
+        batch["input_ids"][0].tolist(), 
+        skip_special_tokens=False
+    )
 
-    # print("Index | Input ID | Input Token              | Label ID | Label Token")
-    # print("--------------------------------------------------------------------")
-    # for idx, (inp_id, label_id) in enumerate(zip(
-    #     batch["input_ids"][0].tolist(), 
-    #     batch["labels"][0].tolist()
-    # )):
-    #     input_token_str = decoded_input_ids[idx]
+    print("Index | Input ID | Input Token              | Label ID | Label Token")
+    print("--------------------------------------------------------------------")
+    for idx, (inp_id, label_id) in enumerate(zip(
+        batch["input_ids"][0].tolist(), 
+        batch["labels"][0].tolist()
+    )):
+        input_token_str = decoded_input_ids[idx]
 
-    #     if label_id == -100:
-    #         # This indicates the token is ignored in the loss
-    #         print(f"{idx:5d} | {inp_id:8d} | {input_token_str:25s} |  -100   | (ignored)")
-    #     else:
-    #         # Convert label ID to an actual token string
-    #         label_token_str = tokenizer.convert_ids_to_tokens([label_id], skip_special_tokens=False)[0]
-    #         print(f"{idx:5d} | {inp_id:8d} | {input_token_str:25s} | {label_id:6d} | {label_token_str}")
-
-
-
-    # # Another verification:
-
-
-    # # Tokeniza manualmente
-
-    # train_sft_dataset = train_sft_dataset.map(
-    #     lambda x: tokenizer(x["text"], truncation=True, max_length=max_seq_length),
-    #     batched=True,
-    #     remove_columns=["text", "output", "prompt", "model_name"],
-    # )
-
-    # dev_sft_dataset = dev_sft_dataset.map(  
-    #     lambda x: tokenizer(x["text"], truncation=True, max_length=max_seq_length),
-    #     batched=True,
-    #     remove_columns=["text", "output", "prompt"],
-    # )
-
-    # dl = DataLoader(train_sft_dataset.select([0]), batch_size=1, collate_fn=collator)
-    # batch = next(iter(dl))
-
-    # input_ids = batch["input_ids"][0]
-    # labels = batch["labels"][0]
-
-    # # Muestra los tokens target (donde label ≠ -100)
-    # target_tokens = input_ids[labels != -100]
-    # print("Tokens con loss:")
-    # print(tokenizer.decode(target_tokens))
+        if label_id == -100:
+            # This indicates the token is ignored in the loss
+            print(f"{idx:5d} | {inp_id:8d} | {input_token_str:25s} |  -100   | (ignored)")
+        else:
+            # Convert label ID to an actual token string
+            label_token_str = tokenizer.convert_ids_to_tokens([label_id], skip_special_tokens=False)[0]
+            print(f"{idx:5d} | {inp_id:8d} | {input_token_str:25s} | {label_id:6d} | {label_token_str}")
 
 
 
-    # Muestra 3 ejemplos del dev set de dev_sft_dataset
-    for i in range(3):
-        print("Ejemplo", i)
-        print("Text:", dev_sft_dataset[i]["text"])
-
-    # Revisa cuántos ejemplos del dev set dan 0 tokens con loss
-    from tqdm import tqdm
-
-    def check_loss_tokens(row):
-        print(row["text"])
-        tokens = tokenizer(row["text"])
-        try:
-            batch = collator([tokens])
-            labels = batch["labels"][0]
-            return (labels != -100).sum().item()
-        except Exception as e:
-            print("Error:", e)
-            return 0
-
-    counts = [check_loss_tokens(row) for _, row in tqdm(train_sft[:5].iterrows(), total=len(train_sft[:5]))]
-
-    print("Número de ejemplos sin tokens con pérdida:", sum([1 for c in counts if c == 0]))
+    # Another verification:
 
 
-    sys.exit(0)
+    # Tokeniza manualmente
+
+
+    dl = DataLoader(train_sft.select([0]), batch_size=1, collate_fn=collator)
+    batch = next(iter(dl))
+
+    input_ids = batch["input_ids"][0]
+    labels = batch["labels"][0]
+
+    # Muestra los tokens target (donde label ≠ -100)
+    target_tokens = input_ids[labels != -100]
+    print("Tokens con loss:")
+    print(tokenizer.decode(target_tokens))
+
+
+    # for i in range(3):
+    #     print(f"Ejemplo {i}")
+    #     print("Text:", dev_sft[i]["text"])
+    #     print("-" * 80)
+
+    # from tqdm import tqdm
+
+    # def check_loss_tokens(text: str) -> int:
+    #     """
+    #     Devuelve cuántos tokens **sí** cuentan para la loss en un solo ejemplo.
+    #     Si devuelve 0 ⇒ el collator enmascaró todo el ejemplo.
+    #     """
+    #     encoded = tokenizer(text)
+
+    #     batch = collator([encoded])
+    #     labels = batch["labels"][0] 
+    #     return (labels != -100).sum().item()
+
+    # subset = train_sft.select(range(5))
+
+    # counts = [
+    #     check_loss_tokens(example["text"]) 
+    #     for example in tqdm(subset, desc="Revisando tokens con loss")
+    # ]
+
+    # print("Número de ejemplos sin tokens con pérdida:", sum(c == 0 for c in counts))
 
 if __name__ == "__main__":
     main()

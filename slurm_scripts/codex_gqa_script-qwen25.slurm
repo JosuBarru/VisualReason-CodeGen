@@ -18,8 +18,11 @@ export LOAD_MODELS=0
 export DATASET='gqa'
 export EXEC_MODE='codex'
 export CODEX_MODEL='qwen25'
-export TRAIN=True
-export BATCHSIZE=64
+export PARTITION='val'
+export BATCHSIZE=32
 export NUMINST=64
+export TEMP=0
+export CHECKPOINT=''
+
 
 srun python src/main_project_slurm.py

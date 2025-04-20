@@ -77,7 +77,7 @@ try:
                     config_names.append(model_configs[codex_model])
                     if checkpoint is not None and checkpoint != '':
                         manual_adapter = OmegaConf.create({
-                                "codex": {"adapter": os.path.join("/sorgin1/users/jbarrutia006/viper/dpo_trained_models", checkpoint)}
+                                "codex": {"adapter": os.path.join("/sorgin1/users/jbarrutia006/viper/", checkpoint)}
                             })
                     if temp is not None:
                         manual_temp = OmegaConf.create({

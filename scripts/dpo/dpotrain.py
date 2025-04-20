@@ -60,7 +60,7 @@ def train_dpo(args):
 
     logger.info("Loading model and tokenizer...")
 
-    max_seq_length = 8192
+    max_seq_length = 4000
     dtype = torch.bfloat16 if is_bfloat16_supported() else torch.float16    
     load_in_4bit = False
 
@@ -68,7 +68,8 @@ def train_dpo(args):
         model_name=args.model_name,
         max_seq_length=max_seq_length,
         dtype=dtype,
-        #load_in_4bit=load_in_4bit,
+        load_in_4bit=load_in_4bit,
+        use_exact_model_name=True
     )
 
     model = FastLanguageModel.get_peft_model(
@@ -112,10 +113,10 @@ def train_dpo(args):
             gradient_accumulation_steps=args.gradient_accumulation,
             fp16=not is_bfloat16_supported(),
             bf16=is_bfloat16_supported(),
-            logging_steps=args.logging_steps,
+            logging_steps=args.logging_steps/args.batch_size/args.gradient_accumulation*16,
             eval_strategy="steps",
-            eval_steps=args.eval_steps,
-            save_steps=args.save_steps,
+            eval_steps=args.eval_steps/args.batch_size/args.gradient_accumulation*16,
+            save_steps=args.save_steps/args.batch_size/args.gradient_accumulation*16,
             max_steps=args.max_steps,
             num_train_epochs=args.epochs,
             optim="adamw_torch",

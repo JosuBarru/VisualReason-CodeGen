@@ -19,20 +19,27 @@ source /sorgin1/users/jbarrutia006/venvs/viper_tximista/bin/activate
 export LOAD_MODELS=0
 export DATASET='gqa'
 export EXEC_MODE='codex'
-export CODEX_MODEL='llama31Q_Base'
+export CODEX_MODEL='qwen25'
 export PARTITION='val'
 export BATCHSIZE=16
 export TEMP=0
 export NUMINST=
-export CHECKPOINT=''
+export CHECKPOINT='dpo_trained_models/qwen/checkpoint-900'
 
 srun python src/main_project_slurm.py
 
-# Replace the hard-coded “llama31Q_Base” with ${CODEX_MODEL} in the search pattern
-export CODE=$(basename "$(ls -t results/gqa/codex_results/val/${CODEX_MODEL}___*.csv | head -n 1)")
+# ─────── case‐insensitive glob for picking up Qwen25… ───────
+# turn on case‐insensitive matching
+shopt -s nocaseglob
+
+# grab the newest file (basename only)
+export CODE=$(basename "$(ls -t results/gqa/codex_results/val/${CODEX_MODEL}*.csv | head -n 1)")
+
+# restore default globbing behavior (optional)
+shopt -u nocaseglob
 
 if [ -z "$CODE" ]; then
-    echo "Error: No file matching pattern '${CODEX_MODEL}___*.csv' was found."
+    echo "Error: No file matching pattern '${CODEX_MODEL}*.csv' was found."
     exit 1
 fi
 

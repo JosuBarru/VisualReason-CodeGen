@@ -65,7 +65,6 @@ class CustomDataCollatorForCompletionOnlyLM(DataCollatorForCompletionOnlyLM):
         batch["labels"] = labels
         return batch
 
-
 def parse_args():
     parser = argparse.ArgumentParser(description="Train a model using supervised fine-tuning on a QA dataset")
 
@@ -110,11 +109,14 @@ def parse_args():
     return parser.parse_args()
 
 
-def prepare_sft_prompt_and_answer(row, prompt_template, tokenizer):
-    
-    messages = []
+def prepare_sft_prompt_and_answer(batch: Dict[str, list], prompt_template: str, tokenizer) -> Dict[str, list]:
+    """
+    Recibe un *batch* (dict con listas) y devuelve
+    {"text": [...]} con tantos elementos como ejemplos haya.
+    Está pensada para usarse con  `dataset.map(batched=True)`.
+    """
+    system_prompt, few_shot_part = prompt_template.split("# Examples of using ImagePatch\n")
 
-    system_prompt, few_shot_prompt = prompt_template.split("# Examples of using ImagePatch\n")
     system_prompt_full = (
         "You are an AI that uses a special ImagePatch class to answer questions about images.\n"
         "Here is the class definition:\n\n"
@@ -127,21 +129,34 @@ def prepare_sft_prompt_and_answer(row, prompt_template, tokenizer):
         "so that it answers the question or does the operation asked by the user.\n"
     )
 
-    messages.append({"role": "system", "content": system_prompt_full})
-    few_shot_prompt = few_shot_prompt.split("\n\n")[:-1]
-    for example in few_shot_prompt:
+    few_shot_examples = []
+    for example in few_shot_part.split("\n\n")[:-1]:
         lines = example.splitlines()
-        messages.append({"role": "user", "content": "\n".join(lines[:2])})
-        messages.append({"role": "assistant", "content": "\n".join(lines[2:])})
+        few_shot_examples.append(
+            {"role": "user", "content": "\n".join(lines[:2])}
+        )
+        few_shot_examples.append(
+            {"role": "assistant", "content": "\n".join(lines[2:])}
+        )
 
-    messages.append({"role": "user", "content": f"{row['prompt']}\ndef execute_command(image)->str:"})
-    
-    messages.append({"role": "assistant", "content": row["output"]})
+    out_texts = []
+    for prompt, answer in zip(batch["prompt"], batch["output"]):
+        messages = (
+            [{"role": "system", "content": system_prompt_full}]
+            + few_shot_examples
+            + [
+                {
+                    "role": "user",
+                    "content": f"{prompt}\ndef execute_command(image)->str:",
+                },
+                {"role": "assistant", "content": answer},
+            ]
+        )
+        out_texts.append(
+            tokenizer.apply_chat_template(messages, tokenize=False)
+        )
 
-    #Verify that the messages are correct
-    #logger.info(f"Prompt: {messages[0]['content']}")
-
-    return tokenizer.apply_chat_template(messages, tokenize=False)
+    return {"text": out_texts}
 
 def count_tokens(row: Dict, tokenizer):
     """
@@ -206,6 +221,8 @@ def main():
         model_name=args.model_name,
         max_seq_length=max_seq_length,
         dtype=dtype,
+        load_in_4bit=False,
+        use_exact_model=True
     )
 
     hugg_tokenizer = AutoTokenizer.from_pretrained(args.model_name)
@@ -243,23 +260,25 @@ def main():
     train_sft = datasets.load_from_disk(args.train_dataset_sft)
     dev_sft = datasets.load_from_disk(args.dev_dataset_sft)
 
-    #Convert to pandas DataFrame
-
-    train_sft = train_sft.to_pandas()
-    dev_sft = dev_sft.to_pandas()
 
     # Create the text column for SFT
+    train_sft = train_sft.map(
+        prepare_sft_prompt_and_answer,
+        fn_kwargs={"prompt_template": prompt_template, "tokenizer": tokenizer},
+        batched=True,
+        desc="Formateando train SFT",
+    )
 
-    train_sft["text"] = train_sft.apply(prepare_sft_prompt_and_answer, axis=1, args=(prompt_template, tokenizer))
-    dev_sft["text"] = dev_sft.apply(prepare_sft_prompt_and_answer, axis=1, args=(prompt_template, tokenizer))
+    dev_sft = dev_sft.map(
+        prepare_sft_prompt_and_answer,
+        fn_kwargs={"prompt_template": prompt_template, "tokenizer": tokenizer},
+        batched=True,
+        desc="Formateando dev SFT",
+    )
 
-
-
-    train_sft_dataset = Dataset.from_pandas(train_sft)
-    dev_sft_dataset   = Dataset.from_pandas(dev_sft)
 
     #Check the collator
-    response_template = "<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nAre there both frisbees and dogs in the image?\ndef execute_command(image)->str:<|eot_id|><|start_header_id|>assistant<|end_header_id|>"
+    response_template = "<|start_header_id|>assistant<|end_header_id|>"
     collator = CustomDataCollatorForCompletionOnlyLM(response_template, tokenizer=tokenizer)
 
     # Define a simple metric function to track cross-entropy loss and/or perplexity
@@ -277,10 +296,10 @@ def main():
         gradient_accumulation_steps=args.gradient_accumulation,
         fp16=(not is_bfloat16_supported()),
         bf16=is_bfloat16_supported(),
-        logging_steps=args.logging_steps/args.gradient_accumulation*args.batch_size*32,
+        logging_steps=args.logging_steps/args.gradient_accumulation/args.batch_size*32,
         evaluation_strategy="steps",
-        eval_steps=args.eval_steps/args.gradient_accumulation*args.batch_size*32,
-        save_steps=args.save_steps/args.gradient_accumulation*args.batch_size*32,
+        eval_steps=args.eval_steps/args.gradient_accumulation/args.batch_size*32,
+        save_steps=args.save_steps/args.gradient_accumulation/args.batch_size*32,
         max_steps=args.max_steps,
         num_train_epochs=args.epochs,
         optim="adamw_torch",
@@ -304,8 +323,8 @@ def main():
         model=model,
         tokenizer=tokenizer,
         args=training_args,
-        train_dataset=train_sft_dataset,
-        eval_dataset=dev_sft_dataset,
+        train_dataset=train_sft,
+        eval_dataset=dev_sft,
         data_collator=collator,
         dataset_text_field = "text",
         max_seq_length=max_seq_length,

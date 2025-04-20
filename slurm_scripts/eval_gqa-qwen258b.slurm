@@ -19,6 +19,6 @@ export DATASET='gqa'
 export EXEC_MODE='cache'
 export TRAIN=True
 export CODE='Qwen257b-post.csv'
-export BATCHSIZE=1
+export BATCHSIZE=32
 
 srun python src/main_project_slurm.py
