@@ -18,7 +18,7 @@ source /sorgin1/users/jbarrutia006/venvs/viper_tximista/bin/activate
 python scripts/dpo/dpotrain.py \
     --project_name "viperDPO" \
     --run_name "New llama specific dataset 4,661 instances. Increase beta" \
-    --model_name "meta-llama/Meta-Llama-3-8B" \
+    --model_name "meta-llama/Meta-Llama-3.1-8B" \
     --train_dataset "/sorgin1/users/jbarrutia006/viper/syntData/PrefDatasets/dpo_dataset_llama_train.arrow" \
     --dev_dataset "/sorgin1/users/jbarrutia006/viper/syntData/PrefDatasets/dpo_dataset_single_dev.arrow" \
     --output_dir "./dpo_trained_models" \
