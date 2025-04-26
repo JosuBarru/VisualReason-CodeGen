@@ -19,14 +19,14 @@ source /sorgin1/users/jbarrutia006/venvs/viper_tximista/bin/activate
 srun python scripts/sft/sftrain.py \
     --project_name "viperSFT" \
     --run_name "Llama with SFT dataset. 3 epochs. Lr 5e-4" \
-    --model_name "meta-llama/Meta-Llama-3-8B-Instruct" \
+    --model_name "meta-llama/Meta-Llama-3.1-8B-Instruct" \
     --train_dataset_sft "/sorgin1/users/jbarrutia006/viper/syntData/SFTDatasets/sft_dataset_train.arrow" \
     --dev_dataset_sft "/sorgin1/users/jbarrutia006/viper/syntData/SFTDatasets/sft_dataset_dev.arrow" \
     --dev_dataset_dpo "/sorgin1/users/jbarrutia006/viper/syntData/PrefDatasets/dpo_dataset_single_dev.arrow" \
     --output_dir "./sft_trained_models" \
     --batch_size 32 \
     --gradient_accumulation 1 \
-    --learning_rate 5e-5 \
+    --learning_rate 5e-4 \
     --weight_decay 0 \
     --epochs 4 \
     --max_steps -1 \

@@ -25,6 +25,9 @@ from torch.utils.data import DataLoader
 
 from trl import SFTConfig, SFTTrainer, DataCollatorForCompletionOnlyLM
 
+from torch.nn import functional as F
+from transformers import TrainerCallback
+
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
@@ -64,6 +67,84 @@ class CustomDataCollatorForCompletionOnlyLM(DataCollatorForCompletionOnlyLM):
 
         batch["labels"] = labels
         return batch
+
+def compute_sequence_logprob(logits, input_ids, prompt_len):
+    logps = F.log_softmax(logits, dim=-1)
+    resp = [
+        logps[0, i-1, input_ids[0, i]]
+        for i in range(prompt_len, input_ids.size(1))
+    ]
+    return torch.stack(resp).sum()
+
+def evaluate_dpo_loss(
+    model,
+    dataset,
+    tokenizer,
+    device: str = "cuda",
+    beta: float = 1.0,
+    batch_size: int = 8,
+):
+    model.eval()
+    loader = torch.utils.data.DataLoader(dataset, batch_size=batch_size, shuffle=False)
+    total_loss, total_correct, total = 0.0, 0, 0
+
+    for batch in loader:
+        for prompt, chosen, rejected in zip(batch["prompt"], batch["chosen"], batch["rejected"]):
+            # tokenize without special tokens
+            p_ids = tokenizer(prompt, add_special_tokens=False).input_ids
+            c_ids = tokenizer(chosen, add_special_tokens=False).input_ids
+            r_ids = tokenizer(rejected, add_special_tokens=False).input_ids
+
+            inpt_c = torch.tensor([p_ids + c_ids], device=device)
+            inpt_r = torch.tensor([p_ids + r_ids], device=device)
+
+            with torch.no_grad():
+                logits_c = model(inpt_c).logits
+                logits_r = model(inpt_r).logits
+
+            logp_c = compute_sequence_logprob(logits_c, inpt_c, prompt_len=len(p_ids))
+            logp_r = compute_sequence_logprob(logits_r, inpt_r, prompt_len=len(p_ids))
+
+            diff = logp_c - logp_r
+            total_loss += -torch.log(torch.sigmoid(beta * diff)).item()
+            total_correct += (diff > 0).float().item()
+            total += 1
+
+    return {
+        "dpo_loss": total_loss / total,
+        "dpo_acc": total_correct / total,
+    }
+
+class DPOEvalCallback(TrainerCallback):
+    def __init__(self, dpo_dataset, tokenizer, device, beta=1.0, batch_size=8):
+        super().__init__()
+        self.dpo_dataset = dpo_dataset
+        self.tokenizer = tokenizer
+        self.device = device
+        self.beta = beta
+        self.batch_size = batch_size
+
+    def on_evaluate(self, args, state, control, model=None, metrics=None, **kwargs):
+        # compute DPO metrics
+        dpo_metrics = evaluate_dpo_loss(
+            model,
+            self.dpo_dataset,
+            self.tokenizer,
+            device=self.device,
+            beta=self.beta,
+            batch_size=self.batch_size,
+        )
+        # inject into the logged metrics
+        metrics["eval_dpo_loss"] = dpo_metrics["dpo_loss"]
+        metrics["eval_dpo_acc"]  = dpo_metrics["dpo_acc"]
+
+        # optionally log to wandb as well
+        import wandb
+        wandb.log({
+            "eval/dpo_loss": dpo_metrics["dpo_loss"],
+            "eval/dpo_acc": dpo_metrics["dpo_acc"],
+            "step": state.global_step
+        })
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Train a model using supervised fine-tuning on a QA dataset")
@@ -222,6 +303,21 @@ def main():
     train_sft = datasets.load_from_disk(args.train_dataset_sft)
     dev_sft = datasets.load_from_disk(args.dev_dataset_sft)
 
+    dpo_dev = None
+    callbacks = []
+    if args.dev_dataset_dpo is not None:
+        logger.info("Loading DPO dev dataset for additional eval…")
+        dpo_dev = datasets.load_from_disk(args.dev_dataset_dpo)
+        callbacks.append(
+            DPOEvalCallback(
+                dpo_dataset=dpo_dev,
+                tokenizer=tokenizer,
+                device=args.device,
+                beta=1.0,               # or whatever β you prefer
+                batch_size=args.batch_size
+            )
+        )
+
 
     # Create the text column for SFT
     train_sft = train_sft.map(
@@ -243,14 +339,7 @@ def main():
     response_template = "<|start_header_id|>assistant<|end_header_id|>"
     collator = CustomDataCollatorForCompletionOnlyLM(response_template, tokenizer=tokenizer)
 
-    # Define a simple metric function to track cross-entropy loss and/or perplexity
-    def compute_metrics(eval_pred):
-        """
-        eval_pred is (predictions, labels), but for causal LM training, 
-        huggingface sets it to None. We'll rely on the Trainer’s built-in perplexity.
-        If you want your own custom metrics, parse them here.
-        """
-        return {}
+    
 
     # Standard huggingface TrainingArguments
     training_args = SFTConfig(
@@ -291,6 +380,7 @@ def main():
         dataset_text_field = "text",
         max_seq_length=max_seq_length,
         packing = False,
+        callbacks=callbacks,
         #compute_metrics=compute_metrics,
     )
 
