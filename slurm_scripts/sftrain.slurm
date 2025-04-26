@@ -7,8 +7,8 @@
 #SBATCH --mem=50GB
 #SBATCH --gres=gpu:1
 #SBATCH --time=0
-#SBATCH --output=/sorgin1/users/jbarrutia006/viper/slurm_scripts/outputs/sftTrain-5e-5.txt
-#SBATCH --error=/sorgin1/users/jbarrutia006/viper/slurm_scripts/outputs/sftTrain-5e-5.err
+#SBATCH --output=/sorgin1/users/jbarrutia006/viper/slurm_scripts/outputs/sftTrain.txt
+#SBATCH --error=/sorgin1/users/jbarrutia006/viper/slurm_scripts/outputs/sftTrain.err
 #SBATCH --mail-type=all
 #SBATCH --mail-user=jbarrutia006@ikasle.ehu.eus
 
@@ -18,7 +18,7 @@ source /sorgin1/users/jbarrutia006/venvs/viper_tximista/bin/activate
 # Run your SFT script
 srun python scripts/sft/sftrain.py \
     --project_name "viperSFT" \
-    --run_name "Llama with SFT dataset. 3 epochs. Lr 5e-5" \
+    --run_name "Llama with SFT dataset. 3 epochs. Lr 5e-4" \
     --model_name "meta-llama/Meta-Llama-3-8B-Instruct" \
     --train_dataset_sft "/sorgin1/users/jbarrutia006/viper/syntData/SFTDatasets/sft_dataset_train.arrow" \
     --dev_dataset_sft "/sorgin1/users/jbarrutia006/viper/syntData/SFTDatasets/sft_dataset_dev.arrow" \

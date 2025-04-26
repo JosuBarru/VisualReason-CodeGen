@@ -33,6 +33,7 @@ config_names = []
 
 model_configs = {
     "codellama": "config_codellama",
+    "codellama_base": "config_codellama_base",
     "llama31Q": "config_codex_llama3.1-8b",
     "llama31Q_Base": "config_codex_llama3.1-8b-base",
     "llama33Q": "config_codex_llama3.3-70b",

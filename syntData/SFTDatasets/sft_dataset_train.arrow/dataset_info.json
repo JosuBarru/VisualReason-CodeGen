@@ -10,7 +10,7 @@
       "dtype": "string",
       "_type": "Value"
     },
-    "model_name": {
+    "model": {
       "dtype": "string",
       "_type": "Value"
     }

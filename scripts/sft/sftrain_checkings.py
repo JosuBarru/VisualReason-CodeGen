@@ -32,11 +32,12 @@ os.chdir("/sorgin1/users/jbarrutia006/viper")  # Adjust to your working director
 
 # Custom collator that assumes tokenized input and masks tokens before the last assistant marker.
 class CustomDataCollatorForCompletionOnlyLM(DataCollatorForCompletionOnlyLM):
-    def __init__(self, response_template, tokenizer):
+    def __init__(self, response_template, tokenizer, model_name):
         # Although response_template is not needed to extract text (since examples are already tokenized),
         # we pass it to the superclass for consistency.
         super().__init__(response_template, tokenizer=tokenizer)
         self.response_template = response_template  # kept in case you want a fallback
+        self.model_name = model_name
 
     def __call__(self, examples):
         # The SFTTrainer already tokenizes the texts, so here each example is a dict that includes "input_ids".
@@ -45,7 +46,10 @@ class CustomDataCollatorForCompletionOnlyLM(DataCollatorForCompletionOnlyLM):
         labels = batch["input_ids"].clone()
 
         # Define the assistant marker we will search for.
-        marker = "<|start_header_id|>assistant<|end_header_id|>"
+        if self.model_name == "meta-llama/Meta-Llama-3-8B-Instruct":
+            marker = "<|start_header_id|>assistant<|end_header_id|>"
+        elif self.model_name == "codellama/CodeLlama-7b-Instruct-hf":
+            marker = "</s><s>[INST]"
         for i in range(len(labels)):
             # Decode the padded input_ids to a string.
             decoded_text = self.tokenizer.decode(labels[i], skip_special_tokens=False)
@@ -290,8 +294,8 @@ def main():
 
 
     #Check the collator
-    response_template = "<|eot_id|><|start_header_id|>user<|end_header_id|>\n\nAre there both frisbees and dogs in the image?\ndef execute_command(image)->str:<|eot_id|><|start_header_id|>assistant<|end_header_id|>"
-    collator = CustomDataCollatorForCompletionOnlyLM(response_template, tokenizer=tokenizer)
+    response_template = ""
+    collator = CustomDataCollatorForCompletionOnlyLM(response_template, tokenizer=tokenizer, model_name=args.model_name)
 
     examples = [train_sft["text"][1]]
 
@@ -309,12 +313,12 @@ def main():
 
 
     #Print the token count for the first example and the token count for the first example after the response_template
-    logger.info(f"Token count for the first example: {len(tokenizer(train_sft['text'][0])['input_ids'])}")
-    logger.info(f"the last part: {train_sft['text'][0].split(response_template)[-1]}")
-    logger.info(f"Token count for the first example after the response_template: {len(tokenizer(train_sft['text'][0].split(response_template)[-1])['input_ids'])}")
+    # logger.info(f"Token count for the first example: {len(tokenizer(train_sft['text'][0])['input_ids'])}")
+    # logger.info(f"the last part: {train_sft['text'][0].split(response_template)[-1]}")
+    # logger.info(f"Token count for the first example after the response_template: {len(tokenizer(train_sft['text'][0].split(response_template)[-1])['input_ids'])}")
 
-    logger.info(f"Batch attention_mask: {batch['attention_mask'].tolist()}")
-    logger.info(f"Batch labels: {batch['labels'].tolist()}")
+    # logger.info(f"Batch attention_mask: {batch['attention_mask'].tolist()}")
+    # logger.info(f"Batch labels: {batch['labels'].tolist()}")
 
     # Decode the input_ids to strings.
     decoded_input_ids = tokenizer.convert_ids_to_tokens(
@@ -346,16 +350,16 @@ def main():
     # Tokeniza manualmente
 
 
-    dl = DataLoader(train_sft.select([0]), batch_size=1, collate_fn=collator)
-    batch = next(iter(dl))
+    # dl = DataLoader(train_sft.select([0]), batch_size=1, collate_fn=collator)
+    # batch = next(iter(dl))
 
-    input_ids = batch["input_ids"][0]
-    labels = batch["labels"][0]
+    # input_ids = batch["input_ids"][0]
+    # labels = batch["labels"][0]
 
-    # Muestra los tokens target (donde label ≠ -100)
-    target_tokens = input_ids[labels != -100]
-    print("Tokens con loss:")
-    print(tokenizer.decode(target_tokens))
+    # # Muestra los tokens target (donde label ≠ -100)
+    # target_tokens = input_ids[labels != -100]
+    # print("Tokens con loss:")
+    # print(tokenizer.decode(target_tokens))
 
 
     # for i in range(3):

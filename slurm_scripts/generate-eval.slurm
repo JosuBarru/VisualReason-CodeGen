@@ -19,12 +19,12 @@ source /sorgin1/users/jbarrutia006/venvs/viper_tximista/bin/activate
 export LOAD_MODELS=0
 export DATASET='gqa'
 export EXEC_MODE='codex'
-export CODEX_MODEL='qwen25'
+export CODEX_MODEL='codellama'
 export PARTITION='val'
 export BATCHSIZE=16
 export TEMP=0
 export NUMINST=
-export CHECKPOINT='dpo_trained_models/qwen/checkpoint-900'
+export CHECKPOINT=''
 
 srun python src/main_project_slurm.py
 

@@ -1,0 +1,8 @@
+codex:
+    model: codellama_base
+    model_name: 'codellama/CodeLlama-7b' 
+    prompt: ./prompts/benchmarks/gqa.prompt
+    temperature: 0.6
+    adapter: 
+load_models:
+    codellama_base: True

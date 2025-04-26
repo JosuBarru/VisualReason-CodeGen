@@ -19,7 +19,7 @@ source /sorgin1/users/jbarrutia006/venvs/viper_tximista/bin/activate
 srun python scripts/sft/sftrain_checkings.py \
     --project_name "viperSFT" \
     --run_name "Llama with SFT dataset. First go!" \
-    --model_name "meta-llama/Meta-Llama-3-8B-Instruct" \
+    --model_name "codellama/CodeLlama-7b-Instruct-hf" \
     --train_dataset_sft "/sorgin1/users/jbarrutia006/viper/syntData/SFTDatasets/sft_dataset_train.arrow" \
     --dev_dataset_sft "/sorgin1/users/jbarrutia006/viper/syntData/SFTDatasets/sft_dataset_dev.arrow" \
     --dev_dataset_dpo "/sorgin1/users/jbarrutia006/viper/syntData/PrefDatasets/dpo_dataset_single_dev.arrow" \

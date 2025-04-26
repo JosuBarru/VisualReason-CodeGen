@@ -165,45 +165,6 @@ def count_tokens(row: Dict, tokenizer):
     return len(tokenizer(row["text"], add_special_tokens=True, return_attention_mask=False)["input_ids"])
     
 
-def evaluate_dpo_loss(model, dpo_dataset, tokenizer, device="cuda"):
-    """
-    If you want to see how SFT influences the DPO objective on a DPO dev set,
-    you can compute the DPO loss similarly to the DPO script.
-    """
-    logger.info("Evaluating DPO loss on DPO-style dev dataset...")
-
-    model.eval()
-    total_loss = 0.0
-    total_samples = 0
-
-    # We'll iterate the DPO dev dataset in small batches
-    for sample in dpo_dataset:
-        prompt = sample["prompt"]
-        chosen = sample["chosen"]
-        rejected = sample["rejected"]
-
-        # Tokenize
-        prompt_chosen = tokenizer(prompt + chosen, return_tensors="pt", truncation=True).to(device)
-        prompt_rejected = tokenizer(prompt + rejected, return_tensors="pt", truncation=True).to(device)
-
-        with torch.no_grad():
-            # Get log probabilities
-            chosen_outputs = model(**prompt_chosen)
-            rejected_outputs = model(**prompt_rejected)
-
-            # For a causal LM, the loss is the mean cross-entropy.
-            # Precisely replicating the DPO loss might require more advanced logic,
-            # but here's a simplified approach to measure log-likelihood difference.
-            chosen_loss = chosen_outputs.loss
-            rejected_loss = rejected_outputs.loss
-
-        # Approx DPO "loss" measurement. You can adapt to replicate your exact formula.
-        total_loss += (chosen_loss.item() - rejected_loss.item())
-        total_samples += 1
-
-    dpo_loss = total_loss / max(1, total_samples)
-    return {"dpo_loss": dpo_loss}
-
 
 def main():
     args = parse_args()
@@ -213,7 +174,7 @@ def main():
     logger.info(f"Results will be saved to: {output_dir}")
 
     logger.info("Loading model and tokenizer...")
-    max_seq_length = 3500
+    max_seq_length = 7000
     dtype = torch.bfloat16 if is_bfloat16_supported() else torch.float16
 
     # Load base model
@@ -221,8 +182,7 @@ def main():
         model_name=args.model_name,
         max_seq_length=max_seq_length,
         dtype=dtype,
-        load_in_4bit=False,
-        use_exact_model=True
+        load_in_4bit=False
     )
 
     hugg_tokenizer = AutoTokenizer.from_pretrained(args.model_name)
@@ -251,6 +211,8 @@ def main():
         use_rslora=False,
         loftq_config=None,
     )
+    model.print_trainable_parameters()
+
 
     # Read the prompt template once
     with open("prompts/benchmarks/gqa.prompt", "r") as f:
