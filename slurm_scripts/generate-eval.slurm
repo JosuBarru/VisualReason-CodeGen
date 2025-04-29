@@ -19,23 +19,19 @@ source /sorgin1/users/jbarrutia006/venvs/viper_tximista/bin/activate
 export LOAD_MODELS=0
 export DATASET='gqa'
 export EXEC_MODE='codex'
-export CODEX_MODEL='codellama'
+export CODEX_MODEL='llama3Q'
 export PARTITION='val'
-export BATCHSIZE=16
+export BATCHSIZE=8
 export TEMP=0
 export NUMINST=
-export CHECKPOINT=''
+export CHECKPOINT='dpo_trained_models/03-15_21-54-00/best-checkpoint'
 
 srun python src/main_project_slurm.py
 
-# ─────── case‐insensitive glob for picking up Qwen25… ───────
-# turn on case‐insensitive matching
 shopt -s nocaseglob
 
-# grab the newest file (basename only)
 export CODE=$(basename "$(ls -t results/gqa/codex_results/val/${CODEX_MODEL}*.csv | head -n 1)")
 
-# restore default globbing behavior (optional)
 shopt -u nocaseglob
 
 if [ -z "$CODE" ]; then

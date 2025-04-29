@@ -18,7 +18,7 @@ export LOAD_MODELS=1
 export DATASET='gqa'
 export EXEC_MODE='cache'
 export PARTITION='val'
-export CODE='llama31Q___04-13_13-01.csv'
+export CODE='llama31Q___04-29_15-43.csv'
 export BATCHSIZE=32
 export NUMINST=
 

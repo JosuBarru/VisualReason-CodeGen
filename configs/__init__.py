@@ -37,6 +37,7 @@ model_configs = {
     "llama31Q": "config_codex_llama3.1-8b",
     "llama31Q_Base": "config_codex_llama3.1-8b-base",
     "llama33Q": "config_codex_llama3.3-70b",
+    "llama3Q": "config_codex_llama3-8b",
     "deepseek-qwen7b": "config_codex_deepseek-Qwen-7b",
     "deepseek-llama8b": "config_codex_deepseek-llama-8b",
     "deepseek-llama70b": "config_codex_deepseek-llama-70b",
