@@ -60,7 +60,7 @@ def train_dpo(args):
 
     logger.info("Loading model and tokenizer...")
 
-    max_seq_length = 4000
+    max_seq_length = 8000 #4000
     dtype = torch.bfloat16 if is_bfloat16_supported() else torch.float16    
     load_in_4bit = False
 

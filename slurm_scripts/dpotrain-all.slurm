@@ -17,8 +17,8 @@ source /sorgin1/users/jbarrutia006/venvs/viper_tximista/bin/activate
 
 srun python scripts/dpo/dpotrain.py \
     --project_name "viperDPO" \
-    --run_name "Good Llama model All" \
-    --model_name "meta-llama/Meta-Llama-3.1-8B" \
+    --run_name "First Llama instruct" \
+    --model_name "meta-llama/Meta-Llama-3.1-8B-Instruct" \
     --train_dataset "/sorgin1/users/jbarrutia006/viper/syntData/PrefDatasets/dpo_dataset_all_train.arrow" \
     --dev_dataset "/sorgin1/users/jbarrutia006/viper/syntData/PrefDatasets/dpo_dataset_single_dev.arrow" \
     --output_dir "./dpo_trained_models" \

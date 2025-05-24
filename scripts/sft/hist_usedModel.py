@@ -63,10 +63,12 @@ width = 0.35
 fig, ax = plt.subplots(figsize=(10, 6))
 bars_correct = ax.bar(x - width/2, correct_values, width, label='Correct Code')
 
+models_names = ['Qwen2.5-Math-7B', 'CodeLlama-7b-Instruct-hf', 'DeepSeek-R1-Distill-Llama-8B', 'DeepSeek-R1-Distill-Qwen-7B', 'Meta-Llama-3.1-8B-Instruct', 'Mixtral-8x7B-Instruct-v0.1']
+
 ax.set_ylabel('Number of Code Instances')
 ax.set_title('Distribution of Correct and Rejected Codes by Model')
 ax.set_xticks(x)
-ax.set_xticklabels(models, rotation=45, ha="right")
+ax.set_xticklabels(models_names, rotation=45, ha="right")
 ax.legend()
 
 # Function to add labels above the bars

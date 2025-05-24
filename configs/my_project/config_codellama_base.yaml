@@ -1,6 +1,6 @@
 codex:
     model: codellama_base
-    model_name: 'codellama/CodeLlama-7b' 
+    model_name: 'codellama/CodeLlama-7b-hf' 
     prompt: ./prompts/benchmarks/gqa.prompt
     temperature: 0.6
     adapter: 

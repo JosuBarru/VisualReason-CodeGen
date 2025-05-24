@@ -167,7 +167,7 @@ def main():
     all_train.save_to_disk(os.path.join(SFT_OUTPUT_DIR, "sft_dataset_train.arrow"))
     sft_eval.save_to_disk(os.path.join(SFT_OUTPUT_DIR, "sft_dataset_eval.arrow"))
 
-    print("✅ New SFT datasets written to", SFT_OUTPUT_DIR)
+    print("New SFT datasets written to", SFT_OUTPUT_DIR)
 
     # How many instances are in the new dataset?
     print("New SFT dataset size:", len(all_train))

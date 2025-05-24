@@ -66,10 +66,16 @@ fig, ax = plt.subplots(figsize=(10, 6))
 bars_correct = ax.bar(x - width/2, correct_values, width, label='Correct Code')
 bars_rejected = ax.bar(x + width/2, rejected_values, width, label='Rejected Code')
 
+# Change the model names to be more readable
+
+models_names = ['Qwen2.5-Math-7B', 'CodeLlama-7b-Instruct-hf', 'DeepSeek-R1-Distill-Llama-8B', 'DeepSeek-R1-Distill-Qwen-7B', 'Meta-Llama-3.1-8B-Instruct', 'Mixtral-8x7B-Instruct-v0.1']
+
+
+
 ax.set_ylabel('Number of Code Instances')
 ax.set_title('Distribution of Correct and Rejected Codes by Model')
 ax.set_xticks(x)
-ax.set_xticklabels(models, rotation=45, ha="right")
+ax.set_xticklabels(models_names, rotation=45, ha="right")
 ax.legend()
 
 # Function to add labels above the bars
@@ -90,7 +96,7 @@ plt.tight_layout()
 base_name = os.path.basename(selected_path)
 # Save the plot in the parent directory of the selected dataset folder, not inside it.
 output_directory = os.path.dirname(selected_path)
-output_filename = os.path.join(output_directory, f"{base_name}.svg")
+output_filename = os.path.join(output_directory, f"{base_name}-good.svg")
 
 plt.savefig(output_filename, format="svg")
 print(f"Plot saved as {output_filename}")
