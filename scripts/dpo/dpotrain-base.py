@@ -41,54 +41,17 @@ def parse_args():
     
     return parser.parse_args()
 
-def return_prompt_and_responses(samples, prompt_template) -> Dict[str, list[str]]:
+def return_prompt_and_responses(samples) -> Dict[str, list[str]]:
+    with open("prompts/benchmarks/gqa.prompt", "r") as file:
+        prompt_template = file.read()
+    
     prompts = [prompt_template.replace("INSERT_QUERY_HERE", question) for question in samples["prompt"]]
     # It just prints ones because then it is cached
-    #logger.info(f"Prompt example: {prompts[1]}")
-    #logger.info(f"Chosen response: {samples['chosen'][1]}")
-    #logger.info(f"Rejected response: {samples['rejected'][1]}")
+    logger.info(f"Prompt example: {prompts[1]}")
+    logger.info(f"Chosen response: {samples['chosen'][1]}")
+    logger.info(f"Rejected response: {samples['rejected'][1]}")
 
-    system_prompt, few_shot_part = prompt_template.split("# Examples of using ImagePatch\n")
-
-    system_prompt_full = (
-        "You are an AI that uses a special ImagePatch class to answer questions about images.\n"
-        "Here is the class definition:\n\n"
-        f"{system_prompt}\n\n"
-        "Please use this class to answer queries about images.\n"
-        "When writing the final solution, you typically define a function:\n\n"
-        "def execute_command(image)->str:\n"
-        "    # put your logic here\n"
-        "Your job is to produce the correct code in that function "
-        "so that it answers the question or does the operation asked by the user.\n"
-    )
-
-    few_shot_examples = []
-    for example in few_shot_part.split("\n\n")[:-1]:
-        lines = example.splitlines()
-        few_shot_examples.append(
-            {"role": "user", "content": "\n".join(lines[:2])}
-        )
-        few_shot_examples.append(
-            {"role": "assistant", "content": "\n".join(lines[2:])}
-        )
-
-    out_texts = []
-    for prompt in samples["prompt"]:
-        messages = (
-            [{"role": "system", "content": system_prompt_full}]
-            + few_shot_examples
-            + [
-                {
-                    "role": "user",
-                    "content": f"{prompt}\ndef execute_command(image)->str:",
-                },
-            ]
-        )
-        out_texts.append(
-            messages
-        )
-
-    return {"prompt": out_texts, "chosen": samples["chosen"], "rejected": samples["rejected"]}
+    return {"prompt": prompts, "chosen": samples["chosen"], "rejected": samples["rejected"]}
 
 def train_dpo(args):
     wandb.init(project=args.project_name, name=args.run_name)
@@ -97,7 +60,7 @@ def train_dpo(args):
 
     logger.info("Loading model and tokenizer...")
 
-    max_seq_length = 8000 #4000
+    max_seq_length = 4000
     dtype = torch.bfloat16 if is_bfloat16_supported() else torch.float16    
     load_in_4bit = False
 
@@ -108,19 +71,6 @@ def train_dpo(args):
         load_in_4bit=load_in_4bit,
         use_exact_model_name=True
     )
-
-
-    hugg_tokenizer = AutoTokenizer.from_pretrained(args.model_name)
-
-    hugg_tokenizer.chat_template = hugg_tokenizer.chat_template.replace(
-                "message['content'] | trim",
-                "message['content']"
-            ).replace(
-                "messages[0]['content'] | trim",
-                "messages[0]['content']"
-            )
-
-    tokenizer.chat_template = hugg_tokenizer.chat_template
 
     model = FastLanguageModel.get_peft_model(
         model,
@@ -135,36 +85,20 @@ def train_dpo(args):
         loftq_config=None,
     )
 
-
-    # Read the prompt template once
-    with open("prompts/benchmarks/gqa.prompt", "r") as f:
-        prompt_template = f.read()
-
     logger.info(f"Loading dataset from {args.train_dataset} as train and {args.dev_dataset} as dev")
     train_dataset = datasets.load_from_disk(args.train_dataset)
     dev_dataset = datasets.load_from_disk(args.dev_dataset)
-
-    # Drop model and rejected_model columns
-
-    train_dataset = train_dataset.remove_columns(["model", "rejected_model"])
-
-    dev_dataset = dev_dataset.remove_columns(["model", "rejected_model"])
     
-    train_dataset = train_dataset.map(  
-        lambda samples: return_prompt_and_responses(samples, prompt_template),
+    train_dataset.map(
+        return_prompt_and_responses,
         batched=True,
     )
 
-    dev_dataset = dev_dataset.map(
-        lambda samples: return_prompt_and_responses(samples, prompt_template),
+    dev_dataset.map(
+        return_prompt_and_responses,
         batched=True,
     )
     
-    #Print the first examples of train
-
-    logger.info(f"Train dataset example: {train_dataset[0]}")
-    logger.info(f"Dev dataset example: {dev_dataset[0]}")
-
     PatchDPOTrainer()
     
     logger.info("Initializing DPOTrainer...")
