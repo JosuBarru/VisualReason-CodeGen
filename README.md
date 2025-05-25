@@ -1,4 +1,4 @@
-# Visual Reasoning with Code Generation: Dataset Creation for GQA
+<h1 style="text-align: center;">Visual Reasoning with Code Generation</h1>
 
 This project focuses on enhancing visual reasoning capabilities of Large Language Models (LLMs) by training them to generate code. A key component of this work is the creation of a comprehensive dataset derived from the GQA dataset. This README details the process of constructing this dataset.
 
@@ -63,24 +63,61 @@ This strict ordering allows the construction of a preference system: for any two
 
 **Table 3.2: Distribution of the 12600 visual question instances according to the classifications of the 6 generated codes per instance.**
 
-| Pattern | Compilation Er | Run-time Er | Sem./Inf. Er | Correct | # instances |
-|---------|----------------|-------------|--------------|---------|-------------|
-| A       |                |             |              | ✓       | 443         |
-| B       | ✓              |             |              | ✓       | 409         |
-| C       |                | ✓           |              | ✓       | 447         |
-| D       |                |             | ✓            | ✓       | 375         |
-| E       | ✓              | ✓           |              | ✓       | 2209        |
-| F       | ✓              |             | ✓            | ✓       | 1820        |
-| G       |                | ✓           | ✓            | ✓       | 1973        |
-| H       | ✓              | ✓           | ✓            | ✓       | 1198        |
-| I       | ✓              |             |              |         | 0           |
-| J       |                | ✓           |              |         | 0           |
-| K       |                |             | ✓            |         | 1           |
-| L       | ✓              | ✓           |              |         | 793         |
-| M       | ✓              |             | ✓            |         | 1008        |
-| N       |                | ✓           | ✓            |         | 1078        |
-| O       | ✓              | ✓           | ✓            |         | 846         |
-| **Total** |                |             |              |         | **12600** |
+<style>
+  .pattern-table th, .pattern-table td {
+    padding: 6px 10px;
+    text-align: center;
+    border: 1px solid #ccc;
+  }
+  .pattern-table th {
+    background-color: #f5f5f5;
+  }
+  .row-correct {
+    background-color: #d4edda;
+  }
+  .row-error {
+    background-color: #fff3cd;
+  }
+  .row-zero {
+    background-color: #f8d7da;
+  }
+  .bold {
+    font-weight: bold;
+  }
+</style>
+
+<table class="pattern-table">
+  <thead>
+    <tr>
+      <th>Pattern</th>
+      <th>Compilation Er</th>
+      <th>Run-time Er</th>
+      <th>Sem./Inf. Er</th>
+      <th>Correct</th>
+      <th># instances</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr class="row-correct"><td>A</td><td></td><td></td><td></td><td>✓</td><td>443</td></tr>
+    <tr class="row-correct"><td>B</td><td>✓</td><td></td><td></td><td>✓</td><td>409</td></tr>
+    <tr class="row-correct"><td>C</td><td></td><td>✓</td><td></td><td>✓</td><td>447</td></tr>
+    <tr class="row-correct"><td>D</td><td></td><td></td><td>✓</td><td>✓</td><td>375</td></tr>
+    <tr class="row-correct"><td>E</td><td>✓</td><td>✓</td><td></td><td>✓</td><td>2209</td></tr>
+    <tr class="row-correct"><td>F</td><td>✓</td><td></td><td>✓</td><td>✓</td><td>1820</td></tr>
+    <tr class="row-correct"><td>G</td><td></td><td>✓</td><td>✓</td><td>✓</td><td>1973</td></tr>
+    <tr class="row-correct"><td>H</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>1198</td></tr>
+
+    <tr class="row-zero"><td>I</td><td>✓</td><td></td><td></td><td></td><td>0</td></tr>
+    <tr class="row-error"><td>J</td><td></td><td>✓</td><td></td><td></td><td>0</td></tr>
+    <tr class="row-error"><td>K</td><td></td><td></td><td>✓</td><td></td><td>1</td></tr>
+    <tr class="row-error"><td>L</td><td>✓</td><td>✓</td><td></td><td></td><td>793</td></tr>
+    <tr class="row-error"><td>M</td><td>✓</td><td></td><td>✓</td><td></td><td>1008</td></tr>
+    <tr class="row-error"><td>N</td><td></td><td>✓</td><td>✓</td><td></td><td>1078</td></tr>
+    <tr class="row-error"><td>O</td><td>✓</td><td>✓</td><td>✓</td><td></td><td>846</td></tr>
+
+    <tr><td colspan="5" class="bold">Total</td><td class="bold">12600</td></tr>
+  </tbody>
+</table>
 
 *Interpretation of Table 3.2:*
 * Ticks (✓) indicate at least one of the six models produced code in that category for an instance.
@@ -99,22 +136,22 @@ Across the dataset, 8,874 out of 12,600 visual questions have at least one corre
 
 To build the preference dataset, only the 8,431 instances falling into patterns B–H were retained.
 
-### Approach 1: Single-Pair DPO Dataset
+### Approach 1: Single-Pair Dataset
 * Randomly selects two codes for each instance: one correct (preferred) and one incorrect (rejected, from a lower-hierarchy category).
 * Contains 8,431 pairwise comparisons.
 * **Splits**: 1,000 instances for development (validation), remainder for training. This division is random and used as the validation set for all training runs, affecting other dataset constructions to prevent contamination.
 
-![Single-Pair DPO Dataset](syntData/PrefDatasets/dpo_dataset_all_train.arrow-good.svg)
+![Single-Pair DPO Dataset](syntData/PrefDatasets/dpo_dataset_single_train.arrow-good.svg)
 
 ### Approach 2: Every-Pair Dataset
 * Selects *all* code pairs where one code is correct and the other is incorrect.
 * After discarding the 1,000 development set visual questions (amounting to 7,112 code pairs), the final dataset has 52,487 training pairs (from an original 59,599).
 * This dataset is considerably larger, though many codes might be more similar to each other.
 
-![Every-Pair Dataset](syntData/PrefDatasets/every_pair_dataset_all_train.arrow-good.svg)
+![Every-Pair Dataset](syntData/PrefDatasets/dpo_dataset_all_train.arrow-good.svg)
 
 ### Approach 3: Llama-Specific Dataset
-* Figures 3.3 and 3.5 show `llama31-8b` has the highest number of preferred codes and lowest rejected ones, which is expected to influence training.
+* Figures 3.3 and 3.5 show `llama31-8b` has the highest number of preferred codes and lowest rejected ones.
 * This motivated a third dataset tailored to enhance `llama31-8b`'s performance.
 * Contains only codes that `llama31-8b` generated incorrectly. The aim is to discourage past mistakes while integrating knowledge from other models.
 * **Construction**:
