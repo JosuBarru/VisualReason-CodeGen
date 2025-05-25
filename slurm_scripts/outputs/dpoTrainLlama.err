@@ -1,251 +1,688 @@
 wandb: Using wandb-core as the SDK backend.  Please refer to https://wandb.me/wandb-core for more information.
 wandb: Currently logged in as: jbarrutia006 (jbarrutia006-upv-ehu) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
 wandb: Tracking run with wandb version 0.19.8
-wandb: Run data is saved locally in /sorgin1/users/jbarrutia006/viper/wandb/run-20250524_114628-r4kd6s2m
+wandb: Run data is saved locally in /sorgin1/users/jbarrutia006/viper/wandb/run-20250525_111208-8pbiz9da
 wandb: Run `wandb offline` to turn off syncing.
 wandb: Syncing run First Llama instruct. Dataset: all, bsize 32, lr 1e-4, 
 wandb: ⭐️ View project at https://wandb.ai/jbarrutia006-upv-ehu/viperDPO
-wandb: 🚀 View run at https://wandb.ai/jbarrutia006-upv-ehu/viperDPO/runs/r4kd6s2m
-2025-05-24 11:46:29,913 - INFO - Loading model and tokenizer...
-Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:00<00:02,  1.42it/s]Loading checkpoint shards:  50%|█████     | 2/4 [00:01<00:01,  1.24it/s]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:02<00:00,  1.20it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:02<00:00,  1.42it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:02<00:00,  1.36it/s]
+wandb: 🚀 View run at https://wandb.ai/jbarrutia006-upv-ehu/viperDPO/runs/8pbiz9da
+2025-05-25 11:12:09,158 - INFO - Loading model and tokenizer...
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:00<00:02,  1.37it/s]Loading checkpoint shards:  50%|█████     | 2/4 [00:01<00:01,  1.30it/s]Loading checkpoint shards:  75%|███████▌  | 3/4 [00:02<00:00,  1.30it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:02<00:00,  1.57it/s]Loading checkpoint shards: 100%|██████████| 4/4 [00:02<00:00,  1.46it/s]
 Unsloth 2025.3.14 patched 32 layers with 32 QKV layers, 32 O layers and 32 MLP layers.
-2025-05-24 11:46:44,908 - INFO - Loading dataset from /sorgin1/users/jbarrutia006/viper/syntData/PrefDatasets/dpo_dataset_all_train.arrow as train and /sorgin1/users/jbarrutia006/viper/syntData/PrefDatasets/dpo_dataset_single_dev.arrow as dev
-Map:   0%|          | 0/52487 [00:00<?, ? examples/s]Map:   6%|▌         | 3000/52487 [00:00<00:01, 28790.16 examples/s]Map:  15%|█▌        | 8000/52487 [00:00<00:01, 36115.07 examples/s]Map:  27%|██▋       | 14000/52487 [00:00<00:00, 38501.62 examples/s]Map:  38%|███▊      | 20000/52487 [00:00<00:00, 39396.41 examples/s]Map:  50%|████▉     | 26000/52487 [00:00<00:00, 39792.77 examples/s]Map:  57%|█████▋    | 30000/52487 [00:00<00:00, 39628.00 examples/s]Map:  65%|██████▍   | 34000/52487 [00:00<00:00, 39691.05 examples/s]Map:  74%|███████▍  | 39000/52487 [00:00<00:00, 39870.88 examples/s]Map:  84%|████████▍ | 44000/52487 [00:01<00:00, 39730.86 examples/s]Map:  93%|█████████▎| 49000/52487 [00:01<00:00, 39769.04 examples/s]Map: 100%|██████████| 52487/52487 [00:10<00:00, 4849.86 examples/s] 
-Map:   0%|          | 0/1000 [00:00<?, ? examples/s]Map: 100%|██████████| 1000/1000 [00:00<00:00, 5670.44 examples/s]Map: 100%|██████████| 1000/1000 [00:00<00:00, 5341.18 examples/s]
-2025-05-24 11:46:55,980 - INFO - Train dataset example: {'prompt': [{'content': 'You are an AI that uses a special ImagePatch class to answer questions about images.\nHere is the class definition:\n\nfrom PIL import Image\nfrom vision_functions import find_in_image, simple_qa, verify_property, best_text_match\n\ndef bool_to_yesno(bool_answer: bool)->str:\n    return "yes" if bool_answer else "no"\n\nclass ImagePatch:\n    """A Python class containing a crop of an image centered around a particular object, as well as relevant information.\n    Attributes\n    ----------\n    cropped_image : array_like\n        An array-like of the cropped image taken from the original image.\n    left : int\n        An int describing the position of the left border of the crop\'s bounding box in the original image.\n    lower : int\n        An int describing the position of the bottom border of the crop\'s bounding box in the original image.\n    right : int\n        An int describing the position of the right border of the crop\'s bounding box in the original image.\n    upper : int\n        An int describing the position of the top border of the crop\'s bounding box in the original image.\n\n    Methods\n    -------\n    find(object_name: str)->List[ImagePatch]\n        Returns a list of new ImagePatch objects containing crops of the image centered around any objects found in the image matching the object_name.\n    simple_query(question: str=None)->str\n        Returns the answer to a basic question asked about the image. If no question is provided, returns the answer to "What is this?".\n    exists(object_name: str)->bool\n        Returns True if the object specified by object_name is found in the image, and False otherwise.\n    verify_property(property: str)->bool\n        Returns True if the property is met, and False otherwise.\n    best_text_match(string1: str, string2: str)->str\n        Returns the string that best matches the image.\n    crop(left: int, lower: int, right: int, upper: int)->ImagePatch\n        Returns a new ImagePatch object containing a crop of the image at the given coordinates.\n        """\n\n    def __init__(self, image, left: int=None, lower: int=None, right: int=None, upper: int=None):\n        """Initializes an ImagePatch object by cropping the image at the given coordinates and stores the coordinates as attributes.\n        If no coordinates are provided, the image is left unmodified, and the coordinates are set to the dimensions of the image.\n        Parameters\n        -------\n        image : array_like\n            An array-like of the original image.\n        left : int\n            An int describing the position of the left border of the crop\'s bounding box in the original image.\n        lower : int\n            An int describing the position of the bottom border of the crop\'s bounding box in the original image.\n        right : int\n            An int describing the position of the right border of the crop\'s bounding box in the original image.\n        upper : int\n            An int describing the position of the top border of the crop\'s bounding box in the original image.\n\n        """\n        if left is None and right is None and upper is None and lower is None:\n            self.cropped_image = image\n            self.left = 0\n            self.lower = 0\n            self.right = image.shape[2]  # width\n            self.upper = image.shape[1]  # height\n        else:\n            self.cropped_image = image[:, lower:upper, left:right]\n            self.left = left\n            self.upper = upper\n            self.right = right\n            self.lower = lower\n\n        self.width = self.cropped_image.shape[2]\n        self.height = self.cropped_image.shape[1]\n\n        self.horizontal_center = (self.left + self.right) / 2\n        self.vertical_center = (self.lower + self.upper) / 2\n\n    def find(self, object_name: str)->List["ImagePatch"]:\n        """Returns a new ImagePatch object containing the crop of the image centered around the object specified by object_name.\n        Parameters\n        -------\n        object_name : str\n            A string describing the name of the object to be found in the image.\n        """\n        return find_in_image(self.cropped_image, object_name)\n\n    def simple_query(self, question: str=None)->str:\n        """Returns the answer to a basic question asked about the image. If no question is provided, returns the answer to "What is this?".\n        Parameters\n        -------\n        question : str\n            A string describing the question to be asked.\n\n        Examples\n        -------\n\n        >>> # Which kind of animal is not eating?\n        >>> def execute_command(image)->str:\n        >>>     image_patch = ImagePatch(image)\n        >>>     animal_patches = image_patch.find("animal")\n        >>>     for animal_patch in animal_patches:\n        >>>         if not animal_patch.verify_property("animal", "eating"):\n        >>>             return animal_patch.simple_query("What kind of animal is eating?") # crop would include eating so keep it in the query\n        >>>     # If no animal is not eating, query the image directly\n        >>>     return image_patch.simple_query("Which kind of animal is not eating?")\n\n        >>> # What is in front of the horse?\n        >>> # contains a relation (around, next to, on, near, on top of, in front of, behind, etc), so ask directly\n        >>> return image_patch.simple_query("What is in front of the horse?")\n        >>>\n        """\n        return simple_qa(self.cropped_image, question)\n\n    def exists(self, object_name: str)->bool:\n        """Returns True if the object specified by object_name is found in the image, and False otherwise.\n        Parameters\n        -------\n        object_name : str\n            A string describing the name of the object to be found in the image.\n\n        Examples\n        -------\n        >>> # Are there both cakes and gummy bears in the photo?\n        >>> def execute_command(image)->str:\n        >>>     image_patch = ImagePatch(image)\n        >>>     is_cake = image_patch.exists("cake")\n        >>>     is_gummy_bear = image_patch.exists("gummy bear")\n        >>>     return bool_to_yesno(is_cake and is_gummy_bear)\n        """\n        return len(self.find(object_name)) > 0\n\n    def verify_property(self, object_name: str, property: str)->bool:\n        """Returns True if the object possesses the property, and False otherwise.\n        Differs from \'exists\' in that it presupposes the existence of the object specified by object_name, instead checking whether the object possesses the property.\n        Parameters\n        -------\n        object_name : str\n            A string describing the name of the object to be found in the image.\n        property : str\n            A string describing the property to be checked.\n\n        Examples\n        -------\n        >>> # Do the letters have blue color?\n        >>> def execute_command(image)->str:\n        >>>     image_patch = ImagePatch(image)\n        >>>     letters_patches = image_patch.find("letters")\n        >>>     # Question assumes only one letter patch\n        >>>     if len(letters_patches) == 0:\n        >>>         # If no letters are found, query the image directly\n        >>>         return image_patch.simple_query("Do the letters have blue color?")\n        >>>     return bool_to_yesno(letters_patches[0].verify_property("letters", "blue"))\n        """\n        return verify_property(self.cropped_image, object_name, property)\n\n    def best_text_match(self, option_list: List[str]) -> str:\n        """Returns the string that best matches the image.\n        Parameters\n        -------\n        option_list : str\n            A list with the names of the different options\n        prefix : str\n            A string with the prefixes to append to the options\n\n        Examples\n        -------\n        >>> # Is the cap gold or white?\n        >>> def execute_command(image)->str:\n        >>>     image_patch = ImagePatch(image)\n        >>>     cap_patches = image_patch.find("cap")\n        >>>     # Question assumes one cap patch\n        >>>     if len(cap_patches) == 0:\n        >>>         # If no cap is found, query the image directly\n        >>>         return image_patch.simple_query("Is the cap gold or white?")\n        >>>     return cap_patches[0].best_text_match(["gold", "white"])\n        """\n        return best_text_match(self.cropped_image, option_list)\n\n    def crop(self, left: int, lower: int, right: int, upper: int)->"ImagePatch":\n        """Returns a new ImagePatch cropped from the current ImagePatch.\n        Parameters\n        -------\n        left : int\n            The leftmost pixel of the cropped image.\n        lower : int\n            The lowest pixel of the cropped image.\n        right : int\n            The rightmost pixel of the cropped image.\n        upper : int\n            The uppermost pixel of the cropped image.\n        -------\n        """\n        return ImagePatch(self.cropped_image, left, lower, right, upper)\n\n\n\nPlease use this class to answer queries about images.\nWhen writing the final solution, you typically define a function:\n\ndef execute_command(image)->str:\n    # put your logic here\nYour job is to produce the correct code in that function so that it answers the question or does the operation asked by the user.\n', 'role': 'system'}, {'content': '# Is there a backpack to the right of the man?\ndef execute_command(image)->str:', 'role': 'user'}, {'content': '    image_patch = ImagePatch(image)\n    man_patches = image_patch.find("man")\n    # Question assumes one man patch\n    if len(man_patches) == 0:\n        # If no man is found, query the image directly\n        return image_patch.simple_query("Is there a backpack to the right of the man?")\n    man_patch = man_patches[0]\n    backpack_patches = image_patch.find("backpack")\n    # Question assumes one backpack patch\n    if len(backpack_patches) == 0:\n        return "no"\n    for backpack_patch in backpack_patches:\n        if backpack_patch.horizontal_center > man_patch.horizontal_center:\n            return "yes"\n    return "no"', 'role': 'assistant'}, {'content': '# In which part is the bread, the bottom or the top?\ndef execute_command(image)->str:', 'role': 'user'}, {'content': '    image_patch = ImagePatch(image)\n    bread_patches = image_patch.find("bread")\n    # Question assumes only one bread patch\n    if len(bread_patches) == 0:\n        # If no bread is found, query the image directly\n        return image_patch.simple_query("In which part is the bread, the bottom or the top?")\n    if bread_patches[0].vertical_center < image_patch.vertical_center:\n        return "bottom"\n    else:\n        return "top"', 'role': 'assistant'}, {'content': '# What type of weather do you see in the photograph?\ndef execute_command(image)->str:', 'role': 'user'}, {'content': '    image_patch = ImagePatch(image)\n    return image_patch.simple_query("What type of weather do you see in the photograph?")', 'role': 'assistant'}, {'content': '# Who is the man staring at?\ndef execute_command(image)->str:', 'role': 'user'}, {'content': '    # asks for the predicate of a relational verb (staring at), so ask directly\n    image_patch = ImagePatch(image)\n    return image_patch.simple_query("Who is the man staring at?")', 'role': 'assistant'}, {'content': '# What toy is wearing a shirt?\ndef execute_command(image)->str:', 'role': 'user'}, {'content': '    # not a relational verb so go step by step\n    image_patch = ImagePatch(image)\n    toy_patches = image_patch.find("toy")\n    # Question assumes only one toy patch\n    if len(toy_patches) == 0:\n        # If no toy is found, query the image directly\n        return image_patch.simple_query("What toy is wearing a shirt?")\n    for toy_patch in toy_patches:\n        is_wearing_shirt = (toy_patch.simple_query("Is the toy wearing a shirt?") == "yes")\n        if is_wearing_shirt:\n            return toy_patch.simple_query("What toy is wearing a shirt?") # crop would include the shirt so keep it in the query\n    # If no toy is wearing a shirt, pick the first toy\n    return toy_patches[0].simple_query("What toy is wearing a shirt?")', 'role': 'assistant'}, {'content': '# What is behind the pole?\ndef execute_command(image)->str:', 'role': 'user'}, {'content': '    image_patch = ImagePatch(image)\n    # contains a relation (around, next to, on, near, on top of, in front of, behind, etc), so ask directly\n    return image_patch.simple_query("What is behind the pole?")', 'role': 'assistant'}, {'content': '# Are there bagels or lemons?\ndef execute_command(image)->str:', 'role': 'user'}, {'content': '    image_patch = ImagePatch(image)\n    is_bagel = image_patch.exists("bagel")\n    is_lemon = image_patch.exists("lemon")\n    return bool_to_yesno(is_bagel or is_lemon)', 'role': 'assistant'}, {'content': '# Is that blanket to the right of a pillow?\ndef execute_command(image)->str:', 'role': 'user'}, {'content': '    image_patch = ImagePatch(image)\n    blanket_patches = image_patch.find("blanket")\n    # Question assumes only one blanket patch\n    if len(blanket_patches) == 0:\n        # If no blanket is found, query the image directly\n        return image_patch.simple_query("Is that blanket to the right of a pillow?")\n    for blanket_patch in blanket_patches:\n        pillow_patches = image_patch.find("pillow")\n        for pillow_patch in pillow_patches:\n            if pillow_patch.horizontal_center > blanket_patch.horizontal_center:\n                return "yes"\n    return "no"', 'role': 'assistant'}, {'content': 'Are there men to the left of the guy that is wearing sneakers?\ndef execute_command(image)->str:', 'role': 'user'}], 'chosen': '\n    image_patch = ImagePatch(image)\n    guy_patches = image_patch.find("guy")\n    if len(guy_patches) == 0:\n        return image_patch.simple_query("Are there men to the left of the guy that is wearing sneakers?")\n    guy_patch = guy_patches[0]\n    if not guy_patch.verify_property("guy", "wearing sneakers"):\n        return "no"\n    man_patches = image_patch.find("man")\n    if len(man_patches) == 0:\n        return "no"\n    man_patch = man_patches[0]\n    if man_patch.horizontal_center < guy_patch.horizontal_center:\n        return "yes"\n    return "no"\n', 'rejected': ' \n    image_patch = ImagePatch(image)\n    man_patches_wearing_sneakers = image_patch.find("man").find("wearing sneakers")\n    for man_patch_wearing_sneakers in man_patches_wearing_sneakers:\n        men_to_the_left = image_patch.find("man").find("to the left")\n        # Question assumes only one man patch wearing sneakers\n        if len(men_to_the_left) == 0:\n            # If no man is found, query the image directly\n            return image_patch.simple_query("Are there men to the left of the guy that is wearing sneakers?")\n        for man_patch_to_the_left in men_to_the_left:\n            if man_patch_to_the_left horizontal_center < man_patch_wearing_sneakers horizontal_center:\n                return "yes"\n    return "no"'}
-2025-05-24 11:46:55,991 - INFO - Dev dataset example: {'prompt': [{'content': 'You are an AI that uses a special ImagePatch class to answer questions about images.\nHere is the class definition:\n\nfrom PIL import Image\nfrom vision_functions import find_in_image, simple_qa, verify_property, best_text_match\n\ndef bool_to_yesno(bool_answer: bool)->str:\n    return "yes" if bool_answer else "no"\n\nclass ImagePatch:\n    """A Python class containing a crop of an image centered around a particular object, as well as relevant information.\n    Attributes\n    ----------\n    cropped_image : array_like\n        An array-like of the cropped image taken from the original image.\n    left : int\n        An int describing the position of the left border of the crop\'s bounding box in the original image.\n    lower : int\n        An int describing the position of the bottom border of the crop\'s bounding box in the original image.\n    right : int\n        An int describing the position of the right border of the crop\'s bounding box in the original image.\n    upper : int\n        An int describing the position of the top border of the crop\'s bounding box in the original image.\n\n    Methods\n    -------\n    find(object_name: str)->List[ImagePatch]\n        Returns a list of new ImagePatch objects containing crops of the image centered around any objects found in the image matching the object_name.\n    simple_query(question: str=None)->str\n        Returns the answer to a basic question asked about the image. If no question is provided, returns the answer to "What is this?".\n    exists(object_name: str)->bool\n        Returns True if the object specified by object_name is found in the image, and False otherwise.\n    verify_property(property: str)->bool\n        Returns True if the property is met, and False otherwise.\n    best_text_match(string1: str, string2: str)->str\n        Returns the string that best matches the image.\n    crop(left: int, lower: int, right: int, upper: int)->ImagePatch\n        Returns a new ImagePatch object containing a crop of the image at the given coordinates.\n        """\n\n    def __init__(self, image, left: int=None, lower: int=None, right: int=None, upper: int=None):\n        """Initializes an ImagePatch object by cropping the image at the given coordinates and stores the coordinates as attributes.\n        If no coordinates are provided, the image is left unmodified, and the coordinates are set to the dimensions of the image.\n        Parameters\n        -------\n        image : array_like\n            An array-like of the original image.\n        left : int\n            An int describing the position of the left border of the crop\'s bounding box in the original image.\n        lower : int\n            An int describing the position of the bottom border of the crop\'s bounding box in the original image.\n        right : int\n            An int describing the position of the right border of the crop\'s bounding box in the original image.\n        upper : int\n            An int describing the position of the top border of the crop\'s bounding box in the original image.\n\n        """\n        if left is None and right is None and upper is None and lower is None:\n            self.cropped_image = image\n            self.left = 0\n            self.lower = 0\n            self.right = image.shape[2]  # width\n            self.upper = image.shape[1]  # height\n        else:\n            self.cropped_image = image[:, lower:upper, left:right]\n            self.left = left\n            self.upper = upper\n            self.right = right\n            self.lower = lower\n\n        self.width = self.cropped_image.shape[2]\n        self.height = self.cropped_image.shape[1]\n\n        self.horizontal_center = (self.left + self.right) / 2\n        self.vertical_center = (self.lower + self.upper) / 2\n\n    def find(self, object_name: str)->List["ImagePatch"]:\n        """Returns a new ImagePatch object containing the crop of the image centered around the object specified by object_name.\n        Parameters\n        -------\n        object_name : str\n            A string describing the name of the object to be found in the image.\n        """\n        return find_in_image(self.cropped_image, object_name)\n\n    def simple_query(self, question: str=None)->str:\n        """Returns the answer to a basic question asked about the image. If no question is provided, returns the answer to "What is this?".\n        Parameters\n        -------\n        question : str\n            A string describing the question to be asked.\n\n        Examples\n        -------\n\n        >>> # Which kind of animal is not eating?\n        >>> def execute_command(image)->str:\n        >>>     image_patch = ImagePatch(image)\n        >>>     animal_patches = image_patch.find("animal")\n        >>>     for animal_patch in animal_patches:\n        >>>         if not animal_patch.verify_property("animal", "eating"):\n        >>>             return animal_patch.simple_query("What kind of animal is eating?") # crop would include eating so keep it in the query\n        >>>     # If no animal is not eating, query the image directly\n        >>>     return image_patch.simple_query("Which kind of animal is not eating?")\n\n        >>> # What is in front of the horse?\n        >>> # contains a relation (around, next to, on, near, on top of, in front of, behind, etc), so ask directly\n        >>> return image_patch.simple_query("What is in front of the horse?")\n        >>>\n        """\n        return simple_qa(self.cropped_image, question)\n\n    def exists(self, object_name: str)->bool:\n        """Returns True if the object specified by object_name is found in the image, and False otherwise.\n        Parameters\n        -------\n        object_name : str\n            A string describing the name of the object to be found in the image.\n\n        Examples\n        -------\n        >>> # Are there both cakes and gummy bears in the photo?\n        >>> def execute_command(image)->str:\n        >>>     image_patch = ImagePatch(image)\n        >>>     is_cake = image_patch.exists("cake")\n        >>>     is_gummy_bear = image_patch.exists("gummy bear")\n        >>>     return bool_to_yesno(is_cake and is_gummy_bear)\n        """\n        return len(self.find(object_name)) > 0\n\n    def verify_property(self, object_name: str, property: str)->bool:\n        """Returns True if the object possesses the property, and False otherwise.\n        Differs from \'exists\' in that it presupposes the existence of the object specified by object_name, instead checking whether the object possesses the property.\n        Parameters\n        -------\n        object_name : str\n            A string describing the name of the object to be found in the image.\n        property : str\n            A string describing the property to be checked.\n\n        Examples\n        -------\n        >>> # Do the letters have blue color?\n        >>> def execute_command(image)->str:\n        >>>     image_patch = ImagePatch(image)\n        >>>     letters_patches = image_patch.find("letters")\n        >>>     # Question assumes only one letter patch\n        >>>     if len(letters_patches) == 0:\n        >>>         # If no letters are found, query the image directly\n        >>>         return image_patch.simple_query("Do the letters have blue color?")\n        >>>     return bool_to_yesno(letters_patches[0].verify_property("letters", "blue"))\n        """\n        return verify_property(self.cropped_image, object_name, property)\n\n    def best_text_match(self, option_list: List[str]) -> str:\n        """Returns the string that best matches the image.\n        Parameters\n        -------\n        option_list : str\n            A list with the names of the different options\n        prefix : str\n            A string with the prefixes to append to the options\n\n        Examples\n        -------\n        >>> # Is the cap gold or white?\n        >>> def execute_command(image)->str:\n        >>>     image_patch = ImagePatch(image)\n        >>>     cap_patches = image_patch.find("cap")\n        >>>     # Question assumes one cap patch\n        >>>     if len(cap_patches) == 0:\n        >>>         # If no cap is found, query the image directly\n        >>>         return image_patch.simple_query("Is the cap gold or white?")\n        >>>     return cap_patches[0].best_text_match(["gold", "white"])\n        """\n        return best_text_match(self.cropped_image, option_list)\n\n    def crop(self, left: int, lower: int, right: int, upper: int)->"ImagePatch":\n        """Returns a new ImagePatch cropped from the current ImagePatch.\n        Parameters\n        -------\n        left : int\n            The leftmost pixel of the cropped image.\n        lower : int\n            The lowest pixel of the cropped image.\n        right : int\n            The rightmost pixel of the cropped image.\n        upper : int\n            The uppermost pixel of the cropped image.\n        -------\n        """\n        return ImagePatch(self.cropped_image, left, lower, right, upper)\n\n\n\nPlease use this class to answer queries about images.\nWhen writing the final solution, you typically define a function:\n\ndef execute_command(image)->str:\n    # put your logic here\nYour job is to produce the correct code in that function so that it answers the question or does the operation asked by the user.\n', 'role': 'system'}, {'content': '# Is there a backpack to the right of the man?\ndef execute_command(image)->str:', 'role': 'user'}, {'content': '    image_patch = ImagePatch(image)\n    man_patches = image_patch.find("man")\n    # Question assumes one man patch\n    if len(man_patches) == 0:\n        # If no man is found, query the image directly\n        return image_patch.simple_query("Is there a backpack to the right of the man?")\n    man_patch = man_patches[0]\n    backpack_patches = image_patch.find("backpack")\n    # Question assumes one backpack patch\n    if len(backpack_patches) == 0:\n        return "no"\n    for backpack_patch in backpack_patches:\n        if backpack_patch.horizontal_center > man_patch.horizontal_center:\n            return "yes"\n    return "no"', 'role': 'assistant'}, {'content': '# In which part is the bread, the bottom or the top?\ndef execute_command(image)->str:', 'role': 'user'}, {'content': '    image_patch = ImagePatch(image)\n    bread_patches = image_patch.find("bread")\n    # Question assumes only one bread patch\n    if len(bread_patches) == 0:\n        # If no bread is found, query the image directly\n        return image_patch.simple_query("In which part is the bread, the bottom or the top?")\n    if bread_patches[0].vertical_center < image_patch.vertical_center:\n        return "bottom"\n    else:\n        return "top"', 'role': 'assistant'}, {'content': '# What type of weather do you see in the photograph?\ndef execute_command(image)->str:', 'role': 'user'}, {'content': '    image_patch = ImagePatch(image)\n    return image_patch.simple_query("What type of weather do you see in the photograph?")', 'role': 'assistant'}, {'content': '# Who is the man staring at?\ndef execute_command(image)->str:', 'role': 'user'}, {'content': '    # asks for the predicate of a relational verb (staring at), so ask directly\n    image_patch = ImagePatch(image)\n    return image_patch.simple_query("Who is the man staring at?")', 'role': 'assistant'}, {'content': '# What toy is wearing a shirt?\ndef execute_command(image)->str:', 'role': 'user'}, {'content': '    # not a relational verb so go step by step\n    image_patch = ImagePatch(image)\n    toy_patches = image_patch.find("toy")\n    # Question assumes only one toy patch\n    if len(toy_patches) == 0:\n        # If no toy is found, query the image directly\n        return image_patch.simple_query("What toy is wearing a shirt?")\n    for toy_patch in toy_patches:\n        is_wearing_shirt = (toy_patch.simple_query("Is the toy wearing a shirt?") == "yes")\n        if is_wearing_shirt:\n            return toy_patch.simple_query("What toy is wearing a shirt?") # crop would include the shirt so keep it in the query\n    # If no toy is wearing a shirt, pick the first toy\n    return toy_patches[0].simple_query("What toy is wearing a shirt?")', 'role': 'assistant'}, {'content': '# What is behind the pole?\ndef execute_command(image)->str:', 'role': 'user'}, {'content': '    image_patch = ImagePatch(image)\n    # contains a relation (around, next to, on, near, on top of, in front of, behind, etc), so ask directly\n    return image_patch.simple_query("What is behind the pole?")', 'role': 'assistant'}, {'content': '# Are there bagels or lemons?\ndef execute_command(image)->str:', 'role': 'user'}, {'content': '    image_patch = ImagePatch(image)\n    is_bagel = image_patch.exists("bagel")\n    is_lemon = image_patch.exists("lemon")\n    return bool_to_yesno(is_bagel or is_lemon)', 'role': 'assistant'}, {'content': '# Is that blanket to the right of a pillow?\ndef execute_command(image)->str:', 'role': 'user'}, {'content': '    image_patch = ImagePatch(image)\n    blanket_patches = image_patch.find("blanket")\n    # Question assumes only one blanket patch\n    if len(blanket_patches) == 0:\n        # If no blanket is found, query the image directly\n        return image_patch.simple_query("Is that blanket to the right of a pillow?")\n    for blanket_patch in blanket_patches:\n        pillow_patches = image_patch.find("pillow")\n        for pillow_patch in pillow_patches:\n            if pillow_patch.horizontal_center > blanket_patch.horizontal_center:\n                return "yes"\n    return "no"', 'role': 'assistant'}, {'content': 'Are the white blinds to the right of a clock?\ndef execute_command(image)->str:', 'role': 'user'}], 'chosen': ' # assumes one clock and one white blind\n    image_patch = ImagePatch(image)\n    white_blinds_patches = image_patch.find("white blind")\n    for white_blind_patch in white_blinds_patches:\n        if white_blind_patch.horizontal_center > image_patch.horizontal_center:\n            return "yes"\n    return "no"', 'rejected': '\n    image_patch = ImagePatch(image)\n    white_blinds_patches = image_patch.find("white blinds")\n    # Question assumes only one white blinds patch\n    if len(white_blinds_patches) == 0:\n        # If no blanket is found, query the image directly\n        return image_patch.simple_query("Are the white blinds to the right of a clock?")\n    for white_blind_patch in white_blinds_patches:\n        clock_patches = image_patch.find("clock")\n        for clock_patch in clock_patches:\n            if clock_patch.horizontal_center > white_blind_patch.horizontal_center:\n                return "yes"\n    return "no"'}
-2025-05-24 11:46:55,992 - INFO - Initializing DPOTrainer...
-Extracting prompt in train dataset (num_proc=128):   0%|          | 0/52487 [00:00<?, ? examples/s]Extracting prompt in train dataset (num_proc=128):   0%|          | 48/52487 [00:00<02:23, 366.08 examples/s]Extracting prompt in train dataset (num_proc=128):   0%|          | 101/52487 [00:00<02:58, 292.90 examples/s]Extracting prompt in train dataset (num_proc=128):   0%|          | 132/52487 [00:00<05:07, 170.29 examples/s]Extracting prompt in train dataset (num_proc=128):   0%|          | 173/52487 [00:00<05:00, 174.06 examples/s]Extracting prompt in train dataset (num_proc=128):   1%|          | 323/52487 [00:01<02:04, 420.14 examples/s]Extracting prompt in train dataset (num_proc=128):   2%|▏         | 947/52487 [00:01<00:31, 1632.24 examples/s]Extracting prompt in train dataset (num_proc=128):   3%|▎         | 1553/52487 [00:01<00:21, 2396.40 examples/s]Extracting prompt in train dataset (num_proc=128):   4%|▍         | 1972/52487 [00:01<00:21, 2314.20 examples/s]Extracting prompt in train dataset (num_proc=128):   4%|▍         | 2285/52487 [00:01<00:20, 2473.04 examples/s]Extracting prompt in train dataset (num_proc=128):   5%|▌         | 2803/52487 [00:01<00:16, 3041.25 examples/s]Extracting prompt in train dataset (num_proc=128):   7%|▋         | 3419/52487 [00:01<00:12, 3787.20 examples/s]Extracting prompt in train dataset (num_proc=128):   8%|▊         | 4148/52487 [00:01<00:10, 4668.42 examples/s]Extracting prompt in train dataset (num_proc=128):   9%|▉         | 4680/52487 [00:01<00:09, 4839.53 examples/s]Extracting prompt in train dataset (num_proc=128):  10%|▉         | 5203/52487 [00:02<00:09, 4737.65 examples/s]Extracting prompt in train dataset (num_proc=128):  11%|█         | 5716/52487 [00:02<00:10, 4636.42 examples/s]Extracting prompt in train dataset (num_proc=128):  12%|█▏        | 6215/52487 [00:02<00:09, 4675.28 examples/s]Extracting prompt in train dataset (num_proc=128):  13%|█▎        | 6858/52487 [00:02<00:08, 5143.26 examples/s]Extracting prompt in train dataset (num_proc=128):  14%|█▍        | 7530/52487 [00:02<00:08, 5469.42 examples/s]Extracting prompt in train dataset (num_proc=128):  15%|█▌        | 8094/52487 [00:02<00:08, 5478.16 examples/s]Extracting prompt in train dataset (num_proc=128):  17%|█▋        | 8903/52487 [00:02<00:07, 6219.41 examples/s]Extracting prompt in train dataset (num_proc=128):  18%|█▊        | 9544/52487 [00:02<00:07, 5706.37 examples/s]Extracting prompt in train dataset (num_proc=128):  19%|█▉        | 10230/52487 [00:02<00:07, 5947.82 examples/s]Extracting prompt in train dataset (num_proc=128):  21%|██        | 10848/52487 [00:03<00:07, 5862.10 examples/s]Extracting prompt in train dataset (num_proc=128):  22%|██▏       | 11655/52487 [00:03<00:06, 6460.31 examples/s]Extracting prompt in train dataset (num_proc=128):  24%|██▎       | 12413/52487 [00:03<00:05, 6736.01 examples/s]Extracting prompt in train dataset (num_proc=128):  25%|██▍       | 13101/52487 [00:03<00:06, 5883.85 examples/s]Extracting prompt in train dataset (num_proc=128):  26%|██▌       | 13723/52487 [00:03<00:09, 4267.31 examples/s]Extracting prompt in train dataset (num_proc=128):  27%|██▋       | 14228/52487 [00:03<00:08, 4285.25 examples/s]Extracting prompt in train dataset (num_proc=128):  28%|██▊       | 14877/52487 [00:03<00:07, 4754.91 examples/s]Extracting prompt in train dataset (num_proc=128):  30%|██▉       | 15536/52487 [00:03<00:07, 5191.71 examples/s]Extracting prompt in train dataset (num_proc=128):  31%|███       | 16113/52487 [00:04<00:06, 5208.57 examples/s]Extracting prompt in train dataset (num_proc=128):  32%|███▏      | 16685/52487 [00:04<00:06, 5288.28 examples/s]Extracting prompt in train dataset (num_proc=128):  33%|███▎      | 17263/52487 [00:04<00:06, 5395.38 examples/s]Extracting prompt in train dataset (num_proc=128):  34%|███▍      | 17827/52487 [00:04<00:06, 5244.21 examples/s]Extracting prompt in train dataset (num_proc=128):  35%|███▌      | 18541/52487 [00:04<00:05, 5731.72 examples/s]Extracting prompt in train dataset (num_proc=128):  36%|███▋      | 19130/52487 [00:04<00:06, 5537.07 examples/s]Extracting prompt in train dataset (num_proc=128):  38%|███▊      | 19735/52487 [00:04<00:05, 5666.11 examples/s]Extracting prompt in train dataset (num_proc=128):  39%|███▉      | 20362/52487 [00:04<00:05, 5835.82 examples/s]Extracting prompt in train dataset (num_proc=128):  40%|████      | 20997/52487 [00:04<00:05, 5982.06 examples/s]Extracting prompt in train dataset (num_proc=128):  41%|████▏     | 21659/52487 [00:05<00:05, 6162.82 examples/s]Extracting prompt in train dataset (num_proc=128):  43%|████▎     | 22445/52487 [00:05<00:04, 6574.06 examples/s]Extracting prompt in train dataset (num_proc=128):  44%|████▍     | 23216/52487 [00:05<00:04, 6891.30 examples/s]Extracting prompt in train dataset (num_proc=128):  46%|████▌     | 23927/52487 [00:05<00:04, 6682.33 examples/s]Extracting prompt in train dataset (num_proc=128):  47%|████▋     | 24603/52487 [00:05<00:04, 5789.60 examples/s]Extracting prompt in train dataset (num_proc=128):  48%|████▊     | 25222/52487 [00:05<00:04, 5671.35 examples/s]Extracting prompt in train dataset (num_proc=128):  49%|████▉     | 25815/52487 [00:05<00:04, 5490.72 examples/s]Extracting prompt in train dataset (num_proc=128):  50%|█████     | 26377/52487 [00:05<00:04, 5410.59 examples/s]Extracting prompt in train dataset (num_proc=128):  51%|█████▏    | 26945/52487 [00:05<00:04, 5170.75 examples/s]Extracting prompt in train dataset (num_proc=128):  53%|█████▎    | 27562/52487 [00:06<00:04, 5397.93 examples/s]Extracting prompt in train dataset (num_proc=128):  54%|█████▎    | 28160/52487 [00:06<00:04, 5544.11 examples/s]Extracting prompt in train dataset (num_proc=128):  56%|█████▌    | 29208/52487 [00:06<00:03, 6914.02 examples/s]Extracting prompt in train dataset (num_proc=128):  57%|█████▋    | 29919/52487 [00:06<00:03, 6576.38 examples/s]Extracting prompt in train dataset (num_proc=128):  58%|█████▊    | 30601/52487 [00:06<00:03, 6499.19 examples/s]Extracting prompt in train dataset (num_proc=128):  60%|█████▉    | 31259/52487 [00:06<00:03, 6206.00 examples/s]Extracting prompt in train dataset (num_proc=128):  61%|██████    | 31901/52487 [00:06<00:03, 6243.11 examples/s]Extracting prompt in train dataset (num_proc=128):  62%|██████▏   | 32540/52487 [00:06<00:03, 6220.28 examples/s]Extracting prompt in train dataset (num_proc=128):  63%|██████▎   | 33181/52487 [00:06<00:03, 6166.03 examples/s]Extracting prompt in train dataset (num_proc=128):  64%|██████▍   | 33809/52487 [00:07<00:03, 6027.03 examples/s]Extracting prompt in train dataset (num_proc=128):  66%|██████▌   | 34444/52487 [00:07<00:02, 6107.72 examples/s]Extracting prompt in train dataset (num_proc=128):  67%|██████▋   | 35066/52487 [00:07<00:02, 5892.66 examples/s]Extracting prompt in train dataset (num_proc=128):  68%|██████▊   | 35772/52487 [00:07<00:02, 6198.67 examples/s]Extracting prompt in train dataset (num_proc=128):  69%|██████▉   | 36417/52487 [00:07<00:02, 6241.84 examples/s]Extracting prompt in train dataset (num_proc=128):  71%|███████   | 37085/52487 [00:07<00:02, 6313.63 examples/s]Extracting prompt in train dataset (num_proc=128):  72%|███████▏  | 37721/52487 [00:07<00:02, 6220.86 examples/s]Extracting prompt in train dataset (num_proc=128):  73%|███████▎  | 38346/52487 [00:07<00:02, 5721.62 examples/s]Extracting prompt in train dataset (num_proc=128):  74%|███████▍  | 38999/52487 [00:08<00:03, 3957.14 examples/s]Extracting prompt in train dataset (num_proc=128):  75%|███████▌  | 39507/52487 [00:08<00:03, 4189.02 examples/s]Extracting prompt in train dataset (num_proc=128):  76%|███████▋  | 40064/52487 [00:08<00:02, 4494.85 examples/s]Extracting prompt in train dataset (num_proc=128):  77%|███████▋  | 40573/52487 [00:08<00:02, 4588.65 examples/s]Extracting prompt in train dataset (num_proc=128):  78%|███████▊  | 41103/52487 [00:08<00:02, 4762.86 examples/s]Extracting prompt in train dataset (num_proc=128):  80%|███████▉  | 41751/52487 [00:08<00:02, 5224.38 examples/s]Extracting prompt in train dataset (num_proc=128):  81%|████████  | 42318/52487 [00:08<00:01, 5331.77 examples/s]Extracting prompt in train dataset (num_proc=128):  82%|████████▏ | 42922/52487 [00:08<00:01, 5526.17 examples/s]Extracting prompt in train dataset (num_proc=128):  83%|████████▎ | 43655/52487 [00:08<00:01, 6010.84 examples/s]Extracting prompt in train dataset (num_proc=128):  84%|████████▍ | 44334/52487 [00:08<00:01, 6220.05 examples/s]Extracting prompt in train dataset (num_proc=128):  86%|████████▌ | 44968/52487 [00:09<00:01, 5944.91 examples/s]Extracting prompt in train dataset (num_proc=128):  87%|████████▋ | 45581/52487 [00:09<00:01, 5995.02 examples/s]Extracting prompt in train dataset (num_proc=128):  88%|████████▊ | 46187/52487 [00:09<00:01, 5737.42 examples/s]Extracting prompt in train dataset (num_proc=128):  89%|████████▉ | 46786/52487 [00:09<00:01, 5683.90 examples/s]Extracting prompt in train dataset (num_proc=128):  90%|█████████ | 47431/52487 [00:09<00:00, 5896.43 examples/s]Extracting prompt in train dataset (num_proc=128):  92%|█████████▏| 48033/52487 [00:09<00:00, 5861.96 examples/s]Extracting prompt in train dataset (num_proc=128):  93%|█████████▎| 48641/52487 [00:09<00:00, 5821.73 examples/s]Extracting prompt in train dataset (num_proc=128):  94%|█████████▍| 49241/52487 [00:09<00:00, 5711.96 examples/s]Extracting prompt in train dataset (num_proc=128):  95%|█████████▍| 49833/52487 [00:09<00:00, 5631.56 examples/s]Extracting prompt in train dataset (num_proc=128):  96%|█████████▌| 50465/52487 [00:10<00:00, 5663.57 examples/s]Extracting prompt in train dataset (num_proc=128):  97%|█████████▋| 51115/52487 [00:10<00:00, 5900.27 examples/s]Extracting prompt in train dataset (num_proc=128):  99%|█████████▊| 51811/52487 [00:10<00:00, 6029.69 examples/s]Extracting prompt in train dataset (num_proc=128): 100%|█████████▉| 52477/52487 [00:10<00:00, 5961.84 examples/s]Extracting prompt in train dataset (num_proc=128): 100%|██████████| 52487/52487 [00:11<00:00, 4721.62 examples/s]
-Applying chat template to train dataset (num_proc=128):   0%|          | 0/52487 [00:00<?, ? examples/s]Applying chat template to train dataset (num_proc=128):   1%|          | 411/52487 [00:00<01:16, 679.72 examples/s]Applying chat template to train dataset (num_proc=128):   2%|▏         | 1233/52487 [00:00<00:27, 1890.22 examples/s]Applying chat template to train dataset (num_proc=128):   4%|▍         | 2055/52487 [00:00<00:18, 2791.16 examples/s]Applying chat template to train dataset (num_proc=128):   5%|▌         | 2877/52487 [00:01<00:14, 3451.90 examples/s]Applying chat template to train dataset (num_proc=128):   7%|▋         | 3697/52487 [00:01<00:12, 3923.74 examples/s]Applying chat template to train dataset (num_proc=128):   9%|▊         | 4517/52487 [00:01<00:11, 4226.07 examples/s]Applying chat template to train dataset (num_proc=128):  10%|█         | 5337/52487 [00:01<00:10, 4482.75 examples/s]Applying chat template to train dataset (num_proc=128):  12%|█▏        | 6157/52487 [00:01<00:09, 4657.79 examples/s]Applying chat template to train dataset (num_proc=128):  13%|█▎        | 6977/52487 [00:01<00:09, 4742.03 examples/s]Applying chat template to train dataset (num_proc=128):  15%|█▍        | 7797/52487 [00:02<00:09, 4821.65 examples/s]Applying chat template to train dataset (num_proc=128):  16%|█▋        | 8617/52487 [00:02<00:08, 4885.48 examples/s]Applying chat template to train dataset (num_proc=128):  18%|█▊        | 9437/52487 [00:02<00:08, 4912.63 examples/s]Applying chat template to train dataset (num_proc=128):  20%|█▉        | 10257/52487 [00:02<00:08, 4945.60 examples/s]Applying chat template to train dataset (num_proc=128):  21%|██        | 11077/52487 [00:02<00:08, 4948.32 examples/s]Applying chat template to train dataset (num_proc=128):  23%|██▎       | 11897/52487 [00:02<00:08, 4913.63 examples/s]Applying chat template to train dataset (num_proc=128):  25%|██▌       | 13127/52487 [00:03<00:07, 5327.16 examples/s]Applying chat template to train dataset (num_proc=128):  27%|██▋       | 13947/52487 [00:03<00:07, 5238.79 examples/s]Applying chat template to train dataset (num_proc=128):  28%|██▊       | 14767/52487 [00:03<00:07, 5077.31 examples/s]Applying chat template to train dataset (num_proc=128):  30%|██▉       | 15587/52487 [00:03<00:07, 5028.29 examples/s]Applying chat template to train dataset (num_proc=128):  31%|███▏      | 16407/52487 [00:03<00:08, 4378.27 examples/s]Applying chat template to train dataset (num_proc=128):  33%|███▎      | 17227/52487 [00:04<00:07, 4535.36 examples/s]Applying chat template to train dataset (num_proc=128):  34%|███▍      | 18047/52487 [00:04<00:07, 4609.84 examples/s]Applying chat template to train dataset (num_proc=128):  37%|███▋      | 19277/52487 [00:04<00:07, 4741.12 examples/s]Applying chat template to train dataset (num_proc=128):  39%|███▉      | 20507/52487 [00:04<00:06, 4796.43 examples/s]Applying chat template to train dataset (num_proc=128):  41%|████      | 21327/52487 [00:04<00:06, 4861.75 examples/s]Applying chat template to train dataset (num_proc=128):  42%|████▏     | 22147/52487 [00:05<00:06, 4859.25 examples/s]Applying chat template to train dataset (num_proc=128):  45%|████▍     | 23377/52487 [00:05<00:05, 4917.93 examples/s]Applying chat template to train dataset (num_proc=128):  47%|████▋     | 24607/52487 [00:05<00:05, 4938.51 examples/s]Applying chat template to train dataset (num_proc=128):  48%|████▊     | 25427/52487 [00:05<00:05, 4940.13 examples/s]Applying chat template to train dataset (num_proc=128):  50%|█████     | 26247/52487 [00:05<00:05, 4957.64 examples/s]Applying chat template to train dataset (num_proc=128):  52%|█████▏    | 27067/52487 [00:06<00:05, 4921.60 examples/s]Applying chat template to train dataset (num_proc=128):  53%|█████▎    | 27887/52487 [00:06<00:04, 4942.28 examples/s]Applying chat template to train dataset (num_proc=128):  55%|█████▌    | 29117/52487 [00:06<00:04, 4952.08 examples/s]Applying chat template to train dataset (num_proc=128):  58%|█████▊    | 30347/52487 [00:06<00:03, 5548.92 examples/s]Applying chat template to train dataset (num_proc=128):  59%|█████▉    | 31167/52487 [00:06<00:04, 4751.15 examples/s]Applying chat template to train dataset (num_proc=128):  61%|██████    | 31987/52487 [00:07<00:04, 4580.47 examples/s]Applying chat template to train dataset (num_proc=128):  63%|██████▎   | 33217/52487 [00:07<00:03, 5344.71 examples/s]Applying chat template to train dataset (num_proc=128):  65%|██████▍   | 34037/52487 [00:07<00:03, 4675.14 examples/s]Applying chat template to train dataset (num_proc=128):  66%|██████▋   | 34857/52487 [00:07<00:03, 4793.60 examples/s]Applying chat template to train dataset (num_proc=128):  68%|██████▊   | 35677/52487 [00:07<00:04, 4158.04 examples/s]Applying chat template to train dataset (num_proc=128):  71%|███████   | 37317/52487 [00:08<00:02, 5518.39 examples/s]Applying chat template to train dataset (num_proc=128):  73%|███████▎  | 38137/52487 [00:08<00:02, 4841.58 examples/s]Applying chat template to train dataset (num_proc=128):  75%|███████▌  | 39367/52487 [00:08<00:02, 4852.83 examples/s]Applying chat template to train dataset (num_proc=128):  77%|███████▋  | 40187/52487 [00:08<00:02, 4900.42 examples/s]Applying chat template to train dataset (num_proc=128):  79%|███████▉  | 41417/52487 [00:08<00:02, 4936.42 examples/s]Applying chat template to train dataset (num_proc=128):  80%|████████  | 42237/52487 [00:09<00:02, 4965.51 examples/s]Applying chat template to train dataset (num_proc=128):  82%|████████▏ | 43057/52487 [00:09<00:01, 4971.82 examples/s]Applying chat template to train dataset (num_proc=128):  84%|████████▎ | 43877/52487 [00:09<00:01, 4962.62 examples/s]Applying chat template to train dataset (num_proc=128):  85%|████████▌ | 44697/52487 [00:09<00:01, 4409.66 examples/s]Applying chat template to train dataset (num_proc=128):  88%|████████▊ | 45927/52487 [00:09<00:01, 5033.95 examples/s]Applying chat template to train dataset (num_proc=128):  89%|████████▉ | 46747/52487 [00:10<00:01, 5037.96 examples/s]Applying chat template to train dataset (num_proc=128):  91%|█████████▏| 47977/52487 [00:10<00:00, 5021.20 examples/s]Applying chat template to train dataset (num_proc=128):  93%|█████████▎| 48797/52487 [00:10<00:00, 5024.34 examples/s]Applying chat template to train dataset (num_proc=128):  95%|█████████▍| 49617/52487 [00:10<00:00, 4967.21 examples/s]Applying chat template to train dataset (num_proc=128):  96%|█████████▌| 50437/52487 [00:10<00:00, 5301.67 examples/s]Applying chat template to train dataset (num_proc=128):  98%|█████████▊| 51257/52487 [00:10<00:00, 5571.28 examples/s]Applying chat template to train dataset (num_proc=128):  99%|█████████▉| 52077/52487 [00:11<00:00, 5343.59 examples/s]Applying chat template to train dataset (num_proc=128): 100%|██████████| 52487/52487 [00:11<00:00, 4676.93 examples/s]
-Tokenizing train dataset (num_proc=128):   0%|          | 0/52487 [00:00<?, ? examples/s]Tokenizing train dataset (num_proc=128):   0%|          | 79/52487 [00:00<06:45, 129.35 examples/s]Tokenizing train dataset (num_proc=128):   1%|          | 404/52487 [00:00<01:25, 608.21 examples/s]Tokenizing train dataset (num_proc=128):   2%|▏         | 972/52487 [00:00<00:37, 1388.36 examples/s]Tokenizing train dataset (num_proc=128):   4%|▍         | 1999/52487 [00:01<00:18, 2762.23 examples/s]Tokenizing train dataset (num_proc=128):   5%|▌         | 2746/52487 [00:01<00:15, 3274.04 examples/s]Tokenizing train dataset (num_proc=128):   7%|▋         | 3504/52487 [00:01<00:13, 3696.05 examples/s]Tokenizing train dataset (num_proc=128):   8%|▊         | 4250/52487 [00:01<00:12, 3972.10 examples/s]Tokenizing train dataset (num_proc=128):  10%|▉         | 5079/52487 [00:01<00:11, 4246.60 examples/s]Tokenizing train dataset (num_proc=128):  11%|█         | 5825/52487 [00:01<00:10, 4321.63 examples/s]Tokenizing train dataset (num_proc=128):  13%|█▎        | 6869/52487 [00:02<00:09, 4900.90 examples/s]Tokenizing train dataset (num_proc=128):  15%|█▍        | 7620/52487 [00:02<00:09, 4783.77 examples/s]Tokenizing train dataset (num_proc=128):  16%|█▌        | 8418/52487 [00:02<00:09, 4780.00 examples/s]Tokenizing train dataset (num_proc=128):  18%|█▊        | 9222/52487 [00:02<00:09, 4771.53 examples/s]Tokenizing train dataset (num_proc=128):  19%|█▉        | 10090/52487 [00:02<00:08, 4922.09 examples/s]Tokenizing train dataset (num_proc=128):  20%|██        | 10737/52487 [00:02<00:09, 4613.62 examples/s]Tokenizing train dataset (num_proc=128):  22%|██▏       | 11600/52487 [00:03<00:08, 4764.81 examples/s]Tokenizing train dataset (num_proc=128):  24%|██▍       | 12590/52487 [00:03<00:07, 5100.40 examples/s]Tokenizing train dataset (num_proc=128):  26%|██▌       | 13422/52487 [00:03<00:07, 5088.48 examples/s]Tokenizing train dataset (num_proc=128):  27%|██▋       | 14284/52487 [00:03<00:07, 5107.95 examples/s]Tokenizing train dataset (num_proc=128):  29%|██▊       | 14980/52487 [00:03<00:07, 4806.27 examples/s]Tokenizing train dataset (num_proc=128):  30%|███       | 15798/52487 [00:03<00:07, 4859.45 examples/s]Tokenizing train dataset (num_proc=128):  32%|███▏      | 16628/52487 [00:04<00:07, 4855.87 examples/s]Tokenizing train dataset (num_proc=128):  33%|███▎      | 17577/52487 [00:04<00:06, 5117.83 examples/s]Tokenizing train dataset (num_proc=128):  35%|███▍      | 18356/52487 [00:04<00:06, 4998.70 examples/s]Tokenizing train dataset (num_proc=128):  36%|███▋      | 19058/52487 [00:04<00:07, 4773.47 examples/s]Tokenizing train dataset (num_proc=128):  38%|███▊      | 19984/52487 [00:04<00:06, 5009.59 examples/s]Tokenizing train dataset (num_proc=128):  40%|███▉      | 20798/52487 [00:04<00:06, 4961.65 examples/s]Tokenizing train dataset (num_proc=128):  41%|████      | 21640/52487 [00:05<00:06, 4986.26 examples/s]Tokenizing train dataset (num_proc=128):  43%|████▎     | 22381/52487 [00:05<00:06, 4840.41 examples/s]Tokenizing train dataset (num_proc=128):  44%|████▍     | 23333/52487 [00:05<00:05, 5121.16 examples/s]Tokenizing train dataset (num_proc=128):  46%|████▌     | 23903/52487 [00:05<00:06, 4535.26 examples/s]Tokenizing train dataset (num_proc=128):  47%|████▋     | 24794/52487 [00:05<00:05, 4783.17 examples/s]Tokenizing train dataset (num_proc=128):  49%|████▊     | 25580/52487 [00:05<00:05, 4761.29 examples/s]Tokenizing train dataset (num_proc=128):  50%|████▉     | 26155/52487 [00:06<00:05, 4423.34 examples/s]Tokenizing train dataset (num_proc=128):  51%|█████     | 26848/52487 [00:06<00:06, 4158.26 examples/s]Tokenizing train dataset (num_proc=128):  52%|█████▏    | 27446/52487 [00:06<00:05, 4490.45 examples/s]Tokenizing train dataset (num_proc=128):  54%|█████▍    | 28221/52487 [00:06<00:05, 4534.56 examples/s]Tokenizing train dataset (num_proc=128):  55%|█████▌    | 28937/52487 [00:06<00:05, 4454.88 examples/s]Tokenizing train dataset (num_proc=128):  56%|█████▋    | 29607/52487 [00:06<00:05, 4312.28 examples/s]Tokenizing train dataset (num_proc=128):  58%|█████▊    | 30275/52487 [00:07<00:05, 4117.37 examples/s]Tokenizing train dataset (num_proc=128):  59%|█████▉    | 31138/52487 [00:07<00:04, 4429.79 examples/s]Tokenizing train dataset (num_proc=128):  61%|██████    | 31840/52487 [00:07<00:04, 4345.09 examples/s]Tokenizing train dataset (num_proc=128):  62%|██████▏   | 32689/52487 [00:07<00:04, 4551.75 examples/s]Tokenizing train dataset (num_proc=128):  64%|██████▎   | 33442/52487 [00:07<00:04, 4538.07 examples/s]Tokenizing train dataset (num_proc=128):  65%|██████▍   | 33929/52487 [00:07<00:04, 4605.02 examples/s]Tokenizing train dataset (num_proc=128):  66%|██████▋   | 34890/52487 [00:08<00:03, 4622.20 examples/s]Tokenizing train dataset (num_proc=128):  68%|██████▊   | 35775/52487 [00:08<00:03, 4795.76 examples/s]Tokenizing train dataset (num_proc=128):  69%|██████▉   | 36441/52487 [00:08<00:03, 4531.82 examples/s]Tokenizing train dataset (num_proc=128):  71%|███████   | 37036/52487 [00:08<00:03, 4226.67 examples/s]Tokenizing train dataset (num_proc=128):  72%|███████▏  | 38052/52487 [00:08<00:03, 4805.08 examples/s]Tokenizing train dataset (num_proc=128):  74%|███████▍  | 38968/52487 [00:08<00:02, 5025.19 examples/s]Tokenizing train dataset (num_proc=128):  76%|███████▌  | 39753/52487 [00:09<00:02, 4930.35 examples/s]Tokenizing train dataset (num_proc=128):  77%|███████▋  | 40474/52487 [00:09<00:02, 4761.42 examples/s]Tokenizing train dataset (num_proc=128):  79%|███████▊  | 41333/52487 [00:09<00:02, 4898.49 examples/s]Tokenizing train dataset (num_proc=128):  80%|████████  | 42116/52487 [00:09<00:02, 4842.90 examples/s]Tokenizing train dataset (num_proc=128):  82%|████████▏ | 42967/52487 [00:09<00:01, 4944.70 examples/s]Tokenizing train dataset (num_proc=128):  83%|████████▎ | 43750/52487 [00:09<00:01, 4842.81 examples/s]Tokenizing train dataset (num_proc=128):  85%|████████▍ | 44375/52487 [00:10<00:01, 4533.01 examples/s]Tokenizing train dataset (num_proc=128):  86%|████████▌ | 45089/52487 [00:10<00:01, 4425.42 examples/s]Tokenizing train dataset (num_proc=128):  88%|████████▊ | 46153/52487 [00:10<00:01, 5005.52 examples/s]Tokenizing train dataset (num_proc=128):  90%|████████▉ | 47037/52487 [00:10<00:01, 5088.98 examples/s]Tokenizing train dataset (num_proc=128):  91%|█████████ | 47662/52487 [00:10<00:01, 4691.44 examples/s]Tokenizing train dataset (num_proc=128):  93%|█████████▎| 48821/52487 [00:10<00:00, 5960.78 examples/s]Tokenizing train dataset (num_proc=128):  94%|█████████▍| 49516/52487 [00:11<00:00, 5184.78 examples/s]Tokenizing train dataset (num_proc=128):  95%|█████████▌| 50090/52487 [00:11<00:00, 5263.31 examples/s]Tokenizing train dataset (num_proc=128):  97%|█████████▋| 50778/52487 [00:11<00:00, 5544.23 examples/s]Tokenizing train dataset (num_proc=128):  98%|█████████▊| 51422/52487 [00:11<00:00, 5140.55 examples/s]Tokenizing train dataset (num_proc=128):  99%|█████████▊| 51705/52487 [00:11<00:00, 4409.76 examples/s]
-multiprocess.pool.RemoteTraceback: 
-"""
-Traceback (most recent call last):
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/arrow_dataset.py", line 3544, in _map_single
-    writer.write(example)
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/arrow_writer.py", line 500, in write
-    self.write_examples_on_file()
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/arrow_writer.py", line 458, in write_examples_on_file
-    self.write_batch(batch_examples=batch_examples)
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/arrow_writer.py", line 568, in write_batch
-    arrays.append(pa.array(typed_sequence))
-                  ^^^^^^^^^^^^^^^^^^^^^^^^
-  File "pyarrow/array.pxi", line 252, in pyarrow.lib.array
-  File "pyarrow/array.pxi", line 114, in pyarrow.lib._handle_arrow_array_protocol
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/arrow_writer.py", line 208, in __arrow_array__
-    out = cast_array_to_feature(
-          ^^^^^^^^^^^^^^^^^^^^^^
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/table.py", line 1797, in wrapper
-    return func(array, *args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/table.py", line 2063, in cast_array_to_feature
-    casted_array_values = _c(array.values, feature.feature)
-                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/table.py", line 1797, in wrapper
-    return func(array, *args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/table.py", line 2098, in cast_array_to_feature
-    return array_cast(
-           ^^^^^^^^^^^
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/table.py", line 1797, in wrapper
-    return func(array, *args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/table.py", line 1948, in array_cast
-    raise TypeError(f"Couldn't cast array of type {_short_str(array.type)} to {_short_str(pa_type)}")
-TypeError: Couldn't cast array of type int64 to null
+2025-05-25 11:12:24,534 - INFO - Loading dataset from /sorgin1/users/jbarrutia006/viper/syntData/PrefDatasets/dpo_dataset_all_train.arrow as train and /sorgin1/users/jbarrutia006/viper/syntData/PrefDatasets/dpo_dataset_single_dev.arrow as dev
+2025-05-25 11:12:24,558 - INFO - Train dataset columns before dropping: ['prompt', 'chosen', 'rejected', 'model', 'rejected_model']
+2025-05-25 11:12:25,264 - INFO - Train dataset columns: ['prompt', 'chosen', 'rejected']
+2025-05-25 11:12:25,264 - INFO - Dev dataset columns: ['prompt', 'chosen', 'rejected']
+2025-05-25 11:12:25,268 - INFO - Prompt: <|begin_of_text|><|start_header_id|>system<|end_header_id|>
 
-During handling of the above exception, another exception occurred:
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
 
-Traceback (most recent call last):
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/multiprocess/pool.py", line 125, in worker
-    result = (True, func(*args, **kwds))
-                    ^^^^^^^^^^^^^^^^^^^
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/utils/py_utils.py", line 678, in _write_generator_to_queue
-    for i, result in enumerate(func(**kwargs)):
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/arrow_dataset.py", line 3593, in _map_single
-    writer.finalize()
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/arrow_writer.py", line 599, in finalize
-    self.write_examples_on_file()
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/arrow_writer.py", line 458, in write_examples_on_file
-    self.write_batch(batch_examples=batch_examples)
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/arrow_writer.py", line 568, in write_batch
-    arrays.append(pa.array(typed_sequence))
-                  ^^^^^^^^^^^^^^^^^^^^^^^^
-  File "pyarrow/array.pxi", line 252, in pyarrow.lib.array
-  File "pyarrow/array.pxi", line 114, in pyarrow.lib._handle_arrow_array_protocol
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/arrow_writer.py", line 208, in __arrow_array__
-    out = cast_array_to_feature(
-          ^^^^^^^^^^^^^^^^^^^^^^
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/table.py", line 1797, in wrapper
-    return func(array, *args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/table.py", line 2063, in cast_array_to_feature
-    casted_array_values = _c(array.values, feature.feature)
-                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/table.py", line 1797, in wrapper
-    return func(array, *args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/table.py", line 2098, in cast_array_to_feature
-    return array_cast(
-           ^^^^^^^^^^^
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/table.py", line 1797, in wrapper
-    return func(array, *args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/table.py", line 1948, in array_cast
-    raise TypeError(f"Couldn't cast array of type {_short_str(array.type)} to {_short_str(pa_type)}")
-TypeError: Couldn't cast array of type int64 to null
-"""
+You are an AI that uses a special ImagePatch class to answer questions about images.
+Here is the class definition:
 
-The above exception was the direct cause of the following exception:
+from PIL import Image
+from vision_functions import find_in_image, simple_qa, verify_property, best_text_match
 
-Traceback (most recent call last):
-  File "/sorgin1/users/jbarrutia006/viper/scripts/dpo/dpotrain.py", line 225, in <module>
-    train_dpo(args)
-  File "/sorgin1/users/jbarrutia006/viper/scripts/dpo/dpotrain.py", line 171, in train_dpo
-    trainer = DPOTrainer(
-              ^^^^^^^^^^^
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/unsloth/trainer.py", line 203, in new_init
-    original_init(self, *args, **kwargs)
-  File "/sorgin1/users/jbarrutia006/viper/unsloth_compiled_cache/UnslothDPOTrainer.py", line 2067, in __init__
-    super().__init__(
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/transformers/utils/deprecation.py", line 165, in wrapped_func
-    return func(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^
-  File "/sorgin1/users/jbarrutia006/viper/unsloth_compiled_cache/UnslothDPOTrainer.py", line 784, in __init__
-    train_dataset = self._prepare_dataset(train_dataset, processing_class, args, "train")
-                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/sorgin1/users/jbarrutia006/viper/unsloth_compiled_cache/UnslothDPOTrainer.py", line 884, in _prepare_dataset
-    dataset = dataset.map(
-              ^^^^^^^^^^^^
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/arrow_dataset.py", line 602, in wrapper
-    out: Union["Dataset", "DatasetDict"] = func(self, *args, **kwargs)
-                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/arrow_dataset.py", line 567, in wrapper
-    out: Union["Dataset", "DatasetDict"] = func(self, *args, **kwargs)
-                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/arrow_dataset.py", line 3259, in map
-    for rank, done, content in iflatmap_unordered(
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/utils/py_utils.py", line 718, in iflatmap_unordered
-    [async_result.get(timeout=0.05) for async_result in async_results]
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/utils/py_utils.py", line 718, in <listcomp>
-    [async_result.get(timeout=0.05) for async_result in async_results]
-     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/multiprocess/pool.py", line 774, in get
-    raise self._value
-TypeError: Couldn't cast array of type int64 to null
-multiprocess.pool.RemoteTraceback: 
-"""
-Traceback (most recent call last):
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/arrow_dataset.py", line 3544, in _map_single
-    writer.write(example)
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/arrow_writer.py", line 500, in write
-    self.write_examples_on_file()
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/arrow_writer.py", line 458, in write_examples_on_file
-    self.write_batch(batch_examples=batch_examples)
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/arrow_writer.py", line 568, in write_batch
-    arrays.append(pa.array(typed_sequence))
-                  ^^^^^^^^^^^^^^^^^^^^^^^^
-  File "pyarrow/array.pxi", line 252, in pyarrow.lib.array
-  File "pyarrow/array.pxi", line 114, in pyarrow.lib._handle_arrow_array_protocol
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/arrow_writer.py", line 208, in __arrow_array__
-    out = cast_array_to_feature(
-          ^^^^^^^^^^^^^^^^^^^^^^
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/table.py", line 1797, in wrapper
-    return func(array, *args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/table.py", line 2063, in cast_array_to_feature
-    casted_array_values = _c(array.values, feature.feature)
-                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/table.py", line 1797, in wrapper
-    return func(array, *args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/table.py", line 2098, in cast_array_to_feature
-    return array_cast(
-           ^^^^^^^^^^^
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/table.py", line 1797, in wrapper
-    return func(array, *args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/table.py", line 1948, in array_cast
-    raise TypeError(f"Couldn't cast array of type {_short_str(array.type)} to {_short_str(pa_type)}")
-TypeError: Couldn't cast array of type int64 to null
+def bool_to_yesno(bool_answer: bool)->str:
+    return "yes" if bool_answer else "no"
 
-During handling of the above exception, another exception occurred:
+class ImagePatch:
+    """A Python class containing a crop of an image centered around a particular object, as well as relevant information.
+    Attributes
+    ----------
+    cropped_image : array_like
+        An array-like of the cropped image taken from the original image.
+    left : int
+        An int describing the position of the left border of the crop's bounding box in the original image.
+    lower : int
+        An int describing the position of the bottom border of the crop's bounding box in the original image.
+    right : int
+        An int describing the position of the right border of the crop's bounding box in the original image.
+    upper : int
+        An int describing the position of the top border of the crop's bounding box in the original image.
 
-Traceback (most recent call last):
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/multiprocess/pool.py", line 125, in worker
-    result = (True, func(*args, **kwds))
-                    ^^^^^^^^^^^^^^^^^^^
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/utils/py_utils.py", line 678, in _write_generator_to_queue
-    for i, result in enumerate(func(**kwargs)):
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/arrow_dataset.py", line 3593, in _map_single
-    writer.finalize()
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/arrow_writer.py", line 599, in finalize
-    self.write_examples_on_file()
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/arrow_writer.py", line 458, in write_examples_on_file
-    self.write_batch(batch_examples=batch_examples)
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/arrow_writer.py", line 568, in write_batch
-    arrays.append(pa.array(typed_sequence))
-                  ^^^^^^^^^^^^^^^^^^^^^^^^
-  File "pyarrow/array.pxi", line 252, in pyarrow.lib.array
-  File "pyarrow/array.pxi", line 114, in pyarrow.lib._handle_arrow_array_protocol
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/arrow_writer.py", line 208, in __arrow_array__
-    out = cast_array_to_feature(
-          ^^^^^^^^^^^^^^^^^^^^^^
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/table.py", line 1797, in wrapper
-    return func(array, *args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/table.py", line 2063, in cast_array_to_feature
-    casted_array_values = _c(array.values, feature.feature)
-                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/table.py", line 1797, in wrapper
-    return func(array, *args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/table.py", line 2098, in cast_array_to_feature
-    return array_cast(
-           ^^^^^^^^^^^
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/table.py", line 1797, in wrapper
-    return func(array, *args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/table.py", line 1948, in array_cast
-    raise TypeError(f"Couldn't cast array of type {_short_str(array.type)} to {_short_str(pa_type)}")
-TypeError: Couldn't cast array of type int64 to null
-"""
+    Methods
+    -------
+    find(object_name: str)->List[ImagePatch]
+        Returns a list of new ImagePatch objects containing crops of the image centered around any objects found in the image matching the object_name.
+    simple_query(question: str=None)->str
+        Returns the answer to a basic question asked about the image. If no question is provided, returns the answer to "What is this?".
+    exists(object_name: str)->bool
+        Returns True if the object specified by object_name is found in the image, and False otherwise.
+    verify_property(property: str)->bool
+        Returns True if the property is met, and False otherwise.
+    best_text_match(string1: str, string2: str)->str
+        Returns the string that best matches the image.
+    crop(left: int, lower: int, right: int, upper: int)->ImagePatch
+        Returns a new ImagePatch object containing a crop of the image at the given coordinates.
+        """
 
-The above exception was the direct cause of the following exception:
+    def __init__(self, image, left: int=None, lower: int=None, right: int=None, upper: int=None):
+        """Initializes an ImagePatch object by cropping the image at the given coordinates and stores the coordinates as attributes.
+        If no coordinates are provided, the image is left unmodified, and the coordinates are set to the dimensions of the image.
+        Parameters
+        -------
+        image : array_like
+            An array-like of the original image.
+        left : int
+            An int describing the position of the left border of the crop's bounding box in the original image.
+        lower : int
+            An int describing the position of the bottom border of the crop's bounding box in the original image.
+        right : int
+            An int describing the position of the right border of the crop's bounding box in the original image.
+        upper : int
+            An int describing the position of the top border of the crop's bounding box in the original image.
 
-Traceback (most recent call last):
-  File "/sorgin1/users/jbarrutia006/viper/scripts/dpo/dpotrain.py", line 225, in <module>
-    train_dpo(args)
-  File "/sorgin1/users/jbarrutia006/viper/scripts/dpo/dpotrain.py", line 171, in train_dpo
-    trainer = DPOTrainer(
-              ^^^^^^^^^^^
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/unsloth/trainer.py", line 203, in new_init
-    original_init(self, *args, **kwargs)
-  File "/sorgin1/users/jbarrutia006/viper/unsloth_compiled_cache/UnslothDPOTrainer.py", line 2067, in __init__
-    super().__init__(
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/transformers/utils/deprecation.py", line 165, in wrapped_func
-    return func(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^^^^
-  File "/sorgin1/users/jbarrutia006/viper/unsloth_compiled_cache/UnslothDPOTrainer.py", line 784, in __init__
-    train_dataset = self._prepare_dataset(train_dataset, processing_class, args, "train")
-                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/sorgin1/users/jbarrutia006/viper/unsloth_compiled_cache/UnslothDPOTrainer.py", line 884, in _prepare_dataset
-    dataset = dataset.map(
-              ^^^^^^^^^^^^
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/arrow_dataset.py", line 602, in wrapper
-    out: Union["Dataset", "DatasetDict"] = func(self, *args, **kwargs)
-                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/arrow_dataset.py", line 567, in wrapper
-    out: Union["Dataset", "DatasetDict"] = func(self, *args, **kwargs)
-                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/arrow_dataset.py", line 3259, in map
-    for rank, done, content in iflatmap_unordered(
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/utils/py_utils.py", line 718, in iflatmap_unordered
-    [async_result.get(timeout=0.05) for async_result in async_results]
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/utils/py_utils.py", line 718, in <listcomp>
-    [async_result.get(timeout=0.05) for async_result in async_results]
-     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/multiprocess/pool.py", line 774, in get
-    raise self._value
-TypeError: Couldn't cast array of type int64 to null
-srun: error: localhost: task 0: Exited with exit code 1
+        """
+        if left is None and right is None and upper is None and lower is None:
+            self.cropped_image = image
+            self.left = 0
+            self.lower = 0
+            self.right = image.shape[2]  # width
+            self.upper = image.shape[1]  # height
+        else:
+            self.cropped_image = image[:, lower:upper, left:right]
+            self.left = left
+            self.upper = upper
+            self.right = right
+            self.lower = lower
+
+        self.width = self.cropped_image.shape[2]
+        self.height = self.cropped_image.shape[1]
+
+        self.horizontal_center = (self.left + self.right) / 2
+        self.vertical_center = (self.lower + self.upper) / 2
+
+    def find(self, object_name: str)->List["ImagePatch"]:
+        """Returns a new ImagePatch object containing the crop of the image centered around the object specified by object_name.
+        Parameters
+        -------
+        object_name : str
+            A string describing the name of the object to be found in the image.
+        """
+        return find_in_image(self.cropped_image, object_name)
+
+    def simple_query(self, question: str=None)->str:
+        """Returns the answer to a basic question asked about the image. If no question is provided, returns the answer to "What is this?".
+        Parameters
+        -------
+        question : str
+            A string describing the question to be asked.
+
+        Examples
+        -------
+
+        >>> # Which kind of animal is not eating?
+        >>> def execute_command(image)->str:
+        >>>     image_patch = ImagePatch(image)
+        >>>     animal_patches = image_patch.find("animal")
+        >>>     for animal_patch in animal_patches:
+        >>>         if not animal_patch.verify_property("animal", "eating"):
+        >>>             return animal_patch.simple_query("What kind of animal is eating?") # crop would include eating so keep it in the query
+        >>>     # If no animal is not eating, query the image directly
+        >>>     return image_patch.simple_query("Which kind of animal is not eating?")
+
+        >>> # What is in front of the horse?
+        >>> # contains a relation (around, next to, on, near, on top of, in front of, behind, etc), so ask directly
+        >>> return image_patch.simple_query("What is in front of the horse?")
+        >>>
+        """
+        return simple_qa(self.cropped_image, question)
+
+    def exists(self, object_name: str)->bool:
+        """Returns True if the object specified by object_name is found in the image, and False otherwise.
+        Parameters
+        -------
+        object_name : str
+            A string describing the name of the object to be found in the image.
+
+        Examples
+        -------
+        >>> # Are there both cakes and gummy bears in the photo?
+        >>> def execute_command(image)->str:
+        >>>     image_patch = ImagePatch(image)
+        >>>     is_cake = image_patch.exists("cake")
+        >>>     is_gummy_bear = image_patch.exists("gummy bear")
+        >>>     return bool_to_yesno(is_cake and is_gummy_bear)
+        """
+        return len(self.find(object_name)) > 0
+
+    def verify_property(self, object_name: str, property: str)->bool:
+        """Returns True if the object possesses the property, and False otherwise.
+        Differs from 'exists' in that it presupposes the existence of the object specified by object_name, instead checking whether the object possesses the property.
+        Parameters
+        -------
+        object_name : str
+            A string describing the name of the object to be found in the image.
+        property : str
+            A string describing the property to be checked.
+
+        Examples
+        -------
+        >>> # Do the letters have blue color?
+        >>> def execute_command(image)->str:
+        >>>     image_patch = ImagePatch(image)
+        >>>     letters_patches = image_patch.find("letters")
+        >>>     # Question assumes only one letter patch
+        >>>     if len(letters_patches) == 0:
+        >>>         # If no letters are found, query the image directly
+        >>>         return image_patch.simple_query("Do the letters have blue color?")
+        >>>     return bool_to_yesno(letters_patches[0].verify_property("letters", "blue"))
+        """
+        return verify_property(self.cropped_image, object_name, property)
+
+    def best_text_match(self, option_list: List[str]) -> str:
+        """Returns the string that best matches the image.
+        Parameters
+        -------
+        option_list : str
+            A list with the names of the different options
+        prefix : str
+            A string with the prefixes to append to the options
+
+        Examples
+        -------
+        >>> # Is the cap gold or white?
+        >>> def execute_command(image)->str:
+        >>>     image_patch = ImagePatch(image)
+        >>>     cap_patches = image_patch.find("cap")
+        >>>     # Question assumes one cap patch
+        >>>     if len(cap_patches) == 0:
+        >>>         # If no cap is found, query the image directly
+        >>>         return image_patch.simple_query("Is the cap gold or white?")
+        >>>     return cap_patches[0].best_text_match(["gold", "white"])
+        """
+        return best_text_match(self.cropped_image, option_list)
+
+    def crop(self, left: int, lower: int, right: int, upper: int)->"ImagePatch":
+        """Returns a new ImagePatch cropped from the current ImagePatch.
+        Parameters
+        -------
+        left : int
+            The leftmost pixel of the cropped image.
+        lower : int
+            The lowest pixel of the cropped image.
+        right : int
+            The rightmost pixel of the cropped image.
+        upper : int
+            The uppermost pixel of the cropped image.
+        -------
+        """
+        return ImagePatch(self.cropped_image, left, lower, right, upper)
+
+
+
+Please use this class to answer queries about images.
+When writing the final solution, you typically define a function:
+
+def execute_command(image)->str:
+    # put your logic here
+Your job is to produce the correct code in that function so that it answers the question or does the operation asked by the user.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# Is there a backpack to the right of the man?
+def execute_command(image)->str:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+    image_patch = ImagePatch(image)
+    man_patches = image_patch.find("man")
+    # Question assumes one man patch
+    if len(man_patches) == 0:
+        # If no man is found, query the image directly
+        return image_patch.simple_query("Is there a backpack to the right of the man?")
+    man_patch = man_patches[0]
+    backpack_patches = image_patch.find("backpack")
+    # Question assumes one backpack patch
+    if len(backpack_patches) == 0:
+        return "no"
+    for backpack_patch in backpack_patches:
+        if backpack_patch.horizontal_center > man_patch.horizontal_center:
+            return "yes"
+    return "no"<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# In which part is the bread, the bottom or the top?
+def execute_command(image)->str:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+    image_patch = ImagePatch(image)
+    bread_patches = image_patch.find("bread")
+    # Question assumes only one bread patch
+    if len(bread_patches) == 0:
+        # If no bread is found, query the image directly
+        return image_patch.simple_query("In which part is the bread, the bottom or the top?")
+    if bread_patches[0].vertical_center < image_patch.vertical_center:
+        return "bottom"
+    else:
+        return "top"<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# What type of weather do you see in the photograph?
+def execute_command(image)->str:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+    image_patch = ImagePatch(image)
+    return image_patch.simple_query("What type of weather do you see in the photograph?")<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# Who is the man staring at?
+def execute_command(image)->str:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+    # asks for the predicate of a relational verb (staring at), so ask directly
+    image_patch = ImagePatch(image)
+    return image_patch.simple_query("Who is the man staring at?")<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# What toy is wearing a shirt?
+def execute_command(image)->str:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+    # not a relational verb so go step by step
+    image_patch = ImagePatch(image)
+    toy_patches = image_patch.find("toy")
+    # Question assumes only one toy patch
+    if len(toy_patches) == 0:
+        # If no toy is found, query the image directly
+        return image_patch.simple_query("What toy is wearing a shirt?")
+    for toy_patch in toy_patches:
+        is_wearing_shirt = (toy_patch.simple_query("Is the toy wearing a shirt?") == "yes")
+        if is_wearing_shirt:
+            return toy_patch.simple_query("What toy is wearing a shirt?") # crop would include the shirt so keep it in the query
+    # If no toy is wearing a shirt, pick the first toy
+    return toy_patches[0].simple_query("What toy is wearing a shirt?")<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# What is behind the pole?
+def execute_command(image)->str:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+    image_patch = ImagePatch(image)
+    # contains a relation (around, next to, on, near, on top of, in front of, behind, etc), so ask directly
+    return image_patch.simple_query("What is behind the pole?")<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# Are there bagels or lemons?
+def execute_command(image)->str:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+    image_patch = ImagePatch(image)
+    is_bagel = image_patch.exists("bagel")
+    is_lemon = image_patch.exists("lemon")
+    return bool_to_yesno(is_bagel or is_lemon)<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# Is that blanket to the right of a pillow?
+def execute_command(image)->str:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+    image_patch = ImagePatch(image)
+    blanket_patches = image_patch.find("blanket")
+    # Question assumes only one blanket patch
+    if len(blanket_patches) == 0:
+        # If no blanket is found, query the image directly
+        return image_patch.simple_query("Is that blanket to the right of a pillow?")
+    for blanket_patch in blanket_patches:
+        pillow_patches = image_patch.find("pillow")
+        for pillow_patch in pillow_patches:
+            if pillow_patch.horizontal_center > blanket_patch.horizontal_center:
+                return "yes"
+    return "no"<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+Are there men to the left of the guy that is wearing sneakers?
+def execute_command(image)->str:<|eot_id|>
+2025-05-25 11:12:25,268 - INFO - Chosen response: 
+    image_patch = ImagePatch(image)
+    guy_patches = image_patch.find("guy")
+    if len(guy_patches) == 0:
+        return image_patch.simple_query("Are there men to the left of the guy that is wearing sneakers?")
+    guy_patch = guy_patches[0]
+    if not guy_patch.verify_property("guy", "wearing sneakers"):
+        return "no"
+    man_patches = image_patch.find("man")
+    if len(man_patches) == 0:
+        return "no"
+    man_patch = man_patches[0]
+    if man_patch.horizontal_center < guy_patch.horizontal_center:
+        return "yes"
+    return "no"
+
+2025-05-25 11:12:25,268 - INFO - Rejected response:  
+    image_patch = ImagePatch(image)
+    man_patches_wearing_sneakers = image_patch.find("man").find("wearing sneakers")
+    for man_patch_wearing_sneakers in man_patches_wearing_sneakers:
+        men_to_the_left = image_patch.find("man").find("to the left")
+        # Question assumes only one man patch wearing sneakers
+        if len(men_to_the_left) == 0:
+            # If no man is found, query the image directly
+            return image_patch.simple_query("Are there men to the left of the guy that is wearing sneakers?")
+        for man_patch_to_the_left in men_to_the_left:
+            if man_patch_to_the_left horizontal_center < man_patch_wearing_sneakers horizontal_center:
+                return "yes"
+    return "no"
+2025-05-25 11:12:25,272 - INFO - Prompt: <|begin_of_text|><|start_header_id|>system<|end_header_id|>
+
+Cutting Knowledge Date: December 2023
+Today Date: 26 Jul 2024
+
+You are an AI that uses a special ImagePatch class to answer questions about images.
+Here is the class definition:
+
+from PIL import Image
+from vision_functions import find_in_image, simple_qa, verify_property, best_text_match
+
+def bool_to_yesno(bool_answer: bool)->str:
+    return "yes" if bool_answer else "no"
+
+class ImagePatch:
+    """A Python class containing a crop of an image centered around a particular object, as well as relevant information.
+    Attributes
+    ----------
+    cropped_image : array_like
+        An array-like of the cropped image taken from the original image.
+    left : int
+        An int describing the position of the left border of the crop's bounding box in the original image.
+    lower : int
+        An int describing the position of the bottom border of the crop's bounding box in the original image.
+    right : int
+        An int describing the position of the right border of the crop's bounding box in the original image.
+    upper : int
+        An int describing the position of the top border of the crop's bounding box in the original image.
+
+    Methods
+    -------
+    find(object_name: str)->List[ImagePatch]
+        Returns a list of new ImagePatch objects containing crops of the image centered around any objects found in the image matching the object_name.
+    simple_query(question: str=None)->str
+        Returns the answer to a basic question asked about the image. If no question is provided, returns the answer to "What is this?".
+    exists(object_name: str)->bool
+        Returns True if the object specified by object_name is found in the image, and False otherwise.
+    verify_property(property: str)->bool
+        Returns True if the property is met, and False otherwise.
+    best_text_match(string1: str, string2: str)->str
+        Returns the string that best matches the image.
+    crop(left: int, lower: int, right: int, upper: int)->ImagePatch
+        Returns a new ImagePatch object containing a crop of the image at the given coordinates.
+        """
+
+    def __init__(self, image, left: int=None, lower: int=None, right: int=None, upper: int=None):
+        """Initializes an ImagePatch object by cropping the image at the given coordinates and stores the coordinates as attributes.
+        If no coordinates are provided, the image is left unmodified, and the coordinates are set to the dimensions of the image.
+        Parameters
+        -------
+        image : array_like
+            An array-like of the original image.
+        left : int
+            An int describing the position of the left border of the crop's bounding box in the original image.
+        lower : int
+            An int describing the position of the bottom border of the crop's bounding box in the original image.
+        right : int
+            An int describing the position of the right border of the crop's bounding box in the original image.
+        upper : int
+            An int describing the position of the top border of the crop's bounding box in the original image.
+
+        """
+        if left is None and right is None and upper is None and lower is None:
+            self.cropped_image = image
+            self.left = 0
+            self.lower = 0
+            self.right = image.shape[2]  # width
+            self.upper = image.shape[1]  # height
+        else:
+            self.cropped_image = image[:, lower:upper, left:right]
+            self.left = left
+            self.upper = upper
+            self.right = right
+            self.lower = lower
+
+        self.width = self.cropped_image.shape[2]
+        self.height = self.cropped_image.shape[1]
+
+        self.horizontal_center = (self.left + self.right) / 2
+        self.vertical_center = (self.lower + self.upper) / 2
+
+    def find(self, object_name: str)->List["ImagePatch"]:
+        """Returns a new ImagePatch object containing the crop of the image centered around the object specified by object_name.
+        Parameters
+        -------
+        object_name : str
+            A string describing the name of the object to be found in the image.
+        """
+        return find_in_image(self.cropped_image, object_name)
+
+    def simple_query(self, question: str=None)->str:
+        """Returns the answer to a basic question asked about the image. If no question is provided, returns the answer to "What is this?".
+        Parameters
+        -------
+        question : str
+            A string describing the question to be asked.
+
+        Examples
+        -------
+
+        >>> # Which kind of animal is not eating?
+        >>> def execute_command(image)->str:
+        >>>     image_patch = ImagePatch(image)
+        >>>     animal_patches = image_patch.find("animal")
+        >>>     for animal_patch in animal_patches:
+        >>>         if not animal_patch.verify_property("animal", "eating"):
+        >>>             return animal_patch.simple_query("What kind of animal is eating?") # crop would include eating so keep it in the query
+        >>>     # If no animal is not eating, query the image directly
+        >>>     return image_patch.simple_query("Which kind of animal is not eating?")
+
+        >>> # What is in front of the horse?
+        >>> # contains a relation (around, next to, on, near, on top of, in front of, behind, etc), so ask directly
+        >>> return image_patch.simple_query("What is in front of the horse?")
+        >>>
+        """
+        return simple_qa(self.cropped_image, question)
+
+    def exists(self, object_name: str)->bool:
+        """Returns True if the object specified by object_name is found in the image, and False otherwise.
+        Parameters
+        -------
+        object_name : str
+            A string describing the name of the object to be found in the image.
+
+        Examples
+        -------
+        >>> # Are there both cakes and gummy bears in the photo?
+        >>> def execute_command(image)->str:
+        >>>     image_patch = ImagePatch(image)
+        >>>     is_cake = image_patch.exists("cake")
+        >>>     is_gummy_bear = image_patch.exists("gummy bear")
+        >>>     return bool_to_yesno(is_cake and is_gummy_bear)
+        """
+        return len(self.find(object_name)) > 0
+
+    def verify_property(self, object_name: str, property: str)->bool:
+        """Returns True if the object possesses the property, and False otherwise.
+        Differs from 'exists' in that it presupposes the existence of the object specified by object_name, instead checking whether the object possesses the property.
+        Parameters
+        -------
+        object_name : str
+            A string describing the name of the object to be found in the image.
+        property : str
+            A string describing the property to be checked.
+
+        Examples
+        -------
+        >>> # Do the letters have blue color?
+        >>> def execute_command(image)->str:
+        >>>     image_patch = ImagePatch(image)
+        >>>     letters_patches = image_patch.find("letters")
+        >>>     # Question assumes only one letter patch
+        >>>     if len(letters_patches) == 0:
+        >>>         # If no letters are found, query the image directly
+        >>>         return image_patch.simple_query("Do the letters have blue color?")
+        >>>     return bool_to_yesno(letters_patches[0].verify_property("letters", "blue"))
+        """
+        return verify_property(self.cropped_image, object_name, property)
+
+    def best_text_match(self, option_list: List[str]) -> str:
+        """Returns the string that best matches the image.
+        Parameters
+        -------
+        option_list : str
+            A list with the names of the different options
+        prefix : str
+            A string with the prefixes to append to the options
+
+        Examples
+        -------
+        >>> # Is the cap gold or white?
+        >>> def execute_command(image)->str:
+        >>>     image_patch = ImagePatch(image)
+        >>>     cap_patches = image_patch.find("cap")
+        >>>     # Question assumes one cap patch
+        >>>     if len(cap_patches) == 0:
+        >>>         # If no cap is found, query the image directly
+        >>>         return image_patch.simple_query("Is the cap gold or white?")
+        >>>     return cap_patches[0].best_text_match(["gold", "white"])
+        """
+        return best_text_match(self.cropped_image, option_list)
+
+    def crop(self, left: int, lower: int, right: int, upper: int)->"ImagePatch":
+        """Returns a new ImagePatch cropped from the current ImagePatch.
+        Parameters
+        -------
+        left : int
+            The leftmost pixel of the cropped image.
+        lower : int
+            The lowest pixel of the cropped image.
+        right : int
+            The rightmost pixel of the cropped image.
+        upper : int
+            The uppermost pixel of the cropped image.
+        -------
+        """
+        return ImagePatch(self.cropped_image, left, lower, right, upper)
+
+
+
+Please use this class to answer queries about images.
+When writing the final solution, you typically define a function:
+
+def execute_command(image)->str:
+    # put your logic here
+Your job is to produce the correct code in that function so that it answers the question or does the operation asked by the user.<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# Is there a backpack to the right of the man?
+def execute_command(image)->str:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+    image_patch = ImagePatch(image)
+    man_patches = image_patch.find("man")
+    # Question assumes one man patch
+    if len(man_patches) == 0:
+        # If no man is found, query the image directly
+        return image_patch.simple_query("Is there a backpack to the right of the man?")
+    man_patch = man_patches[0]
+    backpack_patches = image_patch.find("backpack")
+    # Question assumes one backpack patch
+    if len(backpack_patches) == 0:
+        return "no"
+    for backpack_patch in backpack_patches:
+        if backpack_patch.horizontal_center > man_patch.horizontal_center:
+            return "yes"
+    return "no"<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# In which part is the bread, the bottom or the top?
+def execute_command(image)->str:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+    image_patch = ImagePatch(image)
+    bread_patches = image_patch.find("bread")
+    # Question assumes only one bread patch
+    if len(bread_patches) == 0:
+        # If no bread is found, query the image directly
+        return image_patch.simple_query("In which part is the bread, the bottom or the top?")
+    if bread_patches[0].vertical_center < image_patch.vertical_center:
+        return "bottom"
+    else:
+        return "top"<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# What type of weather do you see in the photograph?
+def execute_command(image)->str:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+    image_patch = ImagePatch(image)
+    return image_patch.simple_query("What type of weather do you see in the photograph?")<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# Who is the man staring at?
+def execute_command(image)->str:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+    # asks for the predicate of a relational verb (staring at), so ask directly
+    image_patch = ImagePatch(image)
+    return image_patch.simple_query("Who is the man staring at?")<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# What toy is wearing a shirt?
+def execute_command(image)->str:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+    # not a relational verb so go step by step
+    image_patch = ImagePatch(image)
+    toy_patches = image_patch.find("toy")
+    # Question assumes only one toy patch
+    if len(toy_patches) == 0:
+        # If no toy is found, query the image directly
+        return image_patch.simple_query("What toy is wearing a shirt?")
+    for toy_patch in toy_patches:
+        is_wearing_shirt = (toy_patch.simple_query("Is the toy wearing a shirt?") == "yes")
+        if is_wearing_shirt:
+            return toy_patch.simple_query("What toy is wearing a shirt?") # crop would include the shirt so keep it in the query
+    # If no toy is wearing a shirt, pick the first toy
+    return toy_patches[0].simple_query("What toy is wearing a shirt?")<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# What is behind the pole?
+def execute_command(image)->str:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+    image_patch = ImagePatch(image)
+    # contains a relation (around, next to, on, near, on top of, in front of, behind, etc), so ask directly
+    return image_patch.simple_query("What is behind the pole?")<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# Are there bagels or lemons?
+def execute_command(image)->str:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+    image_patch = ImagePatch(image)
+    is_bagel = image_patch.exists("bagel")
+    is_lemon = image_patch.exists("lemon")
+    return bool_to_yesno(is_bagel or is_lemon)<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+# Is that blanket to the right of a pillow?
+def execute_command(image)->str:<|eot_id|><|start_header_id|>assistant<|end_header_id|>
+
+    image_patch = ImagePatch(image)
+    blanket_patches = image_patch.find("blanket")
+    # Question assumes only one blanket patch
+    if len(blanket_patches) == 0:
+        # If no blanket is found, query the image directly
+        return image_patch.simple_query("Is that blanket to the right of a pillow?")
+    for blanket_patch in blanket_patches:
+        pillow_patches = image_patch.find("pillow")
+        for pillow_patch in pillow_patches:
+            if pillow_patch.horizontal_center > blanket_patch.horizontal_center:
+                return "yes"
+    return "no"<|eot_id|><|start_header_id|>user<|end_header_id|>
+
+Are the white blinds to the right of a clock?
+def execute_command(image)->str:<|eot_id|>
+2025-05-25 11:12:25,272 - INFO - Chosen response:  # assumes one clock and one white blind
+    image_patch = ImagePatch(image)
+    white_blinds_patches = image_patch.find("white blind")
+    for white_blind_patch in white_blinds_patches:
+        if white_blind_patch.horizontal_center > image_patch.horizontal_center:
+            return "yes"
+    return "no"
+2025-05-25 11:12:25,272 - INFO - Rejected response: 
+    image_patch = ImagePatch(image)
+    white_blinds_patches = image_patch.find("white blinds")
+    # Question assumes only one white blinds patch
+    if len(white_blinds_patches) == 0:
+        # If no blanket is found, query the image directly
+        return image_patch.simple_query("Are the white blinds to the right of a clock?")
+    for white_blind_patch in white_blinds_patches:
+        clock_patches = image_patch.find("clock")
+        for clock_patch in clock_patches:
+            if clock_patch.horizontal_center > white_blind_patch.horizontal_center:
+                return "yes"
+    return "no"
+2025-05-25 11:12:25,273 - INFO - Initializing DPOTrainer...
+Extracting prompt in train dataset (num_proc=128):   0%|          | 0/52487 [00:00<?, ? examples/s]Extracting prompt in train dataset (num_proc=128):   0%|          | 1/52487 [00:00<5:07:01,  2.85 examples/s]Extracting prompt in train dataset (num_proc=128):   1%|          | 391/52487 [00:00<00:46, 1125.70 examples/s]Extracting prompt in train dataset (num_proc=128):   2%|▏         | 936/52487 [00:00<00:23, 2223.86 examples/s]Extracting prompt in train dataset (num_proc=128):   3%|▎         | 1501/52487 [00:00<00:18, 2733.41 examples/s]Extracting prompt in train dataset (num_proc=128):   4%|▎         | 1899/52487 [00:00<00:19, 2607.08 examples/s]Extracting prompt in train dataset (num_proc=128):   4%|▍         | 2338/52487 [00:01<00:16, 3027.29 examples/s]Extracting prompt in train dataset (num_proc=128):   6%|▌         | 3182/52487 [00:01<00:11, 4350.13 examples/s]Extracting prompt in train dataset (num_proc=128):   8%|▊         | 4074/52487 [00:01<00:08, 5546.42 examples/s]Extracting prompt in train dataset (num_proc=128):   9%|▉         | 4754/52487 [00:01<00:08, 5860.34 examples/s]Extracting prompt in train dataset (num_proc=128):  11%|█         | 5633/52487 [00:01<00:07, 6656.15 examples/s]Extracting prompt in train dataset (num_proc=128):  12%|█▏        | 6504/52487 [00:01<00:06, 7209.71 examples/s]Extracting prompt in train dataset (num_proc=128):  14%|█▍        | 7327/52487 [00:01<00:06, 7468.17 examples/s]Extracting prompt in train dataset (num_proc=128):  15%|█▌        | 8114/52487 [00:01<00:05, 7530.92 examples/s]Extracting prompt in train dataset (num_proc=128):  17%|█▋        | 9146/52487 [00:01<00:05, 8321.89 examples/s]Extracting prompt in train dataset (num_proc=128):  19%|█▉        | 10066/52487 [00:01<00:04, 8574.20 examples/s]Extracting prompt in train dataset (num_proc=128):  21%|██        | 10952/52487 [00:02<00:04, 8588.79 examples/s]Extracting prompt in train dataset (num_proc=128):  23%|██▎       | 11833/52487 [00:02<00:04, 8419.52 examples/s]Extracting prompt in train dataset (num_proc=128):  24%|██▍       | 12689/52487 [00:02<00:05, 7408.05 examples/s]Extracting prompt in train dataset (num_proc=128):  26%|██▌       | 13463/52487 [00:02<00:06, 6206.99 examples/s]Extracting prompt in train dataset (num_proc=128):  27%|██▋       | 14168/52487 [00:02<00:06, 6347.78 examples/s]Extracting prompt in train dataset (num_proc=128):  28%|██▊       | 14840/52487 [00:02<00:06, 5568.40 examples/s]Extracting prompt in train dataset (num_proc=128):  30%|██▉       | 15566/52487 [00:02<00:06, 5961.25 examples/s]Extracting prompt in train dataset (num_proc=128):  31%|███       | 16239/52487 [00:02<00:05, 6155.81 examples/s]Extracting prompt in train dataset (num_proc=128):  32%|███▏      | 16890/52487 [00:03<00:06, 5319.31 examples/s]Extracting prompt in train dataset (num_proc=128):  33%|███▎      | 17464/52487 [00:03<00:06, 5299.35 examples/s]Extracting prompt in train dataset (num_proc=128):  35%|███▌      | 18418/52487 [00:03<00:05, 6336.45 examples/s]Extracting prompt in train dataset (num_proc=128):  37%|███▋      | 19210/52487 [00:03<00:04, 6722.27 examples/s]Extracting prompt in train dataset (num_proc=128):  38%|███▊      | 20004/52487 [00:03<00:04, 6996.22 examples/s]Extracting prompt in train dataset (num_proc=128):  39%|███▉      | 20727/52487 [00:03<00:04, 6933.50 examples/s]Extracting prompt in train dataset (num_proc=128):  41%|████      | 21513/52487 [00:03<00:04, 7188.30 examples/s]Extracting prompt in train dataset (num_proc=128):  42%|████▏     | 22305/52487 [00:03<00:04, 7364.63 examples/s]Extracting prompt in train dataset (num_proc=128):  44%|████▍     | 23057/52487 [00:03<00:04, 6795.69 examples/s]Extracting prompt in train dataset (num_proc=128):  46%|████▌     | 24152/52487 [00:04<00:03, 7934.85 examples/s]Extracting prompt in train dataset (num_proc=128):  48%|████▊     | 24967/52487 [00:04<00:03, 7605.84 examples/s]Extracting prompt in train dataset (num_proc=128):  49%|████▉     | 25787/52487 [00:04<00:03, 7589.80 examples/s]Extracting prompt in train dataset (num_proc=128):  51%|█████     | 26561/52487 [00:04<00:03, 7607.09 examples/s]Extracting prompt in train dataset (num_proc=128):  52%|█████▏    | 27345/52487 [00:04<00:03, 6552.92 examples/s]Extracting prompt in train dataset (num_proc=128):  54%|█████▎    | 28113/52487 [00:04<00:03, 6840.34 examples/s]Extracting prompt in train dataset (num_proc=128):  55%|█████▍    | 28850/52487 [00:04<00:03, 6978.86 examples/s]Extracting prompt in train dataset (num_proc=128):  56%|█████▋    | 29573/52487 [00:04<00:03, 6674.14 examples/s]Extracting prompt in train dataset (num_proc=128):  58%|█████▊    | 30572/52487 [00:04<00:02, 7418.80 examples/s]Extracting prompt in train dataset (num_proc=128):  60%|█████▉    | 31328/52487 [00:05<00:02, 7302.20 examples/s]Extracting prompt in train dataset (num_proc=128):  61%|██████    | 32083/52487 [00:05<00:03, 6740.94 examples/s]Extracting prompt in train dataset (num_proc=128):  62%|██████▏   | 32771/52487 [00:05<00:02, 6590.24 examples/s]Extracting prompt in train dataset (num_proc=128):  64%|██████▍   | 33727/52487 [00:05<00:02, 7392.73 examples/s]Extracting prompt in train dataset (num_proc=128):  66%|██████▌   | 34581/52487 [00:05<00:02, 7551.90 examples/s]Extracting prompt in train dataset (num_proc=128):  67%|██████▋   | 35349/52487 [00:05<00:02, 7366.79 examples/s]Extracting prompt in train dataset (num_proc=128):  69%|██████▉   | 36099/52487 [00:05<00:02, 7320.32 examples/s]Extracting prompt in train dataset (num_proc=128):  71%|███████   | 37018/52487 [00:05<00:01, 7823.08 examples/s]Extracting prompt in train dataset (num_proc=128):  72%|███████▏  | 37811/52487 [00:05<00:01, 7649.99 examples/s]Extracting prompt in train dataset (num_proc=128):  74%|███████▎  | 38581/52487 [00:06<00:02, 5091.43 examples/s]Extracting prompt in train dataset (num_proc=128):  75%|███████▍  | 39332/52487 [00:06<00:02, 5591.65 examples/s]Extracting prompt in train dataset (num_proc=128):  77%|███████▋  | 40249/52487 [00:06<00:01, 6398.37 examples/s]Extracting prompt in train dataset (num_proc=128):  78%|███████▊  | 41144/52487 [00:06<00:01, 7023.76 examples/s]Extracting prompt in train dataset (num_proc=128):  80%|████████  | 42122/52487 [00:06<00:01, 7648.94 examples/s]Extracting prompt in train dataset (num_proc=128):  82%|████████▏ | 42951/52487 [00:06<00:01, 6229.56 examples/s]Extracting prompt in train dataset (num_proc=128):  83%|████████▎ | 43674/52487 [00:06<00:01, 6370.78 examples/s]Extracting prompt in train dataset (num_proc=128):  85%|████████▍ | 44379/52487 [00:07<00:01, 6426.79 examples/s]Extracting prompt in train dataset (num_proc=128):  86%|████████▋ | 45297/52487 [00:07<00:01, 7106.60 examples/s]Extracting prompt in train dataset (num_proc=128):  88%|████████▊ | 46196/52487 [00:07<00:00, 7545.71 examples/s]Extracting prompt in train dataset (num_proc=128):  90%|████████▉ | 47000/52487 [00:07<00:00, 7451.37 examples/s]Extracting prompt in train dataset (num_proc=128):  91%|█████████ | 47780/52487 [00:07<00:00, 7275.90 examples/s]Extracting prompt in train dataset (num_proc=128):  92%|█████████▏| 48534/52487 [00:07<00:00, 7085.19 examples/s]Extracting prompt in train dataset (num_proc=128):  94%|█████████▍| 49254/52487 [00:07<00:00, 6519.76 examples/s]Extracting prompt in train dataset (num_proc=128):  95%|█████████▌| 49934/52487 [00:07<00:00, 5873.92 examples/s]Extracting prompt in train dataset (num_proc=128):  96%|█████████▋| 50540/52487 [00:08<00:00, 4735.61 examples/s]Extracting prompt in train dataset (num_proc=128):  97%|█████████▋| 51070/52487 [00:08<00:00, 4394.41 examples/s]Extracting prompt in train dataset (num_proc=128):  98%|█████████▊| 51547/52487 [00:08<00:00, 4391.75 examples/s]Extracting prompt in train dataset (num_proc=128):  99%|█████████▉| 52016/52487 [00:08<00:00, 3505.31 examples/s]Extracting prompt in train dataset (num_proc=128): 100%|█████████▉| 52406/52487 [00:08<00:00, 2489.34 examples/s]Extracting prompt in train dataset (num_proc=128): 100%|██████████| 52487/52487 [00:14<00:00, 3515.33 examples/s]
+Applying chat template to train dataset (num_proc=128):   0%|          | 0/52487 [00:00<?, ? examples/s]Applying chat template to train dataset (num_proc=128):   1%|          | 411/52487 [00:00<01:27, 593.99 examples/s]Applying chat template to train dataset (num_proc=128):   2%|▏         | 1233/52487 [00:00<00:33, 1536.47 examples/s]Applying chat template to train dataset (num_proc=128):   4%|▍         | 2065/52487 [00:01<00:20, 2419.68 examples/s]Applying chat template to train dataset (num_proc=128):   5%|▍         | 2544/52487 [00:01<00:22, 2250.30 examples/s]Applying chat template to train dataset (num_proc=128):   8%|▊         | 4099/52487 [00:01<00:13, 3631.01 examples/s]Applying chat template to train dataset (num_proc=128):   9%|▉         | 4937/52487 [00:01<00:11, 4019.42 examples/s]Applying chat template to train dataset (num_proc=128):  11%|█         | 5747/52487 [00:01<00:10, 4270.04 examples/s]Applying chat template to train dataset (num_proc=128):  12%|█▏        | 6399/52487 [00:02<00:13, 3316.69 examples/s]Applying chat template to train dataset (num_proc=128):  14%|█▍        | 7389/52487 [00:02<00:11, 3794.93 examples/s]Applying chat template to train dataset (num_proc=128):  16%|█▋        | 8619/52487 [00:02<00:10, 4096.35 examples/s]Applying chat template to train dataset (num_proc=128):  19%|█▉        | 9848/52487 [00:02<00:08, 4920.74 examples/s]Applying chat template to train dataset (num_proc=128):  20%|██        | 10513/52487 [00:02<00:08, 4743.81 examples/s]Applying chat template to train dataset (num_proc=128):  21%|██        | 11088/52487 [00:03<00:09, 4442.47 examples/s]Applying chat template to train dataset (num_proc=128):  23%|██▎       | 12030/52487 [00:03<00:08, 4849.08 examples/s]Applying chat template to train dataset (num_proc=128):  24%|██▍       | 12738/52487 [00:03<00:08, 4742.54 examples/s]Applying chat template to train dataset (num_proc=128):  26%|██▌       | 13547/52487 [00:03<00:08, 4830.24 examples/s]Applying chat template to train dataset (num_proc=128):  28%|██▊       | 14768/52487 [00:03<00:06, 5668.83 examples/s]Applying chat template to train dataset (num_proc=128):  30%|██▉       | 15598/52487 [00:04<00:07, 4813.23 examples/s]Applying chat template to train dataset (num_proc=128):  31%|███▏      | 16476/52487 [00:04<00:08, 4406.81 examples/s]Applying chat template to train dataset (num_proc=128):  33%|███▎      | 17229/52487 [00:04<00:08, 3976.54 examples/s]Applying chat template to train dataset (num_proc=128):  34%|███▍      | 17857/52487 [00:04<00:08, 3961.61 examples/s]Applying chat template to train dataset (num_proc=128):  37%|███▋      | 19441/52487 [00:04<00:06, 5488.18 examples/s]Applying chat template to train dataset (num_proc=128):  38%|███▊      | 20109/52487 [00:05<00:07, 4467.40 examples/s]Applying chat template to train dataset (num_proc=128):  40%|███▉      | 20937/52487 [00:05<00:06, 4608.26 examples/s]Applying chat template to train dataset (num_proc=128):  41%|████▏     | 21748/52487 [00:05<00:06, 4682.61 examples/s]Applying chat template to train dataset (num_proc=128):  43%|████▎     | 22587/52487 [00:05<00:06, 4821.41 examples/s]Applying chat template to train dataset (num_proc=128):  45%|████▌     | 23799/52487 [00:05<00:06, 4388.97 examples/s]Applying chat template to train dataset (num_proc=128):  47%|████▋     | 24618/52487 [00:06<00:06, 4192.40 examples/s]Applying chat template to train dataset (num_proc=128):  49%|████▉     | 25839/52487 [00:06<00:05, 4967.48 examples/s]Applying chat template to train dataset (num_proc=128):  51%|█████     | 26658/52487 [00:06<00:05, 4955.47 examples/s]Applying chat template to train dataset (num_proc=128):  52%|█████▏    | 27488/52487 [00:06<00:06, 3970.85 examples/s]Applying chat template to train dataset (num_proc=128):  54%|█████▍    | 28318/52487 [00:06<00:05, 4262.23 examples/s]Applying chat template to train dataset (num_proc=128):  55%|█████▌    | 29127/52487 [00:07<00:05, 4435.37 examples/s]Applying chat template to train dataset (num_proc=128):  57%|█████▋    | 29949/52487 [00:07<00:04, 4602.04 examples/s]Applying chat template to train dataset (num_proc=128):  59%|█████▊    | 30777/52487 [00:07<00:05, 4190.58 examples/s]Applying chat template to train dataset (num_proc=128):  60%|██████    | 31588/52487 [00:07<00:04, 4358.35 examples/s]Applying chat template to train dataset (num_proc=128):  62%|██████▏   | 32418/52487 [00:07<00:04, 4525.24 examples/s]Applying chat template to train dataset (num_proc=128):  63%|██████▎   | 33228/52487 [00:07<00:04, 4675.09 examples/s]Applying chat template to train dataset (num_proc=128):  65%|██████▍   | 34048/52487 [00:08<00:03, 4807.69 examples/s]Applying chat template to train dataset (num_proc=128):  66%|██████▋   | 34878/52487 [00:08<00:03, 4900.81 examples/s]Applying chat template to train dataset (num_proc=128):  70%|██████▉   | 36498/52487 [00:08<00:02, 6408.38 examples/s]Applying chat template to train dataset (num_proc=128):  71%|███████   | 37319/52487 [00:08<00:03, 4656.86 examples/s]Applying chat template to train dataset (num_proc=128):  74%|███████▍  | 38968/52487 [00:08<00:02, 6031.08 examples/s]Applying chat template to train dataset (num_proc=128):  76%|███████▌  | 39778/52487 [00:09<00:02, 5057.59 examples/s]Applying chat template to train dataset (num_proc=128):  77%|███████▋  | 40608/52487 [00:09<00:02, 5036.10 examples/s]Applying chat template to train dataset (num_proc=128):  79%|███████▉  | 41428/52487 [00:09<00:02, 4483.15 examples/s]Applying chat template to train dataset (num_proc=128):  80%|████████  | 42248/52487 [00:09<00:02, 4468.42 examples/s]Applying chat template to train dataset (num_proc=128):  83%|████████▎ | 43478/52487 [00:09<00:01, 5032.27 examples/s]Applying chat template to train dataset (num_proc=128):  84%|████████▍ | 44298/52487 [00:10<00:01, 5018.46 examples/s]Applying chat template to train dataset (num_proc=128):  86%|████████▌ | 45118/52487 [00:10<00:01, 5056.72 examples/s]Applying chat template to train dataset (num_proc=128):  88%|████████▊ | 45938/52487 [00:10<00:01, 4997.35 examples/s]Applying chat template to train dataset (num_proc=128):  89%|████████▉ | 46769/52487 [00:10<00:01, 4997.26 examples/s]Applying chat template to train dataset (num_proc=128):  92%|█████████▏| 48399/52487 [00:10<00:00, 7204.88 examples/s]Applying chat template to train dataset (num_proc=128):  95%|█████████▍| 49629/52487 [00:10<00:00, 6422.52 examples/s]Applying chat template to train dataset (num_proc=128):  96%|█████████▌| 50447/52487 [00:11<00:00, 5942.43 examples/s]Applying chat template to train dataset (num_proc=128):  98%|█████████▊| 51268/52487 [00:11<00:00, 5338.79 examples/s]Applying chat template to train dataset (num_proc=128):  99%|█████████▉| 52087/52487 [00:11<00:00, 5192.82 examples/s]Applying chat template to train dataset (num_proc=128): 100%|██████████| 52487/52487 [00:12<00:00, 4341.95 examples/s]
+Tokenizing train dataset (num_proc=128):   0%|          | 0/52487 [00:00<?, ? examples/s]Tokenizing train dataset (num_proc=128):   0%|          | 10/52487 [00:00<59:01, 14.82 examples/s]Tokenizing train dataset (num_proc=128):   0%|          | 61/52487 [00:00<09:30, 91.92 examples/s]Tokenizing train dataset (num_proc=128):   0%|          | 179/52487 [00:00<03:17, 264.46 examples/s]Tokenizing train dataset (num_proc=128):   1%|          | 373/52487 [00:01<01:38, 526.41 examples/s]Tokenizing train dataset (num_proc=128):   1%|          | 608/52487 [00:01<01:05, 792.26 examples/s]Tokenizing train dataset (num_proc=128):   2%|▏         | 928/52487 [00:01<00:45, 1144.07 examples/s]Tokenizing train dataset (num_proc=128):   2%|▏         | 1307/52487 [00:01<00:35, 1458.34 examples/s]Tokenizing train dataset (num_proc=128):   3%|▎         | 1522/52487 [00:01<00:33, 1532.36 examples/s]Tokenizing train dataset (num_proc=128):   4%|▎         | 1851/52487 [00:01<00:28, 1766.35 examples/s]Tokenizing train dataset (num_proc=128):   4%|▍         | 2220/52487 [00:02<00:24, 2075.53 examples/s]Tokenizing train dataset (num_proc=128):   5%|▌         | 2673/52487 [00:02<00:19, 2510.08 examples/s]Tokenizing train dataset (num_proc=128):   6%|▌         | 3171/52487 [00:02<00:19, 2536.78 examples/s]Tokenizing train dataset (num_proc=128):   7%|▋         | 3546/52487 [00:02<00:18, 2691.17 examples/s]Tokenizing train dataset (num_proc=128):   8%|▊         | 3975/52487 [00:02<00:16, 3013.97 examples/s]Tokenizing train dataset (num_proc=128):   9%|▊         | 4577/52487 [00:02<00:12, 3723.58 examples/s]Tokenizing train dataset (num_proc=128):  10%|▉         | 5007/52487 [00:02<00:12, 3757.27 examples/s]Tokenizing train dataset (num_proc=128):  10%|█         | 5406/52487 [00:02<00:15, 3132.71 examples/s]Tokenizing train dataset (num_proc=128):  11%|█         | 5750/52487 [00:03<00:14, 3135.34 examples/s]Tokenizing train dataset (num_proc=128):  12%|█▏        | 6091/52487 [00:03<00:18, 2526.12 examples/s]Tokenizing train dataset (num_proc=128):  12%|█▏        | 6376/52487 [00:03<00:22, 2091.01 examples/s]Tokenizing train dataset (num_proc=128):  13%|█▎        | 6614/52487 [00:03<00:21, 2139.68 examples/s]Tokenizing train dataset (num_proc=128):  13%|█▎        | 6851/52487 [00:03<00:20, 2189.83 examples/s]Tokenizing train dataset (num_proc=128):  14%|█▎        | 7133/52487 [00:03<00:23, 1897.20 examples/s]Tokenizing train dataset (num_proc=128):  14%|█▍        | 7349/52487 [00:04<00:24, 1878.85 examples/s]Tokenizing train dataset (num_proc=128):  15%|█▍        | 7736/52487 [00:04<00:23, 1908.00 examples/s]Tokenizing train dataset (num_proc=128):  15%|█▌        | 8126/52487 [00:04<00:19, 2329.47 examples/s]Tokenizing train dataset (num_proc=128):  16%|█▌        | 8481/52487 [00:04<00:21, 2089.27 examples/s]Tokenizing train dataset (num_proc=128):  17%|█▋        | 8814/52487 [00:04<00:22, 1981.18 examples/s]Tokenizing train dataset (num_proc=128):  18%|█▊        | 9499/52487 [00:04<00:17, 2514.11 examples/s]Tokenizing train dataset (num_proc=128):  19%|█▊        | 9761/52487 [00:05<00:18, 2362.99 examples/s]Tokenizing train dataset (num_proc=128):  19%|█▉        | 10009/52487 [00:05<00:18, 2343.47 examples/s]Tokenizing train dataset (num_proc=128):  20%|█▉        | 10248/52487 [00:05<00:18, 2264.59 examples/s]Tokenizing train dataset (num_proc=128):  20%|█▉        | 10477/52487 [00:05<00:20, 2013.33 examples/s]Tokenizing train dataset (num_proc=128):  20%|██        | 10686/52487 [00:05<00:26, 1548.89 examples/s]Tokenizing train dataset (num_proc=128):  21%|██        | 10903/52487 [00:05<00:25, 1614.70 examples/s]Tokenizing train dataset (num_proc=128):  21%|██▏       | 11236/52487 [00:05<00:21, 1885.11 examples/s]Tokenizing train dataset (num_proc=128):  22%|██▏       | 11439/52487 [00:06<00:25, 1619.24 examples/s]Tokenizing train dataset (num_proc=128):  22%|██▏       | 11761/52487 [00:06<00:21, 1934.63 examples/s]Tokenizing train dataset (num_proc=128):  23%|██▎       | 11980/52487 [00:06<00:25, 1561.36 examples/s]Tokenizing train dataset (num_proc=128):  23%|██▎       | 12164/52487 [00:06<00:25, 1594.37 examples/s]Tokenizing train dataset (num_proc=128):  24%|██▎       | 12343/52487 [00:06<00:25, 1598.95 examples/s]Tokenizing train dataset (num_proc=128):  24%|██▍       | 12536/52487 [00:06<00:24, 1652.83 examples/s]Tokenizing train dataset (num_proc=128):  25%|██▌       | 13145/52487 [00:06<00:17, 2250.91 examples/s]Tokenizing train dataset (num_proc=128):  26%|██▌       | 13464/52487 [00:07<00:16, 2399.25 examples/s]Tokenizing train dataset (num_proc=128):  26%|██▌       | 13704/52487 [00:07<00:16, 2327.19 examples/s]Tokenizing train dataset (num_proc=128):  27%|██▋       | 13938/52487 [00:07<00:16, 2271.59 examples/s]Tokenizing train dataset (num_proc=128):  27%|██▋       | 14168/52487 [00:07<00:17, 2234.01 examples/s]Tokenizing train dataset (num_proc=128):  28%|██▊       | 14538/52487 [00:07<00:14, 2571.31 examples/s]Tokenizing train dataset (num_proc=128):  29%|██▊       | 14973/52487 [00:07<00:12, 2959.25 examples/s]Tokenizing train dataset (num_proc=128):  29%|██▉       | 15296/52487 [00:07<00:12, 2979.52 examples/s]Tokenizing train dataset (num_proc=128):  30%|██▉       | 15600/52487 [00:07<00:15, 2317.02 examples/s]Tokenizing train dataset (num_proc=128):  30%|███       | 15928/52487 [00:08<00:14, 2484.56 examples/s]Tokenizing train dataset (num_proc=128):  31%|███       | 16197/52487 [00:08<00:14, 2426.25 examples/s]Tokenizing train dataset (num_proc=128):  31%|███▏      | 16460/52487 [00:08<00:19, 1862.88 examples/s]Tokenizing train dataset (num_proc=128):  32%|███▏      | 16680/52487 [00:08<00:19, 1876.53 examples/s]Tokenizing train dataset (num_proc=128):  32%|███▏      | 17006/52487 [00:08<00:17, 2062.69 examples/s]Tokenizing train dataset (num_proc=128):  33%|███▎      | 17448/52487 [00:08<00:13, 2508.92 examples/s]Tokenizing train dataset (num_proc=128):  34%|███▍      | 17718/52487 [00:08<00:18, 1927.94 examples/s]Tokenizing train dataset (num_proc=128):  34%|███▍      | 17950/52487 [00:09<00:17, 1941.97 examples/s]Tokenizing train dataset (num_proc=128):  35%|███▍      | 18225/52487 [00:09<00:16, 2082.67 examples/s]Tokenizing train dataset (num_proc=128):  35%|███▌      | 18613/52487 [00:09<00:13, 2431.62 examples/s]Tokenizing train dataset (num_proc=128):  36%|███▌      | 18879/52487 [00:09<00:14, 2391.08 examples/s]Tokenizing train dataset (num_proc=128):  36%|███▋      | 19137/52487 [00:09<00:18, 1841.57 examples/s]Tokenizing train dataset (num_proc=128):  37%|███▋      | 19351/52487 [00:09<00:23, 1419.05 examples/s]Tokenizing train dataset (num_proc=128):  37%|███▋      | 19528/52487 [00:09<00:22, 1465.51 examples/s]Tokenizing train dataset (num_proc=128):  38%|███▊      | 19706/52487 [00:10<00:26, 1231.44 examples/s]Tokenizing train dataset (num_proc=128):  38%|███▊      | 19856/52487 [00:10<00:25, 1273.45 examples/s]Tokenizing train dataset (num_proc=128):  38%|███▊      | 20029/52487 [00:10<00:23, 1363.64 examples/s]Tokenizing train dataset (num_proc=128):  38%|███▊      | 20187/52487 [00:10<00:23, 1388.11 examples/s]Tokenizing train dataset (num_proc=128):  39%|███▉      | 20430/52487 [00:10<00:19, 1602.89 examples/s]Tokenizing train dataset (num_proc=128):  40%|███▉      | 20748/52487 [00:10<00:16, 1957.32 examples/s]Tokenizing train dataset (num_proc=128):  40%|███▉      | 20955/52487 [00:10<00:16, 1944.30 examples/s]Tokenizing train dataset (num_proc=128):  40%|████      | 21163/52487 [00:10<00:16, 1942.62 examples/s]Tokenizing train dataset (num_proc=128):  41%|████      | 21363/52487 [00:11<00:16, 1927.19 examples/s]Tokenizing train dataset (num_proc=128):  41%|████      | 21643/52487 [00:11<00:14, 2133.85 examples/s]Tokenizing train dataset (num_proc=128):  42%|████▏     | 21862/52487 [00:11<00:18, 1623.43 examples/s]Tokenizing train dataset (num_proc=128):  42%|████▏     | 22045/52487 [00:11<00:18, 1635.74 examples/s]Tokenizing train dataset (num_proc=128):  42%|████▏     | 22240/52487 [00:11<00:18, 1667.67 examples/s]Tokenizing train dataset (num_proc=128):  43%|████▎     | 22425/52487 [00:11<00:21, 1377.12 examples/s]Tokenizing train dataset (num_proc=128):  43%|████▎     | 22673/52487 [00:11<00:18, 1570.24 examples/s]Tokenizing train dataset (num_proc=128):  44%|████▎     | 22905/52487 [00:12<00:17, 1721.86 examples/s]Tokenizing train dataset (num_proc=128):  44%|████▍     | 23250/52487 [00:12<00:13, 2100.41 examples/s]Tokenizing train dataset (num_proc=128):  45%|████▍     | 23476/52487 [00:12<00:17, 1612.04 examples/s]Tokenizing train dataset (num_proc=128):  45%|████▌     | 23801/52487 [00:12<00:14, 1968.22 examples/s]Tokenizing train dataset (num_proc=128):  46%|████▌     | 24084/52487 [00:12<00:14, 2028.66 examples/s]Tokenizing train dataset (num_proc=128):  46%|████▋     | 24390/52487 [00:12<00:14, 1963.07 examples/s]Tokenizing train dataset (num_proc=128):  47%|████▋     | 24607/52487 [00:13<00:18, 1496.23 examples/s]Tokenizing train dataset (num_proc=128):  48%|████▊     | 25135/52487 [00:13<00:14, 1847.49 examples/s]Tokenizing train dataset (num_proc=128):  48%|████▊     | 25338/52487 [00:13<00:14, 1843.03 examples/s]Tokenizing train dataset (num_proc=128):  49%|████▊     | 25541/52487 [00:13<00:14, 1826.09 examples/s]Tokenizing train dataset (num_proc=128):  49%|████▉     | 25735/52487 [00:13<00:14, 1797.33 examples/s]Tokenizing train dataset (num_proc=128):  49%|████▉     | 25924/52487 [00:13<00:14, 1801.59 examples/s]Tokenizing train dataset (num_proc=128):  50%|████▉     | 26196/52487 [00:13<00:13, 2009.47 examples/s]Tokenizing train dataset (num_proc=128):  59%|█████▉    | 31083/52487 [00:13<00:01, 14191.19 examples/s]Tokenizing train dataset (num_proc=128):  68%|██████▊   | 35898/52487 [00:13<00:00, 23273.20 examples/s]Tokenizing train dataset (num_proc=128):  80%|███████▉  | 41835/52487 [00:14<00:00, 33301.71 examples/s]Tokenizing train dataset (num_proc=128):  92%|█████████▏| 48113/52487 [00:14<00:00, 41527.02 examples/s]Tokenizing train dataset (num_proc=128): 100%|█████████▉| 52455/52487 [00:16<00:00, 6519.85 examples/s] Tokenizing train dataset (num_proc=128): 100%|██████████| 52487/52487 [00:16<00:00, 3193.56 examples/s]
+Extracting prompt in eval dataset (num_proc=128):   0%|          | 0/1000 [00:00<?, ? examples/s]Extracting prompt in eval dataset (num_proc=128):   0%|          | 1/1000 [00:00<03:02,  5.48 examples/s]Extracting prompt in eval dataset (num_proc=128):   4%|▍         | 41/1000 [00:00<00:05, 174.21 examples/s]Extracting prompt in eval dataset (num_proc=128):  47%|████▋     | 470/1000 [00:00<00:00, 1729.49 examples/s]Extracting prompt in eval dataset (num_proc=128): 100%|██████████| 1000/1000 [00:00<00:00, 2973.14 examples/s]Extracting prompt in eval dataset (num_proc=128): 100%|██████████| 1000/1000 [00:00<00:00, 1274.30 examples/s]
+Applying chat template to eval dataset (num_proc=128):   0%|          | 0/1000 [00:00<?, ? examples/s]Applying chat template to eval dataset (num_proc=128):   1%|          | 8/1000 [00:00<01:13, 13.47 examples/s]Applying chat template to eval dataset (num_proc=128):   2%|▏         | 16/1000 [00:00<00:41, 23.48 examples/s]Applying chat template to eval dataset (num_proc=128):   3%|▎         | 32/1000 [00:00<00:21, 45.06 examples/s]Applying chat template to eval dataset (num_proc=128):   5%|▍         | 48/1000 [00:01<00:15, 60.94 examples/s]Applying chat template to eval dataset (num_proc=128):   6%|▋         | 64/1000 [00:01<00:13, 70.30 examples/s]Applying chat template to eval dataset (num_proc=128):   9%|▉         | 88/1000 [00:01<00:09, 92.27 examples/s]Applying chat template to eval dataset (num_proc=128):  10%|█         | 104/1000 [00:01<00:10, 83.19 examples/s]Applying chat template to eval dataset (num_proc=128):  12%|█▏        | 120/1000 [00:01<00:10, 87.53 examples/s]Applying chat template to eval dataset (num_proc=128):  14%|█▎        | 136/1000 [00:01<00:09, 91.41 examples/s]Applying chat template to eval dataset (num_proc=128):  15%|█▌        | 152/1000 [00:02<00:09, 93.55 examples/s]Applying chat template to eval dataset (num_proc=128):  17%|█▋        | 168/1000 [00:02<00:08, 94.89 examples/s]Applying chat template to eval dataset (num_proc=128):  19%|█▉        | 192/1000 [00:02<00:08, 95.80 examples/s]Applying chat template to eval dataset (num_proc=128):  21%|██        | 208/1000 [00:02<00:08, 96.07 examples/s]Applying chat template to eval dataset (num_proc=128):  22%|██▏       | 224/1000 [00:02<00:08, 96.90 examples/s]Applying chat template to eval dataset (num_proc=128):  24%|██▍       | 240/1000 [00:03<00:07, 97.29 examples/s]Applying chat template to eval dataset (num_proc=128):  26%|██▌       | 256/1000 [00:03<00:07, 94.60 examples/s]Applying chat template to eval dataset (num_proc=128):  27%|██▋       | 272/1000 [00:03<00:07, 95.61 examples/s]Applying chat template to eval dataset (num_proc=128):  29%|██▉       | 288/1000 [00:03<00:07, 96.27 examples/s]Applying chat template to eval dataset (num_proc=128):  31%|███       | 312/1000 [00:03<00:07, 95.68 examples/s]Applying chat template to eval dataset (num_proc=128):  34%|███▎      | 336/1000 [00:04<00:06, 95.96 examples/s]Applying chat template to eval dataset (num_proc=128):  36%|███▌      | 360/1000 [00:04<00:06, 96.53 examples/s]Applying chat template to eval dataset (num_proc=128):  38%|███▊      | 376/1000 [00:04<00:06, 96.43 examples/s]Applying chat template to eval dataset (num_proc=128):  40%|████      | 400/1000 [00:04<00:06, 96.93 examples/s]Applying chat template to eval dataset (num_proc=128):  42%|████▏     | 416/1000 [00:04<00:06, 96.51 examples/s]Applying chat template to eval dataset (num_proc=128):  43%|████▎     | 432/1000 [00:05<00:05, 96.69 examples/s]Applying chat template to eval dataset (num_proc=128):  45%|████▍     | 448/1000 [00:05<00:05, 96.81 examples/s]Applying chat template to eval dataset (num_proc=128):  46%|████▋     | 464/1000 [00:05<00:05, 96.65 examples/s]Applying chat template to eval dataset (num_proc=128):  48%|████▊     | 480/1000 [00:05<00:05, 95.72 examples/s]Applying chat template to eval dataset (num_proc=128):  50%|████▉     | 496/1000 [00:05<00:04, 106.59 examples/s]Applying chat template to eval dataset (num_proc=128):  51%|█████     | 512/1000 [00:05<00:05, 95.59 examples/s] Applying chat template to eval dataset (num_proc=128):  53%|█████▎    | 528/1000 [00:06<00:04, 95.72 examples/s]Applying chat template to eval dataset (num_proc=128):  54%|█████▍    | 544/1000 [00:06<00:05, 83.17 examples/s]Applying chat template to eval dataset (num_proc=128):  56%|█████▌    | 560/1000 [00:06<00:05, 87.14 examples/s]Applying chat template to eval dataset (num_proc=128):  58%|█████▊    | 576/1000 [00:06<00:04, 100.17 examples/s]Applying chat template to eval dataset (num_proc=128):  59%|█████▉    | 592/1000 [00:06<00:04, 98.07 examples/s] Applying chat template to eval dataset (num_proc=128):  61%|██████    | 608/1000 [00:06<00:04, 97.29 examples/s]Applying chat template to eval dataset (num_proc=128):  62%|██████▏   | 624/1000 [00:07<00:03, 96.63 examples/s]Applying chat template to eval dataset (num_proc=128):  64%|██████▍   | 640/1000 [00:07<00:04, 84.46 examples/s]Applying chat template to eval dataset (num_proc=128):  66%|██████▌   | 656/1000 [00:07<00:03, 87.51 examples/s]Applying chat template to eval dataset (num_proc=128):  67%|██████▋   | 672/1000 [00:07<00:03, 88.95 examples/s]Applying chat template to eval dataset (num_proc=128):  69%|██████▉   | 688/1000 [00:07<00:03, 89.14 examples/s]Applying chat template to eval dataset (num_proc=128):  71%|███████   | 712/1000 [00:07<00:02, 103.59 examples/s]Applying chat template to eval dataset (num_proc=128):  73%|███████▎  | 728/1000 [00:08<00:03, 88.42 examples/s] Applying chat template to eval dataset (num_proc=128):  74%|███████▍  | 744/1000 [00:08<00:02, 89.80 examples/s]Applying chat template to eval dataset (num_proc=128):  76%|███████▌  | 760/1000 [00:08<00:02, 102.40 examples/s]Applying chat template to eval dataset (num_proc=128):  78%|███████▊  | 776/1000 [00:08<00:02, 95.53 examples/s] Applying chat template to eval dataset (num_proc=128):  79%|███████▉  | 792/1000 [00:08<00:02, 96.02 examples/s]Applying chat template to eval dataset (num_proc=128):  81%|████████  | 808/1000 [00:09<00:02, 92.76 examples/s]Applying chat template to eval dataset (num_proc=128):  82%|████████▏ | 824/1000 [00:09<00:01, 92.14 examples/s]Applying chat template to eval dataset (num_proc=128):  84%|████████▍ | 839/1000 [00:09<00:02, 78.30 examples/s]Applying chat template to eval dataset (num_proc=128):  86%|████████▌ | 860/1000 [00:09<00:01, 90.27 examples/s]Applying chat template to eval dataset (num_proc=128):  87%|████████▋ | 874/1000 [00:09<00:01, 87.73 examples/s]Applying chat template to eval dataset (num_proc=128):  89%|████████▉ | 888/1000 [00:10<00:01, 80.85 examples/s]Applying chat template to eval dataset (num_proc=128):  90%|█████████ | 902/1000 [00:10<00:01, 82.04 examples/s]Applying chat template to eval dataset (num_proc=128):  92%|█████████▏| 916/1000 [00:10<00:01, 73.26 examples/s]Applying chat template to eval dataset (num_proc=128):  93%|█████████▎| 930/1000 [00:10<00:00, 76.33 examples/s]Applying chat template to eval dataset (num_proc=128):  94%|█████████▍| 944/1000 [00:10<00:00, 78.25 examples/s]Applying chat template to eval dataset (num_proc=128):  96%|█████████▌| 958/1000 [00:10<00:00, 79.94 examples/s]Applying chat template to eval dataset (num_proc=128):  97%|█████████▋| 972/1000 [00:11<00:00, 90.93 examples/s]Applying chat template to eval dataset (num_proc=128):  99%|█████████▊| 986/1000 [00:11<00:00, 89.72 examples/s]Applying chat template to eval dataset (num_proc=128): 100%|██████████| 1000/1000 [00:11<00:00, 89.42 examples/s]Applying chat template to eval dataset (num_proc=128): 100%|██████████| 1000/1000 [00:11<00:00, 87.13 examples/s]
+Tokenizing eval dataset (num_proc=128):   0%|          | 0/1000 [00:00<?, ? examples/s]Tokenizing eval dataset (num_proc=128):   1%|          | 8/1000 [00:00<01:16, 12.91 examples/s]Tokenizing eval dataset (num_proc=128):   2%|▏         | 24/1000 [00:00<00:27, 36.06 examples/s]Tokenizing eval dataset (num_proc=128):   4%|▍         | 40/1000 [00:00<00:17, 53.63 examples/s]Tokenizing eval dataset (num_proc=128):   6%|▌         | 56/1000 [00:01<00:14, 66.33 examples/s]Tokenizing eval dataset (num_proc=128):   7%|▋         | 72/1000 [00:01<00:12, 75.76 examples/s]Tokenizing eval dataset (num_proc=128):   9%|▉         | 88/1000 [00:01<00:11, 82.40 examples/s]Tokenizing eval dataset (num_proc=128):  10%|█         | 104/1000 [00:01<00:10, 87.36 examples/s]Tokenizing eval dataset (num_proc=128):  12%|█▏        | 120/1000 [00:01<00:09, 90.89 examples/s]Tokenizing eval dataset (num_proc=128):  13%|█▎        | 130/1000 [00:01<00:12, 71.98 examples/s]Tokenizing eval dataset (num_proc=128):  16%|█▌        | 160/1000 [00:02<00:08, 102.50 examples/s]Tokenizing eval dataset (num_proc=128):  18%|█▊        | 176/1000 [00:02<00:08, 100.28 examples/s]Tokenizing eval dataset (num_proc=128):  19%|█▉        | 192/1000 [00:02<00:08, 96.13 examples/s] Tokenizing eval dataset (num_proc=128):  21%|██        | 208/1000 [00:02<00:08, 96.85 examples/s]Tokenizing eval dataset (num_proc=128):  22%|██▏       | 224/1000 [00:02<00:07, 97.04 examples/s]Tokenizing eval dataset (num_proc=128):  24%|██▍       | 240/1000 [00:03<00:07, 97.23 examples/s]Tokenizing eval dataset (num_proc=128):  26%|██▌       | 256/1000 [00:03<00:07, 97.05 examples/s]Tokenizing eval dataset (num_proc=128):  27%|██▋       | 272/1000 [00:03<00:07, 97.00 examples/s]Tokenizing eval dataset (num_proc=128):  29%|██▉       | 288/1000 [00:03<00:07, 97.13 examples/s]Tokenizing eval dataset (num_proc=128):  30%|███       | 304/1000 [00:03<00:07, 97.43 examples/s]Tokenizing eval dataset (num_proc=128):  32%|███▏      | 320/1000 [00:03<00:06, 97.40 examples/s]Tokenizing eval dataset (num_proc=128):  34%|███▎      | 336/1000 [00:03<00:06, 97.82 examples/s]Tokenizing eval dataset (num_proc=128):  35%|███▌      | 352/1000 [00:04<00:06, 98.46 examples/s]Tokenizing eval dataset (num_proc=128):  37%|███▋      | 368/1000 [00:04<00:06, 95.19 examples/s]Tokenizing eval dataset (num_proc=128):  38%|███▊      | 384/1000 [00:04<00:07, 84.82 examples/s]Tokenizing eval dataset (num_proc=128):  41%|████      | 408/1000 [00:04<00:06, 96.26 examples/s]Tokenizing eval dataset (num_proc=128):  42%|████▏     | 424/1000 [00:04<00:06, 94.44 examples/s]Tokenizing eval dataset (num_proc=128):  44%|████▍     | 440/1000 [00:05<00:06, 81.31 examples/s]Tokenizing eval dataset (num_proc=128):  46%|████▌     | 456/1000 [00:05<00:06, 82.85 examples/s]Tokenizing eval dataset (num_proc=128):  47%|████▋     | 472/1000 [00:05<00:06, 84.97 examples/s]Tokenizing eval dataset (num_proc=128):  49%|████▉     | 488/1000 [00:05<00:05, 86.70 examples/s]Tokenizing eval dataset (num_proc=128):  50%|█████     | 504/1000 [00:05<00:05, 88.20 examples/s]Tokenizing eval dataset (num_proc=128):  52%|█████▏    | 520/1000 [00:06<00:05, 90.81 examples/s]Tokenizing eval dataset (num_proc=128):  54%|█████▎    | 536/1000 [00:06<00:04, 93.35 examples/s]Tokenizing eval dataset (num_proc=128):  55%|█████▌    | 552/1000 [00:06<00:04, 94.24 examples/s]Tokenizing eval dataset (num_proc=128):  57%|█████▋    | 568/1000 [00:06<00:04, 95.84 examples/s]Tokenizing eval dataset (num_proc=128):  58%|█████▊    | 584/1000 [00:06<00:04, 96.06 examples/s]Tokenizing eval dataset (num_proc=128):  60%|██████    | 600/1000 [00:06<00:04, 96.78 examples/s]Tokenizing eval dataset (num_proc=128):  62%|██████▏   | 616/1000 [00:07<00:03, 97.25 examples/s]Tokenizing eval dataset (num_proc=128):  63%|██████▎   | 632/1000 [00:07<00:03, 97.29 examples/s]Tokenizing eval dataset (num_proc=128):  65%|██████▍   | 648/1000 [00:07<00:03, 97.47 examples/s]Tokenizing eval dataset (num_proc=128):  66%|██████▋   | 664/1000 [00:07<00:03, 97.90 examples/s]Tokenizing eval dataset (num_proc=128):  68%|██████▊   | 680/1000 [00:07<00:03, 97.63 examples/s]Tokenizing eval dataset (num_proc=128):  70%|██████▉   | 696/1000 [00:07<00:03, 97.94 examples/s]Tokenizing eval dataset (num_proc=128):  71%|███████   | 712/1000 [00:08<00:02, 97.83 examples/s]Tokenizing eval dataset (num_proc=128):  73%|███████▎  | 728/1000 [00:08<00:03, 85.25 examples/s]Tokenizing eval dataset (num_proc=128):  75%|███████▌  | 752/1000 [00:08<00:02, 100.12 examples/s]Tokenizing eval dataset (num_proc=128):  77%|███████▋  | 768/1000 [00:08<00:02, 98.57 examples/s] Tokenizing eval dataset (num_proc=128):  78%|███████▊  | 784/1000 [00:08<00:02, 98.38 examples/s]Tokenizing eval dataset (num_proc=128):  80%|████████  | 800/1000 [00:08<00:02, 98.32 examples/s]Tokenizing eval dataset (num_proc=128):  82%|████████▏ | 816/1000 [00:09<00:01, 98.31 examples/s]Tokenizing eval dataset (num_proc=128):  83%|████████▎ | 832/1000 [00:09<00:01, 98.21 examples/s]Tokenizing eval dataset (num_proc=128):  85%|████████▍ | 846/1000 [00:09<00:01, 82.93 examples/s]Tokenizing eval dataset (num_proc=128):  87%|████████▋ | 867/1000 [00:09<00:01, 94.65 examples/s]Tokenizing eval dataset (num_proc=128):  88%|████████▊ | 881/1000 [00:09<00:01, 92.11 examples/s]Tokenizing eval dataset (num_proc=128):  90%|████████▉ | 895/1000 [00:10<00:01, 74.38 examples/s]Tokenizing eval dataset (num_proc=128):  92%|█████████▏| 916/1000 [00:10<00:00, 88.21 examples/s]Tokenizing eval dataset (num_proc=128):  93%|█████████▎| 930/1000 [00:10<00:00, 95.57 examples/s]Tokenizing eval dataset (num_proc=128):  94%|█████████▍| 944/1000 [00:10<00:00, 80.25 examples/s]Tokenizing eval dataset (num_proc=128):  96%|█████████▌| 958/1000 [00:10<00:00, 78.67 examples/s]Tokenizing eval dataset (num_proc=128):  97%|█████████▋| 972/1000 [00:11<00:00, 81.06 examples/s]Tokenizing eval dataset (num_proc=128):  99%|█████████▊| 986/1000 [00:11<00:00, 72.44 examples/s]Tokenizing eval dataset (num_proc=128): 100%|██████████| 1000/1000 [00:11<00:00, 77.86 examples/s]Tokenizing eval dataset (num_proc=128): 100%|██████████| 1000/1000 [00:11<00:00, 86.96 examples/s]
+2025-05-25 11:14:14,179 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-05-25 11:14:14,185 - INFO - Performing pre-training evaluation on the dev dataset...
+  0%|          | 0/250 [00:00<?, ?it/s]  1%|          | 2/250 [00:01<02:40,  1.54it/s]  1%|          | 3/250 [00:03<04:37,  1.12s/it]  2%|▏         | 4/250 [00:04<04:58,  1.21s/it]  2%|▏         | 5/250 [00:05<05:20,  1.31s/it]  2%|▏         | 6/250 [00:07<06:10,  1.52s/it]  3%|▎         | 7/250 [00:09<06:30,  1.61s/it]  3%|▎         | 8/250 [00:11<06:15,  1.55s/it]  4%|▎         | 9/250 [00:12<06:25,  1.60s/it]  4%|▍         | 10/250 [00:14<06:20,  1.59s/it]  4%|▍         | 11/250 [00:15<06:19,  1.59s/it]  5%|▍         | 12/250 [00:17<05:53,  1.49s/it]  5%|▌         | 13/250 [00:18<06:06,  1.55s/it]  6%|▌         | 14/250 [00:20<05:47,  1.47s/it]  6%|▌         | 15/250 [00:21<05:41,  1.45s/it]  6%|▋         | 16/250 [00:22<05:27,  1.40s/it]  7%|▋         | 17/250 [00:24<05:28,  1.41s/it]  7%|▋         | 18/250 [00:26<05:52,  1.52s/it]  8%|▊         | 19/250 [00:27<05:50,  1.52s/it]  8%|▊         | 20/250 [00:28<05:32,  1.45s/it]  8%|▊         | 21/250 [00:30<05:38,  1.48s/it]  9%|▉         | 22/250 [00:32<05:45,  1.52s/it]  9%|▉         | 23/250 [00:33<05:50,  1.54s/it] 10%|▉         | 24/250 [00:35<05:48,  1.54s/it] 10%|█         | 25/250 [00:36<05:38,  1.50s/it] 10%|█         | 26/250 [00:37<05:20,  1.43s/it] 11%|█         | 27/250 [00:39<05:16,  1.42s/it] 11%|█         | 28/250 [00:40<05:07,  1.39s/it] 12%|█▏        | 29/250 [00:42<05:34,  1.52s/it] 12%|█▏        | 30/250 [00:43<05:20,  1.46s/it] 12%|█▏        | 31/250 [00:45<05:16,  1.45s/it] 13%|█▎        | 32/250 [00:46<05:09,  1.42s/it] 13%|█▎        | 33/250 [00:48<05:17,  1.46s/it] 14%|█▎        | 34/250 [00:49<05:01,  1.40s/it] 14%|█▍        | 35/250 [00:50<05:10,  1.45s/it] 14%|█▍        | 36/250 [00:52<05:14,  1.47s/it] 15%|█▍        | 37/250 [00:53<05:21,  1.51s/it] 15%|█▌        | 38/250 [00:55<05:43,  1.62s/it] 16%|█▌        | 39/250 [00:57<05:30,  1.57s/it] 16%|█▌        | 40/250 [00:58<05:15,  1.50s/it] 16%|█▋        | 41/250 [01:00<05:17,  1.52s/it] 17%|█▋        | 42/250 [01:01<05:08,  1.48s/it] 17%|█▋        | 43/250 [01:03<05:04,  1.47s/it] 18%|█▊        | 44/250 [01:04<04:52,  1.42s/it] 18%|█▊        | 45/250 [01:05<04:38,  1.36s/it] 18%|█▊        | 46/250 [01:06<04:35,  1.35s/it] 19%|█▉        | 47/250 [01:08<04:36,  1.36s/it] 19%|█▉        | 48/250 [01:09<04:31,  1.35s/it] 20%|█▉        | 49/250 [01:11<04:51,  1.45s/it] 20%|██        | 50/250 [01:12<04:43,  1.42s/it] 20%|██        | 51/250 [01:14<05:34,  1.68s/it] 21%|██        | 52/250 [01:16<05:29,  1.66s/it] 21%|██        | 53/250 [01:18<05:19,  1.62s/it] 22%|██▏       | 54/250 [01:19<04:58,  1.52s/it] 22%|██▏       | 55/250 [01:21<05:13,  1.61s/it] 22%|██▏       | 56/250 [01:22<05:09,  1.60s/it] 23%|██▎       | 57/250 [01:24<05:09,  1.60s/it] 23%|██▎       | 58/250 [01:25<05:10,  1.62s/it] 24%|██▎       | 59/250 [01:27<05:01,  1.58s/it] 24%|██▍       | 60/250 [01:28<04:40,  1.48s/it] 24%|██▍       | 61/250 [01:30<04:41,  1.49s/it] 25%|██▍       | 62/250 [01:31<04:34,  1.46s/it] 25%|██▌       | 63/250 [01:33<04:40,  1.50s/it] 26%|██▌       | 64/250 [01:34<04:33,  1.47s/it] 26%|██▌       | 65/250 [01:36<04:28,  1.45s/it] 26%|██▋       | 66/250 [01:37<04:34,  1.49s/it] 27%|██▋       | 67/250 [01:39<04:45,  1.56s/it] 27%|██▋       | 68/250 [01:40<04:42,  1.55s/it] 28%|██▊       | 69/250 [01:42<04:40,  1.55s/it] 28%|██▊       | 70/250 [01:43<04:30,  1.50s/it] 28%|██▊       | 71/250 [01:45<04:44,  1.59s/it] 29%|██▉       | 72/250 [01:46<04:28,  1.51s/it] 29%|██▉       | 73/250 [01:48<04:42,  1.59s/it] 30%|██▉       | 74/250 [01:50<04:28,  1.52s/it] 30%|███       | 75/250 [01:52<04:55,  1.69s/it] 30%|███       | 76/250 [01:53<04:37,  1.59s/it] 31%|███       | 77/250 [01:55<04:45,  1.65s/it] 31%|███       | 78/250 [01:56<04:27,  1.56s/it] 32%|███▏      | 79/250 [01:58<04:20,  1.52s/it] 32%|███▏      | 80/250 [01:59<04:07,  1.46s/it] 32%|███▏      | 81/250 [02:01<04:23,  1.56s/it] 33%|███▎      | 82/250 [02:02<04:14,  1.51s/it] 33%|███▎      | 83/250 [02:04<04:22,  1.57s/it] 34%|███▎      | 84/250 [02:05<04:06,  1.49s/it] 34%|███▍      | 85/250 [02:07<04:06,  1.49s/it] 34%|███▍      | 86/250 [02:08<03:57,  1.45s/it] 35%|███▍      | 87/250 [02:09<03:56,  1.45s/it] 35%|███▌      | 88/250 [02:11<03:52,  1.44s/it] 36%|███▌      | 89/250 [02:12<03:53,  1.45s/it] 36%|███▌      | 90/250 [02:14<03:47,  1.42s/it] 36%|███▋      | 91/250 [02:15<03:50,  1.45s/it] 37%|███▋      | 92/250 [02:16<03:41,  1.40s/it] 37%|███▋      | 93/250 [02:18<03:55,  1.50s/it] 38%|███▊      | 94/250 [02:20<03:58,  1.53s/it] 38%|███▊      | 95/250 [02:22<04:08,  1.61s/it] 38%|███▊      | 96/250 [02:23<03:59,  1.55s/it] 39%|███▉      | 97/250 [02:24<03:55,  1.54s/it] 39%|███▉      | 98/250 [02:26<03:45,  1.48s/it] 40%|███▉      | 99/250 [02:27<03:38,  1.45s/it] 40%|████      | 100/250 [02:29<03:30,  1.40s/it] 40%|████      | 101/250 [02:30<03:37,  1.46s/it] 41%|████      | 102/250 [02:32<03:35,  1.45s/it] 41%|████      | 103/250 [02:33<03:30,  1.44s/it] 42%|████▏     | 104/250 [02:34<03:24,  1.40s/it] 42%|████▏     | 105/250 [02:36<03:28,  1.44s/it] 42%|████▏     | 106/250 [02:37<03:23,  1.41s/it] 43%|████▎     | 107/250 [02:39<03:29,  1.47s/it] 43%|████▎     | 108/250 [02:40<03:41,  1.56s/it] 44%|████▎     | 109/250 [02:42<03:34,  1.52s/it] 44%|████▍     | 110/250 [02:43<03:25,  1.47s/it] 44%|████▍     | 111/250 [02:45<03:22,  1.46s/it] 45%|████▍     | 112/250 [02:46<03:24,  1.48s/it] 45%|████▌     | 113/250 [02:48<03:26,  1.51s/it] 46%|████▌     | 114/250 [02:49<03:18,  1.46s/it] 46%|████▌     | 115/250 [02:51<03:22,  1.50s/it] 46%|████▋     | 116/250 [02:52<03:04,  1.38s/it] 47%|████▋     | 117/250 [02:54<03:30,  1.58s/it] 47%|████▋     | 118/250 [02:55<03:18,  1.51s/it] 48%|████▊     | 119/250 [02:57<03:18,  1.51s/it] 48%|████▊     | 120/250 [02:58<03:06,  1.44s/it] 48%|████▊     | 121/250 [03:00<03:07,  1.45s/it] 49%|████▉     | 122/250 [03:01<02:58,  1.39s/it] 49%|████▉     | 123/250 [03:02<02:57,  1.39s/it] 50%|████▉     | 124/250 [03:03<02:52,  1.37s/it] 50%|█████     | 125/250 [03:05<02:56,  1.41s/it] 50%|█████     | 126/250 [03:06<02:49,  1.37s/it] 51%|█████     | 127/250 [03:08<02:51,  1.40s/it] 51%|█████     | 128/250 [03:09<02:48,  1.38s/it] 52%|█████▏    | 129/250 [03:11<02:52,  1.42s/it] 52%|█████▏    | 130/250 [03:12<02:39,  1.33s/it] 52%|█████▏    | 131/250 [03:13<02:44,  1.39s/it] 53%|█████▎    | 132/250 [03:15<02:42,  1.38s/it] 53%|█████▎    | 133/250 [03:16<02:44,  1.41s/it] 54%|█████▎    | 134/250 [03:17<02:33,  1.32s/it] 54%|█████▍    | 135/250 [03:19<02:47,  1.46s/it] 54%|█████▍    | 136/250 [03:20<02:41,  1.41s/it] 55%|█████▍    | 137/250 [03:22<02:42,  1.44s/it] 55%|█████▌    | 138/250 [03:23<02:39,  1.42s/it] 56%|█████▌    | 139/250 [03:25<02:38,  1.42s/it] 56%|█████▌    | 140/250 [03:26<02:35,  1.41s/it] 56%|█████▋    | 141/250 [03:27<02:36,  1.44s/it] 57%|█████▋    | 142/250 [03:29<02:30,  1.40s/it] 57%|█████▋    | 143/250 [03:30<02:31,  1.42s/it] 58%|█████▊    | 144/250 [03:32<02:28,  1.40s/it] 58%|█████▊    | 145/250 [03:33<02:21,  1.35s/it] 58%|█████▊    | 146/250 [03:34<02:20,  1.36s/it] 59%|█████▉    | 147/250 [03:36<02:23,  1.39s/it] 59%|█████▉    | 148/250 [03:37<02:22,  1.39s/it] 60%|█████▉    | 149/250 [03:38<02:21,  1.40s/it] 60%|██████    | 150/250 [03:40<02:24,  1.45s/it] 60%|██████    | 151/250 [03:42<02:27,  1.49s/it] 61%|██████    | 152/250 [03:43<02:27,  1.51s/it] 61%|██████    | 153/250 [03:45<02:24,  1.49s/it] 62%|██████▏   | 154/250 [03:46<02:17,  1.43s/it] 62%|██████▏   | 155/250 [03:48<02:23,  1.51s/it] 62%|██████▏   | 156/250 [03:49<02:19,  1.49s/it] 63%|██████▎   | 157/250 [03:51<02:24,  1.55s/it] 63%|██████▎   | 158/250 [03:52<02:25,  1.58s/it] 64%|██████▎   | 159/250 [03:54<02:19,  1.53s/it] 64%|██████▍   | 160/250 [03:55<02:21,  1.57s/it] 64%|██████▍   | 161/250 [03:57<02:17,  1.55s/it] 65%|██████▍   | 162/250 [03:58<02:07,  1.45s/it] 65%|██████▌   | 163/250 [04:00<02:16,  1.57s/it] 66%|██████▌   | 164/250 [04:01<02:08,  1.49s/it] 66%|██████▌   | 165/250 [04:03<02:07,  1.50s/it] 66%|██████▋   | 166/250 [04:04<02:00,  1.44s/it] 67%|██████▋   | 167/250 [04:06<01:59,  1.44s/it] 67%|██████▋   | 168/250 [04:07<01:57,  1.43s/it] 68%|██████▊   | 169/250 [04:08<01:54,  1.42s/it] 68%|██████▊   | 170/250 [04:10<01:51,  1.39s/it] 68%|██████▊   | 171/250 [04:11<01:57,  1.48s/it] 69%|██████▉   | 172/250 [04:13<01:51,  1.43s/it] 69%|██████▉   | 173/250 [04:15<02:00,  1.56s/it] 70%|██████▉   | 174/250 [04:16<01:51,  1.47s/it] 70%|███████   | 175/250 [04:17<01:48,  1.45s/it] 70%|███████   | 176/250 [04:19<01:50,  1.49s/it] 71%|███████   | 177/250 [04:21<01:54,  1.56s/it] 71%|███████   | 178/250 [04:22<01:54,  1.59s/it] 72%|███████▏  | 179/250 [04:24<01:52,  1.59s/it] 72%|███████▏  | 180/250 [04:25<01:45,  1.51s/it] 72%|███████▏  | 181/250 [04:27<01:41,  1.47s/it] 73%|███████▎  | 182/250 [04:28<01:36,  1.43s/it] 73%|███████▎  | 183/250 [04:29<01:38,  1.48s/it] 74%|███████▎  | 184/250 [04:31<01:34,  1.43s/it] 74%|███████▍  | 185/250 [04:32<01:34,  1.45s/it] 74%|███████▍  | 186/250 [04:34<01:30,  1.41s/it] 75%|███████▍  | 187/250 [04:35<01:30,  1.44s/it] 75%|███████▌  | 188/250 [04:37<01:32,  1.49s/it] 76%|███████▌  | 189/250 [04:38<01:30,  1.48s/it] 76%|███████▌  | 190/250 [04:40<01:33,  1.56s/it] 76%|███████▋  | 191/250 [04:41<01:28,  1.51s/it] 77%|███████▋  | 192/250 [04:43<01:24,  1.45s/it] 77%|███████▋  | 193/250 [04:44<01:22,  1.44s/it] 78%|███████▊  | 194/250 [04:45<01:17,  1.39s/it] 78%|███████▊  | 195/250 [04:47<01:17,  1.40s/it] 78%|███████▊  | 196/250 [04:48<01:19,  1.48s/it] 79%|███████▉  | 197/250 [04:50<01:18,  1.48s/it] 79%|███████▉  | 198/250 [04:51<01:14,  1.43s/it] 80%|███████▉  | 199/250 [04:53<01:14,  1.47s/it] 80%|████████  | 200/250 [04:54<01:16,  1.53s/it] 80%|████████  | 201/250 [04:56<01:18,  1.60s/it] 81%|████████  | 202/250 [04:58<01:13,  1.54s/it] 81%|████████  | 203/250 [04:59<01:13,  1.56s/it] 82%|████████▏ | 204/250 [05:00<01:07,  1.47s/it] 82%|████████▏ | 205/250 [05:02<01:12,  1.61s/it] 82%|████████▏ | 206/250 [05:04<01:10,  1.61s/it] 83%|████████▎ | 207/250 [05:05<01:07,  1.58s/it] 83%|████████▎ | 208/250 [05:07<01:02,  1.48s/it] 84%|████████▎ | 209/250 [05:08<01:02,  1.52s/it] 84%|████████▍ | 210/250 [05:10<00:57,  1.44s/it] 84%|████████▍ | 211/250 [05:11<00:55,  1.43s/it] 85%|████████▍ | 212/250 [05:12<00:53,  1.42s/it] 85%|████████▌ | 213/250 [05:14<00:52,  1.43s/it] 86%|████████▌ | 214/250 [05:15<00:50,  1.39s/it] 86%|████████▌ | 215/250 [05:16<00:48,  1.38s/it] 86%|████████▋ | 216/250 [05:18<00:46,  1.37s/it] 87%|████████▋ | 217/250 [05:19<00:46,  1.40s/it] 87%|████████▋ | 218/250 [05:21<00:46,  1.44s/it] 88%|████████▊ | 219/250 [05:23<00:47,  1.53s/it] 88%|████████▊ | 220/250 [05:24<00:46,  1.54s/it] 88%|████████▊ | 221/250 [05:26<00:44,  1.52s/it] 89%|████████▉ | 222/250 [05:27<00:42,  1.52s/it] 89%|████████▉ | 223/250 [05:29<00:41,  1.52s/it] 90%|████████▉ | 224/250 [05:30<00:38,  1.46s/it] 90%|█████████ | 225/250 [05:32<00:37,  1.51s/it] 90%|█████████ | 226/250 [05:33<00:34,  1.45s/it] 91%|█████████ | 227/250 [05:35<00:39,  1.71s/it] 91%|█████████ | 228/250 [05:37<00:36,  1.66s/it] 92%|█████████▏| 229/250 [05:38<00:34,  1.65s/it] 92%|█████████▏| 230/250 [05:40<00:32,  1.63s/it] 92%|█████████▏| 231/250 [05:42<00:31,  1.65s/it] 93%|█████████▎| 232/250 [05:43<00:29,  1.64s/it] 93%|█████████▎| 233/250 [05:45<00:27,  1.60s/it] 94%|█████████▎| 234/250 [05:46<00:25,  1.58s/it] 94%|█████████▍| 235/250 [05:48<00:23,  1.54s/it] 94%|█████████▍| 236/250 [05:49<00:20,  1.49s/it] 95%|█████████▍| 237/250 [05:51<00:19,  1.48s/it] 95%|█████████▌| 238/250 [05:52<00:17,  1.46s/it] 96%|█████████▌| 239/250 [05:54<00:16,  1.47s/it] 96%|█████████▌| 240/250 [05:55<00:13,  1.37s/it] 96%|█████████▋| 241/250 [05:56<00:12,  1.40s/it] 97%|█████████▋| 242/250 [05:57<00:11,  1.39s/it] 97%|█████████▋| 243/250 [05:59<00:10,  1.48s/it] 98%|█████████▊| 244/250 [06:00<00:08,  1.43s/it] 98%|█████████▊| 245/250 [06:02<00:07,  1.45s/it] 98%|█████████▊| 246/250 [06:03<00:05,  1.41s/it] 99%|█████████▉| 247/250 [06:05<00:04,  1.43s/it] 99%|█████████▉| 248/250 [06:06<00:02,  1.48s/it]100%|█████████▉| 249/250 [06:08<00:01,  1.57s/it]100%|██████████| 250/250 [06:10<00:00,  1.57s/it]100%|██████████| 250/250 [06:10<00:00,  1.48s/it]
+2025-05-25 11:20:37,717 - INFO - Initial evaluation results: {'eval_loss': 0.6931473612785339, 'eval_model_preparation_time': 0.0067, 'eval_runtime': 383.4741, 'eval_samples_per_second': 2.608, 'eval_steps_per_second': 0.652, 'eval_rewards/chosen': 0.0, 'eval_rewards/rejected': 0.0, 'eval_rewards/accuracies': 0.0, 'eval_rewards/margins': 0.0, 'eval_logps/chosen': -102.63611602783203, 'eval_logps/rejected': -140.88031005859375, 'eval_logits/chosen': 0.17796273529529572, 'eval_logits/rejected': 0.15476343035697937}
+2025-05-25 11:20:37,717 - INFO - Starting training...
+==((====))==  Unsloth - 2x faster free finetuning | Num GPUs used = 1
+   \\   /|    Num examples = 52,487 | Num Epochs = 2 | Total steps = 3,280
+O^O/ \_/ \    Batch size per device = 16 | Gradient accumulation steps = 2
+\        /    Data Parallel GPUs = 1 | Total batch size (16 x 2 x 1) = 32
+ "-____-"     Trainable parameters = 167,772,160/8,198,033,408 (2.05% trained)
+  0%|          | 0/3280 [00:00<?, ?it/s]  0%|          | 1/3280 [00:21<19:12:18, 21.09s/it]  0%|          | 2/3280 [00:34<15:18:52, 16.82s/it]  0%|          | 3/3280 [00:49<14:19:09, 15.73s/it]  0%|          | 4/3280 [01:04<14:13:30, 15.63s/it]  0%|          | 5/3280 [01:19<13:51:18, 15.23s/it]  0%|          | 6/3280 [01:34<13:48:39, 15.19s/it]  0%|          | 7/3280 [01:50<14:00:49, 15.41s/it]  0%|          | 8/3280 [02:05<13:50:33, 15.23s/it]  0%|          | 9/3280 [02:20<13:51:20, 15.25s/it]  0%|          | 10/3280 [02:35<13:41:15, 15.07s/it]                                                      0%|          | 10/3280 [02:36<13:41:15, 15.07s/it]  0%|          | 11/3280 [02:51<14:05:14, 15.51s/it]  0%|          | 12/3280 [03:05<13:39:14, 15.04s/it]  0%|          | 13/3280 [03:23<14:25:06, 15.89s/it]  0%|          | 14/3280 [03:38<14:19:09, 15.78s/it]  0%|          | 15/3280 [03:54<14:14:53, 15.71s/it]  0%|          | 16/3280 [04:09<14:00:27, 15.45s/it]  1%|          | 17/3280 [04:24<13:55:23, 15.36s/it]  1%|          | 18/3280 [04:41<14:17:46, 15.78s/it]  1%|          | 19/3280 [04:56<14:15:12, 15.74s/it]  1%|          | 20/3280 [05:12<14:06:36, 15.58s/it]                                                      1%|          | 20/3280 [05:13<14:06:36, 15.58s/it]  1%|          | 21/3280 [05:26<13:51:20, 15.31s/it]  1%|          | 22/3280 [05:42<14:02:29, 15.52s/it]  1%|          | 23/3280 [05:58<13:59:32, 15.47s/it]  1%|          | 24/3280 [06:12<13:48:02, 15.26s/it]  1%|          | 25/3280 [06:27<13:42:51, 15.17s/it]  1%|          | 26/3280 [06:42<13:38:17, 15.09s/it]  1%|          | 27/3280 [06:58<13:47:38, 15.27s/it]  1%|          | 28/3280 [07:14<14:00:00, 15.50s/it]  1%|          | 29/3280 [07:29<13:46:10, 15.25s/it]  1%|          | 30/3280 [07:43<13:38:49, 15.12s/it]                                                      1%|          | 30/3280 [07:44<13:38:49, 15.12s/it]  1%|          | 31/3280 [07:58<13:29:15, 14.94s/it]  1%|          | 32/3280 [08:14<13:38:37, 15.12s/it]  1%|          | 33/3280 [08:29<13:38:18, 15.12s/it]  1%|          | 34/3280 [08:43<13:27:41, 14.93s/it]  1%|          | 35/3280 [08:58<13:20:50, 14.81s/it]  1%|          | 36/3280 [09:12<13:18:45, 14.77s/it]  1%|          | 37/3280 [09:27<13:18:03, 14.77s/it]  1%|          | 38/3280 [09:42<13:25:51, 14.91s/it]  1%|          | 39/3280 [09:58<13:37:43, 15.14s/it]  1%|          | 40/3280 [10:13<13:41:17, 15.21s/it]                                                      1%|          | 40/3280 [10:14<13:41:17, 15.21s/it]  1%|▏         | 41/3280 [10:28<13:32:24, 15.05s/it]  1%|▏         | 42/3280 [10:43<13:37:23, 15.15s/it]  1%|▏         | 43/3280 [10:59<13:39:27, 15.19s/it]  1%|▏         | 44/3280 [11:14<13:42:20, 15.25s/it]  1%|▏         | 45/3280 [11:30<13:46:38, 15.33s/it]  1%|▏         | 46/3280 [11:44<13:35:30, 15.13s/it]  1%|▏         | 47/3280 [11:59<13:26:30, 14.97s/it]  1%|▏         | 48/3280 [12:15<13:44:28, 15.31s/it]  1%|▏         | 49/3280 [12:30<13:34:25, 15.12s/it]  2%|▏         | 50/3280 [12:45<13:30:16, 15.05s/it]                                                      2%|▏         | 50/3280 [12:45<13:30:16, 15.05s/it]  2%|▏         | 51/3280 [12:59<13:20:25, 14.87s/it]  2%|▏         | 52/3280 [13:14<13:18:37, 14.84s/it]  2%|▏         | 53/3280 [13:29<13:23:28, 14.94s/it]  2%|▏         | 54/3280 [13:44<13:29:27, 15.06s/it]  2%|▏         | 55/3280 [13:59<13:27:03, 15.01s/it]  2%|▏         | 56/3280 [14:15<13:36:39, 15.20s/it]  2%|▏         | 57/3280 [14:30<13:33:41, 15.15s/it]  2%|▏         | 58/3280 [14:45<13:35:33, 15.19s/it]  2%|▏         | 59/3280 [15:00<13:32:01, 15.13s/it]  2%|▏         | 60/3280 [15:15<13:24:56, 15.00s/it]                                                      2%|▏         | 60/3280 [15:16<13:24:56, 15.00s/it]  2%|▏         | 61/3280 [15:30<13:19:47, 14.91s/it]  2%|▏         | 62/3280 [15:45<13:33:50, 15.17s/it]  2%|▏         | 63/3280 [16:01<13:35:47, 15.22s/it]  2%|▏         | 64/3280 [16:14<13:11:42, 14.77s/it]  2%|▏         | 65/3280 [16:30<13:19:05, 14.91s/it]  2%|▏         | 66/3280 [16:46<13:36:22, 15.24s/it]  2%|▏         | 67/3280 [17:01<13:30:49, 15.14s/it]  2%|▏         | 68/3280 [17:15<13:25:51, 15.05s/it]  2%|▏         | 69/3280 [17:31<13:40:21, 15.33s/it]  2%|▏         | 70/3280 [17:47<13:47:09, 15.46s/it]                                                      2%|▏         | 70/3280 [17:48<13:47:09, 15.46s/it]  2%|▏         | 71/3280 [18:03<13:48:35, 15.49s/it]  2%|▏         | 72/3280 [18:20<14:13:39, 15.97s/it]  2%|▏         | 73/3280 [18:34<13:47:37, 15.48s/it]  2%|▏         | 74/3280 [18:50<13:49:24, 15.52s/it]  2%|▏         | 75/3280 [19:06<13:54:10, 15.62s/it]  2%|▏         | 76/3280 [19:22<14:02:37, 15.78s/it]  2%|▏         | 77/3280 [19:36<13:31:52, 15.21s/it]  2%|▏         | 78/3280 [19:51<13:29:44, 15.17s/it]  2%|▏         | 79/3280 [20:06<13:24:22, 15.08s/it]  2%|▏         | 80/3280 [20:22<13:45:40, 15.48s/it]            

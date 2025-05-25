@@ -41,12 +41,7 @@ def parse_args():
     
     return parser.parse_args()
 
-def return_prompt_and_responses(samples, prompt_template) -> Dict[str, list[str]]:
-    prompts = [prompt_template.replace("INSERT_QUERY_HERE", question) for question in samples["prompt"]]
-    # It just prints ones because then it is cached
-    #logger.info(f"Prompt example: {prompts[1]}")
-    #logger.info(f"Chosen response: {samples['chosen'][1]}")
-    #logger.info(f"Rejected response: {samples['rejected'][1]}")
+def return_prompt_and_responses(samples, prompt_template, tokenizer) -> Dict[str, list[str]]:
 
     system_prompt, few_shot_part = prompt_template.split("# Examples of using ImagePatch\n")
 
@@ -85,7 +80,7 @@ def return_prompt_and_responses(samples, prompt_template) -> Dict[str, list[str]
             ]
         )
         out_texts.append(
-            messages
+            tokenizer.apply_chat_template(messages, tokenize=False)
         )
 
     return {"prompt": out_texts, "chosen": samples["chosen"], "rejected": samples["rejected"]}
@@ -145,25 +140,40 @@ def train_dpo(args):
     dev_dataset = datasets.load_from_disk(args.dev_dataset)
 
     # Drop model and rejected_model columns
+    cols = train_dataset.column_names
+    logger.info(f"Train dataset columns before dropping: {cols}")
 
-    train_dataset = train_dataset.remove_columns(["model", "rejected_model"])
 
-    dev_dataset = dev_dataset.remove_columns(["model", "rejected_model"])
     
-    train_dataset = train_dataset.map(  
-        lambda samples: return_prompt_and_responses(samples, prompt_template),
+    train_dataset = train_dataset.map(
+        lambda samples: return_prompt_and_responses(samples, prompt_template, tokenizer),
         batched=True,
+        remove_columns=cols,
     )
 
     dev_dataset = dev_dataset.map(
-        lambda samples: return_prompt_and_responses(samples, prompt_template),
+        lambda samples: return_prompt_and_responses(samples, prompt_template, tokenizer),
         batched=True,
+        remove_columns=dev_dataset.column_names,
     )
     
     #Print the first examples of train
 
-    logger.info(f"Train dataset example: {train_dataset[0]}")
-    logger.info(f"Dev dataset example: {dev_dataset[0]}")
+    # logger.info(f"Train dataset example: {train_dataset[0]}")
+    # logger.info(f"Dev dataset example: {dev_dataset[0]}")
+
+    # print the columns 
+    logger.info(f"Train dataset columns: {train_dataset.column_names}")
+    logger.info(f"Dev dataset columns: {dev_dataset.column_names}")
+
+    logger.info(f"Prompt: {train_dataset[0]['prompt']}")
+    logger.info(f"Chosen response: {train_dataset[0]['chosen']}")
+    logger.info(f"Rejected response: {train_dataset[0]['rejected']}")
+
+    #Fro dev 
+    logger.info(f"Prompt: {dev_dataset[0]['prompt']}")
+    logger.info(f"Chosen response: {dev_dataset[0]['chosen']}")
+    logger.info(f"Rejected response: {dev_dataset[0]['rejected']}")
 
     PatchDPOTrainer()
     
