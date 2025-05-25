@@ -63,62 +63,24 @@ This strict ordering allows the construction of a preference system: for any two
 
 **Table 3.2: Distribution of the 12600 visual question instances according to the classifications of the 6 generated codes per instance.**
 
-<style>
-  .pattern-table th, .pattern-table td {
-    padding: 6px 10px;
-    text-align: center;
-    border: 1px solid #ccc;
-  }
-  .pattern-table th {
-    background-color: #f5f5f5;
-  }
-  .row-correct {
-    background-color: #d4edda;
-  }
-  .row-error {
-    background-color: #fff3cd;
-  }
-  .row-zero {
-    background-color: #f8d7da;
-  }
-  .bold {
-    font-weight: bold;
-  }
-</style>
-
-<table class="pattern-table">
-  <thead>
-    <tr>
-      <th>Pattern</th>
-      <th>Compilation Er</th>
-      <th>Run-time Er</th>
-      <th>Sem./Inf. Er</th>
-      <th>Correct</th>
-      <th># instances</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr class="row-correct"><td>A</td><td></td><td></td><td></td><td>✓</td><td>443</td></tr>
-    <tr class="row-correct"><td>B</td><td>✓</td><td></td><td></td><td>✓</td><td>409</td></tr>
-    <tr class="row-correct"><td>C</td><td></td><td>✓</td><td></td><td>✓</td><td>447</td></tr>
-    <tr class="row-correct"><td>D</td><td></td><td></td><td>✓</td><td>✓</td><td>375</td></tr>
-    <tr class="row-correct"><td>E</td><td>✓</td><td>✓</td><td></td><td>✓</td><td>2209</td></tr>
-    <tr class="row-correct"><td>F</td><td>✓</td><td></td><td>✓</td><td>✓</td><td>1820</td></tr>
-    <tr class="row-correct"><td>G</td><td></td><td>✓</td><td>✓</td><td>✓</td><td>1973</td></tr>
-    <tr class="row-correct"><td>H</td><td>✓</td><td>✓</td><td>✓</td><td>✓</td><td>1198</td></tr>
-
-    <tr class="row-zero"><td>I</td><td>✓</td><td></td><td></td><td></td><td>0</td></tr>
-    <tr class="row-error"><td>J</td><td></td><td>✓</td><td></td><td></td><td>0</td></tr>
-    <tr class="row-error"><td>K</td><td></td><td></td><td>✓</td><td></td><td>1</td></tr>
-    <tr class="row-error"><td>L</td><td>✓</td><td>✓</td><td></td><td></td><td>793</td></tr>
-    <tr class="row-error"><td>M</td><td>✓</td><td></td><td>✓</td><td></td><td>1008</td></tr>
-    <tr class="row-error"><td>N</td><td></td><td>✓</td><td>✓</td><td></td><td>1078</td></tr>
-    <tr class="row-error"><td>O</td><td>✓</td><td>✓</td><td>✓</td><td></td><td>846</td></tr>
-
-    <tr><td colspan="5" class="bold">Total</td><td class="bold">12600</td></tr>
-  </tbody>
-</table>
-
+| Pattern | Compilation Er | Run-time Er | Sem./Inf. Er | Correct | # instances |
+|---------|----------------|-------------|--------------|---------|-------------|
+| A       |                |             |              | ✓       | 443         |
+| B       | ✓              |             |              | ✓       | 409         |
+| C       |                | ✓           |              | ✓       | 447         |
+| D       |                |             | ✓            | ✓       | 375         |
+| E       | ✓              | ✓           |              | ✓       | 2209        |
+| F       | ✓              |             | ✓            | ✓       | 1820        |
+| G       |                | ✓           | ✓            | ✓       | 1973        |
+| H       | ✓              | ✓           | ✓            | ✓       | 1198        |
+| I       | ✓              |             |              |         | 0           |
+| J       |                | ✓           |              |         | 0           |
+| K       |                |             | ✓            |         | 1           |
+| L       | ✓              | ✓           |              |         | 793         |
+| M       | ✓              |             | ✓            |         | 1008        |
+| N       |                | ✓           | ✓            |         | 1078        |
+| O       | ✓              | ✓           | ✓            |         | 846         |
+| **Total** |                |             |              |         | **12600** |
 *Interpretation of Table 3.2:*
 * Ticks (✓) indicate at least one of the six models produced code in that category for an instance.
 * E.g., category B: at least one model generated correct code, and at least one produced code with a compilation error.
