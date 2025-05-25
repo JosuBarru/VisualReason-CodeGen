@@ -1,12 +1,12 @@
 <h1 style="text-align: center;">Visual Reasoning with Code Generation</h1>
 
-This project focuses on enhancing visual reasoning capabilities of Large Language Models (LLMs) by training them to generate code. A key component of this work is the creation of a comprehensive dataset derived from the GQA dataset. This README details the process of constructing this dataset.
+This project focuses on enhancing visual reasoning capabilities of Large Language Models (LLMs) by training them to generate code. A key component of this work is the creation of a preference and SFT dataset derived from the GQA dataset. 
 
 ---
 
 ## 📖 Overview
 
-The primary goal was to collect a substantial amount of data to train LLMs for visual reasoning tasks that involve generating code. Since existing approaches like viperGPT use few-shot learning via prompt engineering, they don't allow for direct adaptation of model weights to improve code reasoning. Therefore, this project aimed to create a dataset that encapsulates diverse forms of code-based reasoning grounded on visual questions.
+The primary goal was to collect a substantial amount of data to train LLMs for visual reasoning tasks. Since existing approaches like viperGPT use few-shot learning via prompt engineering, they don't allow for direct adaptation of model weights to improve code reasoning. Therefore, this project aimed to create a dataset that encapsulates diverse forms of code-based reasoning grounded on visual questions.
 
 ---
 
@@ -81,6 +81,8 @@ This strict ordering allows the construction of a preference system: for any two
 | N       |                | ✓           | ✓            |         | 1078        |
 | O       | ✓              | ✓           | ✓            |         | 846         |
 | **Total** |                |             |              |         | **12600** |
+
+
 *Interpretation of Table 3.2:*
 * Ticks (✓) indicate at least one of the six models produced code in that category for an instance.
 * E.g., category B: at least one model generated correct code, and at least one produced code with a compilation error.
@@ -128,7 +130,7 @@ To build the preference dataset, only the 8,431 instances falling into patterns 
 
 ---
 
-## ✨ 3.3 SFT Dataset (Supervised Fine-Tuning)
+## 3.3 SFT Dataset (Supervised Fine-Tuning)
 
 * Built using the 8,874 instances from patterns A–H (those with at least one correct code).
 * For each instance, a random correct code is selected.

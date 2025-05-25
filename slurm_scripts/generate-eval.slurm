@@ -24,7 +24,7 @@ export PARTITION='val'
 export BATCHSIZE=8
 export TEMP=0
 export NUMINST=
-export CHECKPOINT='dpo_trained_models/03-15_21-54-00/best-checkpoint'
+export CHECKPOINT='sft_trained_models/llama3.1/checkpoint-900'
 
 srun python src/main_project_slurm.py
 

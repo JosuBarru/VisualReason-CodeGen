@@ -380,7 +380,7 @@ def main():
         dataset_text_field = "text",
         max_seq_length=max_seq_length,
         packing = False,
-        callbacks=callbacks,
+        #callbacks=callbacks,
         #compute_metrics=compute_metrics,
     )
 
