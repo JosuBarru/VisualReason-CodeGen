@@ -1,27 +1,28 @@
-SELECTED CONFIG FILES: gqa/general_config,config_codex_llama3-8b,gqa/save_codex,gqa/val
+SELECTED CONFIG FILES: gqa/general_config,config_codex_llama3.1-8b,gqa/save_codex,gqa/val
 LOADING MODEL: DISABLED
-INFO 04-29 21:19:44 __init__.py:183] Automatically detected platform cuda.
-INFO 04-29 21:19:59 config.py:526] This model supports multiple tasks: {'embed', 'classify', 'reward', 'score', 'generate'}. Defaulting to 'generate'.
-INFO 04-29 21:19:59 llm_engine.py:232] Initializing a V0 LLM engine (v0.7.1) with config: model='meta-llama/Meta-Llama-3-8B-Instruct', speculative_config=None, tokenizer='meta-llama/Meta-Llama-3-8B-Instruct', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, override_neuron_config=None, tokenizer_revision=None, trust_remote_code=False, dtype=torch.bfloat16, max_seq_len=8192, download_dir=None, load_format=LoadFormat.AUTO, tensor_parallel_size=1, pipeline_parallel_size=1, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, kv_cache_dtype=auto,  device_config=cuda, decoding_config=DecodingConfig(guided_decoding_backend='xgrammar'), observability_config=ObservabilityConfig(otlp_traces_endpoint=None, collect_model_forward_time=False, collect_model_execute_time=False), seed=0, served_model_name=meta-llama/Meta-Llama-3-8B-Instruct, num_scheduler_steps=1, multi_step_stream_outputs=True, enable_prefix_caching=False, chunked_prefill_enabled=False, use_async_output_proc=True, disable_mm_preprocessor_cache=False, mm_processor_kwargs=None, pooler_config=None, compilation_config={"splitting_ops":[],"compile_sizes":[],"cudagraph_capture_sizes":[256,248,240,232,224,216,208,200,192,184,176,168,160,152,144,136,128,120,112,104,96,88,80,72,64,56,48,40,32,24,16,8,4,2,1],"max_capture_size":256}, use_cached_outputs=False, 
-INFO 04-29 21:20:01 cuda.py:235] Using Flash Attention backend.
-INFO 04-29 21:20:03 model_runner.py:1111] Starting to load model meta-llama/Meta-Llama-3-8B-Instruct...
-INFO 04-29 21:20:03 weight_utils.py:251] Using model weights format ['*.safetensors']
-INFO 04-29 21:20:06 model_runner.py:1116] Loading model weights took 14.9634 GB
-INFO 04-29 21:20:06 punica_selector.py:16] Using PunicaWrapperGPU.
-INFO 04-29 21:20:08 worker.py:266] Memory profiling takes 2.16 seconds
-INFO 04-29 21:20:08 worker.py:266] the current vLLM instance can use total_gpu_memory (79.33GiB) x gpu_memory_utilization (0.95) = 75.36GiB
-INFO 04-29 21:20:08 worker.py:266] model weights take 14.96GiB; non_torch_memory takes 0.37GiB; PyTorch activation peak memory takes 1.24GiB; the rest of the memory reserved for KV Cache is 58.79GiB.
-INFO 04-29 21:20:08 executor_base.py:108] # CUDA blocks: 30102, # CPU blocks: 2048
-INFO 04-29 21:20:08 executor_base.py:113] Maximum concurrency for 8192 tokens per request: 58.79x
-INFO 04-29 21:20:09 model_runner.py:1435] Capturing cudagraphs for decoding. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI. If out-of-memory error occurs during cudagraph capture, consider decreasing `gpu_memory_utilization` or switching to eager mode. You can also reduce the `max_num_seqs` as needed to decrease memory usage.
-INFO 04-29 21:20:28 model_runner.py:1563] Graph capturing finished in 19 secs, took 2.16 GiB
-INFO 04-29 21:20:28 llm_engine.py:429] init engine (profile, create kv cache, warmup model) took 22.71 seconds
-modelo: <class 'vision_models.llama3Q'> , proceso:  llama3Q
-{'llama3Q': <function make_fn.<locals>._function at 0x7f969c09ac00>}
+INFO 05-26 14:32:03 __init__.py:183] Automatically detected platform cuda.
+INFO 05-26 14:32:17 config.py:526] This model supports multiple tasks: {'reward', 'generate', 'classify', 'embed', 'score'}. Defaulting to 'generate'.
+WARNING 05-26 14:32:17 arg_utils.py:1129] The model has a long context length (49888). This may cause OOM errors during the initial memory profiling phase, or result in low performance due to small KV cache space. Consider setting --max-model-len to a smaller value.
+INFO 05-26 14:32:17 llm_engine.py:232] Initializing a V0 LLM engine (v0.7.1) with config: model='meta-llama/Meta-Llama-3.1-8B-Instruct', speculative_config=None, tokenizer='meta-llama/Meta-Llama-3.1-8B-Instruct', skip_tokenizer_init=False, tokenizer_mode=auto, revision=None, override_neuron_config=None, tokenizer_revision=None, trust_remote_code=False, dtype=torch.bfloat16, max_seq_len=49888, download_dir=None, load_format=LoadFormat.AUTO, tensor_parallel_size=1, pipeline_parallel_size=1, disable_custom_all_reduce=False, quantization=None, enforce_eager=False, kv_cache_dtype=auto,  device_config=cuda, decoding_config=DecodingConfig(guided_decoding_backend='xgrammar'), observability_config=ObservabilityConfig(otlp_traces_endpoint=None, collect_model_forward_time=False, collect_model_execute_time=False), seed=0, served_model_name=meta-llama/Meta-Llama-3.1-8B-Instruct, num_scheduler_steps=1, multi_step_stream_outputs=True, enable_prefix_caching=False, chunked_prefill_enabled=False, use_async_output_proc=True, disable_mm_preprocessor_cache=False, mm_processor_kwargs=None, pooler_config=None, compilation_config={"splitting_ops":[],"compile_sizes":[],"cudagraph_capture_sizes":[256,248,240,232,224,216,208,200,192,184,176,168,160,152,144,136,128,120,112,104,96,88,80,72,64,56,48,40,32,24,16,8,4,2,1],"max_capture_size":256}, use_cached_outputs=False, 
+INFO 05-26 14:32:19 cuda.py:235] Using Flash Attention backend.
+INFO 05-26 14:32:21 model_runner.py:1111] Starting to load model meta-llama/Meta-Llama-3.1-8B-Instruct...
+INFO 05-26 14:32:22 weight_utils.py:251] Using model weights format ['*.safetensors']
+INFO 05-26 14:32:24 model_runner.py:1116] Loading model weights took 14.9927 GB
+INFO 05-26 14:32:24 punica_selector.py:16] Using PunicaWrapperGPU.
+INFO 05-26 14:32:30 worker.py:266] Memory profiling takes 4.97 seconds
+INFO 05-26 14:32:30 worker.py:266] the current vLLM instance can use total_gpu_memory (79.33GiB) x gpu_memory_utilization (0.95) = 75.36GiB
+INFO 05-26 14:32:30 worker.py:266] model weights take 14.99GiB; non_torch_memory takes 0.37GiB; PyTorch activation peak memory takes 5.15GiB; the rest of the memory reserved for KV Cache is 54.85GiB.
+INFO 05-26 14:32:30 executor_base.py:108] # CUDA blocks: 28084, # CPU blocks: 2048
+INFO 05-26 14:32:30 executor_base.py:113] Maximum concurrency for 49888 tokens per request: 9.01x
+INFO 05-26 14:32:31 model_runner.py:1435] Capturing cudagraphs for decoding. This may lead to unexpected consequences if the model is not static. To run the model in eager mode, set 'enforce_eager=True' or use '--enforce-eager' in the CLI. If out-of-memory error occurs during cudagraph capture, consider decreasing `gpu_memory_utilization` or switching to eager mode. You can also reduce the `max_num_seqs` as needed to decrease memory usage.
+INFO 05-26 14:32:49 model_runner.py:1563] Graph capturing finished in 18 secs, took 2.16 GiB
+INFO 05-26 14:32:49 llm_engine.py:429] init engine (profile, create kv cache, warmup model) took 24.77 seconds
+modelo: <class 'vision_models.llama31Q'> , proceso:  llama31Q
+{'llama31Q': <function make_fn.<locals>._function at 0x7f890615b6a0>}
 Final accuracy: 0.158
 SELECTED CONFIG FILES: gqa/general_config,gqa/val
 LOADING MODEL: ENABLED
-INFO 04-29 21:30:53 __init__.py:183] Automatically detected platform cuda.
+INFO 05-26 14:49:56 __init__.py:183] Automatically detected platform cuda.
 modelo: <class 'vision_models.BLIPModel'> , proceso:  blip
 VISION BACKBONE USE GRADIENT CHECKPOINTING:  False
 LANGUAGE BACKBONE USE GRADIENT CHECKPOINTING:  False
@@ -36,5 +37,5 @@ EARLY FUSION ON, USING MHA-B
 modelo: <class 'vision_models.GLIPModel'> , proceso:  glip
 modelo: <class 'vision_models.MaskRCNNModel'> , proceso:  maskrcnn
 modelo: <class 'vision_models.XVLMModel'> , proceso:  xvlm
-{'blip': <function make_fn.<locals>._function at 0x7feeca1afb00>, 'glip': <function make_fn.<locals>._function at 0x7fe9ad44e200>, 'maskrcnn': <function make_fn.<locals>._function at 0x7fe9ad44e8e0>, 'xvlm': <function make_fn.<locals>._function at 0x7fed50a2f880>}
-Final accuracy: 0.557
+{'blip': <function make_fn.<locals>._function at 0x7f245e297b00>, 'glip': <function make_fn.<locals>._function at 0x7f2015826200>, 'maskrcnn': <function make_fn.<locals>._function at 0x7f20158268e0>, 'xvlm': <function make_fn.<locals>._function at 0x7f2016a77880>}
+Final accuracy: 0.492

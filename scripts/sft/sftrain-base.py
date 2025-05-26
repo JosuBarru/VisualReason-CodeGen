@@ -25,6 +25,9 @@ from torch.utils.data import DataLoader
 
 from trl import SFTConfig, SFTTrainer, DataCollatorForCompletionOnlyLM
 
+from torch.nn import functional as F
+from transformers import TrainerCallback
+
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
@@ -45,7 +48,7 @@ class CustomDataCollatorForCompletionOnlyLM(DataCollatorForCompletionOnlyLM):
         labels = batch["input_ids"].clone()
 
         # Define the assistant marker we will search for.
-        marker = "<|start_header_id|>assistant<|end_header_id|>"
+        marker = "def execute_command(image)->str:"
         for i in range(len(labels)):
             # Decode the padded input_ids to a string.
             decoded_text = self.tokenizer.decode(labels[i], skip_special_tokens=False)
@@ -58,12 +61,93 @@ class CustomDataCollatorForCompletionOnlyLM(DataCollatorForCompletionOnlyLM):
                 )
             else:
                 # Fallback: if marker isn't found in the decoded text, mask the entire sequence.
-                token_boundary = len(labels[i])
+                # Raise an error
+                raise ValueError(
+                    f"Marker '{marker}' not found in the decoded text: {decoded_text}"
+                )
             # For the current sequence, all tokens before token_boundary are set to -100.
             labels[i, :token_boundary] = -100
 
         batch["labels"] = labels
         return batch
+
+def compute_sequence_logprob(logits, input_ids, prompt_len):
+    logps = F.log_softmax(logits, dim=-1)
+    resp = [
+        logps[0, i-1, input_ids[0, i]]
+        for i in range(prompt_len, input_ids.size(1))
+    ]
+    return torch.stack(resp).sum()
+
+def evaluate_dpo_loss(
+    model,
+    dataset,
+    tokenizer,
+    device: str = "cuda",
+    beta: float = 1.0,
+    batch_size: int = 8,
+):
+    model.eval()
+    loader = torch.utils.data.DataLoader(dataset, batch_size=batch_size, shuffle=False)
+    total_loss, total_correct, total = 0.0, 0, 0
+
+    for batch in loader:
+        for prompt, chosen, rejected in zip(batch["prompt"], batch["chosen"], batch["rejected"]):
+            # tokenize without special tokens
+            p_ids = tokenizer(prompt, add_special_tokens=False).input_ids
+            c_ids = tokenizer(chosen, add_special_tokens=False).input_ids
+            r_ids = tokenizer(rejected, add_special_tokens=False).input_ids
+
+            inpt_c = torch.tensor([p_ids + c_ids], device=device)
+            inpt_r = torch.tensor([p_ids + r_ids], device=device)
+
+            with torch.no_grad():
+                logits_c = model(inpt_c).logits
+                logits_r = model(inpt_r).logits
+
+            logp_c = compute_sequence_logprob(logits_c, inpt_c, prompt_len=len(p_ids))
+            logp_r = compute_sequence_logprob(logits_r, inpt_r, prompt_len=len(p_ids))
+
+            diff = logp_c - logp_r
+            total_loss += -torch.log(torch.sigmoid(beta * diff)).item()
+            total_correct += (diff > 0).float().item()
+            total += 1
+
+    return {
+        "dpo_loss": total_loss / total,
+        "dpo_acc": total_correct / total,
+    }
+
+class DPOEvalCallback(TrainerCallback):
+    def __init__(self, dpo_dataset, tokenizer, device, beta=1.0, batch_size=8):
+        super().__init__()
+        self.dpo_dataset = dpo_dataset
+        self.tokenizer = tokenizer
+        self.device = device
+        self.beta = beta
+        self.batch_size = batch_size
+
+    def on_evaluate(self, args, state, control, model=None, metrics=None, **kwargs):
+        # compute DPO metrics
+        dpo_metrics = evaluate_dpo_loss(
+            model,
+            self.dpo_dataset,
+            self.tokenizer,
+            device=self.device,
+            beta=self.beta,
+            batch_size=self.batch_size,
+        )
+        # inject into the logged metrics
+        metrics["eval_dpo_loss"] = dpo_metrics["dpo_loss"]
+        metrics["eval_dpo_acc"]  = dpo_metrics["dpo_acc"]
+
+        # optionally log to wandb as well
+        import wandb
+        wandb.log({
+            "eval/dpo_loss": dpo_metrics["dpo_loss"],
+            "eval/dpo_acc": dpo_metrics["dpo_acc"],
+            "step": state.global_step
+        })
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Train a model using supervised fine-tuning on a QA dataset")
@@ -110,53 +194,15 @@ def parse_args():
 
 
 def prepare_sft_prompt_and_answer(batch: Dict[str, list], prompt_template: str, tokenizer) -> Dict[str, list]:
-    """
-    Recibe un *batch* (dict con listas) y devuelve
-    {"text": [...]} con tantos elementos como ejemplos haya.
-    Está pensada para usarse con  `dataset.map(batched=True)`.
-    """
-    system_prompt, few_shot_part = prompt_template.split("# Examples of using ImagePatch\n")
+    prompts = [prompt_template.replace("INSERT_QUERY_HERE", question) for question in batch["prompt"]]
 
-    system_prompt_full = (
-        "You are an AI that uses a special ImagePatch class to answer questions about images.\n"
-        "Here is the class definition:\n\n"
-        f"{system_prompt}\n\n"
-        "Please use this class to answer queries about images.\n"
-        "When writing the final solution, you typically define a function:\n\n"
-        "def execute_command(image)->str:\n"
-        "    # put your logic here\n"
-        "Your job is to produce the correct code in that function "
-        "so that it answers the question or does the operation asked by the user.\n"
-    )
+    # Add the batch["answer"] to the prompts
+    answers = batch["answer"]
+    texts = [f"{prompt}\n{answer}" for prompt, answer in zip(prompts, answers)]
+    
+    logger.info(f"Example text: {texts[0]}")
+    return texts
 
-    few_shot_examples = []
-    for example in few_shot_part.split("\n\n")[:-1]:
-        lines = example.splitlines()
-        few_shot_examples.append(
-            {"role": "user", "content": "\n".join(lines[:2])}
-        )
-        few_shot_examples.append(
-            {"role": "assistant", "content": "\n".join(lines[2:])}
-        )
-
-    out_texts = []
-    for prompt, answer in zip(batch["prompt"], batch["output"]):
-        messages = (
-            [{"role": "system", "content": system_prompt_full}]
-            + few_shot_examples
-            + [
-                {
-                    "role": "user",
-                    "content": f"{prompt}\ndef execute_command(image)->str:",
-                },
-                {"role": "assistant", "content": answer},
-            ]
-        )
-        out_texts.append(
-            tokenizer.apply_chat_template(messages, tokenize=False)
-        )
-
-    return {"text": out_texts}
 
 def count_tokens(row: Dict, tokenizer):
     """
@@ -164,45 +210,6 @@ def count_tokens(row: Dict, tokenizer):
     """
     return len(tokenizer(row["text"], add_special_tokens=True, return_attention_mask=False)["input_ids"])
     
-
-def evaluate_dpo_loss(model, dpo_dataset, tokenizer, device="cuda"):
-    """
-    If you want to see how SFT influences the DPO objective on a DPO dev set,
-    you can compute the DPO loss similarly to the DPO script.
-    """
-    logger.info("Evaluating DPO loss on DPO-style dev dataset...")
-
-    model.eval()
-    total_loss = 0.0
-    total_samples = 0
-
-    # We'll iterate the DPO dev dataset in small batches
-    for sample in dpo_dataset:
-        prompt = sample["prompt"]
-        chosen = sample["chosen"]
-        rejected = sample["rejected"]
-
-        # Tokenize
-        prompt_chosen = tokenizer(prompt + chosen, return_tensors="pt", truncation=True).to(device)
-        prompt_rejected = tokenizer(prompt + rejected, return_tensors="pt", truncation=True).to(device)
-
-        with torch.no_grad():
-            # Get log probabilities
-            chosen_outputs = model(**prompt_chosen)
-            rejected_outputs = model(**prompt_rejected)
-
-            # For a causal LM, the loss is the mean cross-entropy.
-            # Precisely replicating the DPO loss might require more advanced logic,
-            # but here's a simplified approach to measure log-likelihood difference.
-            chosen_loss = chosen_outputs.loss
-            rejected_loss = rejected_outputs.loss
-
-        # Approx DPO "loss" measurement. You can adapt to replicate your exact formula.
-        total_loss += (chosen_loss.item() - rejected_loss.item())
-        total_samples += 1
-
-    dpo_loss = total_loss / max(1, total_samples)
-    return {"dpo_loss": dpo_loss}
 
 
 def main():
@@ -213,7 +220,7 @@ def main():
     logger.info(f"Results will be saved to: {output_dir}")
 
     logger.info("Loading model and tokenizer...")
-    max_seq_length = 3500
+    max_seq_length = 7000
     dtype = torch.bfloat16 if is_bfloat16_supported() else torch.float16
 
     # Load base model
@@ -221,24 +228,10 @@ def main():
         model_name=args.model_name,
         max_seq_length=max_seq_length,
         dtype=dtype,
-        load_in_4bit=False,
-        use_exact_model=True
+        load_in_4bit=False
     )
 
-    hugg_tokenizer = AutoTokenizer.from_pretrained(args.model_name)
 
-    hugg_tokenizer.chat_template = hugg_tokenizer.chat_template.replace(
-                "message['content'] | trim",
-                "message['content']"
-            ).replace(
-                "messages[0]['content'] | trim",
-                "messages[0]['content']"
-            )
-
-    tokenizer.chat_template = hugg_tokenizer.chat_template
-
-
-    # Convert to a PEFT LoRA model (similar to your DPO code).
     model = FastLanguageModel.get_peft_model(
         model,
         r=64,
@@ -251,6 +244,8 @@ def main():
         use_rslora=False,
         loftq_config=None,
     )
+    model.print_trainable_parameters()
+
 
     # Read the prompt template once
     with open("prompts/benchmarks/gqa.prompt", "r") as f:
@@ -259,6 +254,21 @@ def main():
     logger.info("Loading SFT train and dev datasets...")
     train_sft = datasets.load_from_disk(args.train_dataset_sft)
     dev_sft = datasets.load_from_disk(args.dev_dataset_sft)
+
+    dpo_dev = None
+    callbacks = []
+    if args.dev_dataset_dpo is not None:
+        logger.info("Loading DPO dev dataset for additional eval…")
+        dpo_dev = datasets.load_from_disk(args.dev_dataset_dpo)
+        callbacks.append(
+            DPOEvalCallback(
+                dpo_dataset=dpo_dev,
+                tokenizer=tokenizer,
+                device=args.device,
+                beta=1.0,               # or whatever β you prefer
+                batch_size=args.batch_size
+            )
+        )
 
 
     # Create the text column for SFT
@@ -278,17 +288,10 @@ def main():
 
 
     #Check the collator
-    response_template = "<|start_header_id|>assistant<|end_header_id|>"
+    response_template = "def execute_command(image)->str:\n"
     collator = CustomDataCollatorForCompletionOnlyLM(response_template, tokenizer=tokenizer)
 
-    # Define a simple metric function to track cross-entropy loss and/or perplexity
-    def compute_metrics(eval_pred):
-        """
-        eval_pred is (predictions, labels), but for causal LM training, 
-        huggingface sets it to None. We'll rely on the Trainer’s built-in perplexity.
-        If you want your own custom metrics, parse them here.
-        """
-        return {}
+    
 
     # Standard huggingface TrainingArguments
     training_args = SFTConfig(
@@ -329,6 +332,7 @@ def main():
         dataset_text_field = "text",
         max_seq_length=max_seq_length,
         packing = False,
+        #callbacks=callbacks,
         #compute_metrics=compute_metrics,
     )
 

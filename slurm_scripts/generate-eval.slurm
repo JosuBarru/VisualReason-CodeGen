@@ -19,12 +19,12 @@ source /sorgin1/users/jbarrutia006/venvs/viper_tximista/bin/activate
 export LOAD_MODELS=0
 export DATASET='gqa'
 export EXEC_MODE='codex'
-export CODEX_MODEL='llama3Q'
+export CODEX_MODEL='llama31Q'
 export PARTITION='val'
 export BATCHSIZE=8
 export TEMP=0
 export NUMINST=
-export CHECKPOINT='sft_trained_models/llama3.1/checkpoint-900'
+export CHECKPOINT='sft_trained_models/llama3.1-lr-1e-4__05-25_12-44-42/checkpoint-650'
 
 srun python src/main_project_slurm.py
 
