@@ -1422,7 +1422,7 @@ class codellama_base(CodexModel):
             assert os.path.exists(model_name), \
                 f'Model path {model_name} does not exist. If you use the model ID it will be downloaded automatically'
         else:
-            assert model_name in ['codellama/CodeLlama-7b']
+            assert model_name in ['codellama/CodeLlama-7b-hf']
         
         self.llm = LLM(model_name, enable_lora=True, max_lora_rank=64)
         self.sampling_params = SamplingParams(max_tokens=512,temperature=config.codex.temperature,top_p=0.9)

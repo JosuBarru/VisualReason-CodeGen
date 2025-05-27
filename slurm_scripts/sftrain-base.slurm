@@ -23,8 +23,8 @@ srun python scripts/sft/sftrain-base.py \
     --train_dataset_sft "/sorgin1/users/jbarrutia006/viper/syntData/SFTDatasets/sft_dataset_train.arrow" \
     --dev_dataset_sft "/sorgin1/users/jbarrutia006/viper/syntData/SFTDatasets/sft_dataset_dev.arrow" \
     --output_dir "./sft_trained_models" \
-    --batch_size 2 \
-    --gradient_accumulation 16 \
+    --batch_size 32 \
+    --gradient_accumulation 1 \
     --learning_rate 1e-4 \
     --weight_decay 0 \
     --epochs 4 \

@@ -8,3 +8,63 @@ wandb: ⭐️ View project at https://wandb.ai/jbarrutia006-upv-ehu/viperSFT
 wandb: 🚀 View run at https://wandb.ai/jbarrutia006-upv-ehu/viperSFT/runs/03gvlgwm
 2025-05-26 21:15:57,682 - INFO - Results will be saved to: ./sft_trained_models/05-26_21-15-57
 2025-05-26 21:15:57,683 - INFO - Loading model and tokenizer...
+Downloading shards:   0%|          | 0/4 [00:00<?, ?it/s]Downloading shards:  25%|██▌       | 1/4 [09:19<27:58, 559.51s/it]Downloading shards:  50%|█████     | 2/4 [17:07<16:51, 505.65s/it]Downloading shards:  75%|███████▌  | 3/4 [25:01<08:11, 491.19s/it]Downloading shards: 100%|██████████| 4/4 [25:30<00:00, 308.87s/it]Downloading shards: 100%|██████████| 4/4 [25:30<00:00, 382.71s/it]
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:43<02:09, 43.32s/it]Loading checkpoint shards:  50%|█████     | 2/4 [01:26<01:27, 43.52s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [02:09<00:43, 43.26s/it]Loading checkpoint shards: 100%|██████████| 4/4 [02:20<00:00, 30.37s/it]Loading checkpoint shards: 100%|██████████| 4/4 [02:20<00:00, 35.14s/it]
+Unsloth 2025.3.14 patched 32 layers with 32 QKV layers, 32 O layers and 32 MLP layers.
+2025-05-26 21:44:04,348 - INFO - Loading SFT train and dev datasets...
+Formateando train SFT:   0%|          | 0/7824 [00:00<?, ? examples/s]Formateando train SFT:   0%|          | 0/7824 [00:00<?, ? examples/s]
+Traceback (most recent call last):
+  File "/sorgin1/users/jbarrutia006/viper/scripts/sft/sftrain-base.py", line 375, in <module>
+    main()
+  File "/sorgin1/users/jbarrutia006/viper/scripts/sft/sftrain-base.py", line 275, in main
+    train_sft = train_sft.map(
+                ^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/arrow_dataset.py", line 602, in wrapper
+    out: Union["Dataset", "DatasetDict"] = func(self, *args, **kwargs)
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/arrow_dataset.py", line 567, in wrapper
+    out: Union["Dataset", "DatasetDict"] = func(self, *args, **kwargs)
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/arrow_dataset.py", line 3167, in map
+    for rank, done, content in Dataset._map_single(**dataset_kwargs):
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/arrow_dataset.py", line 3558, in _map_single
+    batch = apply_function_on_filtered_inputs(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/arrow_dataset.py", line 3427, in apply_function_on_filtered_inputs
+    processed_inputs = function(*fn_args, *additional_args, **fn_kwargs)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/viper/scripts/sft/sftrain-base.py", line 200, in prepare_sft_prompt_and_answer
+    answers = batch["answer"]
+              ~~~~~^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/formatting/formatting.py", line 277, in __getitem__
+    value = self.data[key]
+            ~~~~~~~~~^^^^^
+KeyError: 'answer'
+Traceback (most recent call last):
+  File "/sorgin1/users/jbarrutia006/viper/scripts/sft/sftrain-base.py", line 375, in <module>
+    main()
+  File "/sorgin1/users/jbarrutia006/viper/scripts/sft/sftrain-base.py", line 275, in main
+    train_sft = train_sft.map(
+                ^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/arrow_dataset.py", line 602, in wrapper
+    out: Union["Dataset", "DatasetDict"] = func(self, *args, **kwargs)
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/arrow_dataset.py", line 567, in wrapper
+    out: Union["Dataset", "DatasetDict"] = func(self, *args, **kwargs)
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/arrow_dataset.py", line 3167, in map
+    for rank, done, content in Dataset._map_single(**dataset_kwargs):
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/arrow_dataset.py", line 3558, in _map_single
+    batch = apply_function_on_filtered_inputs(
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/arrow_dataset.py", line 3427, in apply_function_on_filtered_inputs
+    processed_inputs = function(*fn_args, *additional_args, **fn_kwargs)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/viper/scripts/sft/sftrain-base.py", line 200, in prepare_sft_prompt_and_answer
+    answers = batch["answer"]
+              ~~~~~^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/datasets/formatting/formatting.py", line 277, in __getitem__
+    value = self.data[key]
+            ~~~~~~~~~^^^^^
+KeyError: 'answer'
+srun: error: localhost: task 0: Exited with exit code 1

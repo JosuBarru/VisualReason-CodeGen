@@ -196,12 +196,12 @@ def parse_args():
 def prepare_sft_prompt_and_answer(batch: Dict[str, list], prompt_template: str, tokenizer) -> Dict[str, list]:
     prompts = [prompt_template.replace("INSERT_QUERY_HERE", question) for question in batch["prompt"]]
 
-    # Add the batch["answer"] to the prompts
-    answers = batch["answer"]
-    texts = [f"{prompt}\n{answer}" for prompt, answer in zip(prompts, answers)]
+    # Add the batch["output"] to the prompts
+    answers = batch["output"]
+    texts = [f"{prompt}{answer}" for prompt, answer in zip(prompts, answers)]
     
     logger.info(f"Example text: {texts[0]}")
-    return texts
+    return {"text": texts} 
 
 
 def count_tokens(row: Dict, tokenizer):
