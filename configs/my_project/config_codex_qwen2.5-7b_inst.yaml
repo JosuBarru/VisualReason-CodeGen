@@ -1,0 +1,8 @@
+codex:
+    model: Qwen257b
+    model_name: 'Qwen/Qwen2.5-Math-7B-Instruct' 
+    prompt: ./prompts/benchmarks/gqa.prompt
+    adapter: 
+
+load_models:
+    Qwen257b: True

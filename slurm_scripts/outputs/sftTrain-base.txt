@@ -64,3 +64,17 @@ Unsloth: Will smartly offload gradients to save VRAM!
 {'loss': 3.7848, 'grad_norm': 0.146484375, 'learning_rate': 1.4581751015526035e-05, 'epoch': 3.1}
 {'loss': 3.8346, 'grad_norm': 0.11767578125, 'learning_rate': 1.2159558420011907e-05, 'epoch': 3.18}
 {'loss': 3.6773, 'grad_norm': 0.11572265625, 'learning_rate': 9.929318906602175e-06, 'epoch': 3.27}
+{'eval_loss': 2.386760950088501, 'eval_model_preparation_time': 0.0085, 'eval_runtime': 737.821, 'eval_samples_per_second': 1.355, 'eval_steps_per_second': 0.339, 'epoch': 3.27}
+{'loss': 3.4918, 'grad_norm': 0.11328125, 'learning_rate': 7.902345803856265e-06, 'epoch': 3.35}
+{'loss': 3.727, 'grad_norm': 0.1259765625, 'learning_rate': 6.088921331488568e-06, 'epoch': 3.43}
+{'eval_loss': 2.3853089809417725, 'eval_model_preparation_time': 0.0085, 'eval_runtime': 741.626, 'eval_samples_per_second': 1.348, 'eval_steps_per_second': 0.337, 'epoch': 3.47}
+{'loss': 3.5524, 'grad_norm': 0.0908203125, 'learning_rate': 4.498244441786675e-06, 'epoch': 3.51}
+{'loss': 3.6127, 'grad_norm': 0.1083984375, 'learning_rate': 3.138384156116614e-06, 'epoch': 3.59}
+{'loss': 3.4833, 'grad_norm': 0.09716796875, 'learning_rate': 2.0162386332251648e-06, 'epoch': 3.67}
+{'eval_loss': 2.3841235637664795, 'eval_model_preparation_time': 0.0085, 'eval_runtime': 738.2272, 'eval_samples_per_second': 1.355, 'eval_steps_per_second': 0.339, 'epoch': 3.67}
+{'loss': 3.7144, 'grad_norm': 0.07958984375, 'learning_rate': 1.1375001769727999e-06, 'epoch': 3.76}
+{'loss': 3.5583, 'grad_norm': 0.1337890625, 'learning_rate': 5.06626361002921e-07, 'epoch': 3.84}
+{'eval_loss': 2.384242057800293, 'eval_model_preparation_time': 0.0085, 'eval_runtime': 741.8258, 'eval_samples_per_second': 1.348, 'eval_steps_per_second': 0.337, 'epoch': 3.88}
+{'loss': 3.596, 'grad_norm': 0.08203125, 'learning_rate': 1.2681741682282754e-07, 'epoch': 3.92}
+{'loss': 3.668, 'grad_norm': 0.1591796875, 'learning_rate': 0.0, 'epoch': 4.0}
+{'train_runtime': 35270.0706, 'train_samples_per_second': 0.887, 'train_steps_per_second': 0.028, 'train_loss': 3.6971278054373604, 'epoch': 4.0}
