@@ -6,7 +6,7 @@
 #SBATCH --ntasks-per-node=1
 #SBATCH --mem=18GB
 #SBATCH --gres=gpu:1
-#SBATCH --time=2-00:00
+#SBATCH --time=2:30:00
 # Define a single output file for both stdout and stderr
 # %x will be replaced by the job name (cod_eval_gqa3)
 # %j will be replaced by the job ID (if you prefer that for uniqueness)

@@ -1,0 +1,203 @@
+wandb: Using wandb-core as the SDK backend.  Please refer to https://wandb.me/wandb-core for more information.
+wandb: Currently logged in as: jbarrutia006 (jbarrutia006-upv-ehu) to https://api.wandb.ai. Use `wandb login --relogin` to force relogin
+wandb: Tracking run with wandb version 0.19.8
+wandb: Run data is saved locally in /sorgin1/users/jbarrutia006/viper/wandb/run-20250529_223712-nj744cx4
+wandb: Run `wandb offline` to turn off syncing.
+wandb: Syncing run qwen
+wandb: ⭐️ View project at https://wandb.ai/jbarrutia006-upv-ehu/viperSFT
+wandb: 🚀 View run at https://wandb.ai/jbarrutia006-upv-ehu/viperSFT/runs/nj744cx4
+2025-05-29 22:37:13,121 - INFO - Results will be saved to: ./sft_trained_models/05-29_22-37-13
+2025-05-29 22:37:13,121 - INFO - Loading model and tokenizer...
+Unsloth: unsloth/Qwen2.5-Math-7B-Instruct can only handle sequence lengths of at most 4096.
+But with kaiokendev's RoPE scaling of 1.709, it can be magically be extended to 7000!
+Downloading shards:   0%|          | 0/4 [00:00<?, ?it/s]Downloading shards:  50%|█████     | 2/4 [01:02<01:02, 31.22s/it]Downloading shards:  75%|███████▌  | 3/4 [06:19<02:30, 150.12s/it]Downloading shards: 100%|██████████| 4/4 [12:18<00:00, 228.32s/it]Downloading shards: 100%|██████████| 4/4 [12:18<00:00, 184.68s/it]
+Loading checkpoint shards:   0%|          | 0/4 [00:00<?, ?it/s]Loading checkpoint shards:  25%|██▌       | 1/4 [00:34<01:43, 34.57s/it]Loading checkpoint shards:  50%|█████     | 2/4 [01:08<01:08, 34.15s/it]Loading checkpoint shards:  75%|███████▌  | 3/4 [01:42<00:34, 34.00s/it]Loading checkpoint shards: 100%|██████████| 4/4 [02:13<00:00, 32.87s/it]Loading checkpoint shards: 100%|██████████| 4/4 [02:13<00:00, 33.35s/it]
+Unsloth 2025.3.14 patched 28 layers with 28 QKV layers, 28 O layers and 28 MLP layers.
+2025-05-29 22:52:06,337 - INFO - Loading SFT train and dev datasets...
+Formateando train SFT:   0%|          | 0/7824 [00:00<?, ? examples/s]Formateando train SFT:  13%|█▎        | 1000/7824 [00:00<00:01, 5261.93 examples/s]Formateando train SFT:  26%|██▌       | 2000/7824 [00:00<00:00, 6261.13 examples/s]Formateando train SFT:  38%|███▊      | 3000/7824 [00:00<00:00, 6696.51 examples/s]Formateando train SFT:  51%|█████     | 4000/7824 [00:00<00:00, 6931.91 examples/s]Formateando train SFT:  64%|██████▍   | 5000/7824 [00:00<00:00, 7073.46 examples/s]Formateando train SFT:  77%|███████▋  | 6000/7824 [00:00<00:00, 7176.72 examples/s]Formateando train SFT:  89%|████████▉ | 7000/7824 [00:01<00:00, 7195.34 examples/s]Formateando train SFT: 100%|██████████| 7824/7824 [00:01<00:00, 6948.72 examples/s]Formateando train SFT: 100%|██████████| 7824/7824 [00:01<00:00, 5817.37 examples/s]
+Formateando dev SFT:   0%|          | 0/1000 [00:00<?, ? examples/s]Formateando dev SFT: 100%|██████████| 1000/1000 [00:00<00:00, 7179.30 examples/s]Formateando dev SFT: 100%|██████████| 1000/1000 [00:00<00:00, 3532.69 examples/s]
+/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/transformers/training_args.py:1575: FutureWarning: `evaluation_strategy` is deprecated and will be removed in version 4.46 of 🤗 Transformers. Use `eval_strategy` instead
+  warnings.warn(
+/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/transformers/training_args.py:1575: FutureWarning: `evaluation_strategy` is deprecated and will be removed in version 4.46 of 🤗 Transformers. Use `eval_strategy` instead
+  warnings.warn(
+Unsloth: Tokenizing ["text"] (num_proc=64):   0%|          | 0/7824 [00:00<?, ? examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):   2%|▏         | 123/7824 [00:01<01:51, 68.79 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):   3%|▎         | 246/7824 [00:02<00:56, 135.05 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):   5%|▍         | 369/7824 [00:02<00:33, 224.74 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):   6%|▋         | 492/7824 [00:02<00:22, 326.34 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):   8%|▊         | 615/7824 [00:02<00:16, 426.56 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):   9%|▉         | 738/7824 [00:02<00:15, 458.29 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  13%|█▎        | 984/7824 [00:02<00:09, 708.46 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  14%|█▍        | 1107/7824 [00:03<00:10, 640.81 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  16%|█▌        | 1230/7824 [00:03<00:09, 724.44 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  17%|█▋        | 1353/7824 [00:03<00:08, 785.96 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  20%|██        | 1599/7824 [00:03<00:05, 1087.22 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  24%|██▎       | 1845/7824 [00:03<00:05, 1097.44 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  27%|██▋       | 2090/7824 [00:03<00:06, 923.53 examples/s] Unsloth: Tokenizing ["text"] (num_proc=64):  28%|██▊       | 2212/7824 [00:04<00:06, 803.26 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  30%|██▉       | 2334/7824 [00:04<00:06, 856.77 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  31%|███▏      | 2456/7824 [00:04<00:05, 899.88 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  33%|███▎      | 2578/7824 [00:04<00:06, 768.86 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  36%|███▌      | 2822/7824 [00:04<00:04, 1059.40 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  39%|███▉      | 3066/7824 [00:05<00:04, 1012.27 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  42%|████▏     | 3310/7824 [00:05<00:04, 1031.04 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  44%|████▍     | 3432/7824 [00:05<00:04, 969.87 examples/s] Unsloth: Tokenizing ["text"] (num_proc=64):  45%|████▌     | 3554/7824 [00:05<00:04, 990.57 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  49%|████▊     | 3798/7824 [00:05<00:03, 1238.62 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  52%|█████▏    | 4042/7824 [00:05<00:03, 992.76 examples/s] Unsloth: Tokenizing ["text"] (num_proc=64):  53%|█████▎    | 4164/7824 [00:06<00:03, 1012.99 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  58%|█████▊    | 4530/7824 [00:06<00:02, 1211.05 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  61%|██████    | 4774/7824 [00:06<00:02, 1409.89 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  64%|██████▍   | 5018/7824 [00:06<00:02, 1086.42 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  67%|██████▋   | 5262/7824 [00:07<00:02, 1090.54 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  70%|███████   | 5506/7824 [00:07<00:02, 1083.63 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  72%|███████▏  | 5628/7824 [00:07<00:02, 1081.72 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  75%|███████▌  | 5872/7824 [00:07<00:01, 1249.11 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  78%|███████▊  | 6116/7824 [00:07<00:01, 1201.92 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  81%|████████▏ | 6360/7824 [00:07<00:01, 1116.29 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  84%|████████▍ | 6604/7824 [00:08<00:00, 1225.64 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  88%|████████▊ | 6848/7824 [00:08<00:00, 1092.37 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  91%|█████████ | 7092/7824 [00:08<00:00, 1057.02 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  92%|█████████▏| 7214/7824 [00:08<00:00, 1068.78 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  95%|█████████▌| 7458/7824 [00:08<00:00, 1166.50 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  97%|█████████▋| 7580/7824 [00:09<00:00, 1115.67 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64): 100%|██████████| 7824/7824 [00:09<00:00, 1248.62 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64): 100%|██████████| 7824/7824 [00:09<00:00, 838.08 examples/s] 
+Unsloth: Tokenizing ["text"] (num_proc=64):   0%|          | 0/1000 [00:00<?, ? examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):   2%|▏         | 16/1000 [00:00<00:52, 18.69 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):   3%|▎         | 32/1000 [00:00<00:26, 36.78 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):   5%|▍         | 48/1000 [00:01<00:17, 53.28 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):   6%|▋         | 64/1000 [00:01<00:13, 67.77 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):   8%|▊         | 80/1000 [00:01<00:11, 81.77 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  10%|▉         | 96/1000 [00:01<00:09, 91.36 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  11%|█         | 112/1000 [00:01<00:09, 97.47 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  13%|█▎        | 128/1000 [00:01<00:08, 103.59 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  14%|█▍        | 144/1000 [00:01<00:07, 107.65 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  16%|█▌        | 160/1000 [00:02<00:07, 108.65 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  18%|█▊        | 176/1000 [00:02<00:07, 110.42 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  19%|█▉        | 192/1000 [00:02<00:07, 110.61 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  21%|██        | 208/1000 [00:02<00:07, 110.46 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  22%|██▏       | 224/1000 [00:02<00:06, 111.97 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  24%|██▍       | 240/1000 [00:02<00:06, 115.98 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  26%|██▌       | 256/1000 [00:02<00:06, 118.23 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  27%|██▋       | 272/1000 [00:03<00:06, 117.00 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  29%|██▉       | 288/1000 [00:03<00:06, 116.30 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  30%|███       | 304/1000 [00:03<00:05, 117.43 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  32%|███▏      | 320/1000 [00:03<00:05, 116.75 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  34%|███▎      | 336/1000 [00:03<00:05, 116.68 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  35%|███▌      | 352/1000 [00:03<00:05, 117.25 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  37%|███▋      | 368/1000 [00:04<00:07, 89.90 examples/s] Unsloth: Tokenizing ["text"] (num_proc=64):  40%|████      | 400/1000 [00:04<00:04, 125.18 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  42%|████▏     | 416/1000 [00:04<00:04, 125.36 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  43%|████▎     | 432/1000 [00:04<00:04, 129.20 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  45%|████▍     | 448/1000 [00:04<00:04, 129.97 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  46%|████▋     | 464/1000 [00:04<00:05, 104.74 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  48%|████▊     | 480/1000 [00:04<00:04, 105.04 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  50%|████▉     | 496/1000 [00:05<00:04, 108.55 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  51%|█████     | 512/1000 [00:05<00:04, 109.55 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  54%|█████▍    | 544/1000 [00:05<00:03, 141.94 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  56%|█████▌    | 560/1000 [00:05<00:03, 134.13 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  58%|█████▊    | 576/1000 [00:05<00:03, 127.58 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  59%|█████▉    | 592/1000 [00:05<00:03, 123.55 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  61%|██████    | 608/1000 [00:05<00:03, 122.04 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  62%|██████▏   | 624/1000 [00:06<00:03, 121.67 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  64%|██████▍   | 640/1000 [00:06<00:03, 112.15 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  66%|██████▌   | 655/1000 [00:06<00:03, 112.55 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  67%|██████▋   | 670/1000 [00:06<00:02, 111.03 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  68%|██████▊   | 685/1000 [00:06<00:02, 110.10 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  70%|███████   | 700/1000 [00:06<00:02, 109.59 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  72%|███████▏  | 715/1000 [00:06<00:02, 108.96 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  73%|███████▎  | 730/1000 [00:07<00:02, 107.68 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  74%|███████▍  | 745/1000 [00:07<00:02, 108.03 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  76%|███████▌  | 760/1000 [00:07<00:02, 107.67 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  78%|███████▊  | 775/1000 [00:07<00:02, 108.04 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  79%|███████▉  | 790/1000 [00:07<00:01, 108.00 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  80%|████████  | 805/1000 [00:07<00:01, 108.17 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  82%|████████▏ | 820/1000 [00:07<00:01, 110.79 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  84%|████████▎ | 835/1000 [00:07<00:01, 107.37 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  85%|████████▌ | 850/1000 [00:08<00:01, 102.23 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  86%|████████▋ | 865/1000 [00:08<00:01, 104.28 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  88%|████████▊ | 880/1000 [00:08<00:01, 106.90 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  90%|████████▉ | 895/1000 [00:08<00:00, 107.65 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  91%|█████████ | 910/1000 [00:08<00:00, 107.58 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  92%|█████████▎| 925/1000 [00:08<00:00, 103.71 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  94%|█████████▍| 940/1000 [00:08<00:00, 112.71 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  97%|█████████▋| 970/1000 [00:09<00:00, 122.47 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64):  98%|█████████▊| 985/1000 [00:09<00:00, 122.20 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64): 100%|██████████| 1000/1000 [00:09<00:00, 112.32 examples/s]Unsloth: Tokenizing ["text"] (num_proc=64): 100%|██████████| 1000/1000 [00:09<00:00, 104.46 examples/s]
+2025-05-29 22:52:32,736 - WARNING - Detected kernel version 4.18.0, which is below the recommended minimum of 5.5.0; this can cause the process to hang. It is recommended to upgrade the kernel to the minimum version or higher.
+2025-05-29 22:52:32,742 - INFO - Performing an initial evaluation on the dev_sft dataset...
+Traceback (most recent call last):
+  File "/sorgin1/users/jbarrutia006/viper/scripts/sft/sftrain.py", line 423, in <module>
+    main()
+  File "/sorgin1/users/jbarrutia006/viper/scripts/sft/sftrain.py", line 388, in main
+    eval_results = trainer.evaluate()
+                   ^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/transformers/trainer.py", line 4073, in evaluate
+    output = eval_loop(
+             ^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/transformers/trainer.py", line 4267, in evaluation_loop
+    losses, logits, labels = self.prediction_step(model, inputs, prediction_loss_only, ignore_keys=ignore_keys)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/transformers/trainer.py", line 4483, in prediction_step
+    loss, outputs = self.compute_loss(model, inputs, return_outputs=True)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/viper/unsloth_compiled_cache/UnslothSFTTrainer.py", line 747, in compute_loss
+    outputs = super().compute_loss(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/unsloth/models/_utils.py", line 1025, in _unsloth_pre_compute_loss
+    outputs = self._old_compute_loss(model, inputs, *args, **kwargs)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/transformers/trainer.py", line 3731, in compute_loss
+    outputs = model(**inputs)
+              ^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/accelerate/utils/operations.py", line 819, in forward
+    return model_forward(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/accelerate/utils/operations.py", line 807, in __call__
+    return convert_to_fp32(self.model_forward(*args, **kwargs))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/torch/amp/autocast_mode.py", line 44, in decorate_autocast
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/torch/_compile.py", line 32, in inner
+    return disable_fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/torch/_dynamo/eval_frame.py", line 632, in _fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/unsloth/models/llama.py", line 1208, in PeftModelForCausalLM_fast_forward
+    return self.base_model(
+           ^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/peft/tuners/tuners_utils.py", line 197, in forward
+    return self.model.forward(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/unsloth/models/llama.py", line 1044, in _CausalLM_fast_forward
+    outputs = self.model(
+              ^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/unsloth/models/llama.py", line 870, in LlamaModel_fast_forward
+    layer_outputs = decoder_layer(
+                    ^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/unsloth/models/llama.py", line 537, in LlamaDecoderLayer_fast_forward
+    hidden_states, self_attn_weights, present_key_value = self.self_attn(
+                                                          ^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/unsloth/models/llama.py", line 459, in LlamaAttention_fast_forward
+    A = scaled_dot_product_attention(Q, K, V, attn_mask = attention_mask, is_causal = False, enable_gqa = n_groups != 1)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 4.12 GiB. GPU 0 has a total capacity of 23.50 GiB of which 3.40 GiB is free. Including non-PyTorch memory, this process has 20.07 GiB memory in use. Of the allocated memory 19.72 GiB is allocated by PyTorch, and 64.91 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+Traceback (most recent call last):
+  File "/sorgin1/users/jbarrutia006/viper/scripts/sft/sftrain.py", line 423, in <module>
+    main()
+  File "/sorgin1/users/jbarrutia006/viper/scripts/sft/sftrain.py", line 388, in main
+    eval_results = trainer.evaluate()
+                   ^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/transformers/trainer.py", line 4073, in evaluate
+    output = eval_loop(
+             ^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/transformers/trainer.py", line 4267, in evaluation_loop
+    losses, logits, labels = self.prediction_step(model, inputs, prediction_loss_only, ignore_keys=ignore_keys)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/transformers/trainer.py", line 4483, in prediction_step
+    loss, outputs = self.compute_loss(model, inputs, return_outputs=True)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/viper/unsloth_compiled_cache/UnslothSFTTrainer.py", line 747, in compute_loss
+    outputs = super().compute_loss(
+              ^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/unsloth/models/_utils.py", line 1025, in _unsloth_pre_compute_loss
+    outputs = self._old_compute_loss(model, inputs, *args, **kwargs)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/transformers/trainer.py", line 3731, in compute_loss
+    outputs = model(**inputs)
+              ^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/accelerate/utils/operations.py", line 819, in forward
+    return model_forward(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/accelerate/utils/operations.py", line 807, in __call__
+    return convert_to_fp32(self.model_forward(*args, **kwargs))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/torch/amp/autocast_mode.py", line 44, in decorate_autocast
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/torch/_compile.py", line 32, in inner
+    return disable_fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/torch/_dynamo/eval_frame.py", line 632, in _fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/unsloth/models/llama.py", line 1208, in PeftModelForCausalLM_fast_forward
+    return self.base_model(
+           ^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/peft/tuners/tuners_utils.py", line 197, in forward
+    return self.model.forward(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/unsloth/models/llama.py", line 1044, in _CausalLM_fast_forward
+    outputs = self.model(
+              ^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/unsloth/models/llama.py", line 870, in LlamaModel_fast_forward
+    layer_outputs = decoder_layer(
+                    ^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/unsloth/models/llama.py", line 537, in LlamaDecoderLayer_fast_forward
+    hidden_states, self_attn_weights, present_key_value = self.self_attn(
+                                                          ^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/unsloth/models/llama.py", line 459, in LlamaAttention_fast_forward
+    A = scaled_dot_product_attention(Q, K, V, attn_mask = attention_mask, is_causal = False, enable_gqa = n_groups != 1)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+torch.OutOfMemoryError: CUDA out of memory. Tried to allocate 4.12 GiB. GPU 0 has a total capacity of 23.50 GiB of which 3.40 GiB is free. Including non-PyTorch memory, this process has 20.07 GiB memory in use. Of the allocated memory 19.72 GiB is allocated by PyTorch, and 64.91 MiB is reserved by PyTorch but unallocated. If reserved but unallocated memory is large try setting PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True to avoid fragmentation.  See documentation for Memory Management  (https://pytorch.org/docs/stable/notes/cuda.html#environment-variables)
+srun: error: localhost: task 0: Exited with exit code 1

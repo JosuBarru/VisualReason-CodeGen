@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH --job-name=sftTrain
+#SBATCH --job-name=sftTrain-qwen
 #SBATCH -D .
 #SBATCH --cpus-per-task=1
 #SBATCH --ntasks-per-node=1
@@ -18,8 +18,8 @@ source /sorgin1/users/jbarrutia006/venvs/viper_tximista/bin/activate
 # Run your SFT script
 srun python scripts/sft/sftrain.py \
     --project_name "viperSFT" \
-    --run_name "codellama" \
-    --model_name "codellama/CodeLlama-7b-Instruct-hf" \
+    --run_name "qwen" \
+    --model_name "Qwen/Qwen2.5-Math-7B-Instruct" \
     --train_dataset_sft "/sorgin1/users/jbarrutia006/viper/syntData/SFTDatasets/sft_dataset_train.arrow" \
     --dev_dataset_sft "/sorgin1/users/jbarrutia006/viper/syntData/SFTDatasets/sft_dataset_dev.arrow" \
     --output_dir "./sft_trained_models" \
