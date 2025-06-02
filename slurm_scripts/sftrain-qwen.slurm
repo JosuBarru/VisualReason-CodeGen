@@ -7,8 +7,7 @@
 #SBATCH --mem=50GB
 #SBATCH --gres=gpu:1
 #SBATCH --time=0
-#SBATCH --output=/sorgin1/users/jbarrutia006/viper/slurm_scripts/outputs/%x.txt
-#SBATCH --error=/sorgin1/users/jbarrutia006/viper/slurm_scripts/outputs/%x.err
+#SBATCH --output=/sorgin1/users/jbarrutia006/viper/slurm_scripts/outputs/%x-%A.txt
 #SBATCH --mail-type=all
 #SBATCH --mail-user=jbarrutia006@ikasle.ehu.eus
 

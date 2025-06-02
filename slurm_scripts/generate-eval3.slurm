@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH --job-name=cod_eval_gqa3
+#SBATCH --job-name=gqa_val_inst
 #SBATCH -D .
 #SBATCH --cpus-per-task=1
 #SBATCH --ntasks-per-node=1
@@ -12,14 +12,13 @@
 # %j will be replaced by the job ID (if you prefer that for uniqueness)
 # Using %x as per your original script for consistency in naming.
 # All output and errors from this script will go here.
-#SBATCH --output=/sorgin1/users/jbarrutia006/viper/slurm_scripts/outputs/general_eval_all_models_%x.log
-#SBATCH --error=/sorgin1/users/jbarrutia006/viper/slurm_scripts/outputs/general_eval_all_models_%x.log
+#SBATCH --output=/sorgin1/users/jbarrutia006/viper/slurm_scripts/outputs/%x-%A.log
 
 
 source /sorgin1/users/jbarrutia006/venvs/viper_tximista/bin/activate
 
 # Define the array of models
-MODELS=("llama31Q_Base" "codellama_base" "qwen25")
+MODELS=("llama31Q" "codellama" "qwen25-inst")
 
 # Loop through each model
 for MODEL_NAME in "${MODELS[@]}"

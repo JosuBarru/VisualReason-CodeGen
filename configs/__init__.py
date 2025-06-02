@@ -42,6 +42,7 @@ model_configs = {
     "deepseek-llama8b": "config_codex_deepseek-llama-8b",
     "deepseek-llama70b": "config_codex_deepseek-llama-70b",
     "qwen25":"config_codex_qwen2.5-7b",
+    "qwen25-inst":"config_codex_qwen2.5-7b_inst",
     "mixtral87b":"config_codex_mixtral8-7b",
 }
 

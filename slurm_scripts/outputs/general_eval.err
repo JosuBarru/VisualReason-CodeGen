@@ -1,4 +1,1090 @@
-2025-05-29 18:30:55,416 - INFO - {'multiprocessing': False, 'path_pretrained_models': './pretrained_models', 'execute_code': False, 'dataset': {'dataset_name': 'GQA', 'data_path': './data/gqa', 'split': 'val', 'max_samples': 1000, 'batch_size': 8, 'start_sample': 0, 'testing': False}, 'load_models': {'maskrcnn': False, 'clip': False, 'glip': False, 'owlvit': False, 'tcl': False, 'gpt3_qa': False, 'gpt3_general': False, 'depth': False, 'blip': False, 'saliency': False, 'xvlm': False, 'codex': False, 'codellama': False, 'codellama_Q': False, 'llm_query': False, 'llm_guess': False, 'gpt3_list': False, 'qa': False, 'guess': False, 'codellama_base': True, 'gpt3_guess': False}, 'detect_thresholds': {'glip': 0.5, 'maskrcnn': 0.8, 'owlvit': 0.1}, 'ratio_box_area_to_image_area': 0.0, 'crop_larger_margin': True, 'verify_property': {'model': 'xvlm', 'thresh_clip': 0.6, 'thresh_tcl': 0.25, 'thresh_xvlm': 0.6}, 'best_match_model': 'xvlm', 'gpt3': {'n_votes': 1, 'qa_prompt': './prompts/gpt3/gpt3_qa.txt', 'guess_prompt': './prompts/gpt3/gpt3_process_guess.txt', 'temperature': 0.0, 'model': 'text-davinci-003'}, 'codex': {'temperature': 0, 'best_of': 1, 'max_tokens': 512, 'prompt': './prompts/benchmarks/gqa.prompt', 'model': 'codellama_base', 'extra_context': None, 'model_name': 'codellama/CodeLlama-7b-hf', 'adapter': '/sorgin1/users/jbarrutia006/viper/dpo_trained_models/05-28_22-29-47/checkpoint-1800'}, 'save': False, 'save_new_results': True, 'save_codex': True, 'results_dir': './results/gqa/codex_results/', 'use_cache': True, 'clear_cache': True, 'log_every': 20, 'wandb': False, 'blip_half_precision': False, 'blip_v2_model_type': 'blip2-flan-t5-xl', 'glip_model_type': 'large', 'use_fixed_code': False, 'fixed_code_file': './prompts/fixed_code/blip2.prompt', 'cognition': {'is_setted': False}, 'use_cached_codex': False, 'use_cache_codex': False}
-srun: Job step aborted: Waiting up to 32 seconds for job step to finish.
-slurmstepd: error: *** JOB 10203 ON localhost CANCELLED AT 2025-05-29T18:30:59 ***
-slurmstepd: error: *** STEP 10203.0 ON localhost CANCELLED AT 2025-05-29T18:30:59 ***
+2025-05-30 09:22:03,647 - INFO - {'multiprocessing': False, 'path_pretrained_models': './pretrained_models', 'execute_code': False, 'dataset': {'dataset_name': 'GQA', 'data_path': './data/gqa', 'split': 'val', 'max_samples': 1000, 'batch_size': 8, 'start_sample': 0, 'testing': False}, 'load_models': {'maskrcnn': False, 'clip': False, 'glip': False, 'owlvit': False, 'tcl': False, 'gpt3_qa': False, 'gpt3_general': False, 'depth': False, 'blip': False, 'saliency': False, 'xvlm': False, 'codex': False, 'codellama': False, 'codellama_Q': False, 'llm_query': False, 'llm_guess': False, 'gpt3_list': False, 'qa': False, 'guess': False, 'Qwen257b': True, 'gpt3_guess': False}, 'detect_thresholds': {'glip': 0.5, 'maskrcnn': 0.8, 'owlvit': 0.1}, 'ratio_box_area_to_image_area': 0.0, 'crop_larger_margin': True, 'verify_property': {'model': 'xvlm', 'thresh_clip': 0.6, 'thresh_tcl': 0.25, 'thresh_xvlm': 0.6}, 'best_match_model': 'xvlm', 'gpt3': {'n_votes': 1, 'qa_prompt': './prompts/gpt3/gpt3_qa.txt', 'guess_prompt': './prompts/gpt3/gpt3_process_guess.txt', 'temperature': 0.0, 'model': 'text-davinci-003'}, 'codex': {'temperature': 0, 'best_of': 1, 'max_tokens': 512, 'prompt': './prompts/benchmarks/gqa.prompt', 'model': 'Qwen257b', 'extra_context': None, 'model_name': 'Qwen/Qwen2.5-Math-7B', 'adapter': '/sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100'}, 'save': False, 'save_new_results': True, 'save_codex': True, 'results_dir': './results/gqa/codex_results/', 'use_cache': True, 'clear_cache': True, 'log_every': 20, 'wandb': False, 'blip_half_precision': False, 'blip_v2_model_type': 'blip2-flan-t5-xl', 'glip_model_type': 'large', 'use_fixed_code': False, 'fixed_code_file': './prompts/fixed_code/blip2.prompt', 'cognition': {'is_setted': False}, 'use_cached_codex': False, 'use_cache_codex': False}
+2025-05-30 09:22:07,219 - INFO - Starting main
+2025-05-30 09:22:15,448 - INFO - Using dtype=bfloat16 based on compute capability=8.0
+Loading safetensors checkpoint shards:   0% Completed | 0/4 [00:00<?, ?it/s]
+Loading safetensors checkpoint shards:  25% Completed | 1/4 [00:00<00:01,  2.56it/s]
+Loading safetensors checkpoint shards:  50% Completed | 2/4 [00:00<00:00,  2.31it/s]
+Loading safetensors checkpoint shards:  75% Completed | 3/4 [00:01<00:00,  2.26it/s]
+Loading safetensors checkpoint shards: 100% Completed | 4/4 [00:01<00:00,  2.10it/s]
+Loading safetensors checkpoint shards: 100% Completed | 4/4 [00:01<00:00,  2.18it/s]
+
+Capturing CUDA graph shapes:   0%|          | 0/35 [00:00<?, ?it/s]Capturing CUDA graph shapes:   3%|▎         | 1/35 [00:00<00:18,  1.83it/s]Capturing CUDA graph shapes:   6%|▌         | 2/35 [00:01<00:17,  1.93it/s]Capturing CUDA graph shapes:   9%|▊         | 3/35 [00:01<00:16,  1.97it/s]Capturing CUDA graph shapes:  11%|█▏        | 4/35 [00:02<00:15,  1.99it/s]Capturing CUDA graph shapes:  14%|█▍        | 5/35 [00:02<00:15,  1.98it/s]Capturing CUDA graph shapes:  17%|█▋        | 6/35 [00:03<00:14,  2.00it/s]Capturing CUDA graph shapes:  20%|██        | 7/35 [00:03<00:13,  2.00it/s]Capturing CUDA graph shapes:  23%|██▎       | 8/35 [00:04<00:13,  2.01it/s]Capturing CUDA graph shapes:  26%|██▌       | 9/35 [00:04<00:12,  2.01it/s]Capturing CUDA graph shapes:  29%|██▊       | 10/35 [00:05<00:12,  2.00it/s]Capturing CUDA graph shapes:  31%|███▏      | 11/35 [00:05<00:11,  2.01it/s]Capturing CUDA graph shapes:  34%|███▍      | 12/35 [00:06<00:11,  2.01it/s]Capturing CUDA graph shapes:  37%|███▋      | 13/35 [00:06<00:10,  2.01it/s]Capturing CUDA graph shapes:  40%|████      | 14/35 [00:07<00:10,  2.01it/s]Capturing CUDA graph shapes:  43%|████▎     | 15/35 [00:07<00:10,  2.00it/s]Capturing CUDA graph shapes:  46%|████▌     | 16/35 [00:08<00:09,  2.00it/s]Capturing CUDA graph shapes:  49%|████▊     | 17/35 [00:08<00:08,  2.00it/s]Capturing CUDA graph shapes:  51%|█████▏    | 18/35 [00:09<00:08,  2.01it/s]Capturing CUDA graph shapes:  54%|█████▍    | 19/35 [00:09<00:08,  2.00it/s]Capturing CUDA graph shapes:  57%|█████▋    | 20/35 [00:10<00:07,  2.00it/s]Capturing CUDA graph shapes:  60%|██████    | 21/35 [00:10<00:07,  2.00it/s]Capturing CUDA graph shapes:  63%|██████▎   | 22/35 [00:11<00:06,  2.01it/s]Capturing CUDA graph shapes:  66%|██████▌   | 23/35 [00:11<00:05,  2.01it/s]Capturing CUDA graph shapes:  69%|██████▊   | 24/35 [00:12<00:05,  2.00it/s]Capturing CUDA graph shapes:  71%|███████▏  | 25/35 [00:12<00:05,  1.99it/s]Capturing CUDA graph shapes:  74%|███████▍  | 26/35 [00:13<00:04,  2.00it/s]Capturing CUDA graph shapes:  77%|███████▋  | 27/35 [00:13<00:03,  2.00it/s]Capturing CUDA graph shapes:  80%|████████  | 28/35 [00:14<00:03,  2.01it/s]Capturing CUDA graph shapes:  83%|████████▎ | 29/35 [00:14<00:03,  2.00it/s]Capturing CUDA graph shapes:  86%|████████▌ | 30/35 [00:15<00:02,  2.00it/s]Capturing CUDA graph shapes:  89%|████████▊ | 31/35 [00:15<00:01,  2.01it/s]Capturing CUDA graph shapes:  91%|█████████▏| 32/35 [00:16<00:01,  2.01it/s]Capturing CUDA graph shapes:  94%|█████████▍| 33/35 [00:16<00:00,  2.01it/s]Capturing CUDA graph shapes:  97%|█████████▋| 34/35 [00:17<00:00,  2.00it/s]Capturing CUDA graph shapes: 100%|██████████| 35/35 [00:17<00:00,  2.01it/s]Capturing CUDA graph shapes: 100%|██████████| 35/35 [00:17<00:00,  2.00it/s]
+2025-05-30 09:22:56,768 - INFO - Models successfully loaded
+2025-05-30 09:22:56,768 - WARNING - [Memory(location=cache/joblib)]: Flushing completely the cache
+2025-05-30 09:23:01,554 - INFO - Dataset loaded
+  0%|                                                                       | 0/125 [00:00<?, ?it/s]2025-05-30 09:23:01,606 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:05<00:39,  5.71s/it, est. speed input: 476.03 toks/s, output: 5.60 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:06<00:09,  1.86s/it, est. speed input: 1213.71 toks/s, output: 24.69 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:07<00:06,  1.53s/it, est. speed input: 1422.48 toks/s, output: 42.76 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:07<00:03,  1.10s/it, est. speed input: 1724.66 toks/s, output: 64.06 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:08<00:01,  1.21it/s, est. speed input: 2011.33 toks/s, output: 86.26 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:12<00:01,  1.88s/it, est. speed input: 1548.69 toks/s, output: 98.57 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:12<00:00,  1.54s/it, est. speed input: 1769.78 toks/s, output: 140.20 toks/s]
+/sorgin1/users/jbarrutia006/viper/src/main_project_slurm.py:280: UserWarning: Not executing code! This is only generating the code. We set the flag 'execute_code' to False by default, because executing code generated by a language model can be dangerous. Set the flag 'execute_code' to True if you want to execute it.
+  warnings.warn("Not executing code! This is only generating the code. We set the flag "
+  1%|5                                                              | 1/125 [00:12<26:25, 12.79s/it]2025-05-30 09:23:14,387 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.21s/it, est. speed input: 1228.94 toks/s, output: 15.36 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:02<00:06,  1.09s/it, est. speed input: 2167.63 toks/s, output: 34.68 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:02<00:01,  2.64it/s, est. speed input: 4857.64 toks/s, output: 96.67 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:03<00:00,  2.07it/s, est. speed input: 4551.33 toks/s, output: 112.24 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:04<00:00,  1.40it/s, est. speed input: 3852.57 toks/s, output: 128.92 toks/s][A
+Processed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.52s/it, est. speed input: 2538.86 toks/s, output: 133.94 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.07s/it, est. speed input: 2538.86 toks/s, output: 133.94 toks/s]
+2025-05-30 09:23:23,064 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:18,  2.59s/it, est. speed input: 1050.51 toks/s, output: 22.37 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:03<00:09,  1.63s/it, est. speed input: 1537.33 toks/s, output: 49.99 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:04<00:05,  1.12s/it, est. speed input: 2005.86 toks/s, output: 81.33 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:04<00:01,  1.85it/s, est. speed input: 3199.81 toks/s, output: 153.58 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:04<00:00,  2.94it/s, est. speed input: 4289.61 toks/s, output: 226.82 toks/s][A
+Processed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.31s/it, est. speed input: 2474.36 toks/s, output: 172.70 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.10s/it, est. speed input: 2474.36 toks/s, output: 172.70 toks/s]
+  2%|#5                                                             | 3/125 [00:30<19:57,  9.82s/it]2025-05-30 09:23:31,960 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:17,  2.53s/it, est. speed input: 1073.49 toks/s, output: 21.32 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:02<00:03,  1.38it/s, est. speed input: 3008.53 toks/s, output: 64.80 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:03<00:02,  1.66it/s, est. speed input: 3526.29 toks/s, output: 86.46 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:04<00:02,  1.34it/s, est. speed input: 3295.98 toks/s, output: 104.82 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:04<00:01,  1.83it/s, est. speed input: 3839.66 toks/s, output: 142.92 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:08<00:01,  1.78s/it, est. speed input: 2187.78 toks/s, output: 128.56 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.09s/it, est. speed input: 2501.10 toks/s, output: 187.33 toks/s]
+2025-05-30 09:23:40,744 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A  2%|#5                                                             | 3/125 [00:41<19:57,  9.82s/it]
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.21s/it, est. speed input: 1232.93 toks/s, output: 14.96 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:02<00:07,  1.26s/it, est. speed input: 1947.41 toks/s, output: 37.18 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:03<00:04,  1.21it/s, est. speed input: 2621.26 toks/s, output: 62.91 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:03<00:03,  1.32it/s, est. speed input: 2886.90 toks/s, output: 88.04 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:03<00:01,  1.90it/s, est. speed input: 3505.05 toks/s, output: 122.59 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:04<00:01,  1.64it/s, est. speed input: 3505.37 toks/s, output: 145.30 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:08<00:01,  1.75s/it, est. speed input: 2174.69 toks/s, output: 135.66 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.10s/it, est. speed input: 2485.55 toks/s, output: 194.07 toks/s]
+  4%|##5                                                            | 5/125 [00:47<18:36,  9.31s/it]2025-05-30 09:23:49,583 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:17,  2.52s/it, est. speed input: 1077.02 toks/s, output: 21.00 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:02<00:03,  1.40it/s, est. speed input: 3034.85 toks/s, output: 63.91 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:04<00:02,  1.38it/s, est. speed input: 3279.39 toks/s, output: 98.23 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:06<00:02,  1.05s/it, est. speed input: 2687.61 toks/s, output: 118.17 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:08<00:01,  1.49s/it, est. speed input: 2183.41 toks/s, output: 140.87 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.09s/it, est. speed input: 2495.77 toks/s, output: 199.46 toks/s]
+2025-05-30 09:23:58,406 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A  4%|##5                                                            | 5/125 [00:58<18:36,  9.31s/it]
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.19s/it, est. speed input: 1240.86 toks/s, output: 14.60 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:02<00:02,  1.82it/s, est. speed input: 4051.03 toks/s, output: 62.55 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:02<00:01,  2.24it/s, est. speed input: 4750.26 toks/s, output: 85.82 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:04<00:01,  1.45it/s, est. speed input: 3917.32 toks/s, output: 100.68 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:08<00:01,  1.78s/it, est. speed input: 2208.37 toks/s, output: 107.98 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.08s/it, est. speed input: 2523.57 toks/s, output: 167.30 toks/s]
+  6%|###5                                                           | 7/125 [01:05<17:51,  9.08s/it]2025-05-30 09:24:07,113 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.18s/it, est. speed input: 1250.04 toks/s, output: 14.25 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:02<00:03,  1.65it/s, est. speed input: 3575.20 toks/s, output: 46.41 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:02<00:01,  2.71it/s, est. speed input: 5277.25 toks/s, output: 84.54 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:03<00:01,  1.85it/s, est. speed input: 4559.30 toks/s, output: 97.72 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:08<00:01,  1.78s/it, est. speed input: 2216.31 toks/s, output: 100.28 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.07s/it, est. speed input: 2533.26 toks/s, output: 159.83 toks/s]
+2025-05-30 09:24:15,808 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:18,  2.58s/it, est. speed input: 1054.95 toks/s, output: 22.08 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:03<00:02,  1.56it/s, est. speed input: 3459.98 toks/s, output: 84.84 toks/s][A  6%|###5                                                           | 7/125 [01:18<17:51,  9.08s/it]
+Processed prompts:  62%|██████▎   | 5/8 [00:08<00:06,  2.08s/it, est. speed input: 1522.18 toks/s, output: 87.07 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.12s/it, est. speed input: 2435.76 toks/s, output: 258.75 toks/s]
+  7%|####5                                                          | 9/125 [01:23<17:23,  8.99s/it]2025-05-30 09:24:24,842 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.24s/it, est. speed input: 1216.06 toks/s, output: 15.65 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:02<00:05,  1.02it/s, est. speed input: 2321.18 toks/s, output: 32.82 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:02<00:03,  1.64it/s, est. speed input: 3249.44 toks/s, output: 51.75 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:02<00:00,  3.26it/s, est. speed input: 5124.22 toks/s, output: 94.84 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:03<00:01,  1.78it/s, est. speed input: 4243.81 toks/s, output: 104.67 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:04<00:00,  1.72it/s, est. speed input: 4251.77 toks/s, output: 134.28 toks/s][A
+Processed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.62s/it, est. speed input: 2535.25 toks/s, output: 129.65 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.07s/it, est. speed input: 2535.25 toks/s, output: 129.65 toks/s]
+2025-05-30 09:24:33,518 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:03<00:26,  3.75s/it, est. speed input: 726.54 toks/s, output: 34.95 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:04<00:11,  1.88s/it, est. speed input: 1259.50 toks/s, output: 69.15 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:04<00:06,  1.25s/it, est. speed input: 1694.54 toks/s, output: 103.67 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:05<00:03,  1.21it/s, est. speed input: 2178.66 toks/s, output: 142.54 toks/s][A  7%|####5                                                          | 9/125 [01:38<17:23,  8.99s/it]
+Processed prompts:  62%|██████▎   | 5/8 [00:09<00:06,  2.03s/it, est. speed input: 1487.38 toks/s, output: 133.69 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:09<00:00,  1.15s/it, est. speed input: 2378.39 toks/s, output: 301.31 toks/s]
+  9%|#####4                                                        | 11/125 [01:41<17:04,  8.98s/it]2025-05-30 09:24:42,759 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.18s/it, est. speed input: 1249.54 toks/s, output: 14.25 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:02<00:03,  1.60it/s, est. speed input: 3482.36 toks/s, output: 46.90 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:02<00:01,  2.03it/s, est. speed input: 4215.74 toks/s, output: 65.04 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:04<00:02,  1.12it/s, est. speed input: 3183.67 toks/s, output: 81.40 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:04<00:01,  1.49it/s, est. speed input: 3646.35 toks/s, output: 121.22 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:08<00:01,  1.77s/it, est. speed input: 2199.67 toks/s, output: 121.80 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.08s/it, est. speed input: 2514.80 toks/s, output: 180.91 toks/s]
+2025-05-30 09:24:51,502 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:18,  2.62s/it, est. speed input: 1040.78 toks/s, output: 22.54 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:02<00:06,  1.14s/it, est. speed input: 1997.85 toks/s, output: 45.85 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:03<00:05,  1.19s/it, est. speed input: 2051.45 toks/s, output: 68.82 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:04<00:01,  1.68it/s, est. speed input: 3205.01 toks/s, output: 140.20 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:04<00:00,  2.18it/s, est. speed input: 3737.84 toks/s, output: 176.73 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:04<00:00,  2.49it/s, est. speed input: 4112.70 toks/s, output: 209.15 toks/s][A  9%|#####4                                                        | 11/125 [01:58<17:04,  8.98s/it]
+Processed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.50s/it, est. speed input: 2485.22 toks/s, output: 168.93 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.10s/it, est. speed input: 2485.22 toks/s, output: 168.93 toks/s]
+ 10%|######4                                                       | 13/125 [01:58<16:39,  8.92s/it]2025-05-30 09:25:00,358 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.21s/it, est. speed input: 1230.56 toks/s, output: 14.93 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:02<00:03,  1.41it/s, est. speed input: 3170.06 toks/s, output: 49.31 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:02<00:01,  2.68it/s, est. speed input: 5064.53 toks/s, output: 93.33 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:03<00:01,  1.83it/s, est. speed input: 4405.66 toks/s, output: 105.41 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:08<00:01,  1.76s/it, est. speed input: 2208.95 toks/s, output: 104.61 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.08s/it, est. speed input: 2524.13 toks/s, output: 163.93 toks/s]
+2025-05-30 09:25:09,065 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:16,  2.40s/it, est. speed input: 1138.44 toks/s, output: 18.77 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:02<00:06,  1.07s/it, est. speed input: 2147.26 toks/s, output: 39.00 toks/s][A 10%|######4                                                       | 13/125 [02:11<16:39,  8.92s/it]
+Processed prompts:  38%|███▊      | 3/8 [00:04<00:06,  1.30s/it, est. speed input: 1987.90 toks/s, output: 62.53 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:04<00:04,  1.07s/it, est. speed input: 2251.28 toks/s, output: 95.87 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:09<00:06,  2.22s/it, est. speed input: 1498.49 toks/s, output: 107.42 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:09<00:00,  1.14s/it, est. speed input: 2396.96 toks/s, output: 276.47 toks/s]
+ 12%|#######4                                                      | 15/125 [02:16<16:21,  8.93s/it]2025-05-30 09:25:18,237 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.27s/it, est. speed input: 1198.63 toks/s, output: 16.30 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:02<00:06,  1.09s/it, est. speed input: 2146.84 toks/s, output: 35.91 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:03<00:01,  1.96it/s, est. speed input: 4206.17 toks/s, output: 106.92 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:04<00:00,  1.74it/s, est. speed input: 4065.24 toks/s, output: 134.21 toks/s][A
+Processed prompts: 100%|██████████| 8/8 [00:04<00:00,  2.08it/s, est. speed input: 4471.00 toks/s, output: 175.94 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:04<00:00,  1.64it/s, est. speed input: 4471.00 toks/s, output: 175.94 toks/s]
+2025-05-30 09:25:23,189 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.28s/it, est. speed input: 1192.08 toks/s, output: 16.64 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:02<00:06,  1.09s/it, est. speed input: 2148.20 toks/s, output: 36.32 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:02<00:03,  1.48it/s, est. speed input: 3010.56 toks/s, output: 58.20 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:03<00:02,  1.45it/s, est. speed input: 3178.14 toks/s, output: 79.34 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:04<00:02,  1.37it/s, est. speed input: 3215.25 toks/s, output: 104.86 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:04<00:01,  1.87it/s, est. speed input: 3725.62 toks/s, output: 143.01 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:04<00:00,  2.38it/s, est. speed input: 4171.10 toks/s, output: 180.33 toks/s][A 12%|#######4                                                      | 15/125 [02:28<16:21,  8.93s/it]
+Processed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.60s/it, est. speed input: 2501.19 toks/s, output: 153.44 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.09s/it, est. speed input: 2501.19 toks/s, output: 153.44 toks/s]
+ 14%|########4                                                     | 17/125 [02:30<14:54,  8.28s/it]2025-05-30 09:25:31,973 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:16,  2.35s/it, est. speed input: 1163.20 toks/s, output: 17.91 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:02<00:06,  1.08s/it, est. speed input: 2150.17 toks/s, output: 37.90 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:02<00:03,  1.51it/s, est. speed input: 3025.70 toks/s, output: 59.63 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:04<00:03,  1.08it/s, est. speed input: 2695.13 toks/s, output: 78.21 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:04<00:02,  1.44it/s, est. speed input: 3151.28 toks/s, output: 113.67 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:04<00:01,  1.70it/s, est. speed input: 3475.88 toks/s, output: 147.63 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:08<00:01,  1.73s/it, est. speed input: 2170.94 toks/s, output: 137.35 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.10s/it, est. speed input: 2480.89 toks/s, output: 195.66 toks/s]
+2025-05-30 09:25:40,833 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A 14%|########4                                                     | 17/125 [02:41<14:54,  8.28s/it]
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:16,  2.31s/it, est. speed input: 1178.40 toks/s, output: 17.30 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:03<00:08,  1.41s/it, est. speed input: 1762.55 toks/s, output: 42.07 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:04<00:06,  1.30s/it, est. speed input: 1919.81 toks/s, output: 69.82 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:04<00:03,  1.16it/s, est. speed input: 2448.41 toks/s, output: 107.25 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:06<00:04,  1.45s/it, est. speed input: 1963.71 toks/s, output: 120.52 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:09<00:03,  1.66s/it, est. speed input: 1811.94 toks/s, output: 149.44 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:09<00:00,  1.13s/it, est. speed input: 2415.55 toks/s, output: 262.96 toks/s]
+ 15%|#########4                                                    | 19/125 [02:48<15:00,  8.50s/it]2025-05-30 09:25:49,930 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.19s/it, est. speed input: 1243.81 toks/s, output: 14.63 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:02<00:06,  1.17s/it, est. speed input: 2064.80 toks/s, output: 35.25 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:03<00:04,  1.23it/s, est. speed input: 2693.82 toks/s, output: 59.39 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:03<00:02,  1.58it/s, est. speed input: 3214.18 toks/s, output: 85.88 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:04<00:02,  1.45it/s, est. speed input: 3256.08 toks/s, output: 109.80 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:04<00:01,  1.99it/s, est. speed input: 3785.45 toks/s, output: 147.55 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:08<00:01,  1.78s/it, est. speed input: 2184.63 toks/s, output: 131.67 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.09s/it, est. speed input: 2496.62 toks/s, output: 190.34 toks/s]
+2025-05-30 09:25:58,731 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A 15%|#########4                                                    | 19/125 [02:58<15:00,  8.50s/it]
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:18,  2.59s/it, est. speed input: 1050.00 toks/s, output: 22.36 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:03<00:08,  1.40s/it, est. speed input: 1726.73 toks/s, output: 48.21 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:03<00:05,  1.04s/it, est. speed input: 2172.79 toks/s, output: 76.12 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:04<00:03,  1.15it/s, est. speed input: 2491.54 toks/s, output: 105.54 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:04<00:02,  1.31it/s, est. speed input: 2756.83 toks/s, output: 137.08 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:08<00:03,  1.87s/it, est. speed input: 1821.85 toks/s, output: 132.60 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.12s/it, est. speed input: 2429.59 toks/s, output: 246.80 toks/s]
+ 17%|##########4                                                   | 21/125 [03:06<14:57,  8.63s/it]2025-05-30 09:26:07,776 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.27s/it, est. speed input: 1200.64 toks/s, output: 16.33 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:02<00:06,  1.13s/it, est. speed input: 2087.48 toks/s, output: 36.81 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:03<00:04,  1.24it/s, est. speed input: 2692.66 toks/s, output: 60.37 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:03<00:03,  1.18it/s, est. speed input: 2763.75 toks/s, output: 84.04 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:04<00:02,  1.50it/s, est. speed input: 3175.21 toks/s, output: 117.58 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:04<00:00,  2.03it/s, est. speed input: 3682.57 toks/s, output: 155.08 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:08<00:01,  1.75s/it, est. speed input: 2175.06 toks/s, output: 136.92 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.10s/it, est. speed input: 2485.46 toks/s, output: 195.33 toks/s]
+2025-05-30 09:26:16,629 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.18s/it, est. speed input: 1245.77 toks/s, output: 14.66 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:02<00:07,  1.30s/it, est. speed input: 1900.79 toks/s, output: 37.66 toks/s][A 17%|##########4                                                   | 21/125 [03:18<14:57,  8.63s/it]
+Processed prompts:  38%|███▊      | 3/8 [00:04<00:06,  1.38s/it, est. speed input: 1880.38 toks/s, output: 64.85 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:09<00:11,  2.83s/it, est. speed input: 1160.10 toks/s, output: 84.50 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:09<00:00,  1.17s/it, est. speed input: 2318.54 toks/s, output: 302.44 toks/s]
+ 18%|###########4                                                  | 23/125 [03:24<14:56,  8.79s/it]2025-05-30 09:26:26,098 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.25s/it, est. speed input: 1209.80 toks/s, output: 16.02 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:02<00:03,  1.45it/s, est. speed input: 3217.92 toks/s, output: 50.48 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:03<00:03,  1.21it/s, est. speed input: 3003.62 toks/s, output: 70.68 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:03<00:02,  1.49it/s, est. speed input: 3413.73 toks/s, output: 102.92 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:04<00:01,  1.77it/s, est. speed input: 3775.44 toks/s, output: 136.22 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:08<00:01,  1.77s/it, est. speed input: 2184.99 toks/s, output: 126.29 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.09s/it, est. speed input: 2497.96 toks/s, output: 185.01 toks/s]
+2025-05-30 09:26:34,891 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:17,  2.55s/it, est. speed input: 1067.53 toks/s, output: 21.58 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:02<00:07,  1.17s/it, est. speed input: 1978.72 toks/s, output: 44.70 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:03<00:04,  1.17it/s, est. speed input: 2524.56 toks/s, output: 68.92 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:04<00:03,  1.19it/s, est. speed input: 2686.28 toks/s, output: 93.25 toks/s][A 18%|###########4                                                  | 23/125 [03:38<14:56,  8.79s/it]
+Processed prompts:  62%|██████▎   | 5/8 [00:05<00:03,  1.01s/it, est. speed input: 2540.72 toks/s, output: 116.98 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:08<00:03,  1.88s/it, est. speed input: 1828.76 toks/s, output: 127.41 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.12s/it, est. speed input: 2437.81 toks/s, output: 241.96 toks/s]
+ 20%|############4                                                 | 25/125 [03:42<14:42,  8.82s/it]2025-05-30 09:26:43,903 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:16,  2.39s/it, est. speed input: 1139.69 toks/s, output: 18.85 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:02<00:06,  1.17s/it, est. speed input: 2015.82 toks/s, output: 40.76 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:04<00:06,  1.25s/it, est. speed input: 2019.66 toks/s, output: 65.31 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:04<00:03,  1.07it/s, est. speed input: 2417.34 toks/s, output: 99.70 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:08<00:03,  1.62s/it, est. speed input: 1824.14 toks/s, output: 128.76 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.12s/it, est. speed input: 2432.39 toks/s, output: 243.12 toks/s]
+2025-05-30 09:26:52,932 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:03<00:26,  3.79s/it, est. speed input: 717.46 toks/s, output: 35.35 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:04<00:10,  1.69s/it, est. speed input: 1356.38 toks/s, output: 70.34 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:04<00:05,  1.02s/it, est. speed input: 1926.25 toks/s, output: 105.05 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:04<00:02,  1.38it/s, est. speed input: 2416.81 toks/s, output: 138.98 toks/s][A 20%|############4                                                 | 25/125 [03:58<14:42,  8.82s/it]
+Processed prompts:  62%|██████▎   | 5/8 [00:09<00:06,  2.12s/it, est. speed input: 1494.21 toks/s, output: 124.90 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:09<00:00,  1.14s/it, est. speed input: 2391.50 toks/s, output: 293.48 toks/s]
+ 22%|#############3                                                | 27/125 [04:00<14:33,  8.91s/it]2025-05-30 09:27:02,124 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.20s/it, est. speed input: 1236.67 toks/s, output: 15.01 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:02<00:07,  1.23s/it, est. speed input: 1984.72 toks/s, output: 36.82 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:03<00:04,  1.17it/s, est. speed input: 2591.60 toks/s, output: 62.20 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:03<00:03,  1.19it/s, est. speed input: 2742.86 toks/s, output: 87.18 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:04<00:01,  1.66it/s, est. speed input: 3279.66 toks/s, output: 122.66 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:04<00:01,  1.97it/s, est. speed input: 3649.93 toks/s, output: 155.49 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:08<00:01,  1.74s/it, est. speed input: 2174.86 toks/s, output: 137.84 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.10s/it, est. speed input: 2485.52 toks/s, output: 196.26 toks/s]
+2025-05-30 09:27:10,967 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A 22%|#############3                                                | 27/125 [04:11<14:33,  8.91s/it]
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.21s/it, est. speed input: 1228.52 toks/s, output: 15.36 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:03<00:05,  1.13s/it, est. speed input: 2190.85 toks/s, output: 55.55 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:04<00:04,  1.01s/it, est. speed input: 2419.81 toks/s, output: 87.33 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:09<00:06,  2.18s/it, est. speed input: 1505.95 toks/s, output: 100.15 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:09<00:00,  1.13s/it, est. speed input: 2410.53 toks/s, output: 270.11 toks/s]
+ 23%|##############3                                               | 29/125 [04:18<14:17,  8.93s/it]2025-05-30 09:27:20,116 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:18,  2.60s/it, est. speed input: 1049.12 toks/s, output: 22.35 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:03<00:10,  1.70s/it, est. speed input: 1486.09 toks/s, output: 50.44 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:04<00:06,  1.25s/it, est. speed input: 1859.59 toks/s, output: 81.95 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:04<00:03,  1.05it/s, est. speed input: 2230.52 toks/s, output: 116.29 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:09<00:06,  2.13s/it, est. speed input: 1494.58 toks/s, output: 118.51 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:09<00:00,  1.14s/it, est. speed input: 2392.04 toks/s, output: 287.06 toks/s]
+2025-05-30 09:27:29,305 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A 23%|##############3                                               | 29/125 [04:28<14:17,  8.93s/it]
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:18,  2.59s/it, est. speed input: 1050.50 toks/s, output: 22.37 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:02<00:07,  1.21s/it, est. speed input: 1928.47 toks/s, output: 46.35 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:04<00:06,  1.36s/it, est. speed input: 1870.76 toks/s, output: 70.07 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:04<00:04,  1.03s/it, est. speed input: 2222.16 toks/s, output: 105.44 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:09<00:06,  2.17s/it, est. speed input: 1496.66 toks/s, output: 113.09 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:09<00:00,  1.14s/it, est. speed input: 2396.39 toks/s, output: 281.90 toks/s]
+ 25%|###############3                                              | 31/125 [04:36<14:07,  9.01s/it]2025-05-30 09:27:38,481 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.22s/it, est. speed input: 1228.45 toks/s, output: 15.32 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:02<00:06,  1.14s/it, est. speed input: 2089.42 toks/s, output: 35.65 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:03<00:04,  1.22it/s, est. speed input: 2681.12 toks/s, output: 59.41 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:04<00:04,  1.01s/it, est. speed input: 2508.48 toks/s, output: 82.03 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:04<00:02,  1.21it/s, est. speed input: 2810.91 toks/s, output: 117.13 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:08<00:03,  1.94s/it, est. speed input: 1827.04 toks/s, output: 120.72 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.12s/it, est. speed input: 2437.19 toks/s, output: 235.28 toks/s]
+2025-05-30 09:27:47,485 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.17s/it, est. speed input: 1250.79 toks/s, output: 14.26 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:02<00:05,  1.04it/s, est. speed input: 2385.22 toks/s, output: 30.23 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:02<00:03,  1.58it/s, est. speed input: 3234.17 toks/s, output: 48.72 toks/s][A 25%|###############3                                              | 31/125 [04:48<14:07,  9.01s/it]
+Processed prompts:  62%|██████▎   | 5/8 [00:02<00:01,  2.82it/s, est. speed input: 4849.37 toks/s, output: 91.52 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:03<00:00,  2.96it/s, est. speed input: 5260.43 toks/s, output: 113.64 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:05<00:00,  1.20it/s, est. speed input: 3712.25 toks/s, output: 117.36 toks/s][A
+Processed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.60s/it, est. speed input: 2541.00 toks/s, output: 129.98 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.07s/it, est. speed input: 2541.00 toks/s, output: 129.98 toks/s]
+ 26%|################3                                             | 33/125 [04:54<13:44,  8.96s/it]2025-05-30 09:27:56,131 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:16,  2.33s/it, est. speed input: 1169.50 toks/s, output: 17.60 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:02<00:06,  1.08s/it, est. speed input: 2149.91 toks/s, output: 37.52 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:02<00:03,  1.58it/s, est. speed input: 3097.22 toks/s, output: 59.14 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:03<00:02,  1.77it/s, est. speed input: 3513.72 toks/s, output: 80.02 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:04<00:02,  1.15it/s, est. speed input: 3023.28 toks/s, output: 97.93 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:08<00:04,  2.05s/it, est. speed input: 1847.49 toks/s, output: 107.74 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.11s/it, est. speed input: 2462.37 toks/s, output: 223.51 toks/s]
+2025-05-30 09:28:05,044 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.25s/it, est. speed input: 1206.66 toks/s, output: 15.98 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:02<00:06,  1.10s/it, est. speed input: 2134.15 toks/s, output: 35.70 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:03<00:02,  1.40it/s, est. speed input: 3095.17 toks/s, output: 76.77 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:04<00:02,  1.46it/s, est. speed input: 3285.39 toks/s, output: 105.02 toks/s][A 26%|################3                                             | 33/125 [05:08<13:44,  8.96s/it]
+Processed prompts:  88%|████████▊ | 7/8 [00:08<00:01,  1.44s/it, est. speed input: 2183.90 toks/s, output: 127.82 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.09s/it, est. speed input: 2496.36 toks/s, output: 186.52 toks/s]
+ 28%|#################3                                            | 35/125 [05:12<13:23,  8.93s/it]2025-05-30 09:28:13,839 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.19s/it, est. speed input: 1241.63 toks/s, output: 14.62 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:02<00:05,  1.04it/s, est. speed input: 2367.06 toks/s, output: 30.89 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:02<00:03,  1.59it/s, est. speed input: 3231.19 toks/s, output: 49.50 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:02<00:02,  1.85it/s, est. speed input: 3715.57 toks/s, output: 70.36 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:03<00:02,  1.46it/s, est. speed input: 3512.48 toks/s, output: 91.67 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:04<00:01,  1.87it/s, est. speed input: 3964.67 toks/s, output: 126.77 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:04<00:00,  2.11it/s, est. speed input: 4269.96 toks/s, output: 160.28 toks/s][A
+Processed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.66s/it, est. speed input: 2518.00 toks/s, output: 141.83 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.08s/it, est. speed input: 2518.00 toks/s, output: 141.83 toks/s]
+2025-05-30 09:28:22,559 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.18s/it, est. speed input: 1248.88 toks/s, output: 14.24 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:04<00:12,  2.02s/it, est. speed input: 1331.79 toks/s, output: 45.26 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:04<00:07,  1.47s/it, est. speed input: 1666.26 toks/s, output: 80.13 toks/s][A 28%|#################3                                            | 35/125 [05:28<13:23,  8.93s/it]
+Processed prompts:  50%|█████     | 4/8 [00:09<00:10,  2.68s/it, est. speed input: 1153.65 toks/s, output: 95.80 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:09<00:00,  1.18s/it, est. speed input: 2307.66 toks/s, output: 312.59 toks/s]
+ 30%|##################3                                           | 37/125 [05:30<13:10,  8.98s/it]2025-05-30 09:28:32,075 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:18,  2.60s/it, est. speed input: 1047.90 toks/s, output: 22.32 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:03<00:08,  1.38s/it, est. speed input: 1740.74 toks/s, output: 47.97 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:03<00:04,  1.08it/s, est. speed input: 2329.46 toks/s, output: 76.16 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:04<00:03,  1.26it/s, est. speed input: 2654.10 toks/s, output: 103.36 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:04<00:02,  1.44it/s, est. speed input: 2947.47 toks/s, output: 133.82 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:08<00:03,  1.93s/it, est. speed input: 1825.14 toks/s, output: 126.28 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.12s/it, est. speed input: 2433.67 toks/s, output: 240.71 toks/s]
+2025-05-30 09:28:41,094 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A 30%|##################3                                           | 37/125 [05:41<13:10,  8.98s/it]
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.18s/it, est. speed input: 1249.79 toks/s, output: 14.25 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:02<00:06,  1.10s/it, est. speed input: 2159.36 toks/s, output: 33.36 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:04<00:06,  1.37s/it, est. speed input: 1937.76 toks/s, output: 59.16 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:04<00:03,  1.15it/s, est. speed input: 2521.31 toks/s, output: 97.60 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:08<00:03,  1.64s/it, est. speed input: 1826.68 toks/s, output: 123.92 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.12s/it, est. speed input: 2435.92 toks/s, output: 238.44 toks/s]
+ 31%|###################3                                          | 39/125 [05:48<12:53,  8.99s/it]2025-05-30 09:28:50,105 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:17,  2.52s/it, est. speed input: 1078.39 toks/s, output: 21.03 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:02<00:06,  1.14s/it, est. speed input: 2019.56 toks/s, output: 43.47 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:03<00:04,  1.17it/s, est. speed input: 2545.34 toks/s, output: 67.07 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:04<00:04,  1.16s/it, est. speed input: 2254.86 toks/s, output: 87.41 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:09<00:06,  2.27s/it, est. speed input: 1500.10 toks/s, output: 102.96 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:09<00:00,  1.13s/it, est. speed input: 2400.11 toks/s, output: 272.28 toks/s]
+2025-05-30 09:28:59,249 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A 31%|###################3                                          | 39/125 [05:58<12:53,  8.99s/it]
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.19s/it, est. speed input: 1240.18 toks/s, output: 14.59 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:02<00:03,  1.64it/s, est. speed input: 3547.09 toks/s, output: 46.07 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:03<00:02,  1.39it/s, est. speed input: 3441.51 toks/s, output: 90.25 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:08<00:01,  1.42s/it, est. speed input: 2194.43 toks/s, output: 118.39 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.09s/it, est. speed input: 2508.22 toks/s, output: 177.36 toks/s]
+ 33%|####################3                                         | 41/125 [06:06<12:34,  8.98s/it]2025-05-30 09:29:08,005 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.25s/it, est. speed input: 1208.06 toks/s, output: 15.98 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:02<00:06,  1.17s/it, est. speed input: 2050.49 toks/s, output: 36.87 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:03<00:02,  1.73it/s, est. speed input: 3493.77 toks/s, output: 81.12 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:04<00:02,  1.44it/s, est. speed input: 3339.76 toks/s, output: 101.78 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:04<00:01,  1.57it/s, est. speed input: 3568.20 toks/s, output: 134.04 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:08<00:01,  1.70s/it, est. speed input: 2188.76 toks/s, output: 129.26 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.09s/it, est. speed input: 2501.42 toks/s, output: 188.04 toks/s]
+2025-05-30 09:29:16,797 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:16,  2.41s/it, est. speed input: 1128.06 toks/s, output: 19.07 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:03<00:09,  1.57s/it, est. speed input: 1606.70 toks/s, output: 45.71 toks/s][A 33%|####################3                                         | 41/125 [06:18<12:34,  8.98s/it]
+Processed prompts:  38%|███▊      | 3/8 [00:04<00:05,  1.20s/it, est. speed input: 1970.62 toks/s, output: 75.72 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:04<00:03,  1.17it/s, est. speed input: 2434.39 toks/s, output: 110.62 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:04<00:01,  1.50it/s, est. speed input: 2832.43 toks/s, output: 145.57 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:08<00:03,  1.86s/it, est. speed input: 1819.64 toks/s, output: 134.88 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.12s/it, est. speed input: 2425.31 toks/s, output: 248.83 toks/s]
+ 34%|#####################3                                        | 43/125 [06:24<12:14,  8.96s/it]2025-05-30 09:29:25,854 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.19s/it, est. speed input: 1240.81 toks/s, output: 14.60 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:02<00:03,  1.56it/s, est. speed input: 3414.60 toks/s, output: 46.04 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:02<00:02,  1.91it/s, est. speed input: 4049.49 toks/s, output: 65.13 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:03<00:02,  1.42it/s, est. speed input: 3622.42 toks/s, output: 84.43 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:03<00:01,  1.89it/s, est. speed input: 4165.12 toks/s, output: 120.20 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:04<00:00,  2.28it/s, est. speed input: 4581.15 toks/s, output: 154.69 toks/s][A
+Processed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.69s/it, est. speed input: 2524.12 toks/s, output: 133.93 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.08s/it, est. speed input: 2524.12 toks/s, output: 133.93 toks/s]
+2025-05-30 09:29:34,556 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.15s/it, est. speed input: 1267.84 toks/s, output: 13.51 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:02<00:06,  1.13s/it, est. speed input: 2119.82 toks/s, output: 33.11 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:02<00:03,  1.39it/s, est. speed input: 2922.81 toks/s, output: 55.83 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:03<00:02,  1.68it/s, est. speed input: 3406.53 toks/s, output: 79.47 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:04<00:02,  1.20it/s, est. speed input: 3060.03 toks/s, output: 99.36 toks/s][A 34%|#####################3                                        | 43/125 [06:38<12:14,  8.96s/it]
+Processed prompts:  75%|███████▌  | 6/8 [00:08<00:04,  2.05s/it, est. speed input: 1844.77 toks/s, output: 107.69 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.11s/it, est. speed input: 2459.48 toks/s, output: 223.28 toks/s]
+ 36%|######################3                                       | 45/125 [06:41<11:53,  8.92s/it]2025-05-30 09:29:43,488 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.19s/it, est. speed input: 1242.53 toks/s, output: 14.62 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:03<00:11,  1.95s/it, est. speed input: 1369.41 toks/s, output: 45.03 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:05<00:02,  1.22it/s, est. speed input: 2674.99 toks/s, output: 138.64 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:08<00:03,  1.60s/it, est. speed input: 1821.92 toks/s, output: 135.77 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.12s/it, est. speed input: 2428.79 toks/s, output: 249.90 toks/s]
+2025-05-30 09:29:52,532 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.19s/it, est. speed input: 1240.78 toks/s, output: 14.60 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:02<00:05,  1.02it/s, est. speed input: 2350.40 toks/s, output: 31.07 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:02<00:03,  1.61it/s, est. speed input: 3247.87 toks/s, output: 49.73 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:04<00:05,  1.35s/it, est. speed input: 2186.40 toks/s, output: 69.04 toks/s][A 36%|######################3                                       | 45/125 [06:58<11:53,  8.92s/it]
+Processed prompts:  62%|██████▎   | 5/8 [00:09<00:07,  2.34s/it, est. speed input: 1502.23 toks/s, output: 94.43 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:09<00:00,  1.13s/it, est. speed input: 2404.24 toks/s, output: 263.88 toks/s]
+ 38%|#######################3                                      | 47/125 [07:00<11:39,  8.97s/it]2025-05-30 09:30:01,668 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.23s/it, est. speed input: 1220.76 toks/s, output: 15.26 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:04<00:03,  1.05it/s, est. speed input: 2592.74 toks/s, output: 64.12 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:08<00:03,  1.57s/it, est. speed input: 1831.15 toks/s, output: 106.90 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.11s/it, est. speed input: 2441.76 toks/s, output: 221.76 toks/s]
+2025-05-30 09:30:10,658 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A 38%|#######################3                                      | 47/125 [07:11<11:39,  8.97s/it]
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:19,  2.86s/it, est. speed input: 955.78 toks/s, output: 25.91 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:03<00:10,  1.76s/it, est. speed input: 1415.09 toks/s, output: 55.07 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:04<00:05,  1.19s/it, est. speed input: 1871.19 toks/s, output: 87.99 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:04<00:01,  1.78it/s, est. speed input: 3011.88 toks/s, output: 163.76 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:04<00:01,  1.91it/s, est. speed input: 3298.70 toks/s, output: 192.77 toks/s][A
+Processed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.17s/it, est. speed input: 2460.86 toks/s, output: 190.31 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.11s/it, est. speed input: 2460.86 toks/s, output: 190.31 toks/s]
+ 39%|########################3                                     | 49/125 [07:17<11:21,  8.97s/it]2025-05-30 09:30:19,585 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:16,  2.29s/it, est. speed input: 1190.03 toks/s, output: 16.60 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:02<00:06,  1.12s/it, est. speed input: 2106.95 toks/s, output: 36.75 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:04<00:03,  1.10it/s, est. speed input: 2627.00 toks/s, output: 76.44 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:04<00:01,  1.51it/s, est. speed input: 3196.33 toks/s, output: 114.36 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:08<00:03,  1.88s/it, est. speed input: 1832.75 toks/s, output: 112.10 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.11s/it, est. speed input: 2443.13 toks/s, output: 227.00 toks/s]
+2025-05-30 09:30:28,573 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A 39%|########################3                                     | 49/125 [07:28<11:21,  8.97s/it]
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.22s/it, est. speed input: 1224.20 toks/s, output: 15.30 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:02<00:03,  1.61it/s, est. speed input: 3483.09 toks/s, output: 48.19 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:02<00:01,  2.83it/s, est. speed input: 5350.84 toks/s, output: 84.53 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:02<00:00,  3.35it/s, est. speed input: 6069.93 toks/s, output: 104.74 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:03<00:00,  2.42it/s, est. speed input: 5599.33 toks/s, output: 118.38 toks/s][A
+Processed prompts: 100%|██████████| 8/8 [00:04<00:00,  1.83it/s, est. speed input: 5085.05 toks/s, output: 137.96 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:04<00:00,  1.87it/s, est. speed input: 5085.05 toks/s, output: 137.96 toks/s]
+ 41%|#########################2                                    | 51/125 [07:31<10:12,  8.28s/it]2025-05-30 09:30:32,931 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.19s/it, est. speed input: 1242.17 toks/s, output: 14.61 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:02<00:03,  1.43it/s, est. speed input: 3214.28 toks/s, output: 47.66 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:03<00:02,  1.61it/s, est. speed input: 3608.75 toks/s, output: 68.97 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:04<00:02,  1.12it/s, est. speed input: 3049.14 toks/s, output: 89.40 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:08<00:04,  2.01s/it, est. speed input: 1849.28 toks/s, output: 103.15 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.10s/it, est. speed input: 2466.30 toks/s, output: 219.08 toks/s]
+2025-05-30 09:30:41,849 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.27s/it, est. speed input: 1198.62 toks/s, output: 16.30 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:02<00:03,  1.36it/s, est. speed input: 3067.88 toks/s, output: 51.81 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:03<00:02,  1.55it/s, est. speed input: 3469.51 toks/s, output: 74.21 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:03<00:02,  1.44it/s, est. speed input: 3464.87 toks/s, output: 97.93 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:04<00:01,  1.51it/s, est. speed input: 3608.64 toks/s, output: 128.26 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:05<00:00,  1.53it/s, est. speed input: 3693.13 toks/s, output: 159.76 toks/s][A 41%|#########################2                                    | 51/125 [07:48<10:12,  8.28s/it]
+Processed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.54s/it, est. speed input: 2509.39 toks/s, output: 153.96 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.09s/it, est. speed input: 2509.39 toks/s, output: 153.96 toks/s]
+ 42%|##########################2                                   | 53/125 [07:49<10:08,  8.45s/it]2025-05-30 09:30:50,603 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.20s/it, est. speed input: 1234.26 toks/s, output: 14.98 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:03<00:02,  1.56it/s, est. speed input: 3584.10 toks/s, output: 63.52 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:04<00:01,  1.47it/s, est. speed input: 3626.72 toks/s, output: 106.34 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:08<00:01,  1.51s/it, est. speed input: 2200.21 toks/s, output: 114.43 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.08s/it, est. speed input: 2514.58 toks/s, output: 173.54 toks/s]
+2025-05-30 09:30:59,339 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.27s/it, est. speed input: 1201.93 toks/s, output: 16.33 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:02<00:06,  1.01s/it, est. speed input: 2279.06 toks/s, output: 34.31 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:02<00:03,  1.62it/s, est. speed input: 3213.97 toks/s, output: 53.91 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:02<00:01,  2.38it/s, est. speed input: 4092.42 toks/s, output: 75.17 toks/s][A 42%|##########################2                                   | 53/125 [08:01<10:08,  8.45s/it]
+Processed prompts:  75%|███████▌  | 6/8 [00:04<00:01,  1.64it/s, est. speed input: 3868.49 toks/s, output: 104.45 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:08<00:01,  1.65s/it, est. speed input: 2208.42 toks/s, output: 110.43 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.08s/it, est. speed input: 2524.36 toks/s, output: 169.75 toks/s]
+ 44%|###########################2                                  | 55/125 [08:06<09:56,  8.53s/it]2025-05-30 09:31:08,041 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.19s/it, est. speed input: 1244.81 toks/s, output: 14.64 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:04<00:03,  1.07it/s, est. speed input: 2649.28 toks/s, output: 63.33 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:04<00:01,  1.70it/s, est. speed input: 3716.30 toks/s, output: 137.53 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:05<00:00,  1.51it/s, est. speed input: 3601.17 toks/s, output: 161.48 toks/s][A
+Processed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.37s/it, est. speed input: 2493.93 toks/s, output: 156.49 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.09s/it, est. speed input: 2493.93 toks/s, output: 156.49 toks/s]
+2025-05-30 09:31:16,843 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.17s/it, est. speed input: 1253.63 toks/s, output: 14.30 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:02<00:05,  1.05it/s, est. speed input: 2390.79 toks/s, output: 30.30 toks/s][A 44%|###########################2                                  | 55/125 [08:18<09:56,  8.53s/it]
+Processed prompts:  38%|███▊      | 3/8 [00:03<00:06,  1.29s/it, est. speed input: 2065.44 toks/s, output: 55.13 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:04<00:04,  1.07s/it, est. speed input: 2325.12 toks/s, output: 88.83 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:04<00:02,  1.30it/s, est. speed input: 2759.52 toks/s, output: 128.09 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:08<00:03,  1.88s/it, est. speed input: 1823.03 toks/s, output: 127.65 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.12s/it, est. speed input: 2430.21 toks/s, output: 241.90 toks/s]
+ 46%|############################2                                 | 57/125 [08:24<09:47,  8.64s/it]2025-05-30 09:31:25,885 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:17,  2.53s/it, est. speed input: 1074.59 toks/s, output: 21.34 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:03<00:04,  1.16it/s, est. speed input: 2640.49 toks/s, output: 65.67 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:04<00:02,  1.48it/s, est. speed input: 3333.71 toks/s, output: 112.25 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:04<00:01,  1.69it/s, est. speed input: 3672.60 toks/s, output: 145.47 toks/s][A
+Processed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.26s/it, est. speed input: 2507.94 toks/s, output: 155.71 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.09s/it, est. speed input: 2507.94 toks/s, output: 155.71 toks/s]
+2025-05-30 09:31:34,646 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.23s/it, est. speed input: 1219.01 toks/s, output: 15.68 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:02<00:02,  1.95it/s, est. speed input: 4251.16 toks/s, output: 66.33 toks/s][A 46%|############################2                                 | 57/125 [08:38<09:47,  8.64s/it]
+Processed prompts:  62%|██████▎   | 5/8 [00:08<00:06,  2.13s/it, est. speed input: 1532.58 toks/s, output: 76.75 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.11s/it, est. speed input: 2451.24 toks/s, output: 249.59 toks/s]
+ 47%|#############################2                                | 59/125 [08:42<09:34,  8.71s/it]2025-05-30 09:31:43,610 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.18s/it, est. speed input: 1247.69 toks/s, output: 14.66 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:02<00:06,  1.08s/it, est. speed input: 2181.87 toks/s, output: 33.68 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:03<00:03,  1.18it/s, est. speed input: 2786.09 toks/s, output: 73.20 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:04<00:02,  1.32it/s, est. speed input: 3048.74 toks/s, output: 105.98 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:08<00:03,  1.88s/it, est. speed input: 1837.61 toks/s, output: 110.88 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.11s/it, est. speed input: 2450.47 toks/s, output: 226.14 toks/s]
+2025-05-30 09:31:52,567 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:17,  2.54s/it, est. speed input: 1069.21 toks/s, output: 21.62 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:03<00:04,  1.03it/s, est. speed input: 2408.67 toks/s, output: 66.63 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:04<00:03,  1.03it/s, est. speed input: 2506.44 toks/s, output: 92.30 toks/s][A 47%|#############################2                                | 59/125 [08:58<09:34,  8.71s/it]
+Processed prompts:  62%|██████▎   | 5/8 [00:09<00:06,  2.20s/it, est. speed input: 1506.67 toks/s, output: 101.09 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:09<00:00,  1.13s/it, est. speed input: 2410.53 toks/s, output: 271.15 toks/s]
+ 49%|##############################2                               | 61/125 [09:00<09:23,  8.81s/it]2025-05-30 09:32:01,679 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:16,  2.36s/it, est. speed input: 1156.29 toks/s, output: 18.22 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:02<00:06,  1.08s/it, est. speed input: 2139.62 toks/s, output: 38.47 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:04<00:02,  1.42it/s, est. speed input: 3228.72 toks/s, output: 92.48 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:04<00:01,  1.53it/s, est. speed input: 3461.49 toks/s, output: 127.52 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:08<00:01,  1.53s/it, est. speed input: 2196.09 toks/s, output: 128.35 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.08s/it, est. speed input: 2509.44 toks/s, output: 187.34 toks/s]
+2025-05-30 09:32:10,433 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A 49%|##############################2                               | 61/125 [09:11<09:23,  8.81s/it]
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.20s/it, est. speed input: 1236.28 toks/s, output: 14.97 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:02<00:03,  1.46it/s, est. speed input: 3254.56 toks/s, output: 48.63 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:02<00:01,  2.00it/s, est. speed input: 4098.88 toks/s, output: 69.62 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:03<00:02,  1.33it/s, est. speed input: 3474.72 toks/s, output: 86.52 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:04<00:01,  1.37it/s, est. speed input: 3553.18 toks/s, output: 118.10 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:08<00:01,  1.78s/it, est. speed input: 2200.71 toks/s, output: 121.83 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.08s/it, est. speed input: 2514.98 toks/s, output: 180.94 toks/s]
+ 50%|###############################2                              | 63/125 [09:17<09:04,  8.79s/it]2025-05-30 09:32:19,165 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:16,  2.32s/it, est. speed input: 1177.61 toks/s, output: 17.27 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:02<00:06,  1.12s/it, est. speed input: 2099.65 toks/s, output: 37.74 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:04<00:06,  1.27s/it, est. speed input: 2021.85 toks/s, output: 62.28 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:04<00:03,  1.14it/s, est. speed input: 2518.69 toks/s, output: 98.17 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:08<00:03,  1.64s/it, est. speed input: 1827.96 toks/s, output: 124.37 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.12s/it, est. speed input: 2438.12 toks/s, output: 238.89 toks/s]
+2025-05-30 09:32:28,190 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A 50%|###############################2                              | 63/125 [09:28<09:04,  8.79s/it]
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:17,  2.55s/it, est. speed input: 1066.07 toks/s, output: 21.56 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:02<00:03,  1.39it/s, est. speed input: 3019.22 toks/s, output: 66.90 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:04<00:03,  1.01it/s, est. speed input: 2589.46 toks/s, output: 82.50 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:04<00:02,  1.41it/s, est. speed input: 3132.82 toks/s, output: 120.36 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:04<00:01,  1.94it/s, est. speed input: 3667.67 toks/s, output: 158.72 toks/s][A
+Processed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.30s/it, est. speed input: 2484.98 toks/s, output: 160.79 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.10s/it, est. speed input: 2484.98 toks/s, output: 160.79 toks/s]
+ 52%|################################2                             | 65/125 [09:35<08:49,  8.83s/it]2025-05-30 09:32:37,032 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:16,  2.35s/it, est. speed input: 1159.65 toks/s, output: 17.87 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:02<00:06,  1.07s/it, est. speed input: 2158.70 toks/s, output: 37.68 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:03<00:04,  1.06it/s, est. speed input: 2459.43 toks/s, output: 60.51 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:03<00:02,  1.42it/s, est. speed input: 2984.85 toks/s, output: 90.16 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:03<00:01,  2.00it/s, est. speed input: 3594.26 toks/s, output: 123.27 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:08<00:01,  1.50s/it, est. speed input: 2185.06 toks/s, output: 128.74 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.09s/it, est. speed input: 2496.82 toks/s, output: 187.42 toks/s]
+2025-05-30 09:32:45,825 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:17,  2.52s/it, est. speed input: 1078.05 toks/s, output: 21.01 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:03<00:08,  1.40s/it, est. speed input: 1730.42 toks/s, output: 46.45 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:04<00:03,  1.16it/s, est. speed input: 2573.76 toks/s, output: 96.70 toks/s][A 52%|################################2                             | 65/125 [09:48<08:49,  8.83s/it]
+Processed prompts:  62%|██████▎   | 5/8 [00:04<00:02,  1.36it/s, est. speed input: 2912.58 toks/s, output: 129.85 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:04<00:01,  1.70it/s, est. speed input: 3313.55 toks/s, output: 167.04 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:05<00:00,  2.15it/s, est. speed input: 3726.46 toks/s, output: 206.14 toks/s][A
+Processed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.44s/it, est. speed input: 2475.46 toks/s, output: 177.92 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.10s/it, est. speed input: 2475.46 toks/s, output: 177.92 toks/s]
+ 54%|#################################2                            | 67/125 [09:53<08:32,  8.83s/it]2025-05-30 09:32:54,704 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.19s/it, est. speed input: 1242.72 toks/s, output: 14.60 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:02<00:06,  1.09s/it, est. speed input: 2161.34 toks/s, output: 33.76 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:02<00:03,  1.48it/s, est. speed input: 3023.38 toks/s, output: 55.58 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:03<00:03,  1.24it/s, est. speed input: 2933.10 toks/s, output: 76.29 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:08<00:03,  1.75s/it, est. speed input: 1841.18 toks/s, output: 104.80 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.11s/it, est. speed input: 2455.71 toks/s, output: 220.31 toks/s]
+2025-05-30 09:33:03,640 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.18s/it, est. speed input: 1249.08 toks/s, output: 14.24 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:04<00:03,  1.09it/s, est. speed input: 2696.44 toks/s, output: 63.64 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:04<00:01,  1.75it/s, est. speed input: 3810.43 toks/s, output: 138.15 toks/s][A 54%|#################################2                            | 67/125 [10:08<08:32,  8.83s/it]
+Processed prompts:  88%|████████▊ | 7/8 [00:08<00:01,  1.49s/it, est. speed input: 2178.65 toks/s, output: 126.25 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.09s/it, est. speed input: 2489.63 toks/s, output: 184.79 toks/s]
+ 55%|##################################2                           | 69/125 [10:10<08:15,  8.85s/it]2025-05-30 09:33:12,462 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.18s/it, est. speed input: 1248.92 toks/s, output: 14.24 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:02<00:02,  1.91it/s, est. speed input: 4194.20 toks/s, output: 60.11 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:04<00:02,  1.24it/s, est. speed input: 3289.89 toks/s, output: 78.84 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:04<00:01,  1.29it/s, est. speed input: 3381.27 toks/s, output: 113.30 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:05<00:00,  1.63it/s, est. speed input: 3780.41 toks/s, output: 155.57 toks/s][A
+Processed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.49s/it, est. speed input: 2516.90 toks/s, output: 149.83 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.08s/it, est. speed input: 2516.90 toks/s, output: 149.83 toks/s]
+2025-05-30 09:33:21,185 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A 55%|##################################2                           | 69/125 [10:21<08:15,  8.85s/it]
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.21s/it, est. speed input: 1231.92 toks/s, output: 14.95 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:02<00:06,  1.17s/it, est. speed input: 2058.08 toks/s, output: 35.57 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:04<00:03,  1.14it/s, est. speed input: 2682.96 toks/s, output: 77.91 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:04<00:00,  2.17it/s, est. speed input: 4225.94 toks/s, output: 183.21 toks/s][A
+Processed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.27s/it, est. speed input: 2492.76 toks/s, output: 153.16 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.09s/it, est. speed input: 2492.76 toks/s, output: 153.16 toks/s]
+ 57%|###################################2                          | 71/125 [10:28<07:56,  8.82s/it]2025-05-30 09:33:29,994 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:18,  2.63s/it, est. speed input: 1035.00 toks/s, output: 22.78 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:03<00:08,  1.43s/it, est. speed input: 1691.62 toks/s, output: 49.01 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:04<00:05,  1.20s/it, est. speed input: 1971.86 toks/s, output: 76.47 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:04<00:01,  1.55it/s, est. speed input: 2967.14 toks/s, output: 145.46 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:08<00:03,  1.72s/it, est. speed input: 1824.04 toks/s, output: 131.64 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.12s/it, est. speed input: 2431.56 toks/s, output: 245.88 toks/s]
+2025-05-30 09:33:39,028 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A 57%|###################################2                          | 71/125 [10:38<07:56,  8.82s/it]
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.19s/it, est. speed input: 1240.23 toks/s, output: 14.59 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:02<00:03,  1.60it/s, est. speed input: 3477.18 toks/s, output: 47.29 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:02<00:02,  1.84it/s, est. speed input: 3985.02 toks/s, output: 65.48 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:02<00:01,  2.22it/s, est. speed input: 4543.00 toks/s, output: 88.78 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:04<00:00,  1.82it/s, est. speed input: 4428.12 toks/s, output: 125.50 toks/s][A
+Processed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.51s/it, est. speed input: 2536.21 toks/s, output: 122.54 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.07s/it, est. speed input: 2536.21 toks/s, output: 122.54 toks/s]
+ 58%|####################################2                         | 73/125 [10:46<07:39,  8.83s/it]2025-05-30 09:33:47,690 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.27s/it, est. speed input: 1201.93 toks/s, output: 16.30 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:02<00:06,  1.09s/it, est. speed input: 2148.97 toks/s, output: 35.89 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:02<00:01,  2.06it/s, est. speed input: 3905.87 toks/s, output: 77.44 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:04<00:02,  1.37it/s, est. speed input: 3349.32 toks/s, output: 93.23 toks/s][A
+Processed prompts: 100%|██████████| 8/8 [00:04<00:00,  2.94it/s, est. speed input: 5182.84 toks/s, output: 212.34 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:04<00:00,  1.90it/s, est. speed input: 5182.84 toks/s, output: 212.34 toks/s]
+2025-05-30 09:33:51,968 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.18s/it, est. speed input: 1247.39 toks/s, output: 14.22 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:02<00:07,  1.18s/it, est. speed input: 2042.54 toks/s, output: 34.93 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:03<00:04,  1.22it/s, est. speed input: 2669.63 toks/s, output: 59.23 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:03<00:02,  1.82it/s, est. speed input: 3410.14 toks/s, output: 87.14 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:03<00:01,  1.57it/s, est. speed input: 3417.36 toks/s, output: 108.48 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:06<00:00,  1.01it/s, est. speed input: 2867.11 toks/s, output: 142.09 toks/s][A 58%|####################################2                         | 73/125 [10:58<07:39,  8.83s/it]
+Processed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.27s/it, est. speed input: 2504.46 toks/s, output: 167.45 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.09s/it, est. speed input: 2504.46 toks/s, output: 167.45 toks/s]
+ 60%|#####################################1                        | 75/125 [10:59<06:46,  8.14s/it]2025-05-30 09:34:00,755 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:18,  2.60s/it, est. speed input: 1048.53 toks/s, output: 22.33 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:02<00:06,  1.13s/it, est. speed input: 2012.76 toks/s, output: 45.45 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:03<00:02,  1.50it/s, est. speed input: 3131.50 toks/s, output: 88.49 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:03<00:01,  1.69it/s, est. speed input: 3482.53 toks/s, output: 116.57 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:04<00:00,  2.19it/s, est. speed input: 4023.33 toks/s, output: 151.41 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:04<00:00,  2.48it/s, est. speed input: 4393.05 toks/s, output: 183.22 toks/s][A
+Processed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.60s/it, est. speed input: 2503.34 toks/s, output: 150.20 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.09s/it, est. speed input: 2503.34 toks/s, output: 150.20 toks/s]
+2025-05-30 09:34:09,529 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.27s/it, est. speed input: 1200.52 toks/s, output: 16.31 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:02<00:06,  1.07s/it, est. speed input: 2173.99 toks/s, output: 35.57 toks/s][A 60%|#####################################1                        | 75/125 [11:11<06:46,  8.14s/it]
+Processed prompts:  50%|█████     | 4/8 [00:04<00:04,  1.03s/it, est. speed input: 2411.84 toks/s, output: 73.35 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:05<00:03,  1.13s/it, est. speed input: 2323.00 toks/s, output: 104.92 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:08<00:03,  1.73s/it, est. speed input: 1822.06 toks/s, output: 125.68 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.12s/it, est. speed input: 2428.88 toks/s, output: 239.87 toks/s]
+ 62%|######################################1                       | 77/125 [11:16<06:41,  8.37s/it]2025-05-30 09:34:18,575 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.21s/it, est. speed input: 1232.68 toks/s, output: 14.96 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:04<00:12,  2.01s/it, est. speed input: 1331.81 toks/s, output: 45.77 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:04<00:06,  1.27s/it, est. speed input: 1828.26 toks/s, output: 81.99 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:04<00:01,  1.61it/s, est. speed input: 2884.35 toks/s, output: 157.56 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:09<00:03,  1.68s/it, est. speed input: 1813.15 toks/s, output: 139.38 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:09<00:00,  1.13s/it, est. speed input: 2417.92 toks/s, output: 253.10 toks/s]
+2025-05-30 09:34:27,658 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A 62%|######################################1                       | 77/125 [11:28<06:41,  8.37s/it]
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:18,  2.60s/it, est. speed input: 1047.28 toks/s, output: 22.31 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:03<00:05,  1.09s/it, est. speed input: 2185.96 toks/s, output: 67.21 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:04<00:04,  1.07s/it, est. speed input: 2287.17 toks/s, output: 95.14 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:09<00:06,  2.15s/it, est. speed input: 1498.76 toks/s, output: 106.26 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:09<00:00,  1.14s/it, est. speed input: 2398.67 toks/s, output: 275.39 toks/s]
+ 63%|#######################################1                      | 79/125 [11:35<06:35,  8.60s/it]2025-05-30 09:34:36,818 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.16s/it, est. speed input: 1257.95 toks/s, output: 13.88 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:09<00:16,  3.26s/it, est. speed input: 862.08 toks/s, output: 60.55 toks/s] [AProcessed prompts: 100%|██████████| 8/8 [00:09<00:00,  1.18s/it, est. speed input: 2302.54 toks/s, output: 331.06 toks/s]
+2025-05-30 09:34:46,356 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.16s/it, est. speed input: 1257.36 toks/s, output: 13.88 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:02<00:03,  1.67it/s, est. speed input: 3595.67 toks/s, output: 44.50 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:03<00:01,  1.69it/s, est. speed input: 3957.75 toks/s, output: 83.22 toks/s][A 63%|#######################################1                      | 79/125 [11:48<06:35,  8.60s/it]
+Processed prompts:  75%|███████▌  | 6/8 [00:04<00:01,  1.34it/s, est. speed input: 3545.59 toks/s, output: 106.60 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:05<00:00,  1.52it/s, est. speed input: 3791.40 toks/s, output: 144.77 toks/s][A
+Processed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.50s/it, est. speed input: 2521.42 toks/s, output: 143.47 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.08s/it, est. speed input: 2521.42 toks/s, output: 143.47 toks/s]
+ 65%|########################################1                     | 81/125 [11:53<06:25,  8.76s/it]2025-05-30 09:34:55,069 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:17,  2.52s/it, est. speed input: 1078.04 toks/s, output: 21.02 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:03<00:08,  1.39s/it, est. speed input: 1739.19 toks/s, output: 46.37 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:03<00:04,  1.23it/s, est. speed input: 2511.74 toks/s, output: 75.43 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:04<00:03,  1.24it/s, est. speed input: 2695.25 toks/s, output: 98.60 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:04<00:01,  1.59it/s, est. speed input: 3123.03 toks/s, output: 131.76 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:04<00:01,  1.73it/s, est. speed input: 3379.20 toks/s, output: 162.44 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:08<00:01,  1.69s/it, est. speed input: 2160.04 toks/s, output: 147.07 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.10s/it, est. speed input: 2468.99 toks/s, output: 205.13 toks/s]
+2025-05-30 09:35:03,961 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:18,  2.62s/it, est. speed input: 1040.18 toks/s, output: 22.53 toks/s][A 65%|########################################1                     | 81/125 [12:08<06:25,  8.76s/it]
+Processed prompts:  38%|███▊      | 3/8 [00:09<00:16,  3.23s/it, est. speed input: 860.72 toks/s, output: 66.86 toks/s] [AProcessed prompts: 100%|██████████| 8/8 [00:09<00:00,  1.19s/it, est. speed input: 2293.35 toks/s, output: 336.42 toks/s]
+ 66%|#########################################1                    | 83/125 [12:11<06:13,  8.90s/it]2025-05-30 09:35:13,530 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.18s/it, est. speed input: 1249.79 toks/s, output: 14.25 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:02<00:03,  1.60it/s, est. speed input: 3481.15 toks/s, output: 45.23 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:02<00:01,  2.15it/s, est. speed input: 4338.28 toks/s, output: 63.42 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:03<00:00,  3.44it/s, est. speed input: 6293.88 toks/s, output: 121.30 toks/s][A
+Processed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.45s/it, est. speed input: 2547.12 toks/s, output: 102.88 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.07s/it, est. speed input: 2547.12 toks/s, output: 102.88 toks/s]
+2025-05-30 09:35:22,155 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.16s/it, est. speed input: 1259.82 toks/s, output: 13.91 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:02<00:06,  1.09s/it, est. speed input: 2174.83 toks/s, output: 32.81 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:04<00:06,  1.40s/it, est. speed input: 1912.35 toks/s, output: 58.83 toks/s][A 66%|#########################################1                    | 83/125 [12:28<06:13,  8.90s/it]
+Processed prompts:  62%|██████▎   | 5/8 [00:09<00:05,  1.96s/it, est. speed input: 1504.81 toks/s, output: 103.70 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:09<00:00,  1.13s/it, est. speed input: 2407.96 toks/s, output: 273.50 toks/s]
+ 68%|##########################################1                   | 85/125 [12:29<05:55,  8.89s/it]2025-05-30 09:35:31,283 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.17s/it, est. speed input: 1252.65 toks/s, output: 14.29 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:02<00:04,  1.24it/s, est. speed input: 2882.76 toks/s, output: 49.01 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:03<00:02,  1.66it/s, est. speed input: 3578.47 toks/s, output: 74.88 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:03<00:01,  1.60it/s, est. speed input: 3668.17 toks/s, output: 98.32 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:03<00:01,  1.98it/s, est. speed input: 4114.36 toks/s, output: 131.21 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:08<00:01,  1.83s/it, est. speed input: 2196.81 toks/s, output: 119.08 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.08s/it, est. speed input: 2510.42 toks/s, output: 178.10 toks/s]
+2025-05-30 09:35:40,034 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.18s/it, est. speed input: 1245.57 toks/s, output: 14.65 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:02<00:03,  1.62it/s, est. speed input: 3518.02 toks/s, output: 46.10 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:02<00:01,  2.15it/s, est. speed input: 4354.07 toks/s, output: 64.01 toks/s][A 68%|##########################################1                   | 85/125 [12:41<05:55,  8.89s/it]
+Processed prompts:  75%|███████▌  | 6/8 [00:04<00:01,  1.61it/s, est. speed input: 4020.19 toks/s, output: 94.56 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:04<00:00,  1.81it/s, est. speed input: 4312.70 toks/s, output: 131.07 toks/s][A
+Processed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.54s/it, est. speed input: 2536.91 toks/s, output: 127.11 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.07s/it, est. speed input: 2536.91 toks/s, output: 127.11 toks/s]
+ 70%|###########################################1                  | 87/125 [12:47<05:35,  8.84s/it]2025-05-30 09:35:48,689 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.23s/it, est. speed input: 1217.79 toks/s, output: 15.68 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:02<00:03,  1.62it/s, est. speed input: 3488.88 toks/s, output: 48.72 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:09<00:06,  2.01s/it, est. speed input: 1512.61 toks/s, output: 88.62 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:09<00:00,  1.13s/it, est. speed input: 2420.45 toks/s, output: 259.20 toks/s]
+2025-05-30 09:35:57,771 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A 70%|###########################################1                  | 87/125 [12:58<05:35,  8.84s/it]
+Processed prompts:  12%|█▎        | 1/8 [00:04<00:30,  4.29s/it, est. speed input: 636.37 toks/s, output: 38.70 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:04<00:11,  1.88s/it, est. speed input: 1217.79 toks/s, output: 76.84 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:04<00:02,  1.36it/s, est. speed input: 2369.99 toks/s, output: 154.65 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:05<00:02,  1.34it/s, est. speed input: 2540.71 toks/s, output: 177.54 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:08<00:01,  1.24s/it, est. speed input: 2133.03 toks/s, output: 190.83 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.12s/it, est. speed input: 2438.13 toks/s, output: 248.10 toks/s]
+ 71%|############################################1                 | 89/125 [13:05<05:20,  8.90s/it]2025-05-30 09:36:06,787 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.17s/it, est. speed input: 1253.10 toks/s, output: 14.29 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:02<00:02,  1.95it/s, est. speed input: 4276.22 toks/s, output: 61.69 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:02<00:00,  3.03it/s, est. speed input: 5974.55 toks/s, output: 104.20 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:08<00:01,  1.64s/it, est. speed input: 2225.11 toks/s, output: 93.04 toks/s] [AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.07s/it, est. speed input: 2543.04 toks/s, output: 152.80 toks/s]
+2025-05-30 09:36:15,429 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:16,  2.37s/it, est. speed input: 1149.05 toks/s, output: 18.54 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:02<00:06,  1.09s/it, est. speed input: 2127.40 toks/s, output: 39.05 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:03<00:04,  1.19it/s, est. speed input: 2631.56 toks/s, output: 61.84 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:04<00:02,  1.50it/s, est. speed input: 3257.95 toks/s, output: 109.38 toks/s][A 71%|############################################1                 | 89/125 [13:18<05:20,  8.90s/it]
+Processed prompts:  88%|████████▊ | 7/8 [00:08<00:01,  1.38s/it, est. speed input: 2189.19 toks/s, output: 131.40 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.09s/it, est. speed input: 2502.26 toks/s, output: 190.21 toks/s]
+ 73%|#############################################1                | 91/125 [13:22<05:00,  8.84s/it]2025-05-30 09:36:24,209 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.17s/it, est. speed input: 1252.52 toks/s, output: 14.27 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:02<00:05,  1.01it/s, est. speed input: 2325.39 toks/s, output: 31.16 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:02<00:03,  1.55it/s, est. speed input: 3179.56 toks/s, output: 50.59 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:03<00:02,  1.57it/s, est. speed input: 3409.17 toks/s, output: 71.68 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:03<00:01,  1.54it/s, est. speed input: 3525.73 toks/s, output: 97.37 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:04<00:01,  1.72it/s, est. speed input: 3789.67 toks/s, output: 128.99 toks/s][A
+Processed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.37s/it, est. speed input: 2512.15 toks/s, output: 144.17 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.08s/it, est. speed input: 2512.15 toks/s, output: 144.17 toks/s]
+2025-05-30 09:36:32,958 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.15s/it, est. speed input: 1262.04 toks/s, output: 13.93 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:02<00:01,  2.31it/s, est. speed input: 5067.31 toks/s, output: 73.03 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:03<00:01,  1.72it/s, est. speed input: 4344.07 toks/s, output: 91.28 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:04<00:00,  1.66it/s, est. speed input: 4312.46 toks/s, output: 122.24 toks/s][A 73%|#############################################1                | 91/125 [13:38<05:00,  8.84s/it]
+Processed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.53s/it, est. speed input: 2545.39 toks/s, output: 122.96 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.07s/it, est. speed input: 2545.39 toks/s, output: 122.96 toks/s]
+ 74%|##############################################1               | 93/125 [13:39<04:41,  8.80s/it]2025-05-30 09:36:41,590 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:16,  2.31s/it, est. speed input: 1179.77 toks/s, output: 17.30 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:02<00:07,  1.22s/it, est. speed input: 1976.79 toks/s, output: 39.45 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:03<00:04,  1.24it/s, est. speed input: 2655.87 toks/s, output: 64.60 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:03<00:03,  1.28it/s, est. speed input: 2850.50 toks/s, output: 88.65 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:04<00:01,  1.72it/s, est. speed input: 3365.76 toks/s, output: 122.32 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:08<00:04,  2.03s/it, est. speed input: 1838.97 toks/s, output: 113.29 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.11s/it, est. speed input: 2451.82 toks/s, output: 228.49 toks/s]
+2025-05-30 09:36:50,552 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A 74%|##############################################1               | 93/125 [13:51<04:41,  8.80s/it]
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.20s/it, est. speed input: 1233.63 toks/s, output: 14.97 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:02<00:03,  1.36it/s, est. speed input: 3088.68 toks/s, output: 50.29 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:04<00:04,  1.04s/it, est. speed input: 2560.92 toks/s, output: 71.28 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:04<00:02,  1.23it/s, est. speed input: 2951.26 toks/s, output: 108.19 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:08<00:03,  1.93s/it, est. speed input: 1833.27 toks/s, output: 113.46 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.11s/it, est. speed input: 2444.52 toks/s, output: 228.38 toks/s]
+ 76%|###############################################1              | 95/125 [13:57<04:25,  8.85s/it]2025-05-30 09:36:59,537 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:17,  2.53s/it, est. speed input: 1072.87 toks/s, output: 21.31 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:02<00:06,  1.15s/it, est. speed input: 2000.01 toks/s, output: 44.10 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:03<00:04,  1.15it/s, est. speed input: 2511.81 toks/s, output: 67.99 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:04<00:04,  1.05s/it, est. speed input: 2373.00 toks/s, output: 89.78 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:09<00:06,  2.29s/it, est. speed input: 1503.03 toks/s, output: 101.97 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:09<00:00,  1.13s/it, est. speed input: 2404.17 toks/s, output: 271.48 toks/s]
+2025-05-30 09:37:08,675 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A 76%|###############################################1              | 95/125 [14:08<04:25,  8.85s/it]
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:16,  2.36s/it, est. speed input: 1154.63 toks/s, output: 18.19 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:02<00:06,  1.07s/it, est. speed input: 2148.15 toks/s, output: 38.25 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:03<00:04,  1.16it/s, est. speed input: 2600.65 toks/s, output: 60.81 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:05<00:05,  1.39s/it, est. speed input: 2035.90 toks/s, output: 80.91 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:09<00:06,  2.25s/it, est. speed input: 1492.48 toks/s, output: 103.50 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:09<00:00,  1.14s/it, est. speed input: 2386.23 toks/s, output: 271.72 toks/s]
+ 78%|################################################1             | 97/125 [14:16<04:10,  8.95s/it]2025-05-30 09:37:17,907 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:17,  2.53s/it, est. speed input: 1075.16 toks/s, output: 20.97 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:02<00:06,  1.15s/it, est. speed input: 2006.01 toks/s, output: 43.45 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:03<00:04,  1.15it/s, est. speed input: 2515.55 toks/s, output: 67.12 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:03<00:02,  1.58it/s, est. speed input: 3097.85 toks/s, output: 95.53 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:04<00:01,  1.61it/s, est. speed input: 3307.06 toks/s, output: 120.68 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:04<00:00,  2.05it/s, est. speed input: 3942.20 toks/s, output: 180.95 toks/s][A
+Processed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.40s/it, est. speed input: 2491.78 toks/s, output: 158.64 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.09s/it, est. speed input: 2491.78 toks/s, output: 158.64 toks/s]
+2025-05-30 09:37:26,742 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:17,  2.52s/it, est. speed input: 1078.20 toks/s, output: 21.02 toks/s][A 78%|################################################1             | 97/125 [14:28<04:10,  8.95s/it]
+Processed prompts:  25%|██▌       | 2/8 [00:04<00:12,  2.14s/it, est. speed input: 1236.73 toks/s, output: 51.59 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:04<00:03,  1.13it/s, est. speed input: 2332.86 toks/s, output: 128.26 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:09<00:05,  1.99s/it, est. speed input: 1491.80 toks/s, output: 121.72 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:09<00:00,  1.14s/it, est. speed input: 2387.31 toks/s, output: 290.00 toks/s]
+ 79%|#################################################1            | 99/125 [14:34<03:53,  8.97s/it]2025-05-30 09:37:35,946 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.19s/it, est. speed input: 1241.65 toks/s, output: 14.61 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:02<00:05,  1.02it/s, est. speed input: 2351.67 toks/s, output: 31.09 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:02<00:03,  1.56it/s, est. speed input: 3192.75 toks/s, output: 50.03 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:02<00:01,  2.33it/s, est. speed input: 4091.95 toks/s, output: 71.72 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:04<00:02,  1.25it/s, est. speed input: 3304.12 toks/s, output: 87.13 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:08<00:04,  2.12s/it, est. speed input: 1855.90 toks/s, output: 98.96 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.10s/it, est. speed input: 2474.38 toks/s, output: 215.31 toks/s]
+2025-05-30 09:37:44,821 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.21s/it, est. speed input: 1232.93 toks/s, output: 14.96 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:03<00:08,  1.39s/it, est. speed input: 1794.48 toks/s, output: 39.28 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:04<00:06,  1.29s/it, est. speed input: 1946.13 toks/s, output: 67.26 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:04<00:03,  1.20it/s, est. speed input: 2514.35 toks/s, output: 104.93 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:04<00:01,  1.67it/s, est. speed input: 3016.66 toks/s, output: 141.75 toks/s][A
+Processed prompts: 100%|██████████| 8/8 [00:04<00:00,  3.23it/s, est. speed input: 4462.96 toks/s, output: 250.77 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:04<00:00,  1.64it/s, est. speed input: 4462.96 toks/s, output: 250.77 toks/s]
+ 81%|#################################################2           | 101/125 [14:48<03:20,  8.35s/it]2025-05-30 09:37:49,778 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.19s/it, est. speed input: 1242.11 toks/s, output: 14.62 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:02<00:05,  1.04it/s, est. speed input: 2368.05 toks/s, output: 30.90 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:04<00:07,  1.40s/it, est. speed input: 1936.26 toks/s, output: 56.20 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:04<00:02,  1.27it/s, est. speed input: 2807.43 toks/s, output: 127.85 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:08<00:03,  1.74s/it, est. speed input: 1826.51 toks/s, output: 126.56 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.12s/it, est. speed input: 2435.11 toks/s, output: 241.04 toks/s]
+2025-05-30 09:37:58,805 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A 81%|#################################################2           | 101/125 [14:58<03:20,  8.35s/it]
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.19s/it, est. speed input: 1243.05 toks/s, output: 14.62 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:03<00:06,  1.22s/it, est. speed input: 2070.60 toks/s, output: 54.28 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:04<00:03,  1.06it/s, est. speed input: 2488.67 toks/s, output: 89.39 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:09<00:06,  2.17s/it, est. speed input: 1505.79 toks/s, output: 99.94 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:09<00:00,  1.13s/it, est. speed input: 2409.92 toks/s, output: 269.92 toks/s]
+ 82%|##################################################2          | 103/125 [15:06<03:08,  8.57s/it]2025-05-30 09:38:07,924 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.19s/it, est. speed input: 1239.65 toks/s, output: 14.58 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:02<00:03,  1.44it/s, est. speed input: 3229.58 toks/s, output: 47.07 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:02<00:01,  2.05it/s, est. speed input: 4137.08 toks/s, output: 68.38 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:08<00:03,  1.77s/it, est. speed input: 1864.43 toks/s, output: 86.39 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.10s/it, est. speed input: 2486.34 toks/s, output: 203.25 toks/s]
+2025-05-30 09:38:16,762 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.19s/it, est. speed input: 1241.69 toks/s, output: 14.61 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:02<00:06,  1.13s/it, est. speed input: 2109.30 toks/s, output: 34.49 toks/s][A 82%|##################################################2          | 103/125 [15:18<03:08,  8.57s/it]
+Processed prompts:  38%|███▊      | 3/8 [00:03<00:06,  1.25s/it, est. speed input: 2057.74 toks/s, output: 59.96 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:04<00:03,  1.15it/s, est. speed input: 2561.15 toks/s, output: 95.48 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:04<00:01,  1.56it/s, est. speed input: 3032.94 toks/s, output: 131.65 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:08<00:03,  1.93s/it, est. speed input: 1828.63 toks/s, output: 123.42 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.12s/it, est. speed input: 2439.65 toks/s, output: 238.00 toks/s]
+ 84%|###################################################2         | 105/125 [15:24<02:53,  8.68s/it]2025-05-30 09:38:25,792 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.16s/it, est. speed input: 1256.94 toks/s, output: 13.87 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:02<00:03,  1.36it/s, est. speed input: 3100.89 toks/s, output: 46.74 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:04<00:04,  1.07s/it, est. speed input: 2517.01 toks/s, output: 68.87 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:04<00:01,  1.57it/s, est. speed input: 3450.44 toks/s, output: 143.19 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:08<00:01,  1.53s/it, est. speed input: 2169.07 toks/s, output: 135.44 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.10s/it, est. speed input: 2479.16 toks/s, output: 193.71 toks/s]
+2025-05-30 09:38:34,656 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.24s/it, est. speed input: 1214.82 toks/s, output: 15.63 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:02<00:06,  1.08s/it, est. speed input: 2171.55 toks/s, output: 34.74 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:03<00:02,  1.71it/s, est. speed input: 3523.20 toks/s, output: 74.83 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:04<00:02,  1.17it/s, est. speed input: 2991.64 toks/s, output: 93.91 toks/s][A 84%|###################################################2         | 105/125 [15:38<02:53,  8.68s/it]
+Processed prompts:  88%|████████▊ | 7/8 [00:08<00:01,  1.43s/it, est. speed input: 2185.53 toks/s, output: 130.22 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.09s/it, est. speed input: 2497.66 toks/s, output: 188.96 toks/s]
+ 86%|####################################################2        | 107/125 [15:41<02:37,  8.73s/it]2025-05-30 09:38:43,443 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.18s/it, est. speed input: 1249.13 toks/s, output: 14.24 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:02<00:06,  1.12s/it, est. speed input: 2133.36 toks/s, output: 33.73 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:02<00:03,  1.34it/s, est. speed input: 2865.29 toks/s, output: 56.45 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:04<00:03,  1.10it/s, est. speed input: 2715.56 toks/s, output: 78.28 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:04<00:01,  1.61it/s, est. speed input: 3303.16 toks/s, output: 115.21 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:04<00:01,  1.72it/s, est. speed input: 3532.49 toks/s, output: 145.48 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:08<00:01,  1.75s/it, est. speed input: 2174.27 toks/s, output: 135.14 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.10s/it, est. speed input: 2484.29 toks/s, output: 193.52 toks/s]
+2025-05-30 09:38:52,294 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:18,  2.63s/it, est. speed input: 1035.60 toks/s, output: 22.80 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:03<00:08,  1.37s/it, est. speed input: 1749.31 toks/s, output: 48.51 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:04<00:05,  1.19s/it, est. speed input: 1994.05 toks/s, output: 74.97 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:04<00:03,  1.20it/s, est. speed input: 2486.26 toks/s, output: 110.10 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:04<00:01,  1.58it/s, est. speed input: 2922.98 toks/s, output: 145.41 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:05<00:01,  1.83it/s, est. speed input: 3243.01 toks/s, output: 178.69 toks/s][A 86%|####################################################2        | 107/125 [15:58<02:37,  8.73s/it]
+Processed prompts:  88%|████████▊ | 7/8 [00:08<00:01,  1.61s/it, est. speed input: 2153.82 toks/s, output: 159.58 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.11s/it, est. speed input: 2461.61 toks/s, output: 217.43 toks/s]
+ 87%|#####################################################1       | 109/125 [15:59<02:20,  8.77s/it]2025-05-30 09:39:01,221 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:17,  2.53s/it, est. speed input: 1073.88 toks/s, output: 21.33 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:04<00:12,  2.07s/it, est. speed input: 1273.68 toks/s, output: 51.51 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:04<00:06,  1.23s/it, est. speed input: 1814.29 toks/s, output: 89.15 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:05<00:03,  1.01it/s, est. speed input: 2120.38 toks/s, output: 121.64 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:09<00:06,  2.08s/it, est. speed input: 1488.19 toks/s, output: 124.27 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:09<00:00,  1.14s/it, est. speed input: 2380.10 toks/s, output: 292.14 toks/s]
+2025-05-30 09:39:10,443 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:14,  2.13s/it, est. speed input: 1277.70 toks/s, output: 13.15 toks/s][A 87%|#####################################################1       | 109/125 [16:11<02:20,  8.77s/it]
+Processed prompts:  38%|███▊      | 3/8 [00:03<00:04,  1.03it/s, est. speed input: 2502.83 toks/s, output: 50.23 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:04<00:04,  1.01s/it, est. speed input: 2511.67 toks/s, output: 78.19 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:04<00:02,  1.25it/s, est. speed input: 2882.82 toks/s, output: 114.70 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:05<00:01,  1.42it/s, est. speed input: 3136.43 toks/s, output: 149.76 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:08<00:01,  1.61s/it, est. speed input: 2164.92 toks/s, output: 146.64 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.10s/it, est. speed input: 2474.25 toks/s, output: 204.70 toks/s]
+ 89%|######################################################1      | 111/125 [16:17<02:04,  8.86s/it]2025-05-30 09:39:19,351 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.25s/it, est. speed input: 1207.93 toks/s, output: 15.98 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:02<00:06,  1.09s/it, est. speed input: 2147.54 toks/s, output: 35.52 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:02<00:03,  1.38it/s, est. speed input: 2893.15 toks/s, output: 57.78 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:03<00:02,  1.61it/s, est. speed input: 3316.15 toks/s, output: 81.35 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:04<00:02,  1.39it/s, est. speed input: 3261.79 toks/s, output: 104.29 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:04<00:01,  1.83it/s, est. speed input: 3719.88 toks/s, output: 141.04 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:08<00:01,  1.78s/it, est. speed input: 2186.56 toks/s, output: 129.75 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.09s/it, est. speed input: 2499.23 toks/s, output: 188.48 toks/s]
+2025-05-30 09:39:28,140 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A 89%|######################################################1      | 111/125 [16:28<02:04,  8.86s/it]
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:17,  2.55s/it, est. speed input: 1065.88 toks/s, output: 21.54 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:04<00:13,  2.33s/it, est. speed input: 1152.04 toks/s, output: 52.88 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:09<00:09,  2.35s/it, est. speed input: 1151.31 toks/s, output: 101.64 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:09<00:00,  1.18s/it, est. speed input: 2300.66 toks/s, output: 318.01 toks/s]
+ 90%|#######################################################1     | 113/125 [16:36<01:47,  8.95s/it]2025-05-30 09:39:37,678 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:18,  2.58s/it, est. speed input: 1054.07 toks/s, output: 22.06 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:03<00:10,  1.79s/it, est. speed input: 1423.61 toks/s, output: 50.71 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:04<00:05,  1.06s/it, est. speed input: 2029.70 toks/s, output: 85.52 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:04<00:00,  2.29it/s, est. speed input: 3737.26 toks/s, output: 189.36 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:06<00:00,  1.35it/s, est. speed input: 3138.48 toks/s, output: 186.36 toks/s][A
+Processed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.25s/it, est. speed input: 2472.84 toks/s, output: 186.66 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.10s/it, est. speed input: 2472.84 toks/s, output: 186.66 toks/s]
+2025-05-30 09:39:46,571 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.19s/it, est. speed input: 1240.11 toks/s, output: 14.59 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:02<00:06,  1.02s/it, est. speed input: 2275.13 toks/s, output: 32.14 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:02<00:03,  1.43it/s, est. speed input: 3014.60 toks/s, output: 52.69 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:03<00:02,  1.65it/s, est. speed input: 3433.72 toks/s, output: 75.59 toks/s][A 90%|#######################################################1     | 113/125 [16:48<01:47,  8.95s/it]
+Processed prompts:  62%|██████▎   | 5/8 [00:04<00:02,  1.28it/s, est. speed input: 3188.04 toks/s, output: 97.36 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:08<00:01,  1.51s/it, est. speed input: 2188.91 toks/s, output: 127.22 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.09s/it, est. speed input: 2502.76 toks/s, output: 186.00 toks/s]
+ 92%|########################################################1    | 115/125 [16:53<01:29,  8.92s/it]2025-05-30 09:39:55,358 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.20s/it, est. speed input: 1233.69 toks/s, output: 14.97 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:02<00:01,  2.24it/s, est. speed input: 4711.69 toks/s, output: 62.75 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:08<00:03,  1.66s/it, est. speed input: 1860.02 toks/s, output: 96.78 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.10s/it, est. speed input: 2481.29 toks/s, output: 213.37 toks/s]
+2025-05-30 09:40:04,214 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:16,  2.30s/it, est. speed input: 1184.16 toks/s, output: 16.95 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:02<00:06,  1.08s/it, est. speed input: 2160.21 toks/s, output: 36.51 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:02<00:03,  1.55it/s, est. speed input: 3075.67 toks/s, output: 57.97 toks/s][A 92%|########################################################1    | 115/125 [17:08<01:29,  8.92s/it]
+Processed prompts:  50%|█████     | 4/8 [00:09<00:12,  3.05s/it, est. speed input: 1161.51 toks/s, output: 71.01 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:09<00:00,  1.17s/it, est. speed input: 2323.28 toks/s, output: 289.38 toks/s]
+ 94%|#########################################################    | 117/125 [17:12<01:11,  8.99s/it]2025-05-30 09:40:13,663 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.17s/it, est. speed input: 1251.10 toks/s, output: 14.26 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:02<00:07,  1.28s/it, est. speed input: 1928.00 toks/s, output: 36.80 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:04<00:04,  1.06s/it, est. speed input: 2335.41 toks/s, output: 80.30 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:09<00:06,  2.08s/it, est. speed input: 1504.99 toks/s, output: 97.97 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:09<00:00,  1.13s/it, est. speed input: 2407.08 toks/s, output: 267.61 toks/s]
+2025-05-30 09:40:22,803 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:14,  2.12s/it, est. speed input: 1279.42 toks/s, output: 13.18 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:04<00:03,  1.07it/s, est. speed input: 2651.27 toks/s, output: 62.38 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:04<00:02,  1.23it/s, est. speed input: 2963.85 toks/s, output: 98.46 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:04<00:01,  1.53it/s, est. speed input: 3367.11 toks/s, output: 137.55 toks/s][A 94%|#########################################################    | 117/125 [17:28<01:11,  8.99s/it]
+Processed prompts:  88%|████████▊ | 7/8 [00:08<00:01,  1.60s/it, est. speed input: 2172.59 toks/s, output: 134.45 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.10s/it, est. speed input: 2482.84 toks/s, output: 192.84 toks/s]
+ 95%|##########################################################   | 119/125 [17:30<00:53,  8.99s/it]2025-05-30 09:40:31,645 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.19s/it, est. speed input: 1244.67 toks/s, output: 14.64 toks/s][A
+Processed prompts:  25%|██▌       | 2/8 [00:02<00:05,  1.02it/s, est. speed input: 2342.08 toks/s, output: 31.39 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:04<00:03,  1.11it/s, est. speed input: 2699.63 toks/s, output: 67.39 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:04<00:02,  1.48it/s, est. speed input: 3239.07 toks/s, output: 104.68 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:04<00:01,  1.71it/s, est. speed input: 3563.77 toks/s, output: 138.69 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:08<00:01,  1.68s/it, est. speed input: 2176.09 toks/s, output: 131.05 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.10s/it, est. speed input: 2487.79 toks/s, output: 189.49 toks/s]
+2025-05-30 09:40:40,478 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A 95%|##########################################################   | 119/125 [17:41<00:53,  8.99s/it]
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.21s/it, est. speed input: 1228.25 toks/s, output: 15.35 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:02<00:03,  1.48it/s, est. speed input: 3280.37 toks/s, output: 48.26 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:04<00:04,  1.07s/it, est. speed input: 2528.83 toks/s, output: 68.35 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:09<00:06,  2.27s/it, est. speed input: 1509.81 toks/s, output: 89.51 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:09<00:00,  1.13s/it, est. speed input: 2418.09 toks/s, output: 260.09 toks/s]
+ 97%|###########################################################  | 121/125 [17:47<00:35,  8.98s/it]2025-05-30 09:40:49,554 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:16,  2.29s/it, est. speed input: 1186.87 toks/s, output: 17.00 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:02<00:03,  1.48it/s, est. speed input: 3254.84 toks/s, output: 53.83 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:04<00:01,  1.55it/s, est. speed input: 3724.72 toks/s, output: 99.90 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:05<00:00,  1.22it/s, est. speed input: 3289.13 toks/s, output: 126.98 toks/s][A
+Processed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.30s/it, est. speed input: 2530.94 toks/s, output: 144.98 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.08s/it, est. speed input: 2530.94 toks/s, output: 144.98 toks/s]
+2025-05-30 09:40:58,237 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A 97%|###########################################################  | 121/125 [17:58<00:35,  8.98s/it]
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:17,  2.50s/it, est. speed input: 1087.71 toks/s, output: 20.82 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:02<00:03,  1.46it/s, est. speed input: 3132.75 toks/s, output: 62.96 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:04<00:02,  1.31it/s, est. speed input: 3183.46 toks/s, output: 116.08 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:04<00:01,  1.58it/s, est. speed input: 3581.40 toks/s, output: 151.13 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:05<00:00,  1.56it/s, est. speed input: 3651.25 toks/s, output: 178.59 toks/s][A
+Processed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.46s/it, est. speed input: 2488.10 toks/s, output: 164.96 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.09s/it, est. speed input: 2488.10 toks/s, output: 164.96 toks/s]
+ 98%|############################################################ | 123/125 [18:05<00:17,  8.91s/it]2025-05-30 09:41:07,063 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.15s/it, est. speed input: 1264.01 toks/s, output: 13.95 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:04<00:06,  1.26s/it, est. speed input: 2011.23 toks/s, output: 54.24 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:04<00:04,  1.04s/it, est. speed input: 2332.29 toks/s, output: 89.36 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:04<00:02,  1.27it/s, est. speed input: 2752.00 toks/s, output: 128.21 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:06<00:01,  1.06it/s, est. speed input: 2625.83 toks/s, output: 151.86 toks/s][A
+Processed prompts:  88%|████████▊ | 7/8 [00:08<00:01,  1.48s/it, est. speed input: 2147.75 toks/s, output: 164.15 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.11s/it, est. speed input: 2454.93 toks/s, output: 221.82 toks/s]
+2025-05-30 09:41:16,016 - INFO - Using adapter /sorgin1/users/jbarrutia006/viper/dpo_trained_models/qwen-05-28_22-37-13/checkpoint-2100
+
+Processed prompts:   0%|          | 0/8 [00:00<?, ?it/s, est. speed input: 0.00 toks/s, output: 0.00 toks/s][A
+Processed prompts:  12%|█▎        | 1/8 [00:02<00:15,  2.17s/it, est. speed input: 1254.50 toks/s, output: 14.30 toks/s][A
+Processed prompts:  38%|███▊      | 3/8 [00:02<00:03,  1.41it/s, est. speed input: 3185.28 toks/s, output: 47.62 toks/s][A
+Processed prompts:  50%|█████     | 4/8 [00:03<00:02,  1.42it/s, est. speed input: 3337.06 toks/s, output: 69.30 toks/s][A
+Processed prompts:  62%|██████▎   | 5/8 [00:03<00:01,  1.95it/s, est. speed input: 4018.17 toks/s, output: 100.10 toks/s][A
+Processed prompts:  75%|███████▌  | 6/8 [00:04<00:01,  1.79it/s, est. speed input: 4042.48 toks/s, output: 123.79 toks/s][A 98%|############################################################ | 123/125 [18:18<00:17,  8.91s/it]
+Processed prompts:  88%|████████▊ | 7/8 [00:08<00:01,  1.84s/it, est. speed input: 2197.76 toks/s, output: 116.73 toks/s][AProcessed prompts: 100%|██████████| 8/8 [00:08<00:00,  1.08s/it, est. speed input: 2511.79 toks/s, output: 175.78 toks/s]
+100%|#############################################################| 125/125 [18:23<00:00,  8.89s/it]100%|#############################################################| 125/125 [18:23<00:00,  8.83s/it]
+2025-05-30 09:41:24,749 - INFO - Saving results to Qwen257b___05-30_09-41.csv
+[rank0]:[W530 09:41:25.847075290 ProcessGroupNCCL.cpp:1250] Warning: WARNING: process group has NOT been destroyed before we destruct ProcessGroupNCCL. On normal program exit, the application should call destroy_process_group to ensure that any pending NCCL operations have finished in this process. In rare cases this process can exit before this point and block the progress of another member of the process group. This constraint has always been present,  but this warning has only been added since PyTorch 2.4 (function operator())
+2025-05-30 09:41:32,813 - INFO - {'multiprocessing': False, 'path_pretrained_models': './pretrained_models', 'execute_code': True, 'dataset': {'dataset_name': 'GQA', 'data_path': './data/gqa', 'split': 'val', 'max_samples': 1000, 'batch_size': 32, 'start_sample': 0, 'testing': False}, 'load_models': {'maskrcnn': True, 'clip': False, 'glip': True, 'owlvit': False, 'tcl': False, 'gpt3_qa': False, 'gpt3_general': False, 'depth': False, 'blip': True, 'saliency': False, 'xvlm': True, 'codex': False, 'codellama': False, 'codellama_Q': False, 'llm_query': False, 'llm_guess': False, 'gpt3_list': False, 'qa': False, 'guess': False}, 'detect_thresholds': {'glip': 0.5, 'maskrcnn': 0.8, 'owlvit': 0.1}, 'ratio_box_area_to_image_area': 0.0, 'crop_larger_margin': True, 'verify_property': {'model': 'xvlm', 'thresh_clip': 0.6, 'thresh_tcl': 0.25, 'thresh_xvlm': 0.6}, 'best_match_model': 'xvlm', 'gpt3': {'n_votes': 1, 'qa_prompt': './prompts/gpt3/gpt3_qa.txt', 'guess_prompt': './prompts/gpt3/gpt3_process_guess.txt', 'temperature': 0.0, 'model': 'text-davinci-003'}, 'codex': {'temperature': 0.0, 'best_of': 1, 'max_tokens': 512, 'prompt': './prompts/benchmarks/gqa.prompt', 'model': 'gpt-3.5-turbo', 'extra_context': None}, 'save': True, 'save_new_results': True, 'save_codex': False, 'results_dir': './results/gqa/all/', 'use_cache': True, 'clear_cache': True, 'log_every': 20, 'wandb': False, 'blip_half_precision': False, 'blip_v2_model_type': 'blip2-flan-t5-xl', 'glip_model_type': 'large', 'use_fixed_code': False, 'fixed_code_file': './prompts/fixed_code/blip2.prompt', 'cognition': {'is_setted': False}, 'use_cached_codex': True, 'cached_codex_path': 'results/gqa/codex_results/val/Qwen257b___05-30_09-41.csv'}
+2025-05-30 09:41:36,678 - INFO - Starting main
+Loading checkpoint shards:   0%|          | 0/2 [00:00<?, ?it/s]Loading checkpoint shards:  50%|█████     | 1/2 [00:00<00:00,  2.28it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  3.05it/s]Loading checkpoint shards: 100%|██████████| 2/2 [00:00<00:00,  2.90it/s]
+2025-05-30 09:41:51,853 - INFO - BLIP loaded
+/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/torch/functional.py:534: UserWarning: torch.meshgrid: in an upcoming release, it will be required to pass the indexing argument. (Triggered internally at ../aten/src/ATen/native/TensorShape.cpp:3595.)
+  return _VF.meshgrid(tensors, **kwargs)  # type: ignore[attr-defined]
+/sorgin1/users/jbarrutia006/viper/GLIP/maskrcnn_benchmark/utils/checkpoint.py:115: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  return torch.load(f, map_location=torch.device("cpu"))
+2025-05-30 09:42:02,501 - INFO - GLIP model is loaded in cuda:0
+/sorgin1/users/jbarrutia006/viper/src/vision_models.py:2469: FutureWarning: You are using `torch.load` with `weights_only=False` (the current default value), which uses the default pickle module implicitly. It is possible to construct malicious pickle data which will execute arbitrary code during unpickling (See https://github.com/pytorch/pytorch/blob/main/SECURITY.md#untrusted-models for more details). In a future release, the default value for `weights_only` will be flipped to `True`. This limits the functions that could be executed during unpickling. Arbitrary objects will no longer be allowed to be loaded via this mode unless they are explicitly allowlisted by the user via `torch.serialization.add_safe_globals`. We recommend you start setting `weights_only=True` for any use case where you don't have full control of the loaded file. Please open an issue on GitHub for any issues related to this experimental feature.
+  checkpoint = torch.load(path_checkpoint, map_location='cpu')
+2025-05-30 09:42:05,647 - INFO - Models successfully loaded
+2025-05-30 09:42:05,647 - WARNING - [Memory(location=cache/joblib)]: Flushing completely the cache
+2025-05-30 09:42:10,634 - INFO - Dataset loaded
+  0%|                                                                        | 0/32 [00:00<?, ?it/s]/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/torch/_dynamo/eval_frame.py:632: UserWarning: torch.utils.checkpoint: the use_reentrant parameter should be passed explicitly. In version 2.5 we will raise an exception if use_reentrant is not passed. use_reentrant=False is recommended, but if you need to preserve the current default behavior, you can pass use_reentrant=True. Refer to docs for more details on the differences between the two variants.
+  return fn(*args, **kwargs)
+/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/transformers/modeling_utils.py:1044: FutureWarning: The `device` argument is deprecated and will be removed in v5 of Transformers.
+  warnings.warn(
+/sorgin1/users/jbarrutia006/viper/GLIP/maskrcnn_benchmark/modeling/rpn/vldyhead.py:210: UserWarning: `nn.functional.upsample_bilinear` is deprecated. Use `nn.functional.interpolate` instead.
+  temp_fea.append(F.upsample_bilinear(self.DyConv[0](visual_feats[level + 1], **conv_args),
+/sorgin1/users/jbarrutia006/venvs/viper_tximista/lib/python3.11/site-packages/transformers/generation/configuration_utils.py:633: UserWarning: `do_sample` is set to `False`. However, `top_p` is set to `0.9` -- this flag is only used in sample-based generation modes. You should set `do_sample=True` or unset `top_p`.
+  warnings.warn(
+  3%|##                                                              | 1/32 [00:17<09:02, 17.50s/it]  6%|####                                                            | 2/32 [00:29<07:03, 14.13s/it]  9%|######                                                          | 3/32 [00:44<07:10, 14.85s/it] 12%|########                                                        | 4/32 [00:59<06:50, 14.65s/it] 16%|##########                                                      | 5/32 [01:15<06:52, 15.28s/it] 19%|############                                                    | 6/32 [01:34<07:06, 16.40s/it] 22%|##############                                                  | 7/32 [01:55<07:25, 17.83s/it] 25%|################                                                | 8/32 [02:14<07:21, 18.40s/it] 28%|##################                                              | 9/32 [02:32<06:55, 18.07s/it] 31%|###################6                                           | 10/32 [02:53<06:57, 18.99s/it] 34%|#####################6                                         | 11/32 [03:08<06:14, 17.85s/it] 38%|#######################6                                       | 12/32 [03:25<05:54, 17.71s/it] 41%|#########################5                                     | 13/32 [03:43<05:38, 17.83s/it] 44%|###########################5                                   | 14/32 [03:57<04:59, 16.66s/it] 47%|#############################5                                 | 15/32 [04:12<04:35, 16.20s/it] 50%|###############################5                               | 16/32 [04:25<04:03, 15.21s/it] 53%|#################################4                             | 17/32 [04:39<03:40, 14.70s/it] 56%|###################################4                           | 18/32 [04:53<03:25, 14.67s/it] 59%|#####################################4                         | 19/32 [05:07<03:07, 14.43s/it] 62%|#######################################3                       | 20/32 [05:21<02:51, 14.30s/it] 66%|#########################################3                     | 21/32 [05:38<02:45, 15.09s/it] 69%|###########################################3                   | 22/32 [05:56<02:38, 15.85s/it] 72%|#############################################2                 | 23/32 [06:10<02:17, 15.32s/it] 75%|###############################################2               | 24/32 [06:31<02:16, 17.04s/it] 78%|#################################################2             | 25/32 [06:50<02:03, 17.70s/it] 81%|###################################################1           | 26/32 [07:09<01:47, 17.88s/it] 84%|#####################################################1         | 27/32 [07:24<01:25, 17.12s/it] 88%|#######################################################1       | 28/32 [07:43<01:10, 17.58s/it] 91%|#########################################################      | 29/32 [08:00<00:52, 17.44s/it] 94%|###########################################################    | 30/32 [08:16<00:34, 17.15s/it] 97%|#############################################################  | 31/32 [08:39<00:18, 18.97s/it]100%|###############################################################| 32/32 [08:46<00:00, 16.44s/it]
+2025-05-30 09:50:56,846 - INFO - Saving results to eval_09-41___05-30_09-50.csv

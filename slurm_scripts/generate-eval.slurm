@@ -1,6 +1,6 @@
 #!/bin/bash
 
-#SBATCH --job-name=cod_eval_gqa
+#SBATCH --job-name=generate_eval
 #SBATCH -D .
 #SBATCH --cpus-per-task=1
 #SBATCH --ntasks-per-node=1
@@ -8,8 +8,8 @@
 #SBATCH --gres=gpu:1
 #SBATCH --time=1:00:00
 
-#SBATCH --output=/sorgin1/users/jbarrutia006/viper/slurm_scripts/outputs/general_eval.txt
-#SBATCH --error=/sorgin1/users/jbarrutia006/viper/slurm_scripts/outputs/general_eval.err
+#SBATCH --output=/sorgin1/users/jbarrutia006/viper/slurm_scripts/outputs/%x-%A.log
+
 
 #SBATCH --mail-type=all
 #SBATCH --mail-user=jbarrutia006@ikasle.ehu.eus
@@ -19,12 +19,12 @@ source /sorgin1/users/jbarrutia006/venvs/viper_tximista/bin/activate
 export LOAD_MODELS=0
 export DATASET='gqa'
 export EXEC_MODE='codex'
-export CODEX_MODEL='codellama_base'
+export CODEX_MODEL='codellama'
 export PARTITION='val'
 export BATCHSIZE=8
 export TEMP=0
 export NUMINST=
-export CHECKPOINT='dpo_trained_models/05-28_22-29-47/checkpoint-1800'
+export CHECKPOINT=''
 
 srun python src/main_project_slurm.py
 

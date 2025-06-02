@@ -1517,15 +1517,6 @@ class codellama(CodexModelInstructed):
 
             tokenizer = self.llm.get_tokenizer()
 
-            # Cleanly patch chat template to preserve leading spaces
-            tokenizer.chat_template = tokenizer.chat_template.replace(
-                "message['content'] | trim",
-                "message['content']"
-            ).replace(
-                "messages[0]['content'] | trim",
-                "messages[0]['content']"
-            )
-
             chat_prompts = [tokenizer.apply_chat_template(p, tokenize=False, add_generation_prompt=True) for p in extended_prompt]
 
             logger.info(f"Chat prompts: {chat_prompts}")
@@ -1751,85 +1742,85 @@ class llama31Q(CodexModelInstructed):
             logger.error(f"Error de llama: {e}")
 
             
-class llama3Q(CodexModelInstructed):
-    name = 'llama3Q'
-    max_batch_size=64 
-    def __init__(self, gpu_number=0):
-        super().__init__(gpu_number=gpu_number)
-        model_name = config.codex.model_name
+# class llama3Q(CodexModelInstructed):
+#     name = 'llama3Q'
+#     max_batch_size=64 
+#     def __init__(self, gpu_number=0):
+#         super().__init__(gpu_number=gpu_number)
+#         model_name = config.codex.model_name
 
-        if model_name.startswith('/'):
-            assert os.path.exists(model_name), \
-                f'Model path {model_name} does not exist. If you use the model ID it will be downloaded automatically'
-        else:
-            assert model_name in ['meta-llama/Meta-Llama-3-8B-Instruct']
-
-
-        capability = torch.cuda.get_device_capability(gpu_number)
-        compute_capability = capability[0] + capability[1] / 10.0
-
-        # Set dtype based on GPU support
-        dtype = 'bfloat16' if compute_capability >= 8.0 else 'float16'
-        logger.info(f"Using dtype={dtype} based on compute capability={compute_capability}")
+#         if model_name.startswith('/'):
+#             assert os.path.exists(model_name), \
+#                 f'Model path {model_name} does not exist. If you use the model ID it will be downloaded automatically'
+#         else:
+#             assert model_name in ['meta-llama/Meta-Llama-3-8B-Instruct']
 
 
-        if config.codex.adapter and config.codex.adapter != "":
-            self.llm = LLM(model=model_name, gpu_memory_utilization=0.95, dtype=dtype, enable_lora=True, max_lora_rank=64)
-        else:
-            self.llm = LLM(model=model_name, gpu_memory_utilization=0.95, dtype=dtype)
+#         capability = torch.cuda.get_device_capability(gpu_number)
+#         compute_capability = capability[0] + capability[1] / 10.0
 
-        self.sampling_params = SamplingParams(
-            max_tokens=512,
-            temperature=config.codex.temperature,
-            top_p=0.9
-        )
+#         # Set dtype based on GPU support
+#         dtype = 'bfloat16' if compute_capability >= 8.0 else 'float16'
+#         logger.info(f"Using dtype={dtype} based on compute capability={compute_capability}")
 
 
-    def run_code_Quantized_llama(self, prompt):
-        """Generates text from a given prompt using vLLM offline inference."""
-        # Call the generate method on the LLM instance.
-        if config.codex.adapter and config.codex.adapter != "":
-            logger.info(f"Using adapter {config.codex.adapter}")
-            results = self.llm.generate(prompt, self.sampling_params, lora_request=LoRARequest("adapter", 1, config.codex.adapter))
-        else:
-            logger.info("Not using adapter")
-            results = self.llm.generate(prompt, self.sampling_params)
-        # Extract generated text from each result.
-        generated_text = [result.outputs[0].text for result in results]
-        # Optionally post-process the generated text.
-        #generated_text = [text.split('\n\n')[0] for text in generated_text]
-        return generated_text
+#         if config.codex.adapter and config.codex.adapter != "":
+#             self.llm = LLM(model=model_name, gpu_memory_utilization=0.95, dtype=dtype, enable_lora=True, max_lora_rank=64)
+#         else:
+#             self.llm = LLM(model=model_name, gpu_memory_utilization=0.95, dtype=dtype)
 
-    def forward_(self, extended_prompt):
-        """Handles batch processing for large inputs."""
-        try:
-            if len(extended_prompt) > self.max_batch_size:
-                response = []
-                for i in range(0, len(extended_prompt), self.max_batch_size):
-                    response += self.forward_(extended_prompt[i:i + self.max_batch_size])
-                return response
+#         self.sampling_params = SamplingParams(
+#             max_tokens=512,
+#             temperature=config.codex.temperature,
+#             top_p=0.9
+#         )
 
 
-            tokenizer = self.llm.get_tokenizer()
+#     def run_code_Quantized_llama(self, prompt):
+#         """Generates text from a given prompt using vLLM offline inference."""
+#         # Call the generate method on the LLM instance.
+#         if config.codex.adapter and config.codex.adapter != "":
+#             logger.info(f"Using adapter {config.codex.adapter}")
+#             results = self.llm.generate(prompt, self.sampling_params, lora_request=LoRARequest("adapter", 1, config.codex.adapter))
+#         else:
+#             logger.info("Not using adapter")
+#             results = self.llm.generate(prompt, self.sampling_params)
+#         # Extract generated text from each result.
+#         generated_text = [result.outputs[0].text for result in results]
+#         # Optionally post-process the generated text.
+#         #generated_text = [text.split('\n\n')[0] for text in generated_text]
+#         return generated_text
 
-            # Cleanly patch chat template to preserve leading spaces
-            tokenizer.chat_template = tokenizer.chat_template.replace(
-                "message['content'] | trim",
-                "message['content']"
-            ).replace(
-                "messages[0]['content'] | trim",
-                "messages[0]['content']"
-            )
+#     def forward_(self, extended_prompt):
+#         """Handles batch processing for large inputs."""
+#         try:
+#             if len(extended_prompt) > self.max_batch_size:
+#                 response = []
+#                 for i in range(0, len(extended_prompt), self.max_batch_size):
+#                     response += self.forward_(extended_prompt[i:i + self.max_batch_size])
+#                 return response
 
-            chat_prompts = [tokenizer.apply_chat_template(p, tokenize=False, add_generation_prompt=True) for p in extended_prompt]
 
-            #logger.info(f"Chat prompts: {chat_prompts}")
+#             tokenizer = self.llm.get_tokenizer()
 
-            response = self.run_code_Quantized_llama(chat_prompts)
-            return response
-        except Exception as e:
-            print(f"Error de llama: {e}")
-            logger.error(f"Error de llama: {e}")
+#             # Cleanly patch chat template to preserve leading spaces
+#             tokenizer.chat_template = tokenizer.chat_template.replace(
+#                 "message['content'] | trim",
+#                 "message['content']"
+#             ).replace(
+#                 "messages[0]['content'] | trim",
+#                 "messages[0]['content']"
+#             )
+
+#             chat_prompts = [tokenizer.apply_chat_template(p, tokenize=False, add_generation_prompt=True) for p in extended_prompt]
+
+#             #logger.info(f"Chat prompts: {chat_prompts}")
+
+#             response = self.run_code_Quantized_llama(chat_prompts)
+#             return response
+#         except Exception as e:
+#             print(f"Error de llama: {e}")
+#             logger.error(f"Error de llama: {e}")
 
 
 
@@ -2045,8 +2036,8 @@ class Qwen257b(CodexModel):
             logger.error(f"Error {e}")
 
 
-class Qwen257b_Instruct(CodexModelInstructed):
-    name = 'qwen257b_inst'
+class qwen25_inst(CodexModelInstructed):
+    name = 'qwen25_inst'
     max_batch_size=64 
     def __init__(self, gpu_number=0):
         super().__init__(gpu_number=gpu_number)
@@ -2108,7 +2099,7 @@ class Qwen257b_Instruct(CodexModelInstructed):
 
             chat_prompts = [tokenizer.apply_chat_template(p, tokenize=False, add_generation_prompt=True) for p in extended_prompt]
 
-            #logger.info(f"Chat prompts: {chat_prompts}")
+            logger.info(f"Chat prompts: {chat_prompts}")
 
             response = self.run_code_Quantized_llama(chat_prompts)
             return response
