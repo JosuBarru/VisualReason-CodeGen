@@ -12,7 +12,7 @@
 
 source /sorgin1/users/jbarrutia006/venvs/viper_tximista/bin/activate
 
-MODELS=("llama31Q" "codellama" "qwen25-inst")
+MODELS=("llama31Q" "codellama" "qwen25_inst")
 CHECKPOINTS=("" "" "")
 
 NUM_JOBS=${#MODELS[@]}

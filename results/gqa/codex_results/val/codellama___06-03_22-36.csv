@@ -1,0 +1,104 @@
+sample_id,query,generated_code
+13151559,Is the large hair both white and soft?,"  image_patch = ImagePatch(image)
+  large_hair_patches = image_patch.find(""large hair"")
+  # Question assumes only one large hair patch
+  if len(large_hair_patches) == 0:
+      # If no large hair is found, query the image directly
+      return image_patch.simple_query(""Is the large hair both white and soft?"")
+  for large_hair_patch in large_hair_patches:
+      white_hair_patches = image_patch.find(""white hair"")
+      soft_hair_patches = image_patch.find(""soft hair"")
+      for white_hair_patch in white_hair_patches:
+          if white_hair_patch.overlaps(large_hair_patch):
+              for soft_hair_patch in soft_hair_patches:
+                  if soft_hair_patch.overlaps(large_hair_patch):
+                      return ""yes""
+  return ""no"""
+18370956,Who is eating the cupcake?,"  image_patch = ImagePatch(image)
+  person_patches = image_patch.find(""person"")
+  # Question assumes only one person patch
+  if len(person_patches) == 0:
+      # If no person is found, query the image directly
+      return image_patch.simple_query(""Who is eating the cupcake?"")
+  person_patch = person_patches[0]
+  cupcake_patches = image_patch.find(""cupcake"")
+  # Question assumes only one cupcake patch
+  if len(cupcake_patches) == 0:
+      # If no cupcake is found, query the image directly
+      return image_patch.simple_query(""Who is eating the cupcake?"")
+  cupcake_patch = cupcake_patches[0]
+  if person_patch.intersects(cupcake_patch):
+      return person_patch.simple_query(""Who is eating the cupcake?"")
+  else:
+      return image_patch.simple_query(""Who is eating the cupcake?"")"
+6436809,What is the guy wearing?,"  image_patch = ImagePatch(image)
+  return image_patch.simple_query(""What is the guy wearing?"")"
+117037,Which kind of food is to the right of the cabbage?,"  image_patch = ImagePatch(image)
+  cabbage_patches = image_patch.find(""cabbage"")
+  # Question assumes only one cabbage patch
+  if len(cabbage_patches) == 0:
+      # If no cabbage is found, query the image directly
+      return image_patch.simple_query(""Which kind of food is to the right of the cabbage?"")
+  for cabbage_patch in cabbage_patches:
+      food_patches = image_patch.find(""food"")
+      for food_patch in food_patches:
+          if food_patch.horizontal_center > cabbage_patch.horizontal_center:
+              return food_patch.simple_query(""What kind of food is this?"")
+  return ""none"""
+758936,Who wears the cap?,"  image_patch = ImagePatch(image)
+  cap_patches = image_patch.find(""cap"")
+  # Question assumes only one cap patch
+  if len(cap_patches) == 0:
+    # If no cap is found, query the image directly
+    return image_patch.simple_query(""Who wears the cap?"")
+  for cap_patch in cap_patches:
+    person_patches = image_patch.find(""person"")
+    for person_patch in person_patches:
+      if person_patch.contains(cap_patch):
+        return ""the person""
+  return ""someone"""
+111046440,Who is pointing?,"  image_patch = ImagePatch(image)
+  pointing_patches = image_patch.find(""pointing"")
+  # Question assumes only one pointing patch
+  if len(pointing_patches) == 0:
+    # If no pointing is found, query the image directly
+    return image_patch.simple_query(""Who is pointing?"")
+  pointing_patch = pointing_patches[0]
+  person_patches = image_patch.find(""person"")
+  # Question assumes only one person patch
+  if len(person_patches) == 0:
+    # If no person is found, query the image directly
+    return image_patch.simple_query(""Who is pointing?"")
+  person_patch = person_patches[0]
+  if pointing_patch.horizontal_center > person_patch.horizontal_center:
+    return ""left""
+  else:
+    return ""right"""
+15804389,Is the woman's hair short or long?,"  image_patch = ImagePatch(image)
+  woman_patches = image_patch.find(""woman"")
+  # Question assumes only one woman patch
+  if len(woman_patches) == 0:
+      # If no woman is found, query the image directly
+      return image_patch.simple_query(""Is the woman's hair short or long?"")
+  woman_patch = woman_patches[0]
+  hair_patches = image_patch.find(""hair"")
+  # Question assumes only one hair patch
+  if len(hair_patches) == 0:
+      # If no hair is found, query the image directly
+      return image_patch.simple_query(""Is the woman's hair short or long?"")
+  hair_patch = hair_patches[0]
+  if woman_patch.horizontal_center > hair_patch.horizontal_center:
+      return ""short""
+  else:
+      return ""long"""
+11445636,The women are watching who?,"  image_patch = ImagePatch(image)
+  women_patches = image_patch.find(""woman"")
+  # Question assumes only one woman patch
+  if len(women_patches) == 0:
+      # If no woman is found, query the image directly
+      return image_patch.simple_query(""The women are watching who?"")
+  for woman_patch in women_patches:
+      # Check if the woman is watching something
+      if woman_patch.exists(""watching""):
+          return ""their eyes""
+  return ""nothing"""

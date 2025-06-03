@@ -1,0 +1,33 @@
+sample_id,query,generated_code
+13151559,Is the large hair both white and soft?,"  def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    large_hair_patches = image_patch.find(""large hair"")
+    # Question assumes only one large hair patch
+    if len(large_hair_patches) == 0:
+        # If no large hair is found, query the image directly
+        return image_patch.simple_query(""Is the large hair both white and soft?"")
+    large_hair_patch = large_hair_patches[0]
+    is_white = large_hair_patch.verify_property(""large hair"", ""white"")
+    is_soft = large_hair_patch.verify_property(""large hair"", ""soft"")
+    return bool_to_yesno(is_white and is_soft)"
+18370956,Who is eating the cupcake?,"  This question is asking about the identity of the person eating the cupcake. To answer this question, we can use the `find` method of the `ImagePatch` class to find the object in the image that is eating the cupcake."
+6436809,What is the guy wearing?,  The guy is wearing a shirt.
+117037,Which kind of food is to the right of the cabbage?,"  This question is asking about the food that is to the right of the cabbage in the image. To answer this question, we can use the `find` method of the `ImagePatch` class to find the patches of the cabbage and the food that is to the right of it."
+758936,Who wears the cap?,"  This question is asking about the identity of the person wearing the cap. To answer this question, we can use the `find` method of the `ImagePatch` class to find the patches of the cap in the image. We can then use the `simple_query` method to ask a question about the person wearing the cap, such as ""Who is wearing the cap?"""
+111046440,Who is pointing?,"  This question is asking about the existence of a specific object in the image, so we can use the `exists` method of the `ImagePatch` class to answer it."
+15804389,Is the woman's hair short or long?,"  image_patch = ImagePatch(image)
+woman_patches = image_patch.find(""woman"")
+# Question assumes only one woman patch
+if len(woman_patches) == 0:
+    # If no woman is found, query the image directly
+    return image_patch.simple_query(""Is the woman's hair short or long?"")
+woman_patch = woman_patches[0]
+hair_patches = image_patch.find(""hair"")
+# Question assumes only one hair patch
+if len(hair_patches) == 0:
+    return ""long""
+for hair_patch in hair_patches:
+    if hair_patch.horizontal_center > woman_patch.horizontal_center:
+        return ""short""
+return ""long"""
+11445636,The women are watching who?,  The women are watching the man who is staring at the woman.

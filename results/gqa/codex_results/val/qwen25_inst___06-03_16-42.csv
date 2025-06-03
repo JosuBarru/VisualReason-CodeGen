@@ -1,0 +1,3686 @@
+sample_id,query,generated_code
+13151559,Is the large hair both white and soft?,"    image_patch = Image Patch image)
+    hair_patches = image_patch find(""hair"")
+    # Question assumes only one hair patch
+    if len(hair_patches) == 0:
+        # If no hair is found, query the image directly
+        return image_patch简单 query(""Is the large hair both white and soft?"", ""no"")
+    hair_patch = hair_patches[0]
+    is_white = hair_patch简单 query(""Is the hair white?"", ""yes"")
+    is_soft = hair_patch simple query(""Is the hair soft?"", ""yes"")
+    return ""yes"" if is_white and is_soft else ""no"""
+18370956,Who is eating the cupcake?,"    image_patch = Image Patch image)
+    return image_patch简单 query(""Who is eating the cupcake?"", ""the boy"")$
+def execute_command(image)-str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""Is there a backpack to the right of the man?"", ""no"")
+def execute_command(image)-str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""In which part is the bread, the bottom or the top?"", ""top"")
+def execute_command(image)-str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""What type of weather do you see in the photograph?"", ""sunny"")
+def execute_command(image)-str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""Who is the man staring at?"", ""the boy"")
+def execute_command image)-str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""What toy is wearing a shirt?"", ""the boy"")
+def execute command image)-str:
+    image_patch = image Patch image)
+    return image_patch simple query(""What is behind the pole?"", ""the boy"")
+def execute command image)-str:
+    image_patch = image Patch image)
+    return image_patch simple query(""Are there bagels or lemons?"", ""no"")
+def execute command image)-str:
+    image_patch = image Patch image)
+    return image_patch simple query(""Is that blanket to the right of a pillow?"", ""no"")
+def execute command image)-str:
+    image_patch = image Patch image)
+    return image_patch simple query(""Who is eating the cupcake?"", ""the boy"")
+def execute command image)-str:
+    image_patch = image Patch image)
+    return image_patch simple query(""Is there a backpack to the right of the man?"", ""no"")
+def execute command image)-str:
+    image_patch = image Patch image)
+    return image_patch simple query(""In which part is the bread, the bottom or the top?"", ""top"")
+def execute command image)-str:
+    image_patch = image Patch image)
+    return image_patch simple query(""What type of weather do you see in the photograph?"", ""sunny"")
+def execute command image)-str:
+    image_patch = image Patch image)
+    return image_patch simple query(""Who is the man star
+"
+6436809,What is the guy wearing?,"    image_patch = Image Patch(image)
+    return image_patch简单 query(""What is the guy wearing?"")
+
+def simple_qa(image, question):
+    return simple_qa image patch patch Patch image)
+
+def simple_qa patch patch patch):
+    return simple_qa patch patch patch)
+
+def simple_qa patch patch patch):
+    return simple q Patch patch patch)
+
+def simple_qa patch patch patch):
+    return simple q Patch patch patch)
+
+def simple q Patch patch patch):
+    return simple q Patch patch patch)
+
+def simple q Patch patch patch):
+    return simple q Patch patch patch)
+
+def simple q Patch patch patch):
+    return simple q Patch patch patch)
+
+def simple q Patch patch patch):
+    return simple q Patch patch patch)
+
+def simple q Patch patch patch):
+    return simple q Patch patch patch)
+
+def simple q Patch patch patch)
+def simple q Patch patch patch)
+def simple q Patch patch patch)
+def simple q Patch patch patch)
+def simple q Patch patch patch)
+def simple q Patch patch patch)
+def simple q Patch patch patch)
+def simple q Patch patch patch)
+def simple q Patch patch patch)
+def simple q Patch patch patch)
+def simple q Patch patch patch)
+def simple q Patch patch patch)
+def simple q Patch patch patch)
+def simple q Patch patch patch)
+def simple q Patch patch patch)
+def simple q Patch patch patch)
+def simple q Patch patch patch)
+def simple q Patch patch patch)
+def simple q Patch patch patch)
+def simple q Patch patch patch)
+def simple q Patch patch patch)
+def simple q Patch patch patch)
+def simple q Patch patch patch)
+def simple q Patch patch patch)
+def simple q Patch patch patch)
+def simple q Patch patch patch)
+def simple q Patch patch patch)
+def simple q Patch patch patch)
+def simple q Patch patch patch)
+def simple q Patch patch patch)
+def simple q Patch patch patch)
+def simple q Patch patch patch)
+def simple q Patch patch patch)
+def simple q Patch patch patch)
+def simple q Patch patch patch)
+def simple q Patch patch patch)
+def simple q Patch patch patch)
+def simple q Patch patch patch)
+def simple q Patch patch patch)
+def simple q Patch patch patch)
+def simple q Patch patch patch)
+def simple q Patch patch patch)
+def simple q Patch patch patch)
+def simple q Patch patch patch)
+def simple q Patch patch patch)
+def simple q Patch patch patch)
+def simple q Patch patch patch)
+def simple q Patch patch patch)
+def simple q Patch patch patch)
+def simple q Patch"
+117037,Which kind of food is to the right of the cabbage?,"    image_patch = Image Patch image)
+    cabbage_patches = image_patch find(""cabbage"")
+    # Question assumes only one cabbage patch
+    if len(cabbage_patches) == 0:
+        # If no cabbage is found, query the image directly
+        return image_patch简单 query(""Which kind of food is to the right of the cabbage?"", ""cabbage"")
+    for cabbage_patch in cabbage_patches:
+        food_patches = image_patch find(""food"")
+        for food_patch in food_patches:
+            if food_patch horizontal center > cabbage_patch horizontal center:
+                return food_patch simple query(""Which kind of food is to the right of the cabbage?"", ""cabbage"")
+    return ""no"""
+758936,Who wears the cap?,"    image_patch = Image Patch image)
+    return image_patch简单 query(""Who wears the cap?"")
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7"
+111046440,Who is pointing?,"    image_patch = Image Patch image)
+    return image_patch简单 query(""Who is pointing?"")
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7,"
+15804389,Is the woman's hair short or long?,"    image_patch = Image Patch image)
+    hair_patches = image_patch find(""hair"")
+    # Question assumes only one hair patch
+    if len(hair_patches) == 0:
+        # If no hair is found, query the image directly
+        return image_patch简单 query(""Is the woman's hair short or long?"", ""short"")
+    hair_patch = hair_patches[0]
+    return hair_patch simple query(""Is the woman's hair short or long?"", ""short"")
+def execute_command(image)-':
+    image_patch = image_patch image)
+    return image_patch simple query(""Is the woman's hair short or long?"", ""short"")
+def execute_command():
+    return ""short""
+def execute_command():
+    return ""short$
+def execute command():
+    return ""short$
+def execute command():
+    return ""short$
+def execute command():
+    return ""short$
+def execute command():
+    return ""short$
+def execute command():
+    return ""short$
+def execute command():
+    return ""short$
+def execute command():
+    return ""short$
+def execute command():
+    return ""short$
+def execute command():
+    return ""short$
+def execute command():
+    return ""short$
+def execute command():
+    return ""short$
+def execute command():
+    return ""short$
+def execute$
+def execute$
+def$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+"
+11445636,The women are watching who?,"    image_patch = Image Patch image)
+    return image_patch简单 query(""The women are watching who?"")"
+17736165,Do the dishwasher to the left of the woman and the gas stove inside the kitchen both have white color?,"    image_patch = Image Patch image)
+    dishwasher_patches = image_patch find(""dishwasher"")
+    gas_stove_patches = image_patch find(""gas stove"")
+    # Question assumes only one dishwasher patch and one gas stove patch
+    if len(dishwasher_patches) == 0 or len(gas_stove_patches) == 0:
+        # If no dishwasher or gas stove is found, query the image directly
+        return image_patch simple query(""Do the dishwasher to the left of the woman and the gas stove inside the kitchen both have white color?"", ""no"")
+    dishwasher_patch = dishwasher_patches[0]
+    gas_stove_patch = gas_stove_patches[0]
+    return gas_stove_patch verify property(""gas stove"", ""white"") and dishwasher_patch verify property(""dishwasher"", ""white"")$$
+def execute_command(image)->str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""Is there a backpack to the right of the man?"", ""no"")
+def execute_command(image)-':
+    image_patch = Image Patch image)
+    return image_patch simple query(""In which part is the bread, the bottom or the top?"", ""top"")
+def execute_command(image)-':
+    image_patch = Image Patch image)
+    return image_patch simple query(""What type of weather do you see in the photograph?"", ""sunny"")
+def execute_command(image)-':
+    image_patch = Image Patch image)
+    return image_patch simple query(""Who is the man staring at?"", ""man"")
+def execute_command image)-':
+    image_patch = Image Patch image)
+    return image_patch simple query(""What toy is wearing a shirt?"", ""toy"")
+def execute command image)-':
+    image_patch = Image Patch image)
+    return image_patch simple query(""What is behind the pole?"", ""bagel"")
+def execute command image)-':
+    image_patch = Image Patch image)
+    return image_patch simple query(""Are there bagels or lemons?"", ""bagel"")
+def execute command image)-':
+    image_patch = image Patch image)
+    return image_patch simple query(""Is that blanket to the right of a pillow?"", ""no"")
+def execute command image)-':
+    image_patch = image Patch image)
+    return image_patch simple query(""Do the dishwasher to the left of the woman and the gas stove inside the kitchen both have white color?"", ""no"")
+def execute command image)-':
+    image_patch = image Patch image)
+    return image_patch simple query(""Is there a box on the right of the table"
+1594898,What is the name of the piece of furniture that is the same color as the bed sheet the baby is to the right of?,"    image_patch = Image Patch(image)
+    bed_sheet_patches = image_patch find(""bed sheet"")
+    # Question assumes only one bed sheet patch
+    if len(bed_sheet_patches) == 0:
+        # If no bed sheet is found, query the image directly
+        return image_patch简单 query(""What is the name of the piece of furniture that is the same color as the bed sheet the baby is to the right of?"", ""bed sheet"")
+    for bed_sheet_patch in bed_sheet_patches:
+        baby_patches = image_patch find(""baby"")
+        for baby_patch in baby_patches:
+            if baby_patch horizontal center > bed_sheet_patch horizontal center:
+                return baby_patch简单 query(""What is the name of the piece of furniture that is the same color as the bed sheet the baby is to the right of?"", ""bed sheet"")
+    return ""no"""
+758958,Is there either any red pillow or snowboard?,"    image_patch = Image Patch image)
+    red_pillow_patches = image_patch find(""red pillow"")
+    snowboard_patches = image_patch find(""snowboard"")
+    # Question assumes only one red pillow patch and one snowboard patch
+    if len(red_pillow_patches) == 0 and len(snowboard_patches) == 0:
+        return image_patch简单 query(""Is there either any red pillow or snowboard?"", ""no"")
+    red_pillow_patch = red_pillow_patches[0]
+    snowboard_patch = snowboard_patches[0]
+    if red_pillow_patch horizontal center > snowboard_patch horizontal center:
+        return ""yes""
+    return ""no"""
+143816,Which place is it?,"    image_patch = Image Patch(image)
+    return image_patch简单 query(""Which place is it?"")
+
+def simple_qa(image, question):
+    return simple_qa(image)
+
+def simple_qa(image):
+def simple_qa(image):
+def simple_qa image):
+def simple_qa image):
+def simple_qa image):
+def simple_qa image):
+def simple_qa image):
+def simple_qa image):
+def simple_qa image):
+def simple_qa image):
+def simple_qa image):
+def simple_qa image):
+def simple_qa image):
+def simple_qa image):
+def simple_qa image):
+def simple_qa image):
+def simple q()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()"
+13741513,Which side is the knife on?,"    image_patch = Image Patch image)
+    knife_patches = image_patch find(""knife"")
+    # Question assumes only one knife patch
+    if len(knife_patches) == 0:
+        # If no knife is found, query the image directly
+        return image_patch简单 query(""Which side is the knife on?"", ""left"")
+    for knife_patch in knife_patches:
+        if knife_patch horizontal center < image_patch horizontal center:
+            return ""left""
+        else:
+            return ""right"""
+17829769,What is the computer mouse in front of?,"    image_patch = Image Patch image)
+    return image_patch简单 query(""What is the computer mouse in front of?"")
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, "
+17233738,What is the toddler holding?,"    image_patch = Image Patch image)
+    return image_patch简单 query(""What is the toddler holding?"")
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute command():
+    image = np.array([[1, 2, 3], [4, 5, 6], ["
+2951242,Is the gray shirt sleeveless or short sleeved?,"    image_patch = Image Patch image)
+    shirt_patches = image_patch find(""shirt"")
+    # Question assumes only one shirt patch
+    if len(shirt_patches) == 0:
+        # If no shirt is found, query the image directly
+        return image_patch简单 query(""Is the gray shirt sleeveless or short sleeves"")
+    for shirt_patch in shirt_patches:
+        is_sleeved = (shirt_patch简单 query(""Is the shirt sleeveless or short sleeves"") == ""short sleeves"")
+        if is_sleeved:
+            return ""short sleeves""
+        is_sleeved = (shirt_patch simple query(""Is the shirt sleeveless or short sleeves"") == ""sleeved"")
+        if is_sleeved:
+            return ""sleeved""
+    return ""no"""
+15241795,Is the tank top red?,"    image_patch = Image Patch image)
+    tank_patches = image_patch find(""tank"")
+    # Question assumes only one tank patch
+    if len(tank_patches) == 0:
+        # If no tank is found, query the image directly
+        return image_patch简单 query(""Is the tank top red?"", ""red"")
+    tank_patch = tank_patches[0]
+    return tank_patch simple query(""Is the tank top red?"", ""red"")
+def execute_command(image)-str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""Is the tank top red?"", ""red"")
+def execute_command(image)-str:
+    image_patch = image Patch image)
+    return image_patch simple query(""Is the tank top red?"", ""red"")
+def execute_command image)-str:
+    image_patch = image Patch image)
+    return image_patch simple query(""Is the tank top red?"", ""red"")
+def execute command image)-str:
+    image patch = image Patch image)
+    return image patch simple query(""Is the tank top red?"", ""red"")
+def execute command image)-str:
+    image patch = image Patch image)
+    return image patch simple query(""Is the tank top red?"", ""red"")
+def execute command image)-str:
+    image patch = image Patch image)
+    return image patch simple query(""Is the tank top red?"", ""red"")
+def execute command image)-str:
+    image patch = image Patch image)
+    return image patch simple query(""Is the tank top red?"", ""red"")
+def execute command image)-str:
+    image patch = image Patch image)
+    return image patch simple query(""Is the tank top red?"", ""red"")
+def execute command image)-str:
+    image patch = image Patch image)
+    return image patch simple query(""Is the tank top red?"", ""red"")
+def execute command image)-str:
+    image patch = image Patch image)
+    return image patch simple query(""Is the tank top red?"", ""red"")
+def execute command image)-str:
+    image patch = image Patch image)
+    return image patch simple query(""Is the tank top red?"", ""red"")
+def execute command image)-str:
+    image patch = image Patch image)
+    return image patch simple query(""Is the tank top red?"", ""red"")
+def execute command image)-str:
+    image patch = image Patch image)
+    return image patch simple query(""Is the tank top red?"", ""red"")
+def execute command image)-str:
+    image patch = image Patch image)
+    return"
+13885234,Which kind of animal is in front of the rocks?,"    image_patch = Image Patch image)
+    animal_patches = image_patch find(""animal"")
+    # Question assumes only one animal patch
+    if len(animal_patches) == 0:
+        # If no animal is found, query the image directly
+        return image_patch简单 query(""Which kind of animal is in front of the rocks?"", ""no"")
+    if animal_patches[0].horizontal_center < image_patch horizontal center:
+        return ""no""
+    return ""yes"""
+19335715,Do you see any grapes?,"    image_patch = Image Patch(image)
+    return image_patch简单 query(""Do you see any grapes?"")
+
+def simple_qa(image, question):
+    return simple_qa image patch patch)
+
+def simple_qa patch patch):
+    return simple_qa patch patch)
+
+def simple_qa patch patch):
+    return simple q Patch patch)
+
+def simple_qa patch patch):
+    return simple q Patch patch)
+
+def simple q Patch patch):
+    return simple q Patch patch)
+
+def simple q Patch patch):
+    return simple q Patch patch)
+
+def simple q Patch patch):
+    return simple q Patch patch)
+
+def simple q Patch patch):
+    return simple q Patch patch)
+
+def simple q Patch patch):
+    return simple q Patch patch)
+
+def simple q Patch patch):
+    return simple q Patch patch)
+
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch"
+6455591,What type of furniture is white?,"    image_patch = Image Patch image)
+    return image_patch简单 query(""What type of furniture is white?"")
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6],"
+1033761,What is the blue clothing item?,"    image_patch = Image Patch image)
+    blue_patches = image_patch find(""blue"")
+    # Question assumes only one blue patch
+    if len(blue_patches) == 0:
+        # If no blue is found, query the image directly
+        return image_patch simple query(""What is the blue clothing item?"", ""blue"")
+    return blue_patches[0].simple query(""What is the blue clothing item?"", ""blue"")
+def execute_command(image')->str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""Is there a backpack to the right of the man?"", ""blue"")
+def execute_command(image')->str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""In which part is the bread, the bottom or the top?"", ""blue"")
+def execute_command(image')->str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""What type of weather do you see in the photograph?"", ""blue"")
+def execute_command(image')->str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""Who is the man staring at?"", ""blue"")
+def execute_command image')->str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""What toy is wearing a shirt?"", ""blue"")
+def execute_command image')->str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""What is behind the pole?"", ""blue"")
+def execute_command image')->str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""Are there bagels or lemons?"", ""blue"")
+def execute command image')->str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""Is that blanket to the right of a pillow?"", ""blue"")
+def execute command image')->str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""What is the blue clothing item?"", ""blue"")
+def execute command image')->str:
+    image_patch = image Patch image)
+    return image_patch simple query(""Is there a blue box?"", ""blue"")
+def execute command image')->str:
+    image_patch = image Patch image)
+    return image_patch simple query(""Is there a blue box?"", ""blue"")
+def execute command image')->str:
+    image_patch = image Patch image)
+    return image_patch simple query(""Is there a blue box?"", ""blue"")
+def execute command image')->str:
+    image_patch = image Patch image)
+    return image patch simple query(""Is there a blue"
+17726504,Who is wearing the glasses?,"    image_patch = Image Patch(image)
+    return image_patch简单 query(""Who is wearing the glasses?"")
+
+def simple_qa(image, question):
+    return simple_qa image patch patch)
+
+def simple_qa patch patch):
+    return simple_qa patch patch)
+
+def simple_qa patch patch):
+    return simple q Patch patch)
+
+def simple_qa patch patch):
+    return simple q Patch patch)
+
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch patch)
+def simple q Patch"
+13112902,Is the woman wearing a bracelet?,"    image_patch = Image Patch image)
+    return image_patch简单 query(""Is the woman wearing a bracelet?"")
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6],"
+698766,What is the food that is not white?,"    image_patch = Image Patch image)
+    food_patches = image_patch find(""food"")
+    # Question assumes only one food patch
+    if len(food_patches) == 0:
+        # If no food is found, query the image directly
+        return image_patch简单 query(""What is the food that is not white?"", ""white"")
+    for food_patch in food_patches:
+        if food_patch简单 query(""Is the food white?"") == ""no"":
+            return food_patch simple query(""What is the food that is not white?"", ""white"")
+    return ""white"""
+1332276,Are there both a cup and a bottle in the picture?,"    image_patch = Image Patch image)
+    cup_patches = image_patch find(""cup"")
+    bottle_patches = image_patch find(""bottle"")
+    # Question assumes only one cup patch and one bottle patch
+    if len(cup_patches) == 0 or len(bottle_patches) == 0:
+        # If no cup or bottle is found, query the image directly
+        return image_patch simple query(""Are there both a cup and a bottle in the picture?"", ""no"")
+    return ""yes"""
+12633088,What color is that glove?,"    image_patch = Image Patch image)
+    glove_patches = image_patch find(""glove"")
+    # Question assumes only one glove patch
+    if len(glove_patches) == 0:
+        # If no glove is found, query the image directly
+        return image_patch简单 query(""What color is that glove?"", ""red"")
+    for glove_patch in glove_patches:
+        return glove_patch simple query(""What color is that glove?"", ""red"")
+    return ""red"""
+18103787,Who is holding the helmet?,"    image_patch = Image Patch(image)
+    return image_patch简单 query(""Who is holding the helmet?"")
+
+def simple_qa(image, question):
+    return simple_qa image patch patch Patch image)
+
+def simple_qa patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch patch"
+2143247,What is the name of the food to the left of the donut that looks little?,"    image_patch = Image Patch image)
+    donut_patches = image_patch find(""donut"")
+    # Question assumes only one donut patch
+    if len(donut_patches) == 0:
+        # If no donut is found, query the image directly
+        return image_patch简单 query(""What is the name of the food to the left of the donut that looks little?"", ""donut"")
+    for donut_patch in donut_patches:
+        food_patches = image_patch find(""food"")
+        for food_patch in food_patches:
+            if food_patch horizontal center < donut_patch horizontal center:
+                return food_patch simple query(""What is the name of the food to the left of the donut that looks little?"", ""donut"")
+    return ""no"""
+3767951,Is the clock to the right or to the left of the man on the left?,"    image_patch = Image Patch image)
+    clock_patches = image_patch find(""clock"")
+    # Question assumes only one clock patch
+    if len(clock_patches) == 0:
+        # If no clock is found, query the image directly
+        return image_patch简单 query(""Is the clock to the right or to the left of the man on the left?"", ""left"")
+    clock_patch = clock_patches[0]
+    man_patches = image_patch find(""man"")
+    # Question assumes one man patch
+    if len(man_patches) == 0:
+        return ""left""
+    for man_patch in man_patches:
+        if clock_patch horizontal center > man_patch horizontal center:
+            return ""right""
+    return ""left"""
+17655180,What's the sticker on?,"    image_patch = Image Patch image)
+    return image_patch简单 query(""What's the sticker on?"")
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], ["
+3468831,In front of what is this table?,"    image_patch = Image Patch image)
+    return image_patch简单 query(""In front of what is this table?"", "" table"")
+
+def execute_command(image)-str:
+    image_patch = image_patch image)
+    return image_patch simple query(""In front of what is this table?"", "" table"")
+
+def execute_command image)-str:
+    image_patch = image_patch image)
+    return image_patch simple query(""In front of what is this table?"", "" table"")
+
+def execute command image)-str:
+    image_patch = image patch image)
+    return image patch simple query(""In front of what is this table?"", "" table"")
+
+def execute command image)-str:
+    image patch = image patch image)
+    return image patch simple query(""In front of what is this table?"", "" table"")
+
+def execute command image)-str:
+    image patch = image patch image)
+    return image patch simple query(""In front of what is this table?"", "" table"")
+
+def execute command image)-str:
+    image patch = image patch image)
+    return image patch simple query(""In front of what is this table?"", "" table"")
+
+def execute command image)-str:
+    image patch = image patch image)
+    return image patch simple query(""In front of what is this table?"", "" table"")
+
+def execute command image)-str:
+    image patch = image patch image)
+    return image patch simple query(""In front of what is this table?"", "" table"")
+
+def execute command image)-str:
+    image patch = image patch image)
+    return image patch simple query(""In front of what is this table?"", "" table"")
+
+def execute command image)-str:
+    image patch = image patch image)
+    return image patch simple query(""In front of what is this table?"", "" table"")
+
+def execute command image)-str:
+    image patch = image patch image)
+    return image patch simple duty("" In front of what is this table?"", "" table"")
+
+def execute command image)-str:
+    image patch = image patch image)
+    return image patch simple duty("" In front of what is this table?"", "" table"")
+
+def execute command image)-str:
+    image patch = image patch image)
+    return image patch simple duty("" In front of what is this table?"", "" table"")
+
+def execute CMD image)-str:
+    image patch = image patch image)
+    return image patch simple duty("" In front of what is this table?"", "" table"")
+
+def execute CMD image)-str:
+    image patch = image patch image)
+    return image patch simple duty("" In front"
+5888523,Do you see people to the right of the still car?,"    image_patch = Image Patch image)
+    people_patches = image_patch find(""people"")
+    # Question assumes only one people patch
+    if len(people_patches) == 0:
+        # If no people is found, query the image directly
+        return image_patch简单 query(""Do you see people to the right of the still car?"",)
+    if people_patches[0].horizontal_center > image_patch horizontal center:
+        return ""yes""
+    return ""no"""
+7188981,Does the giraffe look adult?,"    image_patch = Image Patch image)
+    giraffe_patches = image_patch find(""giraffe"")
+    # Question assumes only one giraffe patch
+    if len(giraffe_patches) == 0:
+        # If no giraffe is found, query the image directly
+        return image_patch简单 query(""Does the giraffe look adult?"", ""no"")
+    if giraffe_patches[0].simple query(""Does the giraffe look adult?"") == ""yes""
+        return ""yes""
+    return ""no"""
+16852802,Of what color are the pants?,"    image_patch = Image Patch image)
+    pants_patches = image_patch find(""pants"")
+    # Question assumes only one pants patch
+    if len(pants_patches) == 0:
+        # If no pants are found, query the image directly
+        return image_patch简单 query(""Of what color are the pants?"", ""red"")
+    pants_patch = pants_patches[0]
+    color_patches = image_patch find(""color"")
+    # Question assumes only one color patch
+    if len(color_patches) == 0:
+        return ""red""
+    for color_patch in color_patches:
+        if color_patch horizontal center > pants_patch horizontal center:
+            return ""red""
+    return ""red"""
+9619158,What kind of watercraft is full of men?,"    image_patch = Image Patch image)
+    watercraft_patches = image_patch find(""watercraft"")
+    # Question assumes only one watercraft patch
+    if len(watercraft_patches) == 0:
+        # If no watercraft is found, query the image directly
+        return image_patch简单 query(""What kind of watercraft is full of men?"", ""full of men"")
+    for watercraft_patch in watercraft_patches:
+        if watercraft_patch简单 query(""Is the watercraft full of men?"", ""full of men"") == ""yes"":
+            return watercraft_patch simple query(""What kind of watercraft is full of men?"", ""full of men"")
+    return ""no"""
+3625225,On which side of the picture are the boats?,"    image_patch = Image Patch image)
+    boats_patches = image_patch find(""boat"")
+    # Question assumes only one boat patch
+    if len(boats_patches) == 0:
+        # If no boat is found, query the image directly
+        return image_patch简单 query(""On which side of the picture are the boats?"", ""left or right"")
+    if boats_patches[0].horizontal_center < image_patch horizontal center:
+        return ""left""
+    else:
+        return ""right"""
+7126345,Does the elephant to the left of the other elephant have large size?,"    image_patch = Image Patch image)
+    elephant_patches = image_patch find(""elephant"")
+    # Question assumes only one elephant patch
+    if len(elephant_patches) == 0:
+        # If no elephant is found, query the image directly
+        return image_patch简单 query(""Does the elephant to the left of the other elephant have large size?"", ""no"")
+    if len(elephant_patches) != 2:
+        return ""no""
+    left_elephant = elephant_patches[0]
+    right_elephant = elephant_patches[1]
+    if left_elephant horizontal_center < right_elephant horizontal_center:
+        return ""yes""
+    else:
+        return ""no"""
+19834124,What is the girl holding?,"    image_patch = Image Patch image)
+    return image_patch简单 query(""What is the girl holding?"")
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], ["
+4617704,Does the toilet seat that is not down appear to be white and open?,"    image_patch = Image Patch image)
+    toilet seat_patches = image_patch find(""toilet seat"")
+    # Question assumes only one toilet seat patch
+    if len(toilet seat patches) == 0:
+        # If no toilet seat is found, query the image directly
+        return image_patch simple query(""Does the toilet seat that is not down appear to be white and open?"", ""no"")
+    toilet seat patch = toilet seat patches[0]
+    is_white = toilet seat patch简单 query(""Is the toilet seat white?"", ""yes"")
+    is_open = toilet seat patch simple query(""Is the toilet seat open?"", ""yes"")
+    return ""yes"" if is_white and is_open else ""no"""
+5899539,Are there any bottles or mugs that are not purple?,"    image_patch = Image Patch image)
+    is_bottle = image_patch.exists(""bottle"")
+    is_mug = image_patch.exists(""mug"")
+    is_purple_bottle = image_patch simple query(""Is the bottle purple?"", ""yes"")
+    is_purple_mug = image_patch simple query(""Is the mug purple?"", ""yes"")
+    return ""no"" if not (is_purple_bottle or is_purple_mug) else ""yes"""
+2631593,Which place is it?,"    image_patch = Image Patch(image)
+    return image_patch简单 query(""Which place is it?"")
+
+def simple_qa(image, question):
+    return simple_qa(image)
+
+def simple_qa(image):
+def simple_qa(image):
+def simple_qa image):
+def simple_qa image):
+def simple_qa image):
+def simple_qa image):
+def simple_qa image):
+def simple_qa image):
+def simple_qa image):
+def simple_qa image):
+def simple_qa image):
+def simple_qa image):
+def simple_qa image):
+def simple_qa image):
+def simple_qa image):
+def simple_qa image):
+def simple q()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()()"
+12228864,Do you see any men to the right of the person that is in the living room?,"    image_patch = Image Patch image)
+    person_patches = image_patch find(""person"")
+    # Question assumes only one person patch
+    if len(person_patches) == 0:
+        # If no person is found, query the image directly
+        return image_patch简单 query(""Do you see any men to the right of the person that is in the living room?"", ""no"")
+    person_patch = person_patches[0]
+    men_patches = image_patch find(""man"")
+    # Question assumes one man patch
+    if len(men_patches) == 0:
+        return ""no""
+    for men_patch in men_patches:
+        if men_patch horizontal center > person_patch horizontal center:
+            return ""yes""
+    return ""no"""
+111054378,Is the small couch to the right or to the left of the bottle?,"    image_patch = Image Patch image)
+    couch_patches = image_patch find(""couch"")
+    # Question assumes only one couch patch
+    if len(couch_patches) == 0:
+        # If no couch is found, query the image directly
+        return image_patch simple query(""Is the small couch to the right or to the left of the bottle?"", ""right"")
+    for couch_patch in couch_patches:
+        bottle_patches = image_patch find(""bottle"")
+        for bottle_patch in bottle_patches:
+            if couch_patch horizontal center > bottle_patch horizontal center:
+                return ""right""
+    return ""left"""
+9392411,Is the bottle to the right or to the left of the appliance on the left?,"    image_patch = Image Patch image)
+    appliance_patches = image_patch find(""appliance"")
+    # Question assumes only one appliance patch
+    if len(appliance_patches) == 0:
+        # If no appliance is found, query the image directly
+        return image_patch简单 query(""Is the bottle to the right or to the left of the appliance on the left?"", ""left"")
+    for appliance_patch in appliance_patches:
+        if appliance_patch horizontal center < image_patch horizontal center:
+            return ""left""
+        else:
+            return ""right"""
+16753829,What type of animal is sitting in the container in the bottom of the photo?,"    image_patch = Image Patch image)
+    return image_patch简单 query(""What type of animal is sitting in the container in the bottom of the photo?"")
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3],"
+1345482,What is that train in front of?,"    image_patch = Image Patch image)
+    train_patches = image_patch find(""train"")
+    # Question assumes only one train patch
+    if len train_patches) == 0:
+        # If no train is found, query the image directly
+        return image_patch simple query(""What is that train in front of?"",)
+    train_patch = train_patches[0]
+    return train_patch simple query(""What is that train in front of?"")
+
+def execute_command():
+    return ""the train is front of the train""$
+def execute_command():
+    return ""the train is front of the train$
+def execute_command():
+    return ""the train is front of the train$
+def execute command():
+    return ""the train is front of the train$
+def execute command():
+    return ""the train is front of the train$
+def execute command():
+    return ""the train is front of the train$
+def execute command():
+    return ""the train is front of the train$
+def execute command():
+    return ""the train is front of the train$
+def execute command():
+    return ""the train is front of the train$
+def execute command():
+    return ""the train is front of the train$
+def execute command():
+    return ""the train is front of the train$
+def execute command():
+    return ""the train is front of the train$
+def execute command():
+    return ""the train is front of the train$
+def execute command():
+    return ""the train is front of the train$
+def execute command():
+    return ""the train is front of the train$
+def execute command():
+    return ""the train is front of the train$
+def execute command():
+    return ""the train is front of the train$
+def execute command():
+    return ""the train is front of the train$
+def execute command():
+    return ""the train is front of the train$
+def execute command():
+    return ""the train is front of the train$
+def execute command():
+    return ""the train is front of the train$
+def execute command():
+    return ""the train is front of the train$
+def execute command():
+    return ""the train is front of the train$
+def execute command():
+    return ""the train is front of the train$
+def execute command():
+    return ""the train is front of the train$
+def execute command():
+    return ""the train is front of the train$
+def execute command():
+    return ""the train is front of the train$
+def execute command():
+    return ""the train is front of the train$
+"
+1527449,Are there cars to the right of the palm trees which are to the right of the girl?,"    image_patch = Image Patch image)
+    palm_trees_patches = image_patch find(""palm trees"")
+    # Question assumes only one palm tree patch
+    if len(palm_trees_patches) == 0:
+        # If no palm trees are found, query the image directly
+        return image_patch简单 query(""Are there cars to the right of the palm trees which are to the right of the girl?"", ""no"")
+    for palm tree patch in palm_trees_patches:
+        girl_patches = image_patch find(""girl"")
+        # Question assumes only one girl patch
+        if len(girl_patches) == 0:
+            return image_patch simple query(""Are there cars to the right of the palm trees which are to the right of the girl?"", ""no"")
+        for girl_patch in girl_patches:
+            if girl_patch horizontal center < palm tree patch horizontal center:
+                return image_patch simple query(""Are there cars to the right of the palm trees which are to the right of the girl?"", ""no"")
+    return image_patch simple query(""Are there cars to the right of the palm trees which are to the right of the girl?"", ""yes"")
+def execute_command(image')->str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""Is there a backpack to the right of the man?"", ""no"")
+def execute_command(image')->str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""In which part is the bread, the bottom or the top?"", ""top"")
+def execute_command(image')->str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""What type of weather do you see in the photograph?"", ""sunny"")
+def execute_command(image')->str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""Who is the man staring at?"", ""man"")
+def execute_command image')->str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""What toy is wearing a shirt?"", ""teddy bear"")
+def execute_command image')->str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""What is behind the pole?"", ""plane"")
+def execute_command image')->str:
+    image_patch = image Patch image)
+    return image_patch simple query(""Are there bagels or lemons?"", ""bagel"")
+def execute command image')->str:
+    image_patch = image Patch image)
+    return image_patch simple query(""Is that blanket to the right of a pillow?"", ""no"")
+def"
+459445,In which part is the silver device?,"    image_patch = Image Patch image)
+    silver_patches = image_patch find(""silver"")
+    # Question assumes only one silver patch
+    if len(silver_patches) == 0:
+        # If no silver is found, query the image directly
+        return image_patch简单 query(""In which part is the silver device?"",)
+    if silver_patches[0].vertical_center < image_patch_vertical_center:
+        return ""bottom""
+    else:
+        return ""top"""
+11786203,What is the man on?,"    image_patch = Image Patch image)
+    return image_patch简单 query(""What is the man on?"")
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], ["
+5200013,Is there a brown door or chair?,"    image_patch = Image Patch image)
+    brown_patches = image_patch find(""brown"")
+    # Question assumes only one brown patch
+    if len(brown_patches) == 0:
+        # If no brown is found, query the image directly
+        return image_patch simple query(""Is there a brown door or chair?"",)
+    brown_patch = brown_patches[0]
+    chair_patches = image_patch find(""chair"")
+    # Question assumes one chair patch
+    if len(chair_patches) == 0:
+        return ""no""
+    for chair_patch in chair_patches:
+        if brown_patch vertical center > chair_patch vertical center:
+            return ""yes""
+    return ""no""
+def execute_command(image)-str:
+    image_patch = image_patch image)
+    return image_patch simple query(""Is there a brown door or chair?"",)
+def execute_command image)-str:
+    image_patch = image_patch image)
+    return image_patch simple query(""Is there a brown door or chair?"",)
+def execute command image)-str:
+    image_patch = image patch image)
+    return image patch simple query(""Is there a brown door or chair?"",)
+def execute command image)-str:
+    image patch = image patch image)
+    return image patch simple query(""Is there a brown door or chair?"",)
+def execute command image)-str:
+    image patch = image patch image)
+    return image patch simple query(""Is there a brown door or chair?"",)
+def execute command image)-str:
+    image patch = image patch image)
+    return image patch simple query(""Is there a brown door or chair?"",)
+def execute command image)-str:
+    image patch = image patch image)
+    return image patch simple query(""Is there a brown door or chair?"",)
+def execute command image)-str:
+    image patch = image patch image)
+    return image patch simple query(""Is there a brown door or chair?"",)
+def execute command image)-str:
+    image patch = image patch image)
+    return image patch simple query(""Is there a brown door or chair?"",)
+def execute command image)-str:
+    image patch = image patch image)
+    return image patch simple query(""Is there a brown door or chair?"",)
+def execute command image)-str:
+    image patch = image patch image)
+    return image patch simple-run(""Is there a brown door or chair?"",)
+def execute command image)-str:
+    image patch = image patch image)
+    return image patch simple-run(""Is there a brown door or chair?"",)
+"
+131031372,What is the napkin in?,"    image_patch = Image Patch image)
+    return image_patch简单 query(""What is the napkin in?"")
+
+def execute_command(image)-str:
+    image_patch = image_patch simple query(""Is there a backpack to the right of the man')
+def execute_command(image)-str:
+    image_patch = image_patch simple query(""In which part is the bread, the bottom or the top')
+def execute_command image)-str:
+    image_patch = image_patch simple query(""What type of weather do you see in the photograph')
+def execute command image)-str:
+    image_patch = image_patch simple query(""Who is the man staring at')
+def execute command image)-str:
+    image_patch = image_patch simple query(""What toy is wearing a shirt')
+def execute command image)-str:
+    image Patch image)
+    return image_patch simple query(""What is behind the pole')
+def execute command image)-str:
+    image patch = image patch simple query(""Are there bagels or lemons')
+def execute command image)-str:
+    image patch = image patch simple query(""Is that blanket to the right of a pillow')
+def execute command image)-str:
+    image patch = image patch simple query(""What is the napkin in')
+def execute command image)-str:
+    return image patch simple query(""Is there a backpack to the right of the man')
+def execute command image)-str:
+    return image patch simple query(""In which part is the bread, the bottom or the top')
+def execute command image)-str:
+    return image patch simple query(""What type of weather do you see in the photograph')
+def execute command image)-str:
+    return image patch simple query(""Who is the man staring at')
+def execute command image)-str:
+    return image patch simple query(""What toy is wearing a shirt')
+def execute command image)-str:
+    return image patch simple query(""Is that blanket to the right of a pillow')
+def execute command image)-str:
+    return image patch simple query(""What is the napkin in')
+def execute command image)-str:
+    return image patch simple query(""Is there a backpack to the right of the man')
+def execute command image)-str:
+    return image patch simple query(""In which part is the bread, the bottom or the top')
+def execute command image)-str:
+    return image patch simple query(""What type of weather do you see in the photograph')
+def execute command image)-str:
+    return image patch simple duty(""Who is the man star
+"
+1241681,Are there any people behind the white dessert?,"    image_patch = Image Patch image)
+    dessert_patches = image_patch find(""dessert"")
+    # Question assumes only one dessert patch
+    if len(dessert_patches) == 0:
+        # If no dessert is found, query the image directly
+        return image_patch简单 query(""Are there any people behind the white dessert?"", ""no"")
+    for dessert_patch in dessert_patches:
+        if dessert_patch vertical center < image_patch vertical center:
+            return ""no""
+    return ""yes"""
+8730954,What type of animal do you think is in front of the curtain which is to the right of the radiator?,"    image_patch = Image Patch image)
+    return image_patch简单 query(""What type of animal do you think is in front of the curtain which is to the right of the radiator?"", ""animal"")
+
+def execute_command(image)-str:
+    image_patch = Image Patch image)
+    return image_patch简单 query(""Is there a backpack to the right of the man?"", ""backpack"")
+
+def execute_command(image)-str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""In which part is the bread, the bottom or the top?"", ""bottom"")
+
+def execute_command(image)-str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""What type of weather do you see in the photograph?"", ""weather"")
+
+def execute_command image)-str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""Who is the man staring at?"", ""man"")
+
+def execute_command image)-str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""What toy is wearing a shirt?"", ""toy"")
+
+def execute command image)-str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""What is behind the pole?"", ""pole"")
+
+def execute command image)-str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""Are there bagels or lemons?"", ""bagel"")
+
+def execute command image)-str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""Is that blanket to the right of a pillow?"", ""blanket"")
+
+def execute command image)-str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""What type of animal do you think is in front of the curtain which is to the right of the radiator?"", ""animal"")
+
+def execute command image)-str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""Is there a backpack to the right of the man?"", ""backpack"")
+
+def execute command image)-str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""In which part is the bread, the bottom or the top?"", ""bottom"")
+
+def execute command image)-str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""What type of weather do you see in the photograph?"", ""weather"")
+
+def execute command image)-str:
+    image_patch = image Patch image)
+    return image_patch simple query(""Who is the man staring at?"", ""man"")
+
+def execute command image"
+8553578,What is the Pikachu doing?,"    image_patch = Image Patch(image)
+    return image_patch简单 query(""What is the Pikachu doing?"")
+
+def simple_qa(image, question):
+    return simple_qa(image)
+
+def simple_qa(image):
+def simple_qa image):
+def simple_qa image):
+def simple_qa image):
+def simple_qa image):
+def simple_qa image):
+def simple_qa image):
+def simple_qa image):
+def simple_qa image):
+def simple_qa image):
+def simple_qa image):
+def simple_qa image):
+def simple_qa image):
+def simple_qa image):
+def simple_qa image):
+def simple_qa image):
+def simple_qa image):
+def simple_qa image):
+def simple_qa image):
+def simple_qa image):
+def simple_qa image):
+def simple_qa image):
+def simple_qa image):
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple q()():
+def simple"
+16711804,"On which side is the car, the left or the right?","    image_patch = Image Patch image)
+    car_patches = image_patch find(""car"")
+    # Question assumes only one car patch
+    if len(car_patches) == 0:
+        # If no car is found, query the image directly
+        return image_patch简单 query(""On which side is the car, the left or the right?"",)
+    if car_patches[0].horizontal_center < image_patch horizontal center:
+        return ""left""
+    else:
+        return ""right"""
+5546271,What is on the large mountains?,"    image_patch = Image Patch image)
+    return image_patch简单 query(""What is on the large mountains?"")
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6],"
+5107295,What is in the sky?,"    image_patch = Image Patch image)
+    return image_patch简单 query(""What is in the sky?"")
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], ["
+123768,What kind of watercraft is the fruit on?,"    image_patch = Image Patch image)
+    fruit_patches = image_patch find(""fruit"")
+    # Question assumes only one fruit patch
+    if len(fruit_patches) == 0:
+        # If no fruit is found, query the image directly
+        return image_patch简单 query(""What kind of watercraft is the fruit on?"", "" fruit"")
+    if fruit_patches[0].horizontal_center < image_patch horizontal center:
+        return ""barge""
+    else:
+        return ""submarine"""
+1827218,Is the bottle in the bottom of the image?,"    image_patch = Image Patch image)
+    return image_patch简单 query(""Is the bottle in the bottom of the image?"")
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5,"
+10938155,What color is the sky?,"    image_patch = Image Patch image)
+    return image_patch简单 query(""What color is the sky?"")
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], ["
+4893512,Does the sail look white or red?,"    image_patch = Image Patch image)
+    sail_patches = image_patch find(""sail"")
+    # Question assumes only one sail patch
+    if len(sail_patches) == 0:
+        # If no sail is found, query the image directly
+        return image_patch简单 query(""Does the sail look white or red?"", ""white red"")
+    if sail_patches[0].best_text_match [""white red""] == ""white"":
+        return ""white""
+    else:
+        return ""red"""
+3662784,Do you see either any traffic lights or cars?,"    image_patch = Image Patch(image)
+    traffic_light_patches = image_patch find(""traffic light"")
+    # Question assumes only one traffic light patch
+    if len(traffic_light_patches) == 0:
+        # If no traffic light is found, query the image directly
+        return image_patch简单 query(""Do you see either any traffic lights or cars?"", "" traffic light"")
+    if len(traffic_light_patches) > 0:
+        return ""yes""
+    car_patches = image_patch find(""car"")
+    # Question assumes only one car patch
+    if len(car_patches) == 0:
+        return ""no""
+    return ""yes""
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch简单 query(""Is there a backpack to the right of the man?"", "" traffic light"")
+
+def execute_command(image')->str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""In which part is the bread, the bottom or the top?"", "" traffic light"")
+
+def execute_command(image')->str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""What type of weather do you see in the photograph?"", "" traffic light"")
+
+def execute_command image')->str:
+    image_patch = image Patch image)
+    return image_patch simple query(""Who is the man staring at?"", "" traffic light"")
+
+def execute_command image')->str:
+    image_patch = image Patch image)
+    return image_patch simple query(""What toy is wearing a shirt?"", "" traffic light"")
+
+def execute_command image')->str:
+    image_patch = image Patch image)
+    return image_patch simple query(""What is behind the pole?"", "" traffic light"")
+
+def execute_command image')->str:
+    image_patch = image Patch image)
+    return image_patch simple query(""Are there bagels or lemons?"", "" traffic light"")
+
+def execute_command image')->str:
+    image_patch = image Patch image)
+    return image_patch simple query(""Is that blanket to the right of a pillow?"", "" traffic light"")
+
+def execute_command image')->str:
+    image_patch = image Patch image)
+    return image_patch simple query(""Do you see either any traffic lights or cars?"", "" traffic light"")
+
+def execute_command image')->str:
+    image_patch = image Patch image)
+    return image_patch simple query(""Is there a traffic light?"", "" traffic light"")
+
+def execute_command image')->str:
+    image_patch = image Patch image)
+    return image_patch simple query(""Is there a traffic light?"", "" traffic"
+15515711,Are there any girls to the right of the yellow helmet?,"    image_patch = Image Patch image)
+    yellow_helmet_patches = image_patch find(""yellow helmet"")
+    # Question assumes only one yellow helmet patch
+    if len(yellow_helmet_patches) == 0:
+        # If no yellow helmet is found, query the image directly
+        return image_patch简单 query(""Are there any girls to the right of the yellow helmet?"", ""no"")
+    yellow_helmet_patch = yellow_helmet_patches[0]
+    girls_patches = image_patch find(""girl"")
+    # Question assumes only one girl patch
+    if len(girl_patches) == 0:
+        return ""no""
+    for girl_patch in girl_patches:
+        if girl_patch horizontal center > yellow_helmet_patch horizontal center:
+            return ""yes""
+    return ""no"""
+6315316,Which kind of furniture is in front of the window?,"    image_patch = Image Patch image)
+    return image_patch简单 query("" Which kind of furniture is in front of the window?"")
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5"
+17736488,What appliance is to the left of the faucet?,"    image_patch = Image Patch image)
+    return image_patch简单 query(""What appliance is to the left of the faucet?"", ""left"")
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+print execute_command()"
+41050828,What is the color of the jacket?,"    image_patch = Image Patch image)
+    return image_patch简单 query(""What is the color of the jacket?"")
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6"
+610914,Is the green boat to the right or to the left of the wood house?,"    image_patch = Image Patch image)
+    wood_house_patches = image_patch find(""wood house"")
+    # Question assumes only one wood house patch
+    if len(wood_house_patches) == 0:
+        # If no wood house is found, query the image directly
+        return image_patch简单 query(""Is the green boat to the right or to the left of the wood house?"", ""right"")
+    wood_house_patch = wood_house_patches[0]
+    green_boat_patches = image_patch find(""green boat"")
+    # Question assumes only one green boat patch
+    if len(green_boat_patches) == 0:
+        return ""no""
+    for green_boat_patch in green_boat_patches:
+        if green_boat_patch horizontal center > wood house patch horizontal center:
+            return ""right""
+        else:
+            return ""left""
+    return ""no"""
+13158346,Is the woman in the bottom part of the picture?,"    image_patch = Image Patch image)
+    return image_patch简单 query(""Is the woman in the bottom part of the picture?"")
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5"
+16318707,Are there either any colorful bikes or skateboards?,"    image_patch = Image Patch image)
+    is_bike = image_patch.exists(""bike"")
+    is_skateboard = image_patch.exists(""skateboard"")
+    return boy_to_yesno(is_bike or is_skateboard)"
+2805654,Is the bag to the right or to the left of the bench?,"    image_patch = Image Patch image)
+    bag_patches = image_patch find(""bag"")
+    # Question assumes only one bag patch
+    if len(bag_patches) == 0:
+        # If no bag is found, query the image directly
+        return image_patch simple query(""Is the bag to the right or to the left of the bench?"", ""right"")
+    for bag_patch in bag_patches:
+        bench_patches = image_patch find(""bench"")
+        for bench_patch in bench_patches:
+            if bench_patch horizontal center > bag_patch horizontal center:
+                return ""right""
+    return ""left"""
+15315607,What do you think is in the sky?,"    image_patch = Image Patch image)
+    return image_patch简单 query(""What do you think is in the sky?"")
+
+def execute_command():
+    return ""I think there is a star in the sky.""
+
+def execute_command():
+    return ""I think there is a star in the sky.""
+
+def execute_command():
+    return ""I think there is a star in the sky.""
+
+def execute_command():
+    return ""I think there is a star in the sky.""
+
+def execute_command():
+    return ""I think there is a star in the sky.""
+
+def execute_command():
+    return ""I think there is a star in the sky.""
+
+def execute_command():
+    return ""I think there is a star in the sky.""
+
+def execute_command():
+    return ""I think there is a star in the sky.""
+
+def execute_command():
+    return ""I think there is a star in the sky.""
+
+def execute_command():
+    return ""I think there is a star in the sky.""
+
+def execute_command():
+    return ""I think there is a star in the sky.""
+
+def execute_command():
+    return ""I think there is a star in the sky.""
+
+def execute_command():
+    return ""I think there is a star in the sky.""
+
+def execute_command():
+    return ""I think there is a star in the sky.""
+
+def execute_command():
+    return ""I think there is a star in the sky.""
+
+def execute_command():
+    return ""I think there is a star in the sky.""
+
+def execute_command():
+    return ""I think there is a star in the sky.""
+
+def execute_command():
+    return ""I think there is a star in the sky.""
+
+def execute_command():
+    return ""I think there is a star in the sky.""
+
+def execute_command():
+    return ""I think there is a star in the sky.""
+
+def execute command():
+    return ""I think there is a star in the sky.""
+
+def execute command():
+    return ""I think there is a star in the sky.""
+
+def execute command():
+    return ""I think there is a star in the swisor star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star star"
+2995829,What color is the truck near the gas station?,"    image_patch = Image Patch image)
+    gas_station_patches = image_patch find(""gas station"")
+    # Question assumes only one gas station patch
+    if len(gas_station_patches) == 0:
+        # If no gas station is found, query the image directly
+        return image_patch简单 query(""What color is the truck near the gas station?"", "" gas station"")
+    gas_station_patch = gas station_patches[0]
+    truck_patches = image_patch find(""truck"")
+    # Question assumes only one truck patch
+    if len(truck_patches) == 0:
+        return ""no""
+    for truck_patch in truck_patches:
+        if truck_patch horizontal center > gas station patch horizontal center:
+            return ""red""
+    return ""no"""
+12140940,"What are the headphones on, a sofa or a desk?","    image_patch = Image Patch image)
+    headsets_patches = image_patch find(""headphones"")
+    # Question assumes only one headsets patch
+    if len headsets_patches) == 0:
+        # If no headsets is found, query the image directly
+        return image_patch simple query(""What are the headphones on, a sofa or a desk?"",)
+    if headsets_patches[0].vertical_center < image_patch_vertical_center:
+        return ""sofa""
+    else:
+        return "" desk"""
+727533,Does the bun look brown and toasted?,"    image_patch = Image Patch image)
+    return image_patch simple query(""Does the bun look brown and toasted?"")')
+```"
+61044602,What is in the brown basket?,"    image_patch = Image Patch image)
+    return image_patch简单 query(""What is in the brown basket?"", ""brown"")$
+def execute_command(image)-str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""Is there a backpack to the right of the man?"", ""backpack"")
+def execute_command(image)-str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""In which part is the bread, the bottom or the top?"", ""bottom"")
+def execute_command(image)-str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""What type of weather do you see in the photograph?"", ""weather"")
+def execute_command(image)-str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""Who is the man staring at?"", ""man"")
+def execute_command image)-str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""What toy is wearing a shirt?"", ""toy"")
+def execute command image)-str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""What is behind the pole?"", ""pole"")
+def execute command image)-str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""Are there bagels or lemons?"", ""bagel"")
+def execute command image)-str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""Is that blanket to the right of a pillow?"", ""blanket"")
+def execute command image)-str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""What is in the brown basket?"", ""brown"")
+def execute command image)-str:
+    image_patch = image Patch image)
+    return image_patch simple query(""Is there a backpack to the right of the man?"", ""backpack"")
+def execute command image)-str:
+    image_patch = image Patch image)
+    return image_patch simple query(""In which part is the bread, the bottom or the top?"", ""bottom"")
+def execute command image)-str:
+    image_patch = image Patch image)
+    return image_patch simple query(""What type of weather do you see in the photograph?"", ""weather"")
+def execute command image)-str:
+    image_patch = image Patch image)
+    return image_patch simple query(""Who is the man star
+"
+16827204,Is the marker different in color than the paper?,"    image_patch = Image Patch image)
+    marker_patches = image_patch find(""marker"")
+    # Question assumes only one marker patch
+    if len marker_patches) == 0:
+        # If no marker is found, query the image directly
+        return image_patch simple query(""Is the marker different in color than the paper?"", ""no"")
+    if marker_patches[0].verify_property(""marker"", ""different in color than the paper):
+        return ""yes""
+    return ""no"""
+1284539,Is there a racket to the right of the man on the right side?,"    image_patch = Image Patch image)
+    man_patches = image_patch find(""man"")
+    # Question assumes one man patch
+    if len(man_patches) == 0:
+        # If no man is found, query the image directly
+        return image_patch simple query(""Is there a racket to the right of the man on the right side?"", ""no"")
+    man_patch = man_patches[0]
+    racket_patches = image_patch find(""racket"")
+    # Question assumes one racket patch
+    if len(racket_patches) == 0:
+        return ""no""
+    for racket_patch in racket_patches:
+        if racket_patch horizontal center > man_patch horizontal center:
+            return ""yes""
+    return ""no""
+def execute_command():
+    return ""no""
+def execute_command():
+    return ""no""
+def execute_command():
+    return ""no""
+def execute_command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+"
+1257391,What place is this?,"    image_patch = Image Patch(image)
+    return image_patch简单 query(""What place is this?"")
+
+def simple_qa(image, question):
+    return image_patch简单 query(""What place is this?"", question)
+
+def simple_qa(image, question):
+    return image_patch simple query(""What place is this?"", question)
+
+def simple_qa image, question):
+    return image_patch simple query(""What place is this?"", question)
+
+def simple_qa image, question):
+    return image_patch simple query(""What place is this?"", question)
+
+def simple_qa image, question):
+    return image patch simple qa("" what place is this"")
+
+def simple_qa image, question):
+    return image patch simple qa("" what place is this"")
+
+def simple_qa image, question):
+    return image patch simple qa("" what place is this"")
+
+def simple qa image, question):
+    return image patch simple qa("" what place is this"")
+
+def simple qa image, question):
+    return image patch simple qa("" what place is this"")
+
+def simple qa image, question):
+    return image patch simple qa("" what place is this"")
+
+def simple qa image, question):
+    return image patch simple qa("" what place is this"")
+
+def simple qa image, question):
+    return image patch simple qa("" what place is this"")
+
+def simple qa image, question):
+    return image patch simple qa("" what place is this"")
+
+def simple qa image, question):
+    return image patch simple qa("" what place is this"")
+
+def simple qa image, question):
+    return image patch simple qa("" what place is this"")
+
+def simple qa image, question):
+    return image patch simple qa("" what place is this"")
+
+def simple qa image, question):
+    return image patch simple qa("" what place is this"")
+
+def simple qa image, question):
+    return image patch simple qa("" what place is this"")
+
+def simple qa image, question):
+    return image patch simple qa("" what place is this"")
+
+def simple qa image, question):
+    return image patch simple qa("" what place is this"")
+
+def simple qa image, question):
+    return image patch simple qa("" what place is this"")
+
+def simple qa image, question):
+    return image patch simple qa("" what place is this"")
+
+def simple qa image, question):
+    return image patch simple qa("" what place is this"")
+
+def simple qa"
+16223517,What do you think is the color of the large device?,"    image_patch = Image Patch image)
+    return image_patch简单 query(""What do you think is the color of the large device?"")
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    image_patch = Image Patch image)
+    return image_patch简单 query(""What do you think is the color of the large device?"")
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    image_patch = Image Patch image)
+    return image_patch simple query(""Is there a backpack to the right of the man?"")
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    image_patch = Image Patch image)
+    return image_patch simple query(""In which part is the bread, the bottom or the top?"")
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    image_patch = Image Patch image)
+    return image_patch simple query(""What type of weather do you see in the photograph?"")
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    image_patch = Image Patch image)
+    return image_patch simple query(""Who is the man staring at?"")
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    image_patch = Image Patch image)
+    return image_patch simple query(""What toy is wearing a shirt?"")
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    image_patch = Image Patch image)
+    return image_patch simple query(""What is behind the pole?"")
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    image_patch = Image Patch image)
+    return image_patch simple query(""Are there"
+1024280,Does the shirt look long sleeved or sleeveless?,"    image_patch = Image Patch image)
+    shirt_patches = image_patch find(""shirt"")
+    # Question assumes only one shirt patch
+    if len(shirt_patches) == 0:
+        # If no shirt is found, query the image directly
+        return image_patch简单 query(""Does the shirt look long sleeves or sleeveless?"",)
+    for shirt_patch in shirt_patches:
+        is_long_sleeved = (shirt_patch简单 query(""Is the shirt long sleeves or sleeveless?"") == ""long sleeves"")
+        if is_long_sleeved:
+            return ""long sleeves""
+        is_sleeveless = (shirt_patch simple query(""Is the shirt long sleeves or sleeveless?"") == ""sleeveless"")
+        if is_sleeveless:
+            return ""sleeveless""
+    return ""no"""
+2769463,Which kind of animal is lying in the chair?,"    image_patch = Image Patch image)
+    return image_patch简单 query("" Which kind of animal is lying in the chair?"")
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5,"
+18503776,Is the white box to the right of the crate the chair is to the right of?,"    image_patch = Image Patch image)
+    box_patches = image_patch find(""white box"")
+    # Question assumes only one box patch
+    if len(box_patches) == 0:
+        # If no box is found, query the image directly
+        return image_patch简单 query(""Is the white box to the right of the crate the chair is to the right of?"", ""no"")
+    box_patch = box_patches[0]
+    crate_patches = image_patch find(""crate"")
+    # Question assumes one crate patch
+    if len(crate_patches) == 0:
+        return ""no""
+    for crate_patch in crate_patches:
+        if box_patch horizontal center > crate_patch horizontal center:
+            return ""yes""
+    return ""no"""
+3434581,Are there both a coffee table and a lamp?,"    image_patch = Image Patch image)
+    coffee_table_patches = image_patch find(""coffee table"")
+    lamp_patches = image_patch find(""lamp"")
+    # Question assumes only one coffee table patch and one lamp patch
+    if len(coffee_table_patches) == 0 or len(lamp_patches) == 0:
+        # If no coffee table or lamp is found, query the image directly
+        return image_patch simple query(""Are there both a coffee table and a lamp?"", ""no"")
+    coffee_table_patch = coffee_table_patches[0]
+    lamp_patch = lamp_patches[0]
+    if coffee_table_patch vertical center < lamp_patch vertical center:
+        return ""no""
+    else:
+        return ""yes"""
+19201196,Is that flower pot made of clay?,"    image_patch = Image Patch image)
+    return image_patch简单 query(""Is that flower pot made of clay?"")
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6"
+191006281,Does the sky look clear and gray?,"    image_patch = Image Patch image)
+    return image_patch简单 query(""Does the sky look clear and gray?"")"
+681336,Do you see hats or gloves that are white?,"    image_patch = Image Patch image)
+    hats_patches = image_patch find(""hats"")
+    # Question assumes only one hat patch
+    if len(hats_patches) == 0:
+        # If no hat is found, query the image directly
+        return image_patch简单 query(""Do you see hats or gloves that are white?"", ""hats"")
+    if hats_patches[0].simple query(""Is the hat white?"") == ""yes"":
+        return ""yes""
+    gloves_patches = image_patch find(""gloves"")
+    # Question assumes only one glove patch
+    if len(gloves_patches) == 0:
+        return ""no""
+    if gloves_patches[0].simple query(""Is the glove white?"") == ""yes"":
+        return ""no""
+    return ""no"""
+1300368,What is on the cabinet that is to the right of the keyboard?,"    image_patch = Image Patch image)
+    keyboard_patches = image_patch find(""keyboard"")
+    # Question assumes only one keyboard patch
+    if len(keyboard_patches) == 0:
+        # If no keyboard is found, query the image directly
+        return image_patch simple query(""What is on the cabinet that is to the right of the keyboard?"", ""cabinet"")
+    for keyboard_patch in keyboard_patches:
+        cabinet_patches = image_patch find(""cabinet"")
+        for cabinet_patch in cabinet_patches:
+            if cabinet_patch horizontal center > keyboard_patch horizontal center:
+                return cabinet_patch simple query(""What is on the cabinet that is to the right of the keyboard?"", ""cabinet"")
+    return ""no"""
+172394,What is the animal to the left of the tap called?,"    image_patch = Image Patch image)
+    tap_patches = image_patch find("" tap"")
+    # Question assumes only one tap patch
+    if len(tap_patches) == 0:
+        # If no tap is found, query the image directly
+        return image_patch simple query("" What is the animal to the left of the tap called?"")$
+    tap_patch = tap_patches[0]
+    animal_patches = image_patch find("" animal"")
+    # Question assumes only one animal patch
+    if len(animal_patches) == 0:
+        return ""no""
+    for animal_patch in animal_patches:
+        if animal_patch horizontal center < tap_patch horizontal center:
+            return ""left""
+    return ""right"""
+738176,Is the chair on the right?,"    image_patch = Image Patch image)
+    chair_patches = image_patch find(""chair"")
+    # Question assumes only one chair patch
+    if len(chair_patches) == 0:
+        # If no chair is found, query the image directly
+        return image_patch simple query(""Is the chair on the right?"",)
+    if chair_patches[0].horizontal_center > image_patch horizontal center:
+        return ""yes""
+    return ""no"""
+4194919,Is the child on the right of the picture?,"    image_patch = Image Patch image)
+    child_patches = image_patch find(""child"")
+    # Question assumes only one child patch
+    if len(child_patches) == 0:
+        # If no child is found, query the image directly
+        return image_patch简单 query(""Is the child on the right of the picture?"", ""no"")
+    if child_patches[0].horizontal_center > image_patch horizontal center:
+        return ""yes""
+    return ""no"""
+3585327,Who is on the surfboard?,"    image_patch = Image Patch image)
+    return image_patch简单 query(""Who is on the surfboard?"")
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6],"
+1711172,What size are the packages the candle is on top of?,"    image_patch = Image Patch image)
+    return image_patch简单 query(""What size are the packages the candle is on top of?"")
+
+def execute_command():
+    return ""The candle is on top of a small package.""
+
+def execute_command():
+    return ""The candle is on top of a medium package.""
+
+def execute_command():
+    return ""The candle is on top of a large package.""
+
+def execute_command():
+    return ""The candle is on top of a medium package.""
+
+def execute_command():
+    return ""The candle is on top of a medium package.""
+
+def execute_command():
+    return ""The candle is on top of a medium package.""
+
+def execute_command():
+    return ""The candle is on top of a medium package.""
+
+def execute_command():
+    return ""The candle is on top of a medium package.""
+
+def execute_command():
+    return ""The candle is on top of a medium package.""
+
+def execute_command():
+    return ""The candle is on top of a medium package.""
+
+def execute_command():
+    return ""The candle is on top of a medium package.""
+
+def execute_command():
+    return ""The candle is on top of a medium package.""
+
+def execute_command():
+    return ""The candle is on top of a medium package.""
+
+def execute_command():
+    return ""The candle is on top of a medium package.""
+
+def execute_command():
+    return ""The candle is on top of a medium package.""
+
+def execute_command():
+    return ""The candle is on top of a medium package.""
+
+def execute_command():
+    return ""The candle is on top of a medium package.""
+
+def execute_command():
+    return ""The candle is on top of a medium package.""
+
+def execute_command():
+    return ""The candle is on top of a medium package.""
+
+def execute_command():
+    return ""The candle is on top of a medium package.""
+
+def execute_command():
+    return ""The candle is on top of a medium package.""
+
+def execute_command():
+    return ""The candle is on top of a medium package.""
+
+def execute_command():
+    return ""The candle is on top of a medium package.""
+
+def execute_command():
+    return ""The candle is on top of a medium package.""
+
+def execute_command():
+    return ""The candle is on top of a medium package.""
+
+def execute_command():
+    return ""The candle is on top of a medium package.""
+
+def execute_command():
+    return ""The candle is on top of a medium package.""
+
+def execute_command():
+    return ""The candle is on top of a medium package.""
+
+def execute_command():
+    return ""The"
+4353895,Who is on the snowboard on the right?,"    image_patch = Image Patch image)
+    return image_patch简单 query(""Who is on the snowboard on the right?"")
+
+def execute_command():
+    return ""no""
+def execute_command():
+    return ""no""
+def execute_command():
+    return ""no""
+def execute_command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+def execute command():
+    return ""no""
+"
+17929304,What is the vehicle that is on the road?,"    image_patch = Image Patch image)
+    return image_patch简单 query(""What is the vehicle that is on the road?"")
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5,"
+1363574,What color is the crust?,"    image_patch = Image Patch image)
+    return image_patch简单 query(""What color is the crust?"")
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+    return execute_command image)
+
+def execute_command():
+    image = np.array([[1, 2, 3], [4, 5, 6], ["
+5672474,Is the plate to the left or to the right of the beer on the left?,"    image_patch = Image Patch image)
+    beer_patches = image_patch find(""beer"")
+    # Question assumes only one beer patch
+    if len(beer_patches) == 0:
+        # If no beer is found, query the image directly
+        return image_patch简单 query(""Is the plate to the left or to the right of the beer on the left?"", ""left"")
+    for beer_patch in beer_patches:
+        plate_patches = image_patch find(""plate"")
+        for plate_patch in plate_patches:
+            if plate_patch horizontal center < beer_patch horizontal center:
+                return ""left""
+    return ""right"""
+11341284,What is the pattern of the mattress on the street?,"    image_patch = Image Patch image)
+    return image_patch简单 query(""What is the pattern of the Mattress on the street?"")
+
+def execute_command():
+    return "" pattern of the Mattress on the street$
+def execute_command():
+    return "" pattern of the Mattress on the street$
+def execute_command():
+    return "" pattern of the Mattress on the street$
+def execute command():
+    return "" pattern of the Mattress on the street$
+def execute command():
+    return "" pattern of the Mattress on the street$
+def execute command():
+    return "" pattern of the Mattress on the street$
+def execute command():
+    return "" pattern of the Mattress on the street$
+def execute command():
+    return "" pattern of the Matt$
+def execute command():
+    return "" pattern of the Matt$
+def execute command():
+    return "" pattern of the Matt$
+def execute command():
+    return "" pattern of the Matt$
+def execute command():
+    return "" pattern of the Matt$
+def execute command():
+    return "" pattern of the Matt$
+def execute command():
+    return "" pattern of the Matt$
+def execute command():
+    return "" pattern of the Matt$
+def execute command():
+    return "" pattern of the Matt$
+def execute command():
+    return "" pattern of the Matt$
+def execute command():
+    return "" pattern of the Matt$
+def execute$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+$
+"
+14192693,Are there any boys behind the fence?,"    image_patch = Image Patch image)
+    boy_patches = image_patch find(""boy"")
+    # Question assumes only one boy patch
+    if len(boy_patches) == 0:
+        # If no boy is found, query the image directly
+        return image_patch简单 query(""Are there any boys behind the fence?"", ""no"")
+    boy_patch = boy_patches[0]
+    fence_patches = image_patch find(""fence"")
+    # Question assumes only one fence patch
+    if len(fence_patches) == 0:
+        return ""no""
+    for fence_patch in fence_patches:
+        if fence_patch horizontal center > boy_patch horizontal center:
+            return ""yes""
+    return ""no"""
+19203395,Is the white toilet paper to the right or to the left of the toilet?,"    image_patch = Image Patch image)
+    toilet_paper_patches = image_patch find(""toilet paper"")
+    # Question assumes only one toilet paper patch
+    if len(toilet_paper_patches) == 0:
+        # If no toilet paper is found, query the image directly
+        return image_patch简单 query(""Is the white toilet paper to the right or to the left of the toilet?"", ""left"")
+    for toilet_paper_patch in toilet_paper_patches:
+        if toilet_paper_patch horizontal center < image_patch horizontal center:
+            return ""left""
+    return ""right"""
+1194938,Are there any airplanes in front of the building?,"    image_patch = Image Patch image)
+    airplanes_patches = image_patch find(""airplane"")
+    # Question assumes only one airplane patch
+    if len(airplanes_patches) == 0:
+        # If no airplane is found, query the image directly
+        return image_patch简单 query(""Are there any airplanes in front of the building?"", ""no"")
+    if airplanes_patches[0].horizontal_center < image_patch horizontal center:
+        return ""yes""
+    return ""no"""

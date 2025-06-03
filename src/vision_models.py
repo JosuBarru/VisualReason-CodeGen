@@ -1345,7 +1345,7 @@ class CodexModelInstructed(CodexModel):
                     "Your job is to produce the correct code in that function "
                     "so that it answers the question or does the operation asked by the user.\n"
                 )
-                messages_template.append({"role": "system", "content": system_prompt_full})
+                messages_template.append({"role": "system", "content": system_prompt})
 
                 # Few-shot examples
                 few_shot_prompt = few_shot_prompt.split("\n\n")[:-1]
@@ -1410,6 +1410,92 @@ class CodexModelInstructed(CodexModel):
             result = self.process_guesses(prompt=prompt, max_tokens=16) 
         return result
 
+class CodexModelInstructedSpecialCodeLlama(CodexModel):
+
+    def forward(self, prompt, process_name = 'codellama_Q', input_type='image', prompt_file=None, base_prompt=None, extra_context=None):
+        if process_name == 'codellama_Q':
+            if config.use_fixed_code:  # Use the same program for every sample, like in socratic models
+                return [self.fixed_code] * len(prompt) if isinstance(prompt, list) else self.fixed_code
+
+            if prompt_file is not None and base_prompt is None:  # base_prompt takes priority
+                with open(prompt_file) as f:
+                    base_prompt = f.read().strip()
+            elif base_prompt is None:
+                base_prompt = self.base_prompt
+            if isinstance(extra_context,list):
+                for i, ec in enumerate(extra_context):
+                    if ec is None:
+                        extra_context[i]=""
+            elif extra_context is None:
+                extra_context = ""
+            else: 
+                with open(extra_context) as f:
+                    extra_prompt = f.read().strip()
+                extra_context = extra_prompt
+            # if isinstance(prompt, list):
+            #     extended_prompt = [base_prompt.replace("INSERT_QUERY_HERE", p).
+            #                         replace('INSERT_TYPE_HERE', input_type).
+            #                         replace('EXTRA_CONTEXT_HERE', str(ec))
+            #                         for p, ec in zip(prompt, extra_context)]
+            # elif isinstance(prompt, str):
+            #     extended_prompt = [base_prompt.replace("INSERT_QUERY_HERE", prompt).
+            #                         replace('INSERT_TYPE_HERE', input_type).
+            #                         replace('EXTRA_CONTEXT_HERE', extra_context)]
+            # else:
+            #     raise TypeError("prompt must be a string or a list of strings")
+            self.query = prompt
+
+            logger.debug("Llegas a la parte de codex")
+
+            if isinstance(prompt, list):
+                messages_template = []
+
+                # System prompt
+                system_prompt, few_shot_prompt = base_prompt.split("# Examples of using ImagePatch\n")
+                system_prompt_full = (
+                    "You are an AI that uses a special ImagePatch class to answer questions about images.\n"
+                    "Here is the class definition:\n\n"
+                    f"{system_prompt}\n\n"
+                    "Please use this class to answer queries about images.\n"
+                    "When writing the final solution, you typically define a function:\n\n"
+                    "def execute_command(image)->str:\n"
+                    "    # put your logic here\n"
+                    "Your job is to produce the correct code in that function "
+                    "so that it answers the question or does the operation asked by the user.\n"
+                )
+                messages_template.append({"role": "system", "content": system_prompt})
+
+                # Few-shot examples
+                few_shot_prompt = few_shot_prompt.split("\n\n")[:-1]
+                few_shot_prompt = "\n\n".join(few_shot_prompt)
+
+                batch_messages = []
+                for single_prompt in prompt:
+                    messages = list(messages_template)
+                    messages.append({"role": "user", "content": f"{few_shot_prompt}\n\n{single_prompt}\ndef execute_command(image)->str:"})
+
+                    batch_messages.append(messages)
+
+
+                #logger.info(f"Batch prompts:\n{batch_messages}")
+
+                result = self.forward_(batch_messages)
+
+            else:
+                logger.err("CodexModelInstructedSpecialCodeLlama only supports batch processing, please use a list of prompts.")
+
+
+
+        elif process_name == 'llm_query':
+            with open(config.gpt3.qa_prompt) as f:
+                self.qa_prompt = f.read().strip()
+            result = self.get_qa(prompt=prompt, max_tokens=5)
+        elif process_name == 'llm_guess':
+            with open(config.gpt3.guess_prompt) as f:
+                self.guess_prompt = f.read().strip()
+            result = self.process_guesses(prompt=prompt, max_tokens=16) 
+        return result
+
 class codellama_base(CodexModel):
     name = 'codellama_base'
     max_batch_size=64 
@@ -1439,7 +1525,7 @@ class codellama_base(CodexModel):
         # Extract generated text from each result.
         generated_text = [result.outputs[0].text for result in results]
         # Optionally post-process the generated text.
-        generated_text = [text.split('\n\n')[0] for text in generated_text]
+        #generated_text = [text.split('\n\n')[0] for text in generated_text]
         return generated_text
 
     def forward_(self, extended_prompt):
@@ -1503,7 +1589,7 @@ class codellama(CodexModelInstructed):
         # Extract generated text from each result.
         generated_text = [result.outputs[0].text for result in results]
         # Optionally post-process the generated text.
-        #generated_text = [text.split('\n\n')[0] for text in generated_text]
+        generated_text = [text.split('\n\n')[0] for text in generated_text]
         return generated_text
 
     def forward_(self, extended_prompt):
@@ -2036,7 +2122,7 @@ class Qwen257b(CodexModel):
             logger.error(f"Error {e}")
 
 
-class qwen25_inst(CodexModelInstructed):
+class qwen25_inst(CodexModelInstructedSpecialCodeLlama):
     name = 'qwen25_inst'
     max_batch_size=64 
     def __init__(self, gpu_number=0):
