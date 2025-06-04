@@ -19,7 +19,7 @@ source /sorgin1/users/jbarrutia006/venvs/viper_tximista/bin/activate
 export LOAD_MODELS=0
 export DATASET='gqa'
 export EXEC_MODE='codex'
-export CODEX_MODEL='codellama'
+export CODEX_MODEL='qwen25_inst'
 export PARTITION='val'
 export BATCHSIZE=8
 export TEMP=0

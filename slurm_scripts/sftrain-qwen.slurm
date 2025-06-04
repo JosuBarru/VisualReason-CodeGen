@@ -15,7 +15,7 @@
 source /sorgin1/users/jbarrutia006/venvs/viper_tximista/bin/activate
 
 # Run your SFT script
-srun python scripts/sft/sftrain.py \
+srun python scripts/sft/sftrain-codellama.py \
     --project_name "viperSFT" \
     --run_name "qwen" \
     --model_name "Qwen/Qwen2.5-Math-7B-Instruct" \

@@ -1448,36 +1448,14 @@ class CodexModelInstructedSpecialCodeLlama(CodexModel):
             logger.debug("Llegas a la parte de codex")
 
             if isinstance(prompt, list):
-                messages_template = []
-
-                # System prompt
-                system_prompt, few_shot_prompt = base_prompt.split("# Examples of using ImagePatch\n")
-                system_prompt_full = (
-                    "You are an AI that uses a special ImagePatch class to answer questions about images.\n"
-                    "Here is the class definition:\n\n"
-                    f"{system_prompt}\n\n"
-                    "Please use this class to answer queries about images.\n"
-                    "When writing the final solution, you typically define a function:\n\n"
-                    "def execute_command(image)->str:\n"
-                    "    # put your logic here\n"
-                    "Your job is to produce the correct code in that function "
-                    "so that it answers the question or does the operation asked by the user.\n"
-                )
-                messages_template.append({"role": "system", "content": system_prompt})
-
-                # Few-shot examples
-                few_shot_prompt = few_shot_prompt.split("\n\n")[:-1]
-                few_shot_prompt = "\n\n".join(few_shot_prompt)
+                base_prompt = base_prompt.split("\n\n")[:-1]
+                base_prompt = "\n\n".join(base_prompt)
 
                 batch_messages = []
                 for single_prompt in prompt:
-                    messages = list(messages_template)
-                    messages.append({"role": "user", "content": f"{few_shot_prompt}\n\n{single_prompt}\ndef execute_command(image)->str:"})
-
+                    messages = [{"role": "system", "content": "The user is going to give you an api usage and several examples of how to use it. You have to generate the code to answer the last question."}]
+                    messages.append({"role": "user", "content": f"{base_prompt}\n\n# {single_prompt}\ndef execute_command(image)->str:"})
                     batch_messages.append(messages)
-
-
-                #logger.info(f"Batch prompts:\n{batch_messages}")
 
                 result = self.forward_(batch_messages)
 
@@ -1543,7 +1521,7 @@ class codellama_base(CodexModel):
             print(f"Error: {e}")
             logger.error(f"Error {e}")
 
-class codellama(CodexModelInstructed):
+class codellama(CodexModel):
     name = 'codellama'
     max_batch_size=64 
     def __init__(self, gpu_number=0):
@@ -1601,9 +1579,10 @@ class codellama(CodexModelInstructed):
                     response += self.forward_(extended_prompt[i:i + self.max_batch_size])
                 return response
 
-            tokenizer = self.llm.get_tokenizer()
+            # tokenizer = self.llm.get_tokenizer()
 
-            chat_prompts = [tokenizer.apply_chat_template(p, tokenize=False, add_generation_prompt=True) for p in extended_prompt]
+            # chat_prompts = [tokenizer.apply_chat_template(p, tokenize=False, add_generation_prompt=True) for p in extended_prompt]
+            chat_prompts = extended_prompt
 
             logger.info(f"Chat prompts: {chat_prompts}")
 
@@ -2122,7 +2101,7 @@ class Qwen257b(CodexModel):
             logger.error(f"Error {e}")
 
 
-class qwen25_inst(CodexModelInstructedSpecialCodeLlama):
+class qwen25_inst(CodexModel):
     name = 'qwen25_inst'
     max_batch_size=64 
     def __init__(self, gpu_number=0):
@@ -2168,7 +2147,7 @@ class qwen25_inst(CodexModelInstructedSpecialCodeLlama):
         # Extract generated text from each result.
         generated_text = [result.outputs[0].text for result in results]
         # Optionally post-process the generated text.
-        #generated_text = [text.split('\n\n')[0] for text in generated_text]
+        generated_text = [text.split('\n\n')[0] for text in generated_text]
         return generated_text
 
     def forward_(self, extended_prompt):
@@ -2181,9 +2160,11 @@ class qwen25_inst(CodexModelInstructedSpecialCodeLlama):
                 return response
 
 
-            tokenizer = self.llm.get_tokenizer()
+            # tokenizer = self.llm.get_tokenizer()
 
-            chat_prompts = [tokenizer.apply_chat_template(p, tokenize=False, add_generation_prompt=True) for p in extended_prompt]
+            # chat_prompts = [tokenizer.apply_chat_template(p, tokenize=False, add_generation_prompt=True) for p in extended_prompt]
+
+            chat_prompts = extended_prompt
 
             logger.info(f"Chat prompts: {chat_prompts}")
 

@@ -48,7 +48,7 @@ class CustomDataCollatorForCompletionOnlyLM(DataCollatorForCompletionOnlyLM):
         labels = batch["input_ids"].clone()
 
         # Define the assistant marker we will search for.
-        marker = "<|start_header_id|>assistant<|end_header_id|>"
+        marker = "def execute_command(image)->str:"
         for i in range(len(labels)):
             # Decode the padded input_ids to a string.
             decoded_text = self.tokenizer.decode(labels[i], skip_special_tokens=False)
@@ -196,46 +196,15 @@ def prepare_sft_prompt_and_answer(batch: Dict[str, list], prompt_template: str, 
     {"text": [...]} con tantos elementos como ejemplos haya.
     Está pensada para usarse con  `dataset.map(batched=True)`.
     """
-    system_prompt, few_shot_part = prompt_template.split("# Examples of using ImagePatch\n")
-
-    system_prompt_full = (
-        "You are an AI that uses a special ImagePatch class to answer questions about images.\n"
-        "Here is the class definition:\n\n"
-        f"{system_prompt}\n\n"
-        "Please use this class to answer queries about images.\n"
-        "When writing the final solution, you typically define a function:\n\n"
-        "def execute_command(image)->str:\n"
-        "    # put your logic here\n"
-        "Your job is to produce the correct code in that function "
-        "so that it answers the question or does the operation asked by the user.\n"
-    )
-
-    few_shot_examples = []
-    for example in few_shot_part.split("\n\n")[:-1]:
-        lines = example.splitlines()
-        few_shot_examples.append(
-            {"role": "user", "content": "\n".join(lines[:2])}
-        )
-        few_shot_examples.append(
-            {"role": "assistant", "content": "\n".join(lines[2:])}
-        )
+    
 
     out_texts = []
     for prompt, answer in zip(batch["prompt"], batch["output"]):
-        messages = (
-            [{"role": "system", "content": system_prompt_full}]
-            + few_shot_examples
-            + [
-                {
-                    "role": "user",
-                    "content": f"{prompt}\ndef execute_command(image)->str:",
-                },
-                {"role": "assistant", "content": answer},
-            ]
-        )
         out_texts.append(
-            tokenizer.apply_chat_template(messages, tokenize=False)
+            f"{prompt_template.replace('INSERT_QUERY_HERE', prompt)}\n{answer}"
         )
+
+    logger.info(f"{out_texts[0]}")
 
     return {"text": out_texts}
 

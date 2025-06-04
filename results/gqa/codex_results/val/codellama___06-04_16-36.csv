@@ -1,0 +1,229 @@
+sample_id,query,generated_code
+13151559,Is the large hair both white and soft?,"  This code defines a class called `ImagePatch` that represents a crop of an image centered around a particular object, as well as relevant information. The class has several methods for finding objects in the image, asking basic questions about the image, and verifying properties of the objects in the image.
+
+The `ImagePatch` class takes an image and optional coordinates as input, and initializes the crop of the image at the given coordinates. If no coordinates are provided, the image is left unmodified, and the coordinates are set to the dimensions of the image.
+
+The class has several methods for interacting with the image, including:
+
+* `find`: Returns a list of new `ImagePatch` objects containing crops of the image centered around any objects found in the image matching the object name.
+* `simple_query`: Returns the answer to a basic question asked about the image. If no question is provided, returns the answer to ""What is this?"".
+* `exists`: Returns True if the object specified by object name is found in the image, and False otherwise.
+* `verify_property`: Returns True if the property is met, and False otherwise.
+* `best_text_match`: Returns the string that best matches the image.
+* `crop`: Returns a new `ImagePatch` object containing a crop of the image at the given coordinates.
+
+The code also includes several examples of using the `ImagePatch` class, including:
+
+* Is there a backpack to the right of the man?
+* In which part is the bread, the bottom or the top?
+* What type of weather do you see in the photograph?
+* Who is the man staring at?
+* What toy is wearing a shirt?
+* What is behind the pole?
+* Are there bagels or lemons?
+* Is that blanket to the right of a pillow?
+* Is the large hair both white and soft?
+
+These examples demonstrate how to use the `ImagePatch` class to answer questions about an image, and how to use the class's methods to find objects in the image, ask basic questions, and verify properties of the objects in the image."
+18370956,Who is eating the cupcake?,"  def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    cupcake_patches = image_patch.find(""cupcake"")
+    # Question assumes only one cupcake patch
+    if len(cupcake_patches) == 0:
+        # If no cupcake is found, query the image directly
+        return image_patch.simple_query(""Who is eating the cupcake?"")
+    for cupcake_patch in cupcake_patches:
+        person_patches = image_patch.find(""person"")
+        for person_patch in person_patches:
+            if person_patch.verify_property(""person"", ""eating""):
+                return person_patch.simple_query(""Who is eating the cupcake?"") # crop would include the cupcake so keep it in the query
+    # If no person is eating the cupcake, pick the first person
+    return person_patches[0].simple_query(""Who is eating the cupcake?"")
+
+# What is the color of the car?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    car_patches = image_patch.find(""car"")
+    # Question assumes only one car patch
+    if len(car_patches) == 0:
+        # If no car is found, query the image directly
+        return image_patch.simple_query(""What is the color of the car?"")
+    return car_patches[0].simple_query(""What is the color of the car?"")
+
+# What is the color of the shirt?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    shirt_patches = image_patch.find(""shirt"")
+    # Question assumes only one shirt patch
+    if len(shirt_patches) == 0:
+        # If no shirt is found, query the image directly
+        return image_patch.simple_query(""What is the color of the shirt?"")
+    return shirt_patches[0].simple_query(""What is the color of the shirt?"")
+
+# What is the"
+6436809,What is the guy wearing?,"  def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    # contains a relation (around, next to, on, near, on top of, in front of, behind, etc), so ask directly
+    return image_patch.simple_query(""What is the guy wearing?"")
+
+# Is the cat wearing a hat?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    cat_patches = image_patch.find(""cat"")
+    # Question assumes only one cat patch
+    if len(cat_patches) == 0:
+        # If no cat is found, query the image directly
+        return image_patch.simple_query(""Is the cat wearing a hat?"")
+    for cat_patch in cat_patches:
+        hat_patches = image_patch.find(""hat"")
+        for hat_patch in hat_patches:
+            if cat_patch.horizontal_center > hat_patch.horizontal_center:
+                return ""yes""
+    return ""no""
+
+# What is the color of the car?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    car_patches = image_patch.find(""car"")
+    # Question assumes only one car patch
+    if len(car_patches) == 0:
+        # If no car is found, query the image directly
+        return image_patch.simple_query(""What is the color of the car?"")
+    return car_patches[0].simple_query(""What is the color of the car?"")
+
+# Is the dog wearing a collar?
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    dog_patches = image_patch.find(""dog"")
+    # Question assumes only one dog patch
+    if len(dog_patches) == 0:
+        # If no dog is found, query the image directly
+        return image_patch.simple_query(""Is the dog wearing a collar?"")
+    for dog_patch in dog_patches:
+        collar_patches = image_patch.find(""collar"")
+        for"
+117037,Which kind of food is to the right of the cabbage?,"  This code defines a class called `ImagePatch` that represents a crop of an image centered around a particular object, as well as relevant information. The class has several methods for finding objects in the image, asking basic questions about the image, and verifying properties of the objects in the image.
+
+The `ImagePatch` class takes an image and optional coordinates as input, and initializes the crop of the image at the given coordinates. If no coordinates are provided, the image is left unmodified, and the coordinates are set to the dimensions of the image.
+
+The class has several methods for interacting with the image, including:
+
+* `find`: Returns a list of new `ImagePatch` objects containing crops of the image centered around any objects found in the image matching the object name.
+* `simple_query`: Returns the answer to a basic question asked about the image. If no question is provided, returns the answer to ""What is this?"".
+* `exists`: Returns True if the object specified by object name is found in the image, and False otherwise.
+* `verify_property`: Returns True if the object possesses the property, and False otherwise.
+* `best_text_match`: Returns the string that best matches the image.
+* `crop`: Returns a new `ImagePatch` object containing a crop of the image at the given coordinates.
+
+The code also includes several examples of using the `ImagePatch` class to answer questions about an image. These examples include:
+
+* Is there a backpack to the right of the man?
+* In which part is the bread, the bottom or the top?
+* What type of weather do you see in the photograph?
+* Who is the man staring at?
+* What toy is wearing a shirt?
+* What is behind the pole?
+* Are there bagels or lemons?
+* Is that blanket to the right of a pillow?
+* Which kind of food is to the right of the cabbage?
+
+These examples demonstrate how the `ImagePatch` class can be used to answer questions about an image by cropping the image around specific objects and asking basic questions about the image."
+758936,Who wears the cap?,"  This code defines a class called `ImagePatch` that represents a crop of an image centered around a particular object, as well as relevant information. The class has several methods for finding objects in the image, asking basic questions about the image, and verifying properties of the objects in the image.
+
+The `ImagePatch` class takes an image and optional coordinates as input, and initializes the crop of the image at the given coordinates. If no coordinates are provided, the image is left unmodified, and the coordinates are set to the dimensions of the image.
+
+The class has several methods for interacting with the image, including:
+
+* `find`: Returns a list of new `ImagePatch` objects containing crops of the image centered around any objects found in the image matching the object name.
+* `simple_query`: Returns the answer to a basic question asked about the image. If no question is provided, returns the answer to ""What is this?"".
+* `exists`: Returns True if the object specified by object name is found in the image, and False otherwise.
+* `verify_property`: Returns True if the object possesses the property, and False otherwise.
+* `best_text_match`: Returns the string that best matches the image.
+* `crop`: Returns a new `ImagePatch` object containing a crop of the image at the given coordinates.
+
+The code also includes several examples of using the `ImagePatch` class, including:
+
+* Is there a backpack to the right of the man?
+* In which part is the bread, the bottom or the top?
+* What type of weather do you see in the photograph?
+* Who is the man staring at?
+* What toy is wearing a shirt?
+* What is behind the pole?
+* Are there bagels or lemons?
+* Is that blanket to the right of a pillow?
+* Who wears the cap?
+
+These examples demonstrate how to use the `ImagePatch` class to answer various questions about an image."
+111046440,Who is pointing?,"  This code defines a class called `ImagePatch` that represents a crop of an image centered around a particular object, as well as relevant information. The class has several methods for finding objects in the image, asking basic questions about the image, and verifying properties of objects in the image.
+
+The `ImagePatch` class takes an image and optional coordinates as input, and initializes the crop of the image at the given coordinates. If no coordinates are provided, the image is left unmodified, and the coordinates are set to the dimensions of the image.
+
+The class has several methods for interacting with the image, including:
+
+* `find`: Returns a list of new `ImagePatch` objects containing crops of the image centered around any objects found in the image matching the object name.
+* `simple_query`: Returns the answer to a basic question asked about the image. If no question is provided, returns the answer to ""What is this?"".
+* `exists`: Returns True if the object specified by object name is found in the image, and False otherwise.
+* `verify_property`: Returns True if the property is met, and False otherwise.
+* `best_text_match`: Returns the string that best matches the image.
+* `crop`: Returns a new `ImagePatch` object containing a crop of the image at the given coordinates.
+
+The code also includes several examples of using the `ImagePatch` class, including:
+
+* Is there a backpack to the right of the man?
+* In which part is the bread, the bottom or the top?
+* What type of weather do you see in the photograph?
+* Who is the man staring at?
+* What toy is wearing a shirt?
+* What is behind the pole?
+* Are there bagels or lemons?
+* Is that blanket to the right of a pillow?
+* Who is pointing?
+
+These examples demonstrate how to use the `ImagePatch` class to answer questions about an image, and how to use the class's methods to find objects in the image, ask basic questions, and verify properties of objects in the image."
+15804389,Is the woman's hair short or long?,"  This is a Python class that represents a patch of an image, with methods for finding objects in the image, asking simple questions about the image, and verifying properties of objects in the image.
+
+The class has the following attributes:
+
+* `cropped_image`: an array-like of the cropped image taken from the original image.
+* `left`: an int describing the position of the left border of the crop's bounding box in the original image.
+* `lower`: an int describing the position of the bottom border of the crop's bounding box in the original image.
+* `right`: an int describing the position of the right border of the crop's bounding box in the original image.
+* `upper`: an int describing the position of the top border of the crop's bounding box in the original image.
+
+The class also has the following methods:
+
+* `find(object_name: str)->List[ImagePatch]`: returns a list of new `ImagePatch` objects containing crops of the image centered around any objects found in the image matching the `object_name`.
+* `simple_query(question: str=None)->str`: returns the answer to a basic question asked about the image. If no question is provided, returns the answer to ""What is this?"".
+* `exists(object_name: str)->bool`: returns True if the object specified by `object_name` is found in the image, and False otherwise.
+* `verify_property(property: str)->bool`: returns True if the property is met, and False otherwise.
+* `best_text_match(string1: str, string2: str)->str`: returns the string that best matches the image.
+* `crop(left: int, lower: int, right: int, upper: int)->ImagePatch`: returns a new `ImagePatch` object containing a crop of the image at the given coordinates.
+
+The class also has several examples of how to use it, including:
+
+* `Is there a backpack to the right of the man?`: returns ""yes"" if there is a backpack to the right of the man, and ""no"" otherwise.
+* `In which part is the bread, the bottom or the top?`: returns ""bottom"" if the bread is at the bottom of the"
+11445636,The women are watching who?,"  The user has provided an API usage and several examples of how to use it. The API is for image analysis and understanding, and it provides a Python class called `ImagePatch` that can be used to analyze and understand images.
+
+The `ImagePatch` class has several methods that can be used to analyze and understand images, including:
+
+* `find`: This method returns a list of new `ImagePatch` objects containing crops of the image centered around any objects found in the image matching the object name.
+* `simple_query`: This method returns the answer to a basic question asked about the image. If no question is provided, it returns the answer to ""What is this?"".
+* `exists`: This method returns True if the object specified by object name is found in the image, and False otherwise.
+* `verify_property`: This method returns True if the object possesses the property, and False otherwise.
+* `best_text_match`: This method returns the string that best matches the image.
+* `crop`: This method returns a new `ImagePatch` object containing a crop of the image at the given coordinates.
+
+The user has also provided several examples of how to use the `ImagePatch` class, including:
+
+* ""Is there a backpack to the right of the man?""
+* ""In which part is the bread, the bottom or the top?""
+* ""What type of weather do you see in the photograph?""
+* ""Who is the man staring at?""
+* ""What toy is wearing a shirt?""
+* ""What is behind the pole?""
+* ""Are there bagels or lemons?""
+* ""Is that blanket to the right of a pillow?""
+* ""The women are watching who?""
+
+To answer the last question, the user would need to provide more information about the image, such as the objects in the image and their properties. The `ImagePatch` class provides several methods that can be used to analyze and understand images, but it is not enough information to answer the last question without more context."
