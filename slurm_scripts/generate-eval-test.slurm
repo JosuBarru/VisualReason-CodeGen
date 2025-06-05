@@ -6,7 +6,7 @@
 #SBATCH --ntasks-per-node=1
 #SBATCH --mem=18GB
 #SBATCH --gres=gpu:1
-#SBATCH --time=8:00:00
+#SBATCH --time=12:00:00
 
 #SBATCH --output=/sorgin1/users/jbarrutia006/viper/slurm_scripts/outputs/%x-%A.txt
 
@@ -18,12 +18,12 @@ source /sorgin1/users/jbarrutia006/venvs/viper_tximista/bin/activate
 export LOAD_MODELS=0
 export DATASET='gqa'
 export EXEC_MODE='codex'
-export CODEX_MODEL='llama31Q'
+export CODEX_MODEL='codellama'
 export PARTITION='testdev'
-export BATCHSIZE=8
+export BATCHSIZE=16
 export TEMP=0
 export NUMINST=
-export CHECKPOINT='sft_trained_models/llama3.1-lr-1e-4__05-25_12-44-42/checkpoint-650'
+export CHECKPOINT=''
 
 srun python src/main_project_slurm.py
 

@@ -1410,6 +1410,67 @@ class CodexModelInstructed(CodexModel):
             result = self.process_guesses(prompt=prompt, max_tokens=16) 
         return result
 
+class CodexModelInstructedQwen(CodexModel):
+
+    def forward(self, prompt, process_name = 'codellama_Q', input_type='image', prompt_file=None, base_prompt=None, extra_context=None):
+        if process_name == 'codellama_Q':
+            if config.use_fixed_code:  # Use the same program for every sample, like in socratic models
+                return [self.fixed_code] * len(prompt) if isinstance(prompt, list) else self.fixed_code
+
+            if prompt_file is not None and base_prompt is None:  # base_prompt takes priority
+                with open(prompt_file) as f:
+                    base_prompt = f.read().strip()
+            elif base_prompt is None:
+                base_prompt = self.base_prompt
+            if isinstance(extra_context,list):
+                for i, ec in enumerate(extra_context):
+                    if ec is None:
+                        extra_context[i]=""
+            elif extra_context is None:
+                extra_context = ""
+            else: 
+                with open(extra_context) as f:
+                    extra_prompt = f.read().strip()
+                extra_context = extra_prompt
+            # if isinstance(prompt, list):
+            #     extended_prompt = [base_prompt.replace("INSERT_QUERY_HERE", p).
+            #                         replace('INSERT_TYPE_HERE', input_type).
+            #                         replace('EXTRA_CONTEXT_HERE', str(ec))
+            #                         for p, ec in zip(prompt, extra_context)]
+            # elif isinstance(prompt, str):
+            #     extended_prompt = [base_prompt.replace("INSERT_QUERY_HERE", prompt).
+            #                         replace('INSERT_TYPE_HERE', input_type).
+            #                         replace('EXTRA_CONTEXT_HERE', extra_context)]
+            # else:
+            #     raise TypeError("prompt must be a string or a list of strings")
+            self.query = prompt
+
+            logger.debug("Llegas a la parte de codex")
+
+            if isinstance(prompt, list):
+                batch_messages = []
+                for single_prompt in prompt:
+                    messages = [{"role": "system", "content": "You are a coding assistant that must always respond in pure English. Any use of Chinese characters or non-standard code will result in a failure to execute. Answer just the last question."}]
+                    messages.append({"role": "user", "content": base_prompt.replace("INSERT_QUERY_HERE", single_prompt)})
+                    batch_messages.append(messages)
+
+                result = self.forward_(batch_messages)
+
+            else:
+                logger.err("CodexModelInstructedSpecialCodeLlama only supports batch processing, please use a list of prompts.")
+
+
+
+        elif process_name == 'llm_query':
+            with open(config.gpt3.qa_prompt) as f:
+                self.qa_prompt = f.read().strip()
+            result = self.get_qa(prompt=prompt, max_tokens=5)
+        elif process_name == 'llm_guess':
+            with open(config.gpt3.guess_prompt) as f:
+                self.guess_prompt = f.read().strip()
+            result = self.process_guesses(prompt=prompt, max_tokens=16) 
+        return result
+
 class CodexModelInstructedSpecialCodeLlama(CodexModel):
 
     def forward(self, prompt, process_name = 'codellama_Q', input_type='image', prompt_file=None, base_prompt=None, extra_context=None):
@@ -1544,9 +1605,9 @@ class codellama(CodexModel):
 
 
         if config.codex.adapter and config.codex.adapter != "":
-            self.llm = LLM(model=model_name, gpu_memory_utilization=0.95, dtype=dtype, enable_lora=True, max_lora_rank=64)
+            self.llm = LLM(model=model_name, gpu_memory_utilization=0.8, dtype=dtype, enable_lora=True, max_lora_rank=64)
         else:
-            self.llm = LLM(model=model_name, gpu_memory_utilization=0.95, dtype=dtype)
+            self.llm = LLM(model=model_name, gpu_memory_utilization=0.9, dtype=dtype)
 
         self.sampling_params = SamplingParams(
             max_tokens=512,
@@ -1568,6 +1629,15 @@ class codellama(CodexModel):
         generated_text = [result.outputs[0].text for result in results]
         # Optionally post-process the generated text.
         generated_text = [text.split('\n\n')[0] for text in generated_text]
+
+        # # Remove the first line breaks and then select the first part of the text
+        # for text in generated_text:
+        #     if text.startswith('\n\n'):
+        #         text = text[2:]
+        #     text = text.split('\n\n')[0]
+
+        # generated_text = [text for text in generated_text if text.strip() != '']
+        # return generated_text
         return generated_text
 
     def forward_(self, extended_prompt):
@@ -1584,7 +1654,7 @@ class codellama(CodexModel):
             # chat_prompts = [tokenizer.apply_chat_template(p, tokenize=False, add_generation_prompt=True) for p in extended_prompt]
             chat_prompts = extended_prompt
 
-            logger.info(f"Chat prompts: {chat_prompts}")
+            # logger.info(f"Chat prompts: {chat_prompts}")
 
             response = self.run_code_Quantized_llama(chat_prompts)
             return response
@@ -2101,7 +2171,7 @@ class Qwen257b(CodexModel):
             logger.error(f"Error {e}")
 
 
-class qwen25_inst(CodexModel):
+class qwen25_inst(CodexModelInstructedQwen):
     name = 'qwen25_inst'
     max_batch_size=64 
     def __init__(self, gpu_number=0):
@@ -2147,7 +2217,7 @@ class qwen25_inst(CodexModel):
         # Extract generated text from each result.
         generated_text = [result.outputs[0].text for result in results]
         # Optionally post-process the generated text.
-        generated_text = [text.split('\n\n')[0] for text in generated_text]
+        #generated_text = [text.split('\n\n')[0] for text in generated_text]
         return generated_text
 
     def forward_(self, extended_prompt):
@@ -2160,11 +2230,11 @@ class qwen25_inst(CodexModel):
                 return response
 
 
-            # tokenizer = self.llm.get_tokenizer()
+            tokenizer = self.llm.get_tokenizer()
 
-            # chat_prompts = [tokenizer.apply_chat_template(p, tokenize=False, add_generation_prompt=True) for p in extended_prompt]
+            chat_prompts = [tokenizer.apply_chat_template(p, tokenize=False, add_generation_prompt=True) for p in extended_prompt]
 
-            chat_prompts = extended_prompt
+            #chat_prompts = extended_prompt
 
             logger.info(f"Chat prompts: {chat_prompts}")
 

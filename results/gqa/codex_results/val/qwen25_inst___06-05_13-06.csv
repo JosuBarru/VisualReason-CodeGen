@@ -1,0 +1,126 @@
+sample_id,query,generated_code
+13151559,Is the large hair both white and soft?,"    image_patch = Image Patch image)
+    hair_patches = image_patch find(""hair"")
+    # Question assumes only one hair patch
+    if len(hair_patches) == 0:
+        # If no hair is found, query the image directly
+        return image_patch简单 query(""Is the large hair both white and soft?"", ""no"")
+    hair_patch = hair_patches[0]
+    is_white = hair_patch simple query(""Is the hair white?"", ""yes"")
+    is_soft = hair_patch simple query(""Is the hair soft?"", ""yes"")
+    return ""yes"" if is_white and is_soft else ""no"""
+18370956,Who is eating the cupcake?,"    image_patch = Image Patch image)
+    return image_patch简单 query(""Who is eating the cupcake?"", ""the boy"")$$
+def execute_command(image')->str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""Is there a backpack to the right of the man?"", ""no"")
+def execute_command(image')->str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""In which part is the bread, the bottom or the top?"", ""top"")
+def execute_command(image')->str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""What type of weather do you see in the photograph?"", ""sunny"")
+def execute_command(image')->str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""Who is the man staring at?"", ""the boy"")
+def execute_command image')->str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""What toy is wearing a shirt?"", ""the toy"")
+def execute_command image')->str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""What is behind the pole?"", ""the tree"")
+def execute_command image')->str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""Are there bagels or lemons?"", ""no"")
+def execute command image')->str:
+    image_patch = image Patch image)
+    return image_patch simple query(""Is that blanket to the right of a pillow?"", ""no"")
+def execute command image')->str:
+    image_patch = image Patch image)
+    return image_patch simple query(""Who is eating the cupcake?"", ""the boy"")
+def execute command image')->str:
+    image_patch = image Patch image)
+    return image_patch simple query(""Is there a backpack to the right of the man?"", ""no"")
+def execute command image')->str:
+    image_patch = image Patch image)
+    return image_patch simple query(""In which part is the bread, the bottom or the top?"", ""top"")
+def execute command image')->str:
+    image_patch = image Patch image)
+    return image_patch simple query(""What type of weather do you see in the photograph?"", ""sunny"")
+def execute command image')->str:
+    image_patch = image Patch image)
+    return image_patch simple query(""Who is the man staring at?"", ""the boy"")
+def execute command image')->str:
+    image_patch = image Patch image)
+    return image_patch simple query(""What toy is wearing a shirt?"", """
+6436809,What is the guy wearing?,"    image_patch = Image Patch image)
+    return image_patch简单 query(""What is the guy wearing?"")
+
+def execute_command():
+    image = np.array(Image.open(""example image.png""))
+    return execute_command(image)
+
+print(execute_command())
+```
+The final answer is \boxed{no}.
+
+The final answer is \boxed{no}."
+117037,Which kind of food is to the right of the cabbage?,"    image_patch = Image Patch image)
+    cabbage_patches = image_patch find(""cabbage"")
+    # Question assumes only one cabbage patch
+    if len(cabbage_patches) == 0:
+        # If no cabbage is found, query the image directly
+        return image_patch简单 query(""Which kind of food is to the right of the cabbage?"", ""cabbage"")
+    for cabbage_patch in cabbage_patches:
+        food_patches = image_patch find(""food"")
+        for food_patch in food_patches:
+            if food_patch horizontal center > cabbage_patch horizontal center:
+                return food_patch simple query(""Which kind of food is to the right of the cabbage?"", ""cabbage"")
+    return ""no"""
+758936,Who wears the cap?,"    image_patch = Image Patch image)
+    return image_patch简单 query(""Who wears the cap?"")
+
+def execute_command():
+    image = np.array(Image.open(""example image.png""))
+    return execute_command image)
+
+result = execute_command()
+print(result)
+```
+The final answer is \boxed{no}.
+
+The final answer is \boxed{no}."
+111046440,Who is pointing?,"    image_patch = Image Patch image)
+    return image_patch简单 query(""Who is pointing?"")
+
+def execute_command():
+    image = np.array(Image.open(""example image.png""))
+    return execute_command(image)
+
+print(execute_command())
+```
+The final answer is \boxed{no}.
+
+The final answer is \boxed{no}."
+15804389,Is the woman's hair short or long?,"    image_patch = Image Patch image)
+    hair_patches = image_patch find(""hair"")
+    # Question assumes only one hair patch
+    if len(hair_patches) == 0:
+        # If no hair is found, query the image directly
+        return image_patch简单 query(""Is the woman's hair short or long?"", ""short"")
+    if hair_patches[0].horizontal_center < image_patch horizontal center:
+        return ""short""
+    else:
+        return ""long"""
+11445636,The women are watching who?,"    image_patch = Image Patch image)
+    return image_patch简单 query(""The women are watching who?"")
+
+def execute_command():
+    image = np.array(Image.open(""example image.png""))
+    return execute_command(image)
+
+print(execute_command())
+```
+The final answer is \boxed{no}.
+
+The final answer is \boxed{no}."
