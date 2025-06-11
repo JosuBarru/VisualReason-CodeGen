@@ -1,0 +1,838 @@
+sample_id,query,Answer,image_path,truth_answers,code,accuracy
+13151559,Is the large hair both white and soft?,Error Ejecucion: 'ImagePatch' object has no attribute 'area',./data/gqa/../images/2410936.jpg,yes,"def execute_command_13151559(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    hair_patches = image_patch.find(""hair"")
+    # Question assumes only one large hair patch
+    if len(hair_patches) == 0:
+        # If no hair is found, query the image directly
+        return image_patch.simple_query(""Is the large hair both white and soft?"")
+    
+    large_hair_patch = None
+    for hair_patch in hair_patches:
+        if hair_patch.area > image_patch.width * image_patch.height / 10:  # Assuming large hair is more than 1/10th of the image area
+            large_hair_patch = hair_patch
+            break
+    
+    if large_hair_patch is None:
+        return ""no""  # No large hair found
+    
+    is_white = large_hair_patch.verify_property(""hair"", ""white"")
+    is_soft = large_hair_patch.verify_property(""hair"", ""soft"")
+    
+    return bool_to_yesno(is_white and is_soft)
+",0
+18370956,Who is eating the cupcake?,no one,./data/gqa/../images/2317542.jpg,woman,"def execute_command_18370956(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    cupcake_patches = image_patch.find(""cupcake"")
+    # Question assumes only one cupcake patch
+    if len(cupcake_patches) == 0:
+        # If no cupcake is found, query the image directly
+        return image_patch.simple_query(""Who is eating the cupcake?"")
+    for cupcake_patch in cupcake_patches:
+        person_patches = image_patch.find(""person"")
+        # Question assumes only one person patch
+        if len(person_patches) == 0:
+            # If no person is found, query the image directly
+            return image_patch.simple_query(""Who is eating the cupcake?"")
+        for person_patch in person_patches:
+            if person_patch.horizontal_center < cupcake_patch.horizontal_center and person_patch.simple_query(""Is the person eating?"") == ""yes"":
+                return person_patch.simple_query(""Who is eating the cupcake?"")
+    return ""no one""",0
+6436809,What is the guy wearing?,pants,./data/gqa/../images/2373592.jpg,sweatshirt,"def execute_command_6436809(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    guy_patches = image_patch.find(""guy"")
+    # Question assumes only one guy patch
+    if len(guy_patches) == 0:
+        # If no guy is found, query the image directly
+        return image_patch.simple_query(""What is the guy wearing?"")
+    guy_patch = guy_patches[0]
+    return guy_patch.best_text_match([""shirt"", ""pants"", ""hat"", ""shoes""])",0
+117037,Which kind of food is to the right of the cabbage?,sandwich,./data/gqa/../images/2365608.jpg,sandwich,"def execute_command_117037(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    cabbage_patches = image_patch.find(""cabbage"")
+    # Question assumes only one cabbage patch
+    if len(cabbage_patches) == 0:
+        # If no cabbage is found, query the image directly
+        return image_patch.simple_query(""Which kind of food is to the right of the cabbage?"")
+    for cabbage_patch in cabbage_patches:
+        food_patches = image_patch.find(""food"")
+        for food_patch in food_patches:
+            if food_patch.horizontal_center > cabbage_patch.horizontal_center:
+                return food_patch.simple_query(""What kind of food is to the right of the cabbage?"")
+    return ""no food to the right of the cabbage""",1
+758936,Who wears the cap?,no person wearing the cap,./data/gqa/../images/2400175.jpg,skier,"def execute_command_758936(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    cap_patches = image_patch.find(""cap"")
+    # Question assumes only one cap patch
+    if len(cap_patches) == 0:
+        # If no cap is found, query the image directly
+        return image_patch.simple_query(""Who wears the cap?"")
+    for cap_patch in cap_patches:
+        person_patches = image_patch.find(""person"")
+        # Question assumes only one person patch
+        if len(person_patches) == 0:
+            return cap_patch.simple_query(""Who wears the cap?"")
+        person_patch = person_patches[0]
+        if person_patch.horizontal_center == cap_patch.horizontal_center and person_patch.vertical_center == cap_patch.vertical_center:
+            return person_patch.simple_query(""Who wears the cap?"")
+    return ""no person wearing the cap""",0
+111046440,Who is pointing?,the batter,./data/gqa/../images/2351822.jpg,player,"def execute_command_111046440(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    # contains a relational verb (pointing), so ask directly
+    return image_patch.simple_query(""Who is pointing?"")",0
+15804389,Is the woman's hair short or long?,short,./data/gqa/../images/2325937.jpg,long,"def execute_command_15804389(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    woman_patches = image_patch.find(""woman"")
+    # Question assumes only one woman patch
+    if len(woman_patches) == 0:
+        # If no woman is found, query the image directly
+        return image_patch.simple_query(""Is the woman's hair short or long?"")
+    woman_patch = woman_patches[0]
+    hair_patches = woman_patch.find(""hair"")
+    # Question assumes only one hair patch
+    if len(hair_patches) == 0:
+        return ""no""  # or you could query the image directly if you prefer
+    hair_patch = hair_patches[0]
+    return hair_patch.best_text_match([""short"", ""long""])",0
+11445636,The women are watching who?,the man,./data/gqa/../images/2391915.jpg,man,"def execute_command_11445636(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    women_patches = image_patch.find(""woman"")
+    # Question assumes only one woman patch
+    if len(women_patches) == 0:
+        # If no woman is found, query the image directly
+        return image_patch.simple_query(""The women are watching who?"")
+    for woman_patch in women_patches:
+        # Ask who the woman is looking at
+        return woman_patch.simple_query(""The woman is watching who?"")",1
+17736165,Do the dishwasher to the left of the woman and the gas stove inside the kitchen both have white color?,yes,./data/gqa/../images/2343545.jpg,yes,"def execute_command_17736165(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    
+    # Find the woman
+    woman_patches = image_patch.find(""woman"")
+    if len(woman_patches) == 0:
+        return image_patch.simple_query(""Do the dishwasher to the left of the woman and the gas stove inside the kitchen both have white color?"")
+    
+    # Find the dishwasher to the left of the woman
+    for woman_patch in woman_patches:
+        dishwasher_patches = image_patch.find(""dishwasher"")
+        for dishwasher_patch in dishwasher_patches:
+            if dishwasher_patch.horizontal_center < woman_patch.horizontal_center:
+                dishwasher_is_white = dishwasher_patch.verify_property(""dishwasher"", ""white"")
+                break
+        else:
+            continue
+        break
+    else:
+        return ""no""  # No woman found
+    
+    # Find the gas stove in the kitchen
+    gas_stove_patches = image_patch.find(""gas stove"")
+    if len(gas_stove_patches) == 0:
+        return ""no""  # No gas stove found
+    
+    # Check if the gas stove has a white color
+    gas_stove_is_white = gas_stove_patches[0].verify_property(""gas stove"", ""white"")
+    
+    # Both need to be white
+    return bool_to_yesno(dishwasher_is_white and gas_stove_is_white)
+",1
+1594898,What is the name of the piece of furniture that is the same color as the bed sheet the baby is to the right of?,Error Ejecucion: ImagePatch.find() takes 2 positional arguments but 6 were given,./data/gqa/../images/2389006.jpg,bed,"def execute_command_1594898(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    
+    # Step 1: Find the baby
+    baby_patches = image_patch.find(""baby"")
+    if len(baby_patches) == 0:
+        return image_patch.simple_query(""What is the name of the piece of furniture that is the same color as the bed sheet the baby is to the right of?"")
+    
+    # Step 2: Determine the color of the bed sheet the baby is on
+    bed_sheet_color = None
+    for baby_patch in baby_patches:
+        bed_sheet_patches = image_patch.find(""bed sheet"", baby_patch.left, baby_patch.lower, baby_patch.right, baby_patch.upper)
+        if len(bed_sheet_patches) > 0:
+            bed_sheet_color = bed_sheet_patches[0].simple_query(""What color is the bed sheet?"")
+            break
+    
+    if bed_sheet_color is None:
+        return image_patch.simple_query(""What is the name of the piece of furniture that is the same color as the bed sheet the baby is to the right of?"")
+    
+    # Step 3: Find the piece of furniture that is to the right of the baby
+    furniture_patches = image_patch.find(""furniture"", baby_patch.right, baby_patch.lower, image_patch.width, image_patch.upper)
+    
+    # Step 4: Verify if the piece of furniture has the same color as the bed sheet
+    for furniture_patch in furniture_patches:
+        if furniture_patch.simple_query(f""What color is the {furniture_patch.object_name}?"") == bed_sheet_color:
+            return furniture_patch.simple_query(f""What is the name of the piece of furniture that is the same color as the bed sheet the baby is to the right of?"")
+    
+    return ""no furniture found with the same color as the bed sheet""  # If no matching furniture is found
+",0
+758958,Is there either any red pillow or snowboard?,yes,./data/gqa/../images/2400175.jpg,yes,"def execute_command_758958(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    is_red_pillow = image_patch.exists(""red pillow"")
+    is_snowboard = image_patch.exists(""snowboard"")
+    return bool_to_yesno(is_red_pillow or is_snowboard)",1
+143816,Which place is it?,a farm,./data/gqa/../images/2382258.jpg,field,"def execute_command_143816(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    return image_patch.simple_query(""Which place is it?"")",0
+13741513,Which side is the knife on?,left,./data/gqa/../images/2325019.jpg,left,"def execute_command_13741513(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    knife_patches = image_patch.find(""knife"")
+    # Question assumes only one knife patch
+    if len(knife_patches) == 0:
+        # If no knife is found, query the image directly
+        return image_patch.simple_query(""Which side is the knife on?"")
+    knife_patch = knife_patches[0]
+    if knife_patch.horizontal_center < image_patch.horizontal_center:
+        return ""left""
+    else:
+        return ""right""",1
+17829769,What is the computer mouse in front of?,Error Ejecucion: ImagePatch.find() takes 2 positional arguments but 3 were given,./data/gqa/../images/2400080.jpg,computer,"def execute_command_17829769(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    mouse_patches = image_patch.find(""computer mouse"")
+    # Question assumes only one mouse patch
+    if len(mouse_patches) == 0:
+        # If no mouse is found, query the image directly
+        return image_patch.simple_query(""What is the computer mouse in front of?"")
+    for mouse_patch in mouse_patches:
+        nearby_objects = image_patch.find(""near"", mouse_patch)
+        for nearby_object in nearby_objects:
+            if nearby_object.simple_query(""Is the object in front of the computer mouse?"") == ""yes"":
+                return nearby_object.simple_query(""What is the computer mouse in front of?"")
+    return ""no nearby object in front of the mouse""",0
+17233738,What is the toddler holding?,skis,./data/gqa/../images/2394369.jpg,skis,"def execute_command_17233738(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    # contains a relation (holding), so ask directly
+    return image_patch.simple_query(""What is the toddler holding?"")",1
+2951242,Is the gray shirt sleeveless or short sleeved?,long,./data/gqa/../images/2386013.jpg,short sleeved,"def execute_command_2951242(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    shirt_patches = image_patch.find(""shirt"")
+    # Question assumes only one shirt patch
+    if len(shirt_patches) == 0:
+        # If no shirt is found, query the image directly
+        return image_patch.simple_query(""Is the gray shirt sleeveless or short-sleeved?"")
+    
+    for shirt_patch in shirt_patches:
+        if shirt_patch.simple_query(""Is the shirt gray?"") == ""yes"":
+            has_sleeves = shirt_patch.simple_query(""Does the shirt have sleeves?"") == ""yes""
+            if has_sleeves:
+                sleeve_length = shirt_patch.simple_query(""Are the sleeves long or short?"") == ""short""
+                return ""short"" if sleeve_length else ""long""
+            else:
+                return ""sleeveless""
+    return ""sleeveless""  # Default to sleeveless if no shirt is found or no sleeves are found
+
+# Example usage
+# result = execute_command(image)
+# print(result)
+",0
+15241795,Is the tank top red?,False,./data/gqa/../images/2358063.jpg,no,"def execute_command_15241795(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    tank_top_patches = image_patch.find(""tank top"")
+    # Question assumes only one tank top patch
+    if len(tank_top_patches) == 0:
+        # If no tank top is found, query the image directly
+        return image_patch.simple_query(""Is the tank top red?"")
+    tank_top_patch = tank_top_patches[0]
+    return tank_top_patch.verify_property(""tank top"", ""red"")",1
+13885234,Which kind of animal is in front of the rocks?,elephant,./data/gqa/../images/2386629.jpg,elephant,"def execute_command_13885234(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    # contains a relation (around, next to, on, near, on top of, in front of, behind, etc), so ask directly
+    return image_patch.simple_query(""Which kind of animal is in front of the rocks?"")",1
+19335715,Do you see any grapes?,no,./data/gqa/../images/2404433.jpg,no,"def execute_command_19335715(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    return bool_to_yesno(image_patch.exists(""grapes""))",1
+6455591,What type of furniture is white?,antique,./data/gqa/../images/2349792.jpg,cabinets,"def execute_command_6455591(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    return image_patch.simple_query(""What type of furniture is white?"")",0
+1033761,What is the blue clothing item?,helmet,./data/gqa/../images/2405536.jpg,uniform,"def execute_command_1033761(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    # contains a relation (blue clothing item), so ask directly
+    return image_patch.simple_query(""What is the blue clothing item?"")",0
+17726504,Who is wearing the glasses?,the man,./data/gqa/../images/2349045.jpg,people,"def execute_command_17726504(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    # contains a relational verb (wearing), so ask directly
+    return image_patch.simple_query(""Who is wearing the glasses?"")",0
+13112902,Is the woman wearing a bracelet?,no,./data/gqa/../images/2356577.jpg,yes,"def execute_command_13112902(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    woman_patches = image_patch.find(""woman"")
+    # Question assumes only one woman patch
+    if len(woman_patches) == 0:
+        # If no woman is found, query the image directly
+        return image_patch.simple_query(""Is the woman wearing a bracelet?"")
+    for woman_patch in woman_patches:
+        is_wearing_bracelet = (woman_patch.simple_query(""Is the woman wearing a bracelet?"") == ""yes"")
+        if is_wearing_bracelet:
+            return ""yes""
+    return ""no""",0
+698766,What is the food that is not white?,egg,./data/gqa/../images/2323182.jpg,lettuce,"def execute_command_698766(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    food_patches = image_patch.find(""food"")
+    
+    # Question assumes at least one food item is found
+    if len(food_patches) == 0:
+        return image_patch.simple_query(""What is the food that is not white?"")
+    
+    non_white_food = None
+    for food_patch in food_patches:
+        if food_patch.simple_query(""Is the food white?"") != ""yes"":
+            non_white_food = food_patch
+            break
+    
+    if non_white_food is not None:
+        return non_white_food.simple_query(""What is the food that is not white?"")
+    else:
+        return ""There is no food that is not white.""
+
+# Example usage
+# result = execute_command(image)
+# print(result)
+",0
+1332276,Are there both a cup and a bottle in the picture?,yes,./data/gqa/../images/2385859.jpg,yes,"def execute_command_1332276(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    is_cup = image_patch.exists(""cup"")
+    is_bottle = image_patch.exists(""bottle"")
+    return bool_to_yesno(is_cup and is_bottle)",1
+12633088,What color is that glove?,blue,./data/gqa/../images/713282.jpg,gray,"def execute_command_12633088(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    glove_patches = image_patch.find(""glove"")
+    # Question assumes only one glove patch
+    if len(glove_patches) == 0:
+        # If no glove is found, query the image directly
+        return image_patch.simple_query(""What color is that glove?"")
+    glove_patch = glove_patches[0]
+    return glove_patch.best_text_match([""red"", ""blue"", ""green"", ""yellow"", ""black"", ""white""])",0
+18103787,Who is holding the helmet?,the boy,./data/gqa/../images/2378758.jpg,boy,"def execute_command_18103787(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    # contains a relational verb (holding), so ask directly
+    return image_patch.simple_query(""Who is holding the helmet?"")",1
+2143247,What is the name of the food to the left of the donut that looks little?,no food to the left of the donut that looks little,./data/gqa/../images/2317344.jpg,pastry,"def execute_command_2143247(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    
+    # Find the donut
+    donut_patches = image_patch.find(""donut"")
+    # Question assumes only one donut patch
+    if len(donut_patches) == 0:
+        # If no donut is found, query the image directly
+        return image_patch.simple_query(""What is the name of the food to the left of the donut that looks little?"")
+    
+    donut_patch = donut_patches[0]
+    
+    # Find the food items to the left of the donut
+    food_patches = image_patch.find(""food"")
+    left_food_patches = [food_patch for food_patch in food_patches if food_patch.horizontal_center < donut_patch.horizontal_center]
+    
+    # Find the food item that looks little
+    if left_food_patches:
+        for food_patch in left_food_patches:
+            if food_patch.simple_query(""Does the food look little?"") == ""yes"":
+                return food_patch.simple_query(""What is the name of the food to the left of the donut that looks little?"")
+    
+    # If no food to the left looks little, return a default response
+    return ""no food to the left of the donut that looks little""
+
+# Example usage
+# result = execute_command(image)
+# print(result)
+",0
+3767951,Is the clock to the right or to the left of the man on the left?,right,./data/gqa/../images/285673.jpg,right,"def execute_command_3767951(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    
+    # Find the man on the left
+    man_patches = image_patch.find(""man"")
+    # Question assumes only one man on the left
+    if len(man_patches) == 0:
+        # If no man is found, query the image directly
+        return image_patch.simple_query(""Is the clock to the right or to the left of the man on the left?"")
+    
+    # Find the man on the left
+    man_on_left = man_patches[0]
+    if man_on_left.horizontal_center >= image_patch.width / 2:
+        return ""no""  # The man is not on the left
+    
+    # Find the clock
+    clock_patches = image_patch.find(""clock"")
+    # Question assumes only one clock patch
+    if len(clock_patches) == 0:
+        # If no clock is found, query the image directly
+        return image_patch.simple_query(""Is the clock to the right or to the left of the man on the left?"")
+    
+    clock_patch = clock_patches[0]
+    
+    # Compare the horizontal positions
+    if clock_patch.horizontal_center > man_on_left.horizontal_center:
+        return ""right""
+    else:
+        return ""left""
+
+# Example usage
+# execute_command(image)
+",1
+17655180,What's the sticker on?,car,./data/gqa/../images/2409933.jpg,sign,"def execute_command_17655180(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    # contains a relation (on, attached to, etc.), so ask directly
+    return image_patch.simple_query(""What's the sticker on?"")",0
+3468831,In front of what is this table?,bottle,./data/gqa/../images/2355360.jpg,tree,"def execute_command_3468831(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    # contains a relation (around, next to, on, near, on top of, in front of, behind, etc), so ask directly
+    return image_patch.simple_query(""In front of what is this table?"")",0
+5888523,Do you see people to the right of the still car?,yes,./data/gqa/../images/2352943.jpg,no,"def execute_command_5888523(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    car_patches = image_patch.find(""car"")
+    # Question assumes only one car patch
+    if len(car_patches) == 0:
+        # If no car is found, query the image directly
+        return image_patch.simple_query(""Do you see people to the right of the still car?"")
+    for car_patch in car_patches:
+        people_patches = image_patch.find(""people"")
+        for people_patch in people_patches:
+            if people_patch.horizontal_center > car_patch.horizontal_center:
+                return ""yes""
+    return ""no""",0
+7188981,Does the giraffe look adult?,yes,./data/gqa/../images/2404963.jpg,no,"def execute_command_7188981(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    giraffe_patches = image_patch.find(""giraffe"")
+    # Question assumes only one giraffe patch
+    if len(giraffe_patches) == 0:
+        # If no giraffe is found, query the image directly
+        return image_patch.simple_query(""Does the giraffe look adult?"")
+    giraffe_patch = giraffe_patches[0]
+    return bool_to_yesno(giraffe_patch.verify_property(""giraffe"", ""adult""))",0
+16852802,Of what color are the pants?,black,./data/gqa/../images/2359824.jpg,gray,"def execute_command_16852802(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    pants_patches = image_patch.find(""pants"")
+    if len(pants_patches) == 0:
+        return image_patch.simple_query(""Of what color are the pants?"")
+    pants_patch = pants_patches[0]
+    return pants_patch.best_text_match([""red"", ""blue"", ""green"", ""yellow"", ""black"", ""white"", ""gray""])
+",0
+9619158,What kind of watercraft is full of men?,boat,./data/gqa/../images/2406392.jpg,boat,"def execute_command_9619158(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    # contains a relational verb (full of), so ask directly
+    return image_patch.simple_query(""What kind of watercraft is full of men?"")",1
+3625225,On which side of the picture are the boats?,left,./data/gqa/../images/1054.jpg,left,"def execute_command_3625225(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    boat_patches = image_patch.find(""boat"")
+    # Question assumes at least one boat patch
+    if len(boat_patches) == 0:
+        # If no boats are found, query the image directly
+        return image_patch.simple_query(""On which side of the picture are the boats?"")
+    
+    # Check the horizontal center of the first boat patch
+    for boat_patch in boat_patches:
+        if boat_patch.horizontal_center > image_patch.width / 2:
+            return ""right""
+        else:
+            return ""left""
+    
+    # If the loop completes without returning, there's an issue with the boat patches
+    return ""left""  # Default to left if no boats are found or if the loop completes without returning
+
+# Example usage
+# Assuming `image` is your image data
+# result = execute_command(image)
+# print(result)
+",1
+7126345,Does the elephant to the left of the other elephant have large size?,True,./data/gqa/../images/2416088.jpg,yes,"def execute_command_7126345(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    
+    # Find all elephants in the image
+    elephant_patches = image_patch.find(""elephant"")
+    
+    # Question assumes there are at least two elephants
+    if len(elephant_patches) < 2:
+        return image_patch.simple_query(""Does the elephant to the left of the other elephant have large size?"")
+    
+    # Sort elephants by their horizontal center to identify the leftmost one
+    elephant_patches.sort(key=lambda patch: patch.horizontal_center)
+    
+    # The leftmost elephant is the one to the left of the other elephant
+    leftmost_elephant_patch = elephant_patches[0]
+    
+    # Verify if the leftmost elephant has a large size
+    return leftmost_elephant_patch.verify_property(""elephant"", ""large"")
+",1
+19834124,What is the girl holding?,paper bag,./data/gqa/../images/2384946.jpg,phone,"def execute_command_19834124(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    girl_patches = image_patch.find(""girl"")
+    # Question assumes only one girl patch
+    if len(girl_patches) == 0:
+        # If no girl is found, query the image directly
+        return image_patch.simple_query(""What is the girl holding?"")
+    girl_patch = girl_patches[0]
+    # Ask what the girl is holding
+    return girl_patch.simple_query(""What is the girl holding?"")",0
+4617704,Does the toilet seat that is not down appear to be white and open?,no,./data/gqa/../images/2397470.jpg,yes,"def execute_command_4617704(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    
+    # Find the toilet seat that is not down
+    toilet_seat_patches = image_patch.find(""toilet seat"")
+    # Question assumes only one toilet seat patch
+    if len(toilet_seat_patches) == 0:
+        # If no toilet seat is found, query the image directly
+        return image_patch.simple_query(""Does the toilet seat that is not down appear to be white and open?"")
+    
+    for toilet_seat_patch in toilet_seat_patches:
+        # Verify if the toilet seat is not down
+        is_not_down = (toilet_seat_patch.simple_query(""Is the toilet seat down?"") == ""no"")
+        if not is_not_down:
+            # Verify if the toilet seat is white
+            is_white = (toilet_seat_patch.simple_query(""Is the toilet seat white?"") == ""yes"")
+            # Verify if the toilet seat is open
+            is_open = (toilet_seat_patch.simple_query(""Is the toilet seat open?"") == ""yes"")
+            if is_white and is_open:
+                return ""yes""
+    
+    return ""no""
+
+# Example usage
+# Assuming `image` is the image you want to analyze
+# result = execute_command(image)
+",0
+5899539,Are there any bottles or mugs that are not purple?,yes,./data/gqa/../images/2386338.jpg,no,"def execute_command_5899539(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    bottles_patches = image_patch.find(""bottle"")
+    mugs_patches = image_patch.find(""mug"")
+    not_purple_bottles = []
+    not_purple_mugs = []
+
+    # Check for bottles that are not purple
+    for bottle_patch in bottles_patches:
+        if not bottle_patch.verify_property(""bottle"", ""purple""):
+            not_purple_bottles.append(bottle_patch)
+
+    # Check for mugs that are not purple
+    for mug_patch in mugs_patches:
+        if not mug_patch.verify_property(""mug"", ""purple""):
+            not_purple_mugs.append(mug_patch)
+
+    # Combine the results
+    not_purple_items = not_purple_bottles + not_purple_mugs
+
+    # Return ""yes"" if there are any items that are not purple
+    return bool_to_yesno(len(not_purple_items) > 0)",0
+2631593,Which place is it?,city,./data/gqa/../images/2412366.jpg,sidewalk,"def execute_command_2631593(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    return image_patch.simple_query(""Which place is it?"")",0
+12228864,Do you see any men to the right of the person that is in the living room?,yes,./data/gqa/../images/2324040.jpg,yes,"def execute_command_12228864(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    
+    # Find the person in the living room
+    person_patches = image_patch.find(""person in the living room"")
+    if len(person_patches) == 0:
+        # If no person in the living room is found, query the image directly
+        return image_patch.simple_query(""Do you see any men to the right of the person that is in the living room?"")
+    
+    person_patch = person_patches[0]
+    person_horizontal_center = person_patch.horizontal_center
+    
+    # Find all men in the image
+    men_patches = image_patch.find(""man"")
+    if len(men_patches) == 0:
+        return ""no""
+    
+    # Check if any men are to the right of the person
+    for man_patch in men_patches:
+        if man_patch.horizontal_center > person_horizontal_center:
+            return ""yes""
+    
+    return ""no""
+",1
+111054378,Is the small couch to the right or to the left of the bottle?,right,./data/gqa/../images/2386495.jpg,right,"def execute_command_111054378(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    couch_patches = image_patch.find(""couch"")
+    # Question assumes only one couch patch
+    if len(couch_patches) == 0:
+        # If no couch is found, query the image directly
+        return image_patch.simple_query(""Is the small couch to the right or to the left of the bottle?"")
+    for couch_patch in couch_patches:
+        bottle_patches = image_patch.find(""bottle"")
+        for bottle_patch in bottle_patches:
+            if couch_patch.horizontal_center > bottle_patch.horizontal_center:
+                return ""right""
+            else:
+                return ""left""
+    return ""no""  # If no couch or bottle is found, return ""no""",1
+9392411,Is the bottle to the right or to the left of the appliance on the left?,right,./data/gqa/../images/2323628.jpg,right,"def execute_command_9392411(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    
+    # Find the bottle
+    bottle_patches = image_patch.find(""bottle"")
+    if len(bottle_patches) == 0:
+        return image_patch.simple_query(""Is the bottle to the right or to the left of the appliance on the left?"")
+    
+    bottle_patch = bottle_patches[0]
+    
+    # Find the appliance on the left
+    appliance_patches = image_patch.find(""appliance"")
+    if len(appliance_patches) == 0:
+        return image_patch.simple_query(""Is the bottle to the right or to the left of the appliance on the left?"")
+    
+    # Assume the first appliance is the one on the left
+    appliance_patch = appliance_patches[0]
+    
+    # Compare the horizontal positions
+    if bottle_patch.horizontal_center > appliance_patch.horizontal_center:
+        return ""right""
+    else:
+        return ""left""
+
+# Example usage
+# result = execute_command(image)
+# print(result)
+",1
+16753829,What type of animal is sitting in the container in the bottom of the photo?,cat,./data/gqa/../images/2414356.jpg,cats,"def execute_command_16753829(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    # contains a relation (in the bottom, in the container, etc), so ask directly
+    return image_patch.simple_query(""What type of animal is sitting in the container in the bottom of the photo?"")",0
+1345482,What is that train in front of?,train,./data/gqa/../images/2404342.jpg,windows,"def execute_command_1345482(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    train_patches = image_patch.find(""train"")
+    # Question assumes only one train patch
+    if len(train_patches) == 0:
+        # If no train is found, query the image directly
+        return image_patch.simple_query(""What is that train in front of?"")
+    for train_patch in train_patches:
+        other_objects = image_patch.find(""object"")  # find other objects in the image
+        for obj in other_objects:
+            if obj.horizontal_center < train_patch.horizontal_center:
+                return obj.simple_query(""What is this?"")  # return the object that is in front of the train
+    return ""no other objects found in front of the train""",0
+1527449,Are there cars to the right of the palm trees which are to the right of the girl?,yes,./data/gqa/../images/2363853.jpg,yes,"def execute_command_1527449(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    
+    # Find the girl
+    girl_patches = image_patch.find(""girl"")
+    if len(girl_patches) == 0:
+        return ""no""
+    
+    # Find the palm trees to the right of the girl
+    palm_tree_patches = []
+    for girl_patch in girl_patches:
+        right_of_girl = image_patch.crop(girl_patch.right, girl_patch.lower, image_patch.width, image_patch.upper)
+        palm_tree_patches.extend(right_of_girl.find(""palm tree""))
+    
+    if len(palm_tree_patches) == 0:
+        return ""no""
+    
+    # Find the cars to the right of the palm trees
+    car_patches = []
+    for palm_tree_patch in palm_tree_patches:
+        right_of_palm_tree = image_patch.crop(palm_tree_patch.right, palm_tree_patch.lower, image_patch.width, image_patch.upper)
+        car_patches.extend(right_of_palm_tree.find(""car""))
+    
+    if len(car_patches) > 0:
+        return ""yes""
+    else:
+        return ""no""
+",1
+459445,In which part is the silver device?,"Error Codigo: invalid syntax (Codex, line 41)",./data/gqa/../images/2371279.jpg,left,"def execute_command_459445(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    device_patches = image_patch.find(""device"")
+    # Question assumes only one device patch
+    if len(device_patches) == 0:
+        # If no device is found, query the image directly
+        return image_patch.simple_query(""In which part is the silver device?"")
+    device_patch = device_patches[0]
+    if device_patch.color(""silver""):
+        return ""silver device is in the center"" if device_patch.is_centered() else ""silver device is on the left"" if device_patch.is_left() else ""silver device is on the right""
+    else:
+        return ""no silver device found""
+
+def color(self, color_name: str) -> bool:
+    """"""Returns True if the object is of the specified color, and False otherwise.
+    Parameters
+    -------
+    color_name : str
+        A string describing the color to be checked.
+    """"""
+    return verify_property(self.cropped_image, ""device"", color_name)
+
+def is_centered(self) -> bool:
+    """"""Returns True if the object is centered in the image, and False otherwise.""""""
+    return abs(self.horizontal_center - self.width / 2) < self.width / 10 and abs(self.vertical_center - self.height / 2) < self.height / 10
+
+def is_left(self) -> bool:
+    """"""Returns True if the object is on the left side of the image, and False otherwise.""""""
+    return self.horizontal_center < self.width / 4
+
+def is_right(self) -> bool:
+    """"""Returns True if the object is on the right side of the image, and False otherwise.""""""
+    return self.horizontal_center > 3 * self.width / 4
+
+# Note: The `is_centered`, `is_left`, and `is_right` methods are assumptions and may need to be adjusted based on the actual implementation of `verify_property` and the specific image.
+# The `color` method is a placeholder for the actual color checking logic.
+# You may need to implement the `color` method based on the specific image processing techniques you are using.
+# For simplicity, the `is_centered`, `is_left`, and `is_right` methods are based on a rough assumption of what ""centered"", ""left"", and ""right"" might mean in the context of the image.
+# Adjust these methods as needed for your specific use case.
+# End of implementation.
+```
+
+This function checks if there is a device in the image, and if so",0
+11786203,What is the man on?,Error Ejecucion: ImagePatch.find() takes 2 positional arguments but 5 were given,./data/gqa/../images/2333294.jpg,skateboard,"def execute_command_11786203(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    man_patches = image_patch.find(""man"")
+    # Question assumes only one man patch
+    if len(man_patches) == 0:
+        # If no man is found, query the image directly
+        return image_patch.simple_query(""What is the man on?"")
+    man_patch = man_patches[0]
+    # Find objects that could be under the man
+    objects_under_man = image_patch.find(""chair"", ""table"", ""bed"", ""floor"")
+    # Check if any of the objects are under the man
+    for obj_patch in objects_under_man:
+        if obj_patch.vertical_center < man_patch.vertical_center:
+            return obj_patch.simple_query(""What is the man on?"")
+    return ""no object is clearly on top of the man""",0
+5200013,Is there a brown door or chair?,yes,./data/gqa/../images/2413903.jpg,yes,"def execute_command_5200013(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    is_brown_door = image_patch.exists(""door"") and image_patch.verify_property(""door"", ""brown"")
+    is_brown_chair = image_patch.exists(""chair"") and image_patch.verify_property(""chair"", ""brown"")
+    return bool_to_yesno(is_brown_door or is_brown_chair)",1
+131031372,What is the napkin in?,box,./data/gqa/../images/2363711.jpg,napkin dispenser,"def execute_command_131031372(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    # contains a relation (in, on, etc.), so ask directly
+    return image_patch.simple_query(""What is the napkin in?"")",0
+1241681,Are there any people behind the white dessert?,yes,./data/gqa/../images/2362038.jpg,yes,"def execute_command_1241681(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    # Find the white dessert
+    dessert_patches = image_patch.find(""dessert"")
+    # Question assumes only one dessert patch
+    if len(dessert_patches) == 0:
+        # If no dessert is found, query the image directly
+        return image_patch.simple_query(""Are there any people behind the white dessert?"")
+    
+    dessert_patch = dessert_patches[0]
+    # Find people behind the dessert
+    people_patches = image_patch.find(""person"")
+    for person_patch in people_patches:
+        if person_patch.horizontal_center > dessert_patch.horizontal_center:
+            return ""yes""
+    
+    return ""no""",1
+8730954,What type of animal do you think is in front of the curtain which is to the right of the radiator?,dog,./data/gqa/../images/2412382.jpg,dog,"def execute_command_8730954(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    
+    # Find the radiator
+    radiator_patches = image_patch.find(""radiator"")
+    if len(radiator_patches) == 0:
+        return image_patch.simple_query(""What type of animal do you think is in front of the curtain which is to the right of the radiator?"")
+    
+    # Find the curtain to the right of the radiator
+    curtain_patches = []
+    for radiator_patch in radiator_patches:
+        curtain_patches.extend(image_patch.crop(radiator_patch.right, 0, image_patch.width, image_patch.height).find(""curtain""))
+    
+    if len(curtain_patches) == 0:
+        return image_patch.simple_query(""What type of animal do you think is in front of the curtain which is to the right of the radiator?"")
+    
+    # Find the animal in front of the curtain
+    animal_patches = []
+    for curtain_patch in curtain_patches:
+        animal_patches.extend(image_patch.crop(curtain_patch.left, 0, curtain_patch.right, curtain_patch.height).find(""animal""))
+    
+    if len(animal_patches) == 0:
+        return image_patch.simple_query(""What type of animal do you think is in front of the curtain which is to the right of the radiator?"")
+    
+    # Return the type of animal
+    return animal_patches[0].simple_query(""What type of animal is this?"")
+
+# Example usage
+# Assuming `image` is the image you want to analyze
+# result = execute_command(image)
+",1
+8553578,What is the Pikachu doing?,sitting,./data/gqa/../images/2376660.jpg,lying,"def execute_command_8553578(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    # contains a relational verb (doing), so ask directly
+    return image_patch.simple_query(""What is Pikachu doing?"")",0
+16711804,"On which side is the car, the left or the right?",right,./data/gqa/../images/2398104.jpg,right,"def execute_command_16711804(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    car_patches = image_patch.find(""car"")
+    # Question assumes only one car patch
+    if len(car_patches) == 0:
+        # If no car is found, query the image directly
+        return image_patch.simple_query(""On which side is the car, the left or the right?"")
+    car_patch = car_patches[0]
+    if car_patch.left < image_patch.width / 2:
+        return ""left""
+    else:
+        return ""right""",1
+5546271,What is on the large mountains?,monument,./data/gqa/../images/2387752.jpg,snow,"def execute_command_5546271(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    return image_patch.simple_query(""What is on the large mountains?"")",0
+5107295,What is in the sky?,kites,./data/gqa/../images/2329046.jpg,kite,"def execute_command_5107295(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    return image_patch.simple_query(""What is in the sky?"")",0
+123768,What kind of watercraft is the fruit on?,Error Ejecucion: ImagePatch.find() takes 2 positional arguments but 3 were given,./data/gqa/../images/2410041.jpg,boat,"def execute_command_123768(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    fruit_patches = image_patch.find(""fruit"")
+    # Question assumes only one fruit patch
+    if len(fruit_patches) == 0:
+        # If no fruit is found, query the image directly
+        return image_patch.simple_query(""What kind of watercraft is the fruit on?"")
+    fruit_patch = fruit_patches[0]
+    
+    # Define a reasonable search radius around the fruit
+    search_radius = 100  # Adjust this value based on the image size and object size
+    
+    # Find watercraft within the search radius
+    watercraft_patches = image_patch.find(""watercraft"", search_radius)
+    
+    if len(watercraft_patches) == 0:
+        return ""no watercraft found""
+    
+    # Assuming the first watercraft patch is the one we are interested in
+    watercraft_patch = watercraft_patches[0]
+    
+    # Query the watercraft to determine its type
+    return watercraft_patch.simple_query(""What kind of watercraft is this?"")
+
+# Example usage
+# result = execute_command(image)
+# print(result)
+",0
+1827218,Is the bottle in the bottom of the image?,no,./data/gqa/../images/2326413.jpg,no,"def execute_command_1827218(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    bottle_patches = image_patch.find(""bottle"")
+    # Question assumes only one bottle patch
+    if len(bottle_patches) == 0:
+        # If no bottle is found, query the image directly
+        return image_patch.simple_query(""Is the bottle in the bottom of the image?"")
+    if bottle_patches[0].vertical_center > image_patch.height * 0.5:
+        return ""no""
+    else:
+        return ""yes""",1
+10938155,What color is the sky?,white,./data/gqa/../images/2392194.jpg,white,"def execute_command_10938155(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    return image_patch.simple_query(""What color is the sky?"")
+",1
+4893512,Does the sail look white or red?,white,./data/gqa/../images/2321817.jpg,white,"def execute_command_4893512(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    sail_patches = image_patch.find(""sail"")
+    # Question assumes only one sail patch
+    if len(sail_patches) == 0:
+        # If no sail is found, query the image directly
+        return image_patch.simple_query(""Does the sail look white or red?"")
+    sail_patch = sail_patches[0]
+    return sail_patch.best_text_match([""white"", ""red""])",1
+3662784,Do you see either any traffic lights or cars?,yes,./data/gqa/../images/2384789.jpg,yes,"def execute_command_3662784(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    is_traffic_light = image_patch.exists(""traffic light"")
+    is_car = image_patch.exists(""car"")
+    return bool_to_yesno(is_traffic_light or is_car)",1
+15515711,Are there any girls to the right of the yellow helmet?,yes,./data/gqa/../images/2402975.jpg,no,"def execute_command_15515711(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    helmet_patches = image_patch.find(""yellow helmet"")
+    # Question assumes only one helmet patch
+    if len(helmet_patches) == 0:
+        # If no yellow helmet is found, query the image directly
+        return image_patch.simple_query(""Are there any girls to the right of the yellow helmet?"")
+    for helmet_patch in helmet_patches:
+        girl_patches = image_patch.find(""girl"")
+        for girl_patch in girl_patches:
+            if girl_patch.horizontal_center > helmet_patch.horizontal_center:
+                return ""yes""
+    return ""no""",0
+6315316,Which kind of furniture is in front of the window?,chair,./data/gqa/../images/2401271.jpg,chair,"def execute_command_6315316(image, possible_answers, query, ImagePatch, VideoSegment, llm_query, bool_to_yesno, distance, best_image_match):
+    image_patch = ImagePatch(image)
+    # contains a relation (around, next to, on, near, on top of, in front of, behind, etc), so ask directly
+    return image_patch.simple_query(""Which kind of furniture is in front of the window?"")",1
+-,-,-,-,-,-,0.4375

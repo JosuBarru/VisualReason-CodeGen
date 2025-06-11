@@ -1,0 +1,459 @@
+sample_id,query,generated_code
+13151559,Is the large hair both white and soft?,"To determine if the large hair is both white and soft, we need to follow these steps:
+
+1. Find the large hair in the image.
+2. Verify if the hair is white.
+3. Verify if the hair is soft.
+
+Here's how you can implement this:
+
+```python
+def execute_command(image):
+    image_patch = ImagePatch(image)
+    hair_patches = image_patch.find(""hair"")
+    # Question assumes only one large hair patch
+    if len(hair_patches) == 0:
+        # If no hair is found, query the image directly
+        return image_patch.simple_query(""Is the large hair both white and soft?"")
+    
+    large_hair_patch = None
+    for hair_patch in hair_patches:
+        if hair_patch.area > image_patch.width * image_patch.height / 10:  # Assuming large hair is more than 1/10th of the image area
+            large_hair_patch = hair_patch
+            break
+    
+    if large_hair_patch is None:
+        return ""no""  # No large hair found
+    
+    is_white = large_hair_patch.verify_property(""hair"", ""white"")
+    is_soft = large_hair_patch.verify_property(""hair"", ""soft"")
+    
+    return bool_to_yesno(is_white and is_soft)
+```
+
+In this implementation:
+- We first find all hair patches in the image.
+- We then identify the largest hair patch as the ""large hair"".
+- We check if the large hair is white and soft using the `verify_property` method.
+- Finally, we return ""yes"" if both properties are true, otherwise ""no""."
+18370956,Who is eating the cupcake?,"    image_patch = ImagePatch(image)
+    cupcake_patches = image_patch.find(""cupcake"")
+    # Question assumes only one cupcake patch
+    if len(cupcake_patches) == 0:
+        # If no cupcake is found, query the image directly
+        return image_patch.simple_query(""Who is eating the cupcake?"")
+    for cupcake_patch in cupcake_patches:
+        person_patches = image_patch.find(""person"")
+        # Question assumes only one person patch
+        if len(person_patches) == 0:
+            # If no person is found, query the image directly
+            return image_patch.simple_query(""Who is eating the cupcake?"")
+        for person_patch in person_patches:
+            if person_patch.horizontal_center < cupcake_patch.horizontal_center and person_patch.simple_query(""Is the person eating?"") == ""yes"":
+                return person_patch.simple_query(""Who is eating the cupcake?"")
+    return ""no one"""
+6436809,What is the guy wearing?,"    image_patch = ImagePatch(image)
+    guy_patches = image_patch.find(""guy"")
+    # Question assumes only one guy patch
+    if len(guy_patches) == 0:
+        # If no guy is found, query the image directly
+        return image_patch.simple_query(""What is the guy wearing?"")
+    guy_patch = guy_patches[0]
+    return guy_patch.best_text_match([""shirt"", ""pants"", ""hat"", ""shoes""])"
+117037,Which kind of food is to the right of the cabbage?,"    image_patch = ImagePatch(image)
+    cabbage_patches = image_patch.find(""cabbage"")
+    # Question assumes only one cabbage patch
+    if len(cabbage_patches) == 0:
+        # If no cabbage is found, query the image directly
+        return image_patch.simple_query(""Which kind of food is to the right of the cabbage?"")
+    for cabbage_patch in cabbage_patches:
+        food_patches = image_patch.find(""food"")
+        for food_patch in food_patches:
+            if food_patch.horizontal_center > cabbage_patch.horizontal_center:
+                return food_patch.simple_query(""What kind of food is to the right of the cabbage?"")
+    return ""no food to the right of the cabbage"""
+758936,Who wears the cap?,"    image_patch = ImagePatch(image)
+    cap_patches = image_patch.find(""cap"")
+    # Question assumes only one cap patch
+    if len(cap_patches) == 0:
+        # If no cap is found, query the image directly
+        return image_patch.simple_query(""Who wears the cap?"")
+    for cap_patch in cap_patches:
+        person_patches = image_patch.find(""person"")
+        # Question assumes only one person patch
+        if len(person_patches) == 0:
+            return cap_patch.simple_query(""Who wears the cap?"")
+        person_patch = person_patches[0]
+        if person_patch.horizontal_center == cap_patch.horizontal_center and person_patch.vertical_center == cap_patch.vertical_center:
+            return person_patch.simple_query(""Who wears the cap?"")
+    return ""no person wearing the cap"""
+111046440,Who is pointing?,"    image_patch = ImagePatch(image)
+    # contains a relational verb (pointing), so ask directly
+    return image_patch.simple_query(""Who is pointing?"")"
+15804389,Is the woman's hair short or long?,"    image_patch = ImagePatch(image)
+    woman_patches = image_patch.find(""woman"")
+    # Question assumes only one woman patch
+    if len(woman_patches) == 0:
+        # If no woman is found, query the image directly
+        return image_patch.simple_query(""Is the woman's hair short or long?"")
+    woman_patch = woman_patches[0]
+    hair_patches = woman_patch.find(""hair"")
+    # Question assumes only one hair patch
+    if len(hair_patches) == 0:
+        return ""no""  # or you could query the image directly if you prefer
+    hair_patch = hair_patches[0]
+    return hair_patch.best_text_match([""short"", ""long""])"
+11445636,The women are watching who?,"    image_patch = ImagePatch(image)
+    women_patches = image_patch.find(""woman"")
+    # Question assumes only one woman patch
+    if len(women_patches) == 0:
+        # If no woman is found, query the image directly
+        return image_patch.simple_query(""The women are watching who?"")
+    for woman_patch in women_patches:
+        # Ask who the woman is looking at
+        return woman_patch.simple_query(""The woman is watching who?"")"
+17736165,Do the dishwasher to the left of the woman and the gas stove inside the kitchen both have white color?,"To determine if the dishwasher to the left of the woman and the gas stove inside the kitchen both have a white color, we need to follow these steps:
+
+1. Find the woman in the image.
+2. Find the dishwasher to the left of the woman.
+3. Find the gas stove in the kitchen.
+4. Check if the dishwasher and the gas stove have a white color.
+
+Here is the implementation:
+
+```python
+def execute_command(image):
+    image_patch = ImagePatch(image)
+    
+    # Find the woman
+    woman_patches = image_patch.find(""woman"")
+    if len(woman_patches) == 0:
+        return image_patch.simple_query(""Do the dishwasher to the left of the woman and the gas stove inside the kitchen both have white color?"")
+    
+    # Find the dishwasher to the left of the woman
+    for woman_patch in woman_patches:
+        dishwasher_patches = image_patch.find(""dishwasher"")
+        for dishwasher_patch in dishwasher_patches:
+            if dishwasher_patch.horizontal_center < woman_patch.horizontal_center:
+                dishwasher_is_white = dishwasher_patch.verify_property(""dishwasher"", ""white"")
+                break
+        else:
+            continue
+        break
+    else:
+        return ""no""  # No woman found
+    
+    # Find the gas stove in the kitchen
+    gas_stove_patches = image_patch.find(""gas stove"")
+    if len(gas_stove_patches) == 0:
+        return ""no""  # No gas stove found
+    
+    # Check if the gas stove has a white color
+    gas_stove_is_white = gas_stove_patches[0].verify_property(""gas stove"", ""white"")
+    
+    # Both need to be white
+    return bool_to_yesno(dishwasher_is_white and gas_stove_is_white)
+```
+
+This function will first find the woman in the image. Then, it will find the dishwasher to the left of the woman and check if it is white. Next, it will find the gas stove in the kitchen and check if it is white. Finally, it will return ""yes"" if both the dishwasher and the gas stove are white, otherwise ""no""."
+1594898,What is the name of the piece of furniture that is the same color as the bed sheet the baby is to the right of?,"To determine the name of the piece of furniture that is the same color as the bed sheet the baby is to the right of, we can follow these steps:
+
+1. Find the baby.
+2. Determine the color of the bed sheet the baby is on.
+3. Find the piece of furniture that is to the right of the baby.
+4. Verify if the piece of furniture has the same color as the bed sheet.
+
+Here is the code to achieve this:
+
+```python
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    
+    # Step 1: Find the baby
+    baby_patches = image_patch.find(""baby"")
+    if len(baby_patches) == 0:
+        return image_patch.simple_query(""What is the name of the piece of furniture that is the same color as the bed sheet the baby is to the right of?"")
+    
+    # Step 2: Determine the color of the bed sheet the baby is on
+    bed_sheet_color = None
+    for baby_patch in baby_patches:
+        bed_sheet_patches = image_patch.find(""bed sheet"", baby_patch.left, baby_patch.lower, baby_patch.right, baby_patch.upper)
+        if len(bed_sheet_patches) > 0:
+            bed_sheet_color = bed_sheet_patches[0].simple_query(""What color is the bed sheet?"")
+            break
+    
+    if bed_sheet_color is None:
+        return image_patch.simple_query(""What is the name of the piece of furniture that is the same color as the bed sheet the baby is to the right of?"")
+    
+    # Step 3: Find the piece of furniture that is to the right of the baby
+    furniture_patches = image_patch.find(""furniture"", baby_patch.right, baby_patch.lower, image_patch.width, image_patch.upper)
+    
+    # Step 4: Verify if the piece of furniture has the same color as the bed sheet
+    for furniture_patch in furniture_patches:
+        if furniture_patch.simple_query(f""What color is the {furniture_patch.object_name}?"") == bed_sheet_color:
+            return furniture_patch.simple_query(f""What is the name of the piece of furniture that is the same color as the bed sheet the baby is to the right of?"")
+    
+    return ""no furniture found with the same color as the bed sheet""  # If no matching furniture is found
+```
+
+This function first finds the baby, then determines the color of the bed sheet the baby is on. It then finds the piece of furniture to the right of the baby and checks"
+758958,Is there either any red pillow or snowboard?,"    image_patch = ImagePatch(image)
+    is_red_pillow = image_patch.exists(""red pillow"")
+    is_snowboard = image_patch.exists(""snowboard"")
+    return bool_to_yesno(is_red_pillow or is_snowboard)"
+143816,Which place is it?,"    image_patch = ImagePatch(image)
+    return image_patch.simple_query(""Which place is it?"")"
+13741513,Which side is the knife on?,"    image_patch = ImagePatch(image)
+    knife_patches = image_patch.find(""knife"")
+    # Question assumes only one knife patch
+    if len(knife_patches) == 0:
+        # If no knife is found, query the image directly
+        return image_patch.simple_query(""Which side is the knife on?"")
+    knife_patch = knife_patches[0]
+    if knife_patch.horizontal_center < image_patch.horizontal_center:
+        return ""left""
+    else:
+        return ""right"""
+17829769,What is the computer mouse in front of?,"    image_patch = ImagePatch(image)
+    mouse_patches = image_patch.find(""computer mouse"")
+    # Question assumes only one mouse patch
+    if len(mouse_patches) == 0:
+        # If no mouse is found, query the image directly
+        return image_patch.simple_query(""What is the computer mouse in front of?"")
+    for mouse_patch in mouse_patches:
+        nearby_objects = image_patch.find(""near"", mouse_patch)
+        for nearby_object in nearby_objects:
+            if nearby_object.simple_query(""Is the object in front of the computer mouse?"") == ""yes"":
+                return nearby_object.simple_query(""What is the computer mouse in front of?"")
+    return ""no nearby object in front of the mouse"""
+17233738,What is the toddler holding?,"    image_patch = ImagePatch(image)
+    # contains a relation (holding), so ask directly
+    return image_patch.simple_query(""What is the toddler holding?"")"
+2951242,Is the gray shirt sleeveless or short sleeved?,"To determine whether the gray shirt is sleeveless or short-sleeved, we can follow these steps:
+
+1. Find the shirt in the image.
+2. Check if the shirt has sleeves.
+3. If the shirt has sleeves, determine if they are short.
+
+Here's how you can implement this:
+
+```python
+def execute_command(image):
+    image_patch = ImagePatch(image)
+    shirt_patches = image_patch.find(""shirt"")
+    # Question assumes only one shirt patch
+    if len(shirt_patches) == 0:
+        # If no shirt is found, query the image directly
+        return image_patch.simple_query(""Is the gray shirt sleeveless or short-sleeved?"")
+    
+    for shirt_patch in shirt_patches:
+        if shirt_patch.simple_query(""Is the shirt gray?"") == ""yes"":
+            has_sleeves = shirt_patch.simple_query(""Does the shirt have sleeves?"") == ""yes""
+            if has_sleeves:
+                sleeve_length = shirt_patch.simple_query(""Are the sleeves long or short?"") == ""short""
+                return ""short"" if sleeve_length else ""long""
+            else:
+                return ""sleeveless""
+    return ""sleeveless""  # Default to sleeveless if no shirt is found or no sleeves are found
+
+# Example usage
+# result = execute_command(image)
+# print(result)
+```
+
+In this implementation:
+- We first find the shirt in the image.
+- We then check if the shirt is gray.
+- If the shirt is gray, we check if it has sleeves.
+- If it has sleeves, we determine if they are short or long.
+- If the shirt does not have sleeves, we conclude it is sleeveless."
+15241795,Is the tank top red?,"    image_patch = ImagePatch(image)
+    tank_top_patches = image_patch.find(""tank top"")
+    # Question assumes only one tank top patch
+    if len(tank_top_patches) == 0:
+        # If no tank top is found, query the image directly
+        return image_patch.simple_query(""Is the tank top red?"")
+    tank_top_patch = tank_top_patches[0]
+    return tank_top_patch.verify_property(""tank top"", ""red"")"
+13885234,Which kind of animal is in front of the rocks?,"    image_patch = ImagePatch(image)
+    # contains a relation (around, next to, on, near, on top of, in front of, behind, etc), so ask directly
+    return image_patch.simple_query(""Which kind of animal is in front of the rocks?"")"
+19335715,Do you see any grapes?,"    image_patch = ImagePatch(image)
+    return bool_to_yesno(image_patch.exists(""grapes""))"
+6455591,What type of furniture is white?,"    image_patch = ImagePatch(image)
+    return image_patch.simple_query(""What type of furniture is white?"")"
+1033761,What is the blue clothing item?,"    image_patch = ImagePatch(image)
+    # contains a relation (blue clothing item), so ask directly
+    return image_patch.simple_query(""What is the blue clothing item?"")"
+17726504,Who is wearing the glasses?,"    image_patch = ImagePatch(image)
+    # contains a relational verb (wearing), so ask directly
+    return image_patch.simple_query(""Who is wearing the glasses?"")"
+13112902,Is the woman wearing a bracelet?,"    image_patch = ImagePatch(image)
+    woman_patches = image_patch.find(""woman"")
+    # Question assumes only one woman patch
+    if len(woman_patches) == 0:
+        # If no woman is found, query the image directly
+        return image_patch.simple_query(""Is the woman wearing a bracelet?"")
+    for woman_patch in woman_patches:
+        is_wearing_bracelet = (woman_patch.simple_query(""Is the woman wearing a bracelet?"") == ""yes"")
+        if is_wearing_bracelet:
+            return ""yes""
+    return ""no"""
+698766,What is the food that is not white?,"To determine the food that is not white, you can follow these steps:
+
+1. Find all food items in the image.
+2. Check each food item to see if it is white.
+3. Return the food item that is not white.
+
+Here's how you can implement this:
+
+```python
+def execute_command(image):
+    image_patch = ImagePatch(image)
+    food_patches = image_patch.find(""food"")
+    
+    # Question assumes at least one food item is found
+    if len(food_patches) == 0:
+        return image_patch.simple_query(""What is the food that is not white?"")
+    
+    non_white_food = None
+    for food_patch in food_patches:
+        if food_patch.simple_query(""Is the food white?"") != ""yes"":
+            non_white_food = food_patch
+            break
+    
+    if non_white_food is not None:
+        return non_white_food.simple_query(""What is the food that is not white?"")
+    else:
+        return ""There is no food that is not white.""
+
+# Example usage
+# result = execute_command(image)
+# print(result)
+```
+
+In this implementation:
+- `find(""food"")` is used to find all food items in the image.
+- For each food item, `simple_query(""Is the food white?"")` is used to check if the food is white.
+- The first food item that is not white is returned. If no such food item is found, it returns a message indicating that there is no food that is not white."
+1332276,Are there both a cup and a bottle in the picture?,"    image_patch = ImagePatch(image)
+    is_cup = image_patch.exists(""cup"")
+    is_bottle = image_patch.exists(""bottle"")
+    return bool_to_yesno(is_cup and is_bottle)"
+12633088,What color is that glove?,"    image_patch = ImagePatch(image)
+    glove_patches = image_patch.find(""glove"")
+    # Question assumes only one glove patch
+    if len(glove_patches) == 0:
+        # If no glove is found, query the image directly
+        return image_patch.simple_query(""What color is that glove?"")
+    glove_patch = glove_patches[0]
+    return glove_patch.best_text_match([""red"", ""blue"", ""green"", ""yellow"", ""black"", ""white""])"
+18103787,Who is holding the helmet?,"    image_patch = ImagePatch(image)
+    # contains a relational verb (holding), so ask directly
+    return image_patch.simple_query(""Who is holding the helmet?"")"
+2143247,What is the name of the food to the left of the donut that looks little?,"To determine the name of the food to the left of the donut that looks little, we can follow these steps:
+
+1. Find the donut in the image.
+2. Find the food items to the left of the donut.
+3. Among the food items to the left, find the one that looks little.
+
+Here is the code to achieve this:
+
+```python
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    
+    # Find the donut
+    donut_patches = image_patch.find(""donut"")
+    # Question assumes only one donut patch
+    if len(donut_patches) == 0:
+        # If no donut is found, query the image directly
+        return image_patch.simple_query(""What is the name of the food to the left of the donut that looks little?"")
+    
+    donut_patch = donut_patches[0]
+    
+    # Find the food items to the left of the donut
+    food_patches = image_patch.find(""food"")
+    left_food_patches = [food_patch for food_patch in food_patches if food_patch.horizontal_center < donut_patch.horizontal_center]
+    
+    # Find the food item that looks little
+    if left_food_patches:
+        for food_patch in left_food_patches:
+            if food_patch.simple_query(""Does the food look little?"") == ""yes"":
+                return food_patch.simple_query(""What is the name of the food to the left of the donut that looks little?"")
+    
+    # If no food to the left looks little, return a default response
+    return ""no food to the left of the donut that looks little""
+
+# Example usage
+# result = execute_command(image)
+# print(result)
+```
+
+This function will:
+1. Find the donut in the image.
+2. Find all food items to the left of the donut.
+3. Among those food items, find the one that looks little.
+4. Return the name of that food item. If no such food item is found, it will return a default response."
+3767951,Is the clock to the right or to the left of the man on the left?,"To determine whether the clock is to the right or to the left of the man on the left, we need to follow these steps:
+
+1. Find the man on the left.
+2. Find the clock.
+3. Compare the horizontal positions of the man and the clock.
+
+Here is the code to achieve this:
+
+```python
+def execute_command(image)->str:
+    image_patch = ImagePatch(image)
+    
+    # Find the man on the left
+    man_patches = image_patch.find(""man"")
+    # Question assumes only one man on the left
+    if len(man_patches) == 0:
+        # If no man is found, query the image directly
+        return image_patch.simple_query(""Is the clock to the right or to the left of the man on the left?"")
+    
+    # Find the man on the left
+    man_on_left = man_patches[0]
+    if man_on_left.horizontal_center >= image_patch.width / 2:
+        return ""no""  # The man is not on the left
+    
+    # Find the clock
+    clock_patches = image_patch.find(""clock"")
+    # Question assumes only one clock patch
+    if len(clock_patches) == 0:
+        # If no clock is found, query the image directly
+        return image_patch.simple_query(""Is the clock to the right or to the left of the man on the left?"")
+    
+    clock_patch = clock_patches[0]
+    
+    # Compare the horizontal positions
+    if clock_patch.horizontal_center > man_on_left.horizontal_center:
+        return ""right""
+    else:
+        return ""left""
+
+# Example usage
+# execute_command(image)
+```
+
+This function first checks if there is a man on the left by comparing the horizontal center of the man to the center of the image. If the man is not on the left, it returns ""no"". If the man is on the left, it then checks the horizontal position of the clock relative to the man and returns whether the clock is to the right or to the left."
+17655180,What's the sticker on?,"    image_patch = ImagePatch(image)
+    # contains a relation (on, attached to, etc.), so ask directly
+    return image_patch.simple_query(""What's the sticker on?"")"
+3468831,In front of what is this table?,"    image_patch = ImagePatch(image)
+    # contains a relation (around, next to, on, near, on top of, in front of, behind, etc), so ask directly
+    return image_patch.simple_query(""In front of what is this table?"")"
+5888523,Do you see people to the right of the still car?,"    image_patch = ImagePatch(image)
+    car_patches = image_patch.find(""car"")
+    # Question assumes only one car patch
+    if len(car_patches) == 0:
+        # If no car is found, query the image directly
+        return image_patch.simple_query(""Do you see people to the right of the still car?"")
+    for car_patch in car_patches:
+        people_patches = image_patch.find(""people"")
+        for people_patch in people_patches:
+            if people_patch.horizontal_center > car_patch.horizontal_center:
+                return ""yes""
+    return ""no"""

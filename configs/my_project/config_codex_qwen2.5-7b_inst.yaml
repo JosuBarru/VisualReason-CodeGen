@@ -1,6 +1,6 @@
 codex:
     model: qwen25_inst
-    model_name: 'Qwen/Qwen2.5-Math-7B-Instruct' 
+    model_name: 'Qwen/Qwen2.5-7B-Instruct' 
     prompt: ./prompts/benchmarks/gqa.prompt
     adapter: 
 

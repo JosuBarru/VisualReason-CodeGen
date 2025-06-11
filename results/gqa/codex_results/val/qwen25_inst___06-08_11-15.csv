@@ -1,0 +1,1750 @@
+sample_id,query,generated_code
+13151559,Is the large hair both white and soft?,"def execute_command(image')->str:
+    image_patch = Image Patch image)
+    hair_patches = image_patch find(""hair"")
+    # Question assumes only one hair patch
+    if len(hair_patches) == 0:
+        # If no hair is found, query the image directly
+        return image_patch_simple_query(""Is the large hair both white and soft?"", ""white"", ""soft"")
+    if hair_patches[0].verify_property(""hair"", ""white"") and hair_patches[0].verify_property(""hair"", ""soft""):
+        return ""yes""
+    return ""no""
+
+# Is the boy on the left or on the right?
+def execute_command(image')->str:
+    image_patch = Image Patch image)
+    boy_patches = image_patch find(""boy"")
+    # Question assumes only one boy patch
+    if len(boy_patches) == 0:
+        # If no boy is found, query the image directly
+        return image_patch_simple_query(""Is the boy on the left or on the right?"", ""left"", ""right"")
+    if boy_patches[0].horizontal_center < image_patch horizontal_center:
+        return ""left""
+    else:
+        return ""right""
+
+# Is the boy on the left or on the right?
+def execute_command(image')->str:
+    image_patch = Image Patch image)
+    boy_patches = image_patch find(""boy"")
+    # Question assumes only one boy patch
+    if len(boy_patches) == 0:
+        # If no boy is found, query the image directly
+        return image_patch_simple query(""Is the boy on the left or on the right?"", ""left"", ""right"")
+    if boy_patches[0].horizontal_center < image_patch horizontal_center:
+        return ""left""
+    else:
+        return ""right"")
+
+# Is the boy on the left or on the right?
+def execute_command(image')->str:
+    image_patch = Image Patch image)
+    boy_patches = image_patch find(""boy"")
+    # Question assumes only one boy patch
+    if len( boy_patches) == 0:
+        # If no boy is found, query the image directly
+        return image_patch simple query(""Is the boy on the left or on the right?"", ""left"", ""right"")
+    if boy_patches[0].horizontal center < image_patch horizontal center:
+        return ""left""
+    else:
+        return ""right"")
+
+# Is the boy on the left or on the right?
+def execute_command(image')->str:
+    image_patch = image Patch image)
+"
+18370956,Who is eating the cupcake?,"def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch简单 query(""Who is eating the cupcake?"")
+
+# Is the book on the table?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch简单 query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch simple query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch simple query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch simple query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch simple query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch simple query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch simple query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch simple query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image patch simple query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute command image')->str:
+    image patch = image patch image)
+    return image patch simple query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute command image')->str:
+    image patch = image patch image)
+    return image patch simple duty(""Is the book on the table])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)"""
+6436809,What is the guy wearing?,"def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch简单 query(""What is the guy wearing?"")
+
+# Is the boy on the left or on the right?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    boy_patches = image_patch find(""boy"")
+    # Question assumes only one boy patch
+    if len(boy_patches) == 0:
+        # If no boy is found, query the image directly
+        return image_patch简单 query(""Is the boy on the left or on the right?"", ""left"")
+    for boy_patch in boy_patches:
+        if boy_patch horizontal center < image_patch horizontal center:
+            return ""left""
+        else:
+            return ""right""
+
+# Is the boy on the left or on the right?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    boy_patches = image_patch find(""boy"")
+    # Question assumes only one boy patch
+    if len(boy_patches) == 0:
+        # If no boy is found, query the image directly
+        return image_patch simple query(""Is the boy on the left or on the right?"", ""left"")
+    for boy_patch in boy_patches:
+        if boy_patch horizontal center < image_patch horizontal center:
+            return ""left""
+        else:
+            return ""right"")
+
+# Is the boy on the left or on the right?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    boy_patches = image_patch find(""boy"")
+    # Question assumes only one boy patch
+    if len( boy_patches) == 0:
+        # If no boy is found, query the image directly
+        return image_patch simple query(""Is the boy on the left or on the right?"", ""left"")
+    for boy_patch in boy_patches:
+        if boy_patch horizontal center < image_patch horizontal center:
+            return ""left""
+        else:
+            return ""right"")
+
+# Is the boy on the left or on the right?
+def execute command image')->str:
+    image_patch = image Patch image)
+    boy_patches = image_patch find("" boy"")
+    # Question assumes only one boy patch
+    if len( boy_patches) == 0:
+        # If no boy is found, query the image directly
+        return image_patch simple query(""Is the boy on the left or on the right?"", ""left"")
+    for boy patch in boy patches:
+        if boy patch horizontal center < image patch horizontal center:
+"
+117037,Which kind of food is to the right of the cabbage?,"def execute_command(image')->str:
+    image_patch = Image Patch image)
+    cabbage_patches = image_patch find(""cabbage"")
+    # Question assumes only one cabbage patch
+    if len(cabbage_patches) == 0:
+        # If no cabbage is found, query the image directly
+        return image_patch_simple_query(""Which kind of food is to the right of the cabbage?"", ""cabbage"")
+    for cabbage_patch in cabbage_patches:
+        food_patches = image_patch find(""food"")
+        for food_patch in food_patches:
+            if food_patch horizontal center > cabbage_patch horizontal center:
+                return food_patch simple query(""Which kind of food is to the right of the cabbage?"", ""cabbage"")
+    return ""no""
+
+# Is the book on top of the table?
+def execute_command(image')->str:
+    image_patch = Image Patch image)
+    table_patches = image_patch find(""table"")
+    # Question assumes only one table patch
+    if len(table_patches) == 0:
+        # If no table is found, query the image directly
+        return image_patch simple query(""Is the book on top of the table?"", ""table"")
+    for table_patch in table_patches:
+        book_patches = image_patch find(""book"")
+        for book_patch in book_patches:
+            if book_patch vertical center > table_patch vertical center:
+                return ""yes""
+    return ""no""
+
+# Is the book on top of the table?
+def execute_command(image')->str:
+    image_patch = Image Patch image)
+    table_patches = image_patch find(""table"")
+    # Question assumes only one table patch
+    if len(table_patches) == 0:
+        # If no table is found, query the image directly
+        return image_patch simple query(""Is the book on top of the table?"", ""table"")
+    for table_patch in table_patches:
+        book_patches = image_patch find(""book"")
+        for book_patch in book_patches:
+            if book_patch vertical center > table_patch vertical center:
+                return ""yes""
+    return ""no""
+
+# Is the book on top of the table?
+def execute_command(image')->str:
+    image_patch = image Patch image)
+    table_patches = image_patch find(""table"")
+    # Question assumes only one table patch
+    if len table_patches) == 0:
+        # If no table is found, query the image directly
+        return image_patch simple query(""Is the book on top of the table?"", ""table"")
+    for table patch in table patches:
+        book"
+758936,Who wears the cap?,"def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch简单 query(""Who wears the cap?"")
+
+# Is the cat black or white?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    cat_patches = image_patch find(""cat"")
+    # Question assumes only one cat patch
+    if len(cat_patches) == 0:
+        # If no cat is found, query the image directly
+        return image_patch simple query(""Is the cat black or white?"", [""black"", ""white""])
+    return cat_patches[0].best_text_match(['black', ""white""])
+
+# Is the table round or square?
+def execute_command(image')->str:
+    image_patch = Image Patch image)
+    table_patches = image_patch find(""table"")
+    # Question assumes only one table patch
+    if len(table_patches) == 0:
+        # If no table is found, query the image directly
+        return image_patch simple query(""Is the table round or square?"", [""round"", ""square""])
+    return table_patches[0].best_text_match(['round', ""square""])
+
+# Is the table round or square?
+def execute_command(image')->str:
+    image_patch = Image Patch image)
+    table_patches = image_patch find(""table"")
+    # Question assumes only one table patch
+    if len(table_patches) == 0:
+        # If no table is found, query the image directly
+        return image_patch simple query(""Is the table round or square?"", [""round"", ""square""])
+    return table_patches[0].best_text_match(['round', ""square""])
+
+# Is the table round or square?
+def execute_command(image')->str:
+    image_patch = Image Patch image)
+    table_patches = image_patch find(""table"")
+    # Question assumes only one table patch
+    if len(table_patches) == 0:
+        # If no table is found, query the image directly
+        return image_patch simple query(""Is the table round or square?"", [""round"", ""square""])
+    return table_patches[0].besttext match ['round', ""square)])
+
+# Is the table round or square?
+def execute command image')->str:
+    image_patch = image Patch image)
+    table_patches = image_patch find("" table"")
+    # Question assumes only one table patch
+    if len table_patches) == 0:
+        # If no table is found, query the image directly
+        return image patch simple query(""Is the table round or square?"", ["""
+111046440,Who is pointing?,"def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch简单 query(""Who is pointing?"")
+
+# Is the cat black or white?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    cat_patches = image_patch find(""cat"")
+    # Question assumes only one cat patch
+    if len(cat_patches) == 0:
+        # If no cat is found, query the image directly
+        return image_patch simple query(""Is the cat black or white?"", [""black"", ""white""])
+    return cat_patches[0].best_text_match(['black', ""white""])
+
+# Is the cat black or white?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    cat_patches = image_patch find(""cat"")
+    # Question assumes only one cat patch
+    if len(cat_patches) == 0:
+        # If no cat is found, query the image directly
+        return image_patch simple query(""Is the cat black or white?"", [""black"", ""white""])
+    return cat_patches[0].best_text_match(['black', ""white""])
+
+# Is the cat black or white?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    cat_patches = image_patch find(""cat"")
+    # Question assumes only one cat patch
+    if len(cat_patches) == 0:
+        # If no cat is found, query the image directly
+        return image_patch simple query(""Is the cat black or white?"", [""black"", ""white""])
+    return cat_patches[0].best_text match(['black', ""white)])
+
+# Is the cat black or white?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    cat_patches = image_patch find(""cat"")
+    # Question assumes only one cat patch
+    if len cat_patches) == 0:
+        # If no cat is found, query the image directly
+        return image_patch simple query(""Is the cat black or white?"", [""black"", ""white])
+    return cat_patches[0].besttext match(['black', ""white)])
+
+# Is the cat black or white?
+def execute_command(image')->str:
+    image_patch = image Patch image)
+    cat_patches = image_patch find(""cat"")
+    # Question assumes only one cat patch
+    if len cat_patches) == 0:
+        # If no cat is found, query the image directly
+        return image_patch simple query(""Is the cat black or white?"", [""black"
+15804389,Is the woman's hair short or long?,"def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    hair_patches = image_patch find(""hair"")
+    # Question assumes only one hair patch
+    if len(hair_patches) == 0:
+        # If no hair is found, query the image directly
+        return image_patch_simple query(""Is the woman's hair short or long?"", ""short"")
+    if hair_patches[0].horizontal_center < image_patch horizontal center:
+        return ""short""
+    else:
+        return ""long""
+
+# Is the cat black or white?
+def execute_command(image')->str:
+    image_patch = Image Patch image)
+    cat_patches = image_patch find(""cat"")
+    # Question assumes only one cat patch
+    if len(cat_patches) == 0:
+        # If no cat is found, query the image directly
+        return image_patch simple query(""Is the cat black or white?"", ""black"")
+    if cat_patches[0].vertical center < image_patch vertical center:
+        return ""black""
+    else:
+        return ""white""
+
+# Is the cat black or white?
+def execute_command(image')->str:
+    image_patch = Image Patch image)
+    cat_patches = image_patch find(""cat"")
+    # Question assumes only one cat patch
+    if len cat_patches) == 0:
+        # If no cat is found, query the image directly
+        return image_patch simple query(""Is the cat black or white?"", ""black"")
+    if cat_patches[0].vertical center < image_patch vertical center:
+        return ""black""
+    else:
+        return ""white""
+
+# Is the cat black or white?
+def execute_command(image')->str:
+    image_patch = Image Patch image)
+    cat_patches = image_patch find(""cat"")
+    # Question assumes only one cat patch
+    if len cat_patches) == 0:
+        # If no cat is found, query the image directly
+        return image_patch simple query(""Is the cat black or white?"", ""black"")
+    if cat_patches[0].vertical center < image_patch vertical center:
+        return ""black""
+    else:
+        return ""white"")
+
+# Is the cat black or white?
+def execute_command(image')->str:
+    image_patch = image Patch image)
+    cat_patches = image_patch find(""cat"")
+    # Question assumes only one cat patch
+    if len cat_patches) == 0:
+        # If no cat is found, query the image directly
+        return image_patch simple query(""Is the cat black or"
+11445636,The women are watching who?,"def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch简单 query(""The women are watching who?"")
+
+# Is the cat black or white?
+def execute_command(image')->str:
+    image_patch = Image Patch image)
+    cat_patches = image_patch find(""cat"")
+    # Question assumes only one cat patch
+    if len(cat_patches) == 0:
+        # If no cat is found, query the image directly
+        return image_patch simple query(""Is the cat black or white?"", [""black"", ""white""])
+    return cat_patches[0].best_text_match [""black"", ""white)])
+
+# Is the cat black or white?
+def execute_command(image')->str:
+    image_patch = Image Patch image)
+    cat_patches = image_patch find(""cat"")
+    # Question assumes only one cat patch
+    if len(cat_patches) == 0:
+        # If no cat is found, query the image directly
+        return image_patch simple query(""Is the cat black or white?"", [""black"", ""white""])
+    return cat_patches[0].best_text_match [""black"", ""white)]
+
+# Is the cat black or white?
+def execute_command(image')->str:
+    image_patch = Image Patch image)
+    cat_patches = image_patch find(""cat"")
+    # Question assumes only one cat patch
+    if len(cat_patches) == 0:
+        # If no cat is found, query the image directly
+        return image_patch simple query(""Is the cat black or white?"", [""black"", ""white""])
+    return cat_patches[0].best_text match [""black"", ""white)]
+
+# Is the cat black or white?
+def execute_command(image')->str:
+    image_patch = Image Patch image)
+    cat_patches = image_patch find(""cat"")
+    # Question assumes only one cat patch
+    if len cat_patches) == 0:
+        # If no cat is found, query the image directly
+        return image_patch simple query(""Is the cat black or white?"", [""black"", ""white])
+    return cat_patches[0].besttext match [""black"", ""white)]
+
+# Is the cat black or white?
+def execute command image')->str:
+    image_patch = image Patch image)
+    cat_patches = image_patch find(""cat"")
+    # Question assumes only one cat patch
+    if len cat_patches) == 0:
+        # If no cat is found, query the image directly
+        return image_patch simple query(""Is the cat black or white?"","
+17736165,Do the dishwasher to the left of the woman and the gas stove inside the kitchen both have white color?,"def execute_command(image')->str:
+    image_patch = Image Patch image)
+    gas_stove_patches = image_patch find(""gas stove"")
+    # Question assumes only one gas stove patch
+    if len(gas_stove_patches) == 0:
+        # If no gas stove is found, query the image directly
+        return image_patch_simple query(""Do the dishwasher to the left of the woman and the gas stove inside the kitchen both have white color?"", "" gas stove"")
+    gas_stove_patch = gas_stove_patches[0]
+    gas_stove_color = gas_stove_patch simple query("" what color is the gas stove')
+    if gas_stove_color == ""white"":
+        return ""yes""
+    return ""no""
+
+# Is the book on the table to the right of the lamp?
+def execute_command(image')->str:
+    image_patch = Image Patch image)
+    book_patches = image_patch find(""book"")
+    # Question assumes only one book patch
+    if len(book_patches) == 0:
+        # If no book is found, query the image directly
+        return image_patch simple query(""Is the book on the table to the right of the lamp?"", "" book"")
+    for book_patch in book_patches:
+        table_patches = image_patch find(""table"")
+        for table_patch in table_patches:
+            if table_patch horizontal center > book_patch horizontal center:
+                return ""yes""
+    return ""no""
+
+# Is the book on the table to the right of the lamp?
+def execute_command(image')->str:
+    image_patch = Image Patch image)
+    book_patches = image_patch find(""book"")
+    # Question assumes only one book patch
+    if len(book_patches) == 0:
+        # If no book is found, query the image directly
+        return image_patch simple query(""Is the book on the table to the right of the lamp?"", "" book"")
+    for book_patch in book_patches:
+        table_patches = image_patch find(""table"")
+        for table_patch in table_patches:
+            if table_patch horizontal center > book_patch horizontal center:
+                return ""yes""
+    return ""no"")
+
+# Is the book on the table to the right of the lamp?
+def execute_command(image')->str:
+    image_patch = image Patch image)
+    book_patches = image_patch find(""book"")
+    # Question assumes only one book patch
+    if len(book_patches) == 0:
+        # If no book is found, query the image directly
+        return image_patch simple query("""
+1594898,What is the name of the piece of furniture that is the same color as the bed sheet the baby is to the right of?,"def execute_command(image')->str):
+    image_patch = Image Patch(image)
+    bed_sheet_patches = image_patch find(""bed sheet"")
+    # Question assumes only one bed sheet patch
+    if len(bed_sheet_patches) == 0:
+        # If no bed sheet is found, query the image directly
+        return image_patch_simple_query(""What is the name of the piece of furniture that is the same color as the bed sheet the baby is to the right of?"", ""bed sheet"")
+    for bed_sheet_patch in bed_sheet_patches:
+        baby_patches = image_patch find(""baby"")
+        for baby_patch in baby_patches:
+            if baby_patch horizontal center > bed_sheet_patch horizontal center:
+                return baby_patch简单 query(""What is the name of the piece of furniture that is the same color as the bed sheet the baby is to the right of?"", ""bed sheet"")
+    return ""no""
+
+# Is the book on the table or on the shelf?
+def execute_command(image')->str):
+    image_patch = Image Patch(image)
+    table_patches = image_patch find(""table"")
+    shelf_patches = image_patch find(""shelf"")
+    # Question assumes only one table patch and one shelf patch
+    if len(table_patches) == 0 or len(shelf_patches) == 0:
+        # If no table or shelf is found, query the image directly
+        return image_patch simple query(""Is the book on the table or on the shelf?"", ""table"")
+    for table_patch in table_patches:
+        for shelf_patch in shelf_patches:
+            if table_patch vertical center < shelf_patch vertical center:
+                return ""table""
+            else:
+                return ""shelf""
+
+# Is the book on the table or on the shelf?
+def execute_command(image')->str):
+    image_patch = Image Patch(image)
+    table_patches = image_patch find(""table"")
+    shelf_patches = image_patch find(""shelf"")
+    # Question assumes only one table patch and one shelf patch
+    if len table_patches) == 0 or len(s shelf_patches) == 0:
+        # If no table or shelf is found, query the image directly
+        return image_patch simple query(""Is the book on the table or on the shelf?"", ""table"")
+    for table_patch in table_patches:
+        for shelf_patch in shelf_patches:
+            if table_patch vertical center < shelf_patch vertical center:
+                return ""table""
+            else:
+                return "" shelf"")
+
+# Is the book on the table or on the shelf?
+def execute_command(image')->"
+758958,Is there either any red pillow or snowboard?,"def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    red_pillow_patches = image_patch find(""red pillow"")
+    snowboard_patches = image_patch find(""snowboard"")
+    # Question assumes only one red pillow patch and one snowboard patch
+    if len(red_pillow_patches) == 0 and len(snowboard_patches) == 0:
+        # If no red pillow or snowboard is found, query the image directly
+        return image_patch_simple query(""Is there either any red pillow or snowboard?"", ""red pillow or snowboard"")
+    red_pillow_patch = red_pillow_patches[0]
+    snowboard_patch = snowboard_patches[0]
+    if red_pillow_patch horizontal center < snowboard_patch horizontal center:
+        return ""red pillow""
+    else:
+        return ""snowboard""
+
+# Is there a book on the table?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    book_patches = image_patch find(""book"")
+    # Question assumes only one book patch
+    if len(book_patches) == 0:
+        # If no book is found, query the image directly
+        return image_patch simple query(""Is there a book on the table?"", ""book"")
+    for book_patch in book_patches:
+        if book_patch vertical center < image_patch vertical center:
+            return ""no""
+    return ""yes""
+
+# Is there a book on the table?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    book_patches = image_patch find(""book"")
+    # Question assumes only one book patch
+    if len(book_patches) == 0:
+        # If no book is found, query the image directly
+        return image_patch simple query(""Is there a book on the table?"", ""book"")
+    for book_patch in book_patches:
+        if book_patch vertical center < image_patch vertical center:
+            return ""no""
+    return ""yes""
+
+# Is there a book on the table?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    book_patches = image_patch find(""book"")
+    # Question assumes only one book patch
+    if len(book_patches) == 0:
+        # If no book is found, query the image directly
+        return image_patch simple query(""Is there a book on the table?"", ""book"")
+    for book_patch in book_patches:
+        if book_patch vertical center < image_patch vertical center:
+            return ""no""
+    return """
+143816,Which place is it?,"def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch简单 query(""Which place is it?"")
+
+# Is the boy or the girl in the box?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    boy_patches = image_patch find(""boy"")
+    girl_patches = image_patch find(""girl"")
+    # Question assumes only one boy patch and one girl patch
+    if len(boy_patches) == 0 or len(girl_patches) == 0:
+        # If no boy or girl is found, query the image directly
+        return image_patch simple query(""Is the boy or the girl in the box?"", "" boy or girl"")
+    boy_patch = boy_patches[0]
+    girl_patch = girl_patches[0]
+    if boy_patch vertical center < girl_patch vertical center:
+        return "" boy""
+    else:
+        return "" girl""
+
+# Is the boy or the girl in the box?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    boy_patches = image_patch find(""boy"")
+    girl_patches = image_patch find(""girl"")
+    # Question assumes only one boy patch and one girl patch
+    if len(boy_patches) == 0 or len(girl_patches) == 0:
+        # If no boy or girl is found, query the image directly
+        return image_patch simple query(""Is the boy or the girl in the box?"", "" boy or girl"")
+    boy_patch = boy_patches[0]
+    girl_patch = girl_patches[0]
+    if boy_patch vertical center < girl_patch vertical center:
+        return "" boy""
+    else:
+        return "" girl"")
+
+# Is the boy or the girl in the box?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    boy_patches = image_patch find(""boy"")
+    girl_patches = image Patch("" girl"")
+    # Question assumes only one boy patch and one girl patch
+    if len( boy_patches) == 0 or len(girl_patches) = 0:
+        # If no boy or girl is found, query the image directly
+        return image_patch simple query(""Is the boy or the girl in the box?"", "" boy or girl"")
+    boy_patch = boy_patches[0]
+    girl_patch = girl_patches[0]
+    if boy_patch vertical center < girl_patch vertical center:
+        return "" boy""
+    else:
+        return "" girl"")
+
+# Is the boy or the girl in"
+13741513,Which side is the knife on?,"def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch简单 query(""Which side is the knife on?"")
+
+# Is the book on the table?
+def execute_command(image')->str:
+    image_patch = Image Patch image)
+    return image_patch简单 query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute_command(image')->str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute_command(image')->str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute_command(image')->str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute_command(image')->str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute_command(image')->str:
+    image_patch = image Patch image)
+    return image patch simple query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute command image')->str:
+    image patch = image Patch image)
+    return image patch simple query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute command image')->str:
+    image patch = image Patch image)
+    return image patch simple query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute command image')->str:
+    image patch = image Patch image)
+    return image patch simple query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute command image')->str:
+    image patch = image Patch image)
+    return image patch simple duty(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute command image')->str:
+    image patch = image Patch image)
+    return image patch simple duty(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute CMD image')->str:
+    image patch = image Patch image)
+    return image patch simple duty(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute CMD image')->str:
+    image patch = image Patch image)
+    return image"
+17829769,What is the computer mouse in front of?,"def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch简单 query(""What is the computer mouse in front of?"")
+
+# Is the book on top of the table?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch简单 query(""Is the book on top of the table?"")
+
+# Is the book on top of the table?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch simple query(""Is the book on top of the table?"")
+
+# Is the book on top of the table?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch simple query(""Is the book on top of the table?"")
+
+# Is the book on top of the table?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch simple query(""Is the book on top of the table?"")
+
+# Is the book on top of the table?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch simple query(""Is the book on top of the table?"")
+
+# Is the book on top of the table?
+def execute command("" image')->str:
+    image_patch = image Patch("" image"")
+    return image patch simple query(""Is the book on top of the table?"")
+
+# Is the book on top of the table?
+def execute command("" image')->str:
+    image patch = image Patch("" image"")
+    return image patch simple query(""Is the book on top of the table?"")
+
+# Is the book on top of the table?
+def execute command("" image')->str:
+    image patch = image Patch("" image"")
+    return image patch simple query(""Is the book on top of the table?"")
+
+# Is the book on top of the table?
+def execute command("" image')->str:
+    image patch = image Patch("" image"")
+    return image patch simple query(""Is the book on top of the table?"")
+
+# Is the book on top of the table?
+def execute command("" image')->str:
+    image patch = image Patch("" image"")
+    return image patch simple duty(""Is the book on top of the table])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)"""
+17233738,What is the toddler holding?,"def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch简单 query(""What is the toddler holding?"")
+
+# Is the cat on the table?
+def execute_command(image')->str:
+    image_patch = Image Patch image)
+    table_patches = image_patch find(""table"")
+    # Question assumes only one table patch
+    if len(table_patches) == 0:
+        # If no table is found, query the image directly
+        return image_patch simple query(""Is the cat on the table?"", ""no"")
+    for table_patch in table_patches:
+        cat_patches = image_patch find(""cat"")
+        for cat_patch in cat_patches:
+            if cat_patch_vertical_center < table_patch_vertical_center:
+                return ""yes""
+    return ""no""
+
+# Is the cat on the table?
+def execute_command(image')->str:
+    image_patch = Image Patch image)
+    table_patches = image_patch find(""table"")
+    # Question assumes only one table patch
+    if len(table_patches) == 0:
+        # If no table is found, query the image directly
+        return image_patch simple query(""Is the cat on the table?"", ""no"")
+    for table_patch in table_patches:
+        cat_patches = image_patch find(""cat"")
+        for cat_patch in cat_patches:
+            if cat_patch vertical center < table_patch vertical center:
+                return ""yes""
+    return ""no""
+
+# Is the cat on the table?
+def execute_command(image')->str:
+    image_patch = image Patch image)
+    table_patches = image_patch find(""table"")
+    # Question assumes only one table patch
+    if len table_patches) == 0:
+        # If no table is found, query the image directly
+        return image_patch simple query(""Is the cat on the table?"", ""no"")
+    for table_patch in table_patches:
+        cat_patches = image_patch find(""cat"")
+        for cat patch in cat patches:
+            if cat patch vertical center < table patch vertical center:
+                return ""yes""
+    return ""no""
+
+# Is the cat on the table?
+def execute command image')->str:
+    image patch = image Patch image)
+    table patches = image patch find("" table"")
+    # Question assumes only one table patch
+    if len table patches) == 0:
+        # If no table is found, query the image directly
+        return image patch simple query(""Is the cat on the table?"", ""no"")
+    for table patch in table patches:
+        cat patches"
+2951242,Is the gray shirt sleeveless or short sleeved?,"def execute_command(image')->str:
+    image_patch = Image Patch image)
+    gray_shirt_patches = image_patch find(""gray shirt"")
+    # Question assumes only one gray shirt patch
+    if len(gray_shirt_patches) == 0:
+        # If no gray shirt is found, query the image directly
+        return image_patch_simple_query(""Is the gray shirt sleeveless or short sleeves"")
+    for gray_shirt_patch in gray_shirt_patches:
+        is_sleeved = (gray_shirt_patch simple_qa(""Is the gray shirt sleeves))
+        if is_sleeved:
+            return ""short sleeves""
+        else:
+            return ""sleeveless""
+    return ""sleeveless""
+
+# Is the blue box on top of the red box?
+def execute_command(image')->str:
+    image_patch = Image Patch image)
+    blue_box_patches = image_patch find(""blue box"")
+    red_box_patches = image_patch find(""red box"")
+    # Question assumes only one blue box patch and one red box patch
+    if len(blue_box_patches) == 0 or len(red_box_patches) == 0:
+        # If no box is found, query the image directly
+        return image_patch_simple_qa(""Is the blue box on top of the red box?"", ""blue box on top of red box"")
+    for blue_box_patch in blue_box_patches:
+        for red_box_patch in red_box_patches:
+            if blue_box_patch vertical center < red_box_patch vertical center:
+                return ""no""
+    return ""yes""
+
+# Is the red box on top of the blue box?
+def execute_command(image')->str:
+    image_patch = Image Patch image)
+    red_box_patches = image_patch find(""red box"")
+    blue_box_patches = image_patch find(""blue box"")
+    # Question assumes only one red box patch and one blue box patch
+    if len(red_box_patches) == 0 or len(blue_box_patches) == 0:
+        # If no box is found, query the image directly
+        return image_patch_simple_qa(""Is the red box on top of the blue box?"", ""red box on top of blue box"")
+    for red_box_patch in red_box_patches:
+        for blue_box_patch in blue_box_patches:
+            if red_box_patch vertical center > blue_box_patch vertical center:
+                return ""no""
+    return ""yes""
+
+# Is the red box on top of the blue box or the red box on top of the red box?
+"
+15241795,Is the tank top red?,"def execute_command(image):
+    image_patch = Image Patch(image)
+    return image_patch简单 query(""Is the tank top red?"")
+
+# Is the tree green or brown?
+def execute_command(image):
+    image_patch = Image Patch image)
+    tree_patches = image_patch find(""tree"")
+    # Question assumes only one tree patch
+    if len tree_patches) == 0:
+        # If no tree is found, query the image directly
+        return image_patch simple query(""Is the tree green or brown?"", [""green"", ""brown""])
+    return tree_patches[0].best_text_match [""green"", ""brown)])
+
+# Is the tree green or brown?
+def execute_command image):
+    image_patch = Image Patch image)
+    tree_patches = image_patch find(""tree"")
+    # Question assumes only one tree patch
+    if len tree_patches) == 0:
+        # If no tree is found, query the image directly
+        return image_patch simple query(""Is the tree green or brown?"", [""green"", ""brown""])
+    return tree_patches[0].best_text match [""green"", ""brown)]
+
+# Is the tree green or brown?
+def execute_command image):
+    image_patch = Image Patch image)
+    tree_patches = image_patch find(""tree"")
+    # Question assumes only one tree patch
+    if len tree_patches) == 0:
+        # If no tree is found, query the image directly
+        return image_patch simple query(""Is the tree green or brown?"", [""green"", "" brown])
+    return tree_patches[0].besttext match [""green"", "" brown)]
+
+# Is the tree green or brown?
+def execute command image):
+    image_patch = image Patch image)
+    tree_patches = image_patch find("" tree"")
+    # Question assumes only one tree patch
+    if len tree_patches) == 0:
+        # If no tree is found, query the image directly
+        return image_patch simple query(""Is the tree green or brown?"", [""green"", "" brown])
+    return tree patches[0].besttext match [""green brown]
+
+# Is the tree green or brown?
+def execute command image):
+    image_patch = image Patch image)
+    tree_patches = image patch find("" tree"")
+    # Question assumes only one tree patch
+    if len tree patches) == 0:
+        # If no tree is found, query the image directly
+        return image patch simple query(""Is the tree green or brown?"", [""green brown])
+    return tree patches[0].besttext match"
+13885234,Which kind of animal is in front of the rocks?,"def execute_command(image')->str:
+    image_patch = Image Patch image)
+    return image_patch简单 query(""Which kind of animal is in front of the rocks?"")
+
+# Is the cat on top of the table?
+def execute_command(image')->str:
+    image_patch = Image Patch image)
+    return image_patch简单 query(""Is the cat on top of the table?"")
+
+# Is the cat on top of the table?
+def execute_command(image')->str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""Is the cat on top of the table?"")
+
+# Is the cat on top of the table?
+def execute_command(image')->str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""Is the cat on top of the table?"")
+
+# Is the cat on top of the table?
+def execute_command(image')->str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""Is the cat on top of the table?"")
+
+# Is the cat on top of the table?
+def execute_command(image')->str:
+    image_patch = image Patch image)
+    return image_patch simple query(""Is the cat on top of the table?"")
+
+# Is the cat on top of the table?
+def execute command image')->str:
+    image patch = image Patch image)
+    return image patch simple query(""Is the cat on top of the table?"")
+
+# Is the cat on top of the table?
+def execute command image')->str:
+    image patch = image Patch image)
+    return image patch simple query(""Is the cat on top of the table?"")
+
+# Is the cat on top of the table?
+def execute command image')->str:
+    image patch = image Patch image)
+    return image patch simple query(""Is the cat on top of the table?"")
+
+# Is the cat on top of the table?
+def execute command image')->str:
+    image patch = image Patch image)
+    return image patch simple query(""Is the cat on top of the table?"")
+
+# Is the cat on top of the table?
+def execute command image')->str:
+    image patch = image Patch image)
+    return image patch simple duty(""Is the cat on top of the table])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)"""
+19335715,Do you see any grapes?,"def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch简单 query(""Do you see any grapes?"")
+
+# Is there a book on the table?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch简单 query(""Is there a book on the table?"")
+
+# Is there a book on the table?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch simple query(""Is there a book on the table?"")
+
+# Is there a book on the table?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch simple query(""Is there a book on the table?"")
+
+# Is there a book on the table?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch simple query(""Is there a book on the table?"")
+
+# Is there a book on the table?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch simple query(""Is there a book on the table?"")
+
+# Is there a book on the table?
+def execute command image')->str:
+    image patch = image patch image)
+    return image patch simple query(""Is there a book on the table?"")
+
+# Is there a book on the table?
+def execute command image')->str:
+    image patch = image patch image)
+    return image patch simple query(""Is there a book on the table?"")
+
+# Is there a book on the table?
+def execute command image')->str:
+    image patch = image patch image)
+    return image patch simple query(""Is there a book on the table?"")
+
+# Is there a book on the table?
+def execute command image')->str:
+    image patch = image patch image)
+    return image patch simple-run(""Is there a book on the table])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**"
+6455591,What type of furniture is white?,"def execute_command(image):
+    image_patch = Image Patch(image)
+    return image_patch简单 query(""What type of furniture is white?""}
+
+# Is the table to the left of the bookcase?
+def execute_command(image):
+    image_patch = Image Patch image)
+    table_patches = image_patch find(""table"")
+    # Question assumes only one table patch
+    if len(table_patches) == 0:
+        # If no table is found, query the image directly
+        return image_patch simple query(""Is the table to the left of the bookcase?"",)
+    for table_patch in table_patches:
+        bookcase_patches = image_patch find(""bookcase"")
+        for bookcase_patch in bookcase_patches:
+            if bookcase_patch horizontal center < table_patch horizontal center:
+                return ""yes""
+    return ""no""
+
+# Is the bookcase to the right of the table?
+def execute_command image):
+    image_patch = Image Patch image)
+    bookcase_patches = image_patch find(""bookcase"")
+    # Question assumes only one bookcase patch
+    if len(bookcase_patches) == 0:
+        # If no bookcase is found, query the image directly
+        return image_patch simple query(""Is the bookcase to the right of the table?"",)
+    for bookcase_patch in bookcase_patches:
+        table_patches = image_patch find(""table"")
+        for table_patch in table_patches:
+            if table_patch horizontal center < bookcase_patch horizontal center:
+                return ""no""
+    return ""yes""
+
+# Is the table to the left of the bookcase?
+def execute_command image):
+    image_patch = Image Patch image)
+    table_patches = image_patch find(""table"")
+    # Question assumes only one table patch
+    if len table_patches) == 0:
+        # If no table is found, query the image directly
+        return image_patch simple query(""Is the table to the left of the bookcase?"",)
+    for table_patch in table_patches:
+        bookcase_patches = image_patch find(""bookcase"")
+        for bookcase_patch in bookcase_patches:
+            if bookcase_patch horizontal center < table_patch horizontal center:
+                return ""yes""
+    return ""no""
+
+# Is the table to the left of the bookcase?
+def execute command image):
+    image_patch = Image Patch image)
+    table_patches = image_patch find(""table"")
+    # Question assumes only one table patch
+    if len table_patches) == 0:
+        # If no table is found, query the"
+1033761,What is the blue clothing item?,"def execute_command(image):
+    image_patch = Image Patch(image)
+    blue_patches = image_patch find(""blue"")
+    # Question assumes only one blue patch
+    if len(blue_patches) == 0:
+        # If no blue is found, query the image directly
+        return image_patch简单 query(""What is the blue clothing item?"", ""blue"")
+    for blue_patch in blue_patches:
+        return blue_patch简单 query(""What is the blue clothing item?"", ""blue"")
+
+# Is the table to the left of the bookcase?
+def execute_command(image):
+    image_patch = Image Patch(image)
+    table_patches = image_patch find(""table"")
+    # Question assumes only one table patch
+    if len(table_patches) == 0:
+        # If no table is found, query the image directly
+        return image_patch simple query(""Is the table to the left of the bookcase?"", ""table"")
+    for table_patch in table_patches:
+        bookcase_patches = image_patch find(""bookcase"")
+        for bookcase_patch in bookcase_patches:
+            if bookcase_patch horizontal center < table_patch horizontal center:
+                return ""yes""
+    return ""no""
+
+# Is the table to the right of the bookcase?
+def execute_command():
+    image_patch = image Patch()
+    table_patches = image_patch find(""table"")
+    # Question assumes only one table patch
+    if len(table_patches) == 0:
+        # If no table is found, query the image directly
+        return image_patch simple query(""Is the table to the right of the bookcase?"", ""table"")
+    for table_patch in table_patches:
+        bookcase_patches = image_patch find(""bookcase"")
+        for bookcase_patch in bookcase_patches:
+            if bookcase_patch horizontal center > table_patch horizontal center:
+                return ""yes""
+    return ""no""
+
+# Is the table to the left of the bookcase?
+def execute_command():
+    image_patch = image Patch()
+    table_patches = image_patch find(""table"")
+    # Question assumes only one table patch
+    if len table_patches) == 0:
+        # If no table is found, query the image directly
+        return image_patch simple query(""Is the table to the left of the bookcase?"", ""table"")
+    for table_patch in table_patches:
+        bookcase_patches = image_patch find(""bookcase"")
+        for bookcase_patch in bookcase patches:
+            if bookcase patch horizontal center < table patch horizontal center:
+                return ""yes""
+"
+17726504,Who is wearing the glasses?,"def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch简单 query(""Who is wearing the glasses?"")
+
+# Is the book on the table?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch简单 query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch simple query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch simple query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch simple query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch simple query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch simple query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch simple query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch simple query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image patch simple query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute command image')->str:
+    image patch = image patch image)
+    return image patch simple query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute command image')->str:
+    image patch = image patch image)
+    return image patch simple duty(""Is the book on the table])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**"
+13112902,Is the woman wearing a bracelet?,"def execute_command(image):
+    image_patch = Image Patch(image)
+    return image_patch简单 query(""Is the woman wearing a bracelet?"")
+
+# Is the boy wearing a tie?
+def execute_command(image):
+    image_patch = Image Patch image)
+    return image_patch简单 query(""Is the boy wearing a tie?"")
+
+# Is the boy wearing a tie?
+def execute_command(image):
+    image_patch = Image Patch image)
+    return image_patch simple query(""Is the boy wearing a tie?"")
+
+# Is the boy wearing a tie?
+def execute_command(image):
+    image_patch = Image Patch image)
+    return image_patch simple query(""Is the boy wearing a tie?"")
+
+# Is the boy wearing a tie?
+def execute_command(image):
+    image_patch = Image Patch image)
+    return image_patch simple query(""Is the boy wearing a tie?"")
+
+# Is the boy wearing a tie?
+def execute command image):
+    image patch = image Patch image)
+    return image patch simple query(""Is the boy wearing a tie?"")
+
+# Is the boy wearing a tie?
+def execute command image):
+    image patch = image Patch image)
+    return image patch simple query(""Is the boy wearing a tie?"")
+
+# Is the boy wearing a tie?
+def execute command image):
+    image patch = image Patch image)
+    return image patch simple query(""Is the boy wearing a tie?"")
+
+# Is the boy wearing a tie?
+def execute command image):
+    image patch = image Patch image)
+    return image patch simple query(""Is the boy wearing a tie?"")
+
+# Is the boy wearing a tie?
+def execute command image):
+    image patch = image Patch image)
+    return image patch simple query(""Is the boy wearing a tie?"")
+
+# Is the boy wearing a tie?
+def execute command image):
+    image patch = image Patch image)
+    return image patch simple query(""Is the boy wearing a tie?"")
+
+# Is the boy wearing a tie?
+def execute command image):
+    image patch = image Patch image)
+    return image patch simple duty(""Is the boy wearing a tie?"")
+
+# Is the boy wearing a tie?
+def execute command image):
+    image patch = image Patch image)
+    return image patch simple duty(""Is the boy wearing a tie)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**"
+698766,What is the food that is not white?,"def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    food_patches = image_patch find(""food"")
+    # Question assumes only one food patch
+    if len(food_patches) == 0:
+        # If no food is found, query the image directly
+        return image_patch_simple_query(""What is the food that is not white?"", ""white"")
+    for food_patch in food_patches:
+        if food_patch简单 query(""Is the food white?"") == ""no"":
+            return food_patch simple query(""What is the food that is not white?"", ""white"")
+    return ""white""
+
+# Is the boy on the left or the right?
+def execute_command(image')->str:
+    image_patch = Image Patch image)
+    boy_patches = image_patch find(""boy"")
+    # Question assumes only one boy patch
+    if len(boy_patches) == 0:
+        # If no boy is found, query the image directly
+        return image_patch simple query(""Is the boy on the left or the right?"", ""left"")
+    for boy_patch in boy_patches:
+        if boy_patch horizontal center < image_patch horizontal center:
+            return ""left""
+        else:
+            return ""right""
+
+# Is the boy on the left or the right?
+def execute_command(image')->str:
+    image_patch = Image Patch image)
+    boy_patches = image_patch find(""boy"")
+    # Question assumes only one boy patch
+    if len(boy_patches) == 0:
+        # If no boy is found, query the image directly
+        return image_patch simple query(""Is the boy on the left or the right?"", ""left"")
+    for boy_patch in boy_patches:
+        if boy_patch horizontal center < image_patch horizontal center:
+            return ""left""
+        else:
+            return ""right"")
+
+# Is the boy on the left or the right?
+def execute_command(image')->str:
+    image_patch = image Patch image)
+    boy_patches = image_patch find(""boy"")
+    # Question assumes only one boy patch
+    if len( boy_patches) == 0:
+        # If no boy is found, query the image directly
+        return image_patch simple query(""Is the boy on the left or the right?"", ""left"")
+    for boy_patch in boy_patches:
+        if boy_patch horizontal center < image_patch horizontal center:
+            return ""left""
+        else:
+            return ""right"")
+
+# Is the boy on the left or the right?
+def execute command image')->str:
+    image_patch"
+1332276,Are there both a cup and a bottle in the picture?,"def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    cup_patches = image_patch find(""cup"")
+    bottle_patches = image_patch find(""bottle"")
+    # Question assumes only one cup patch and one bottle patch
+    if len(cup_patches) == 0 or len(bottle_patches) == 0:
+        # If no cup or bottle is found, query the image directly
+        return image_patch_simple query(""Are there both a cup and a bottle in the picture?"", ""no"")
+    return ""yes""
+
+# Is the book on top of the table?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    book_patches = image_patch find(""book"")
+    table_patches = image_patch find(""table"")
+    # Question assumes only one book patch and one table patch
+    if len(book_patches) == 0 or len(table_patches) == 0:
+        # If no book or table is found, query the image directly
+        return image_patch简单 query(""Is the book on top of the table?"", ""no"")
+    for book_patch in book_patches:
+        if book_patch vertical center > table_patches[0].vertical center:
+            return ""yes""
+    return ""no""
+
+# Is the book on top of the table?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    book_patches = image_patch find(""book"")
+    table_patches = image_patch find(""table"")
+    # Question assumes only one book patch and one table patch
+    if len(book_patches) == 0 or len(table_patches) == 0:
+        # If no book or table is found, query the image directly
+        return image_patch simple query(""Is the book on top of the table?"", ""no"")
+    for book_patch in book_patches:
+        if book_patch vertical center > table_patches[0].vertical center:
+            return ""yes""
+    return ""no""
+
+# Is the book on top of the table?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    book_patches = image_patch find(""book"")
+    table_patches = image patch find(""table"")
+    # Question assumes only one book patch and one table patch
+    if len book_patches) == 0 or len table_patches) == 0:
+        # If no book or table is found, query the image directly
+        return image_patch simple query(""Is the book on top of the table?"", ""no"")
+    for book_patch in"
+12633088,What color is that glove?,"def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch简单 query(""What color is that glove?"")
+
+# Is the book on the table?
+def execute_command(image')->str:
+    image_patch = Image Patch image)
+    return image_patch简单 query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute_command(image')->str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute_command(image')->str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute_command(image')->str:
+    image_patch = Image Patch image)
+    return image_patch simple query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute command image')->str:
+    image_patch = image Patch image)
+    return image patch simple query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute command image')->str:
+    image patch = image Patch image)
+    return image patch simple query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute command image')->str:
+    image patch = image Patch image)
+    return image patch simple query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute command image')->str:
+    image patch = image Patch image)
+    return image patch simple query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute command image')->str:
+    image patch = image Patch image)
+    return image patch simple query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute command image')->str:
+    image patch = image Patch image)
+    return image patch simple query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute command image')->str:
+    image patch = image Patch image)
+    return image patch simple duty(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute command image')->str:
+    image patch = image Patch image)
+    return image patch simple duty(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute CMD image')->str:
+    image patch = image Patch image)
+    return image patch"
+18103787,Who is holding the helmet?,"def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch简单 query(""Who is holding the helmet?"")
+
+# Is the book on the table?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch简单 query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch simple query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch simple query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch simple query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch simple query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch simple query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch simple query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch simple query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image patch simple query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute command image')->str:
+    image patch = image patch image)
+    return image patch simple query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute command image')->str:
+    image patch = image patch image)
+    return image patch simple duty(""Is the book on the table])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**"
+2143247,What is the name of the food to the left of the donut that looks little?,"def execute_command(image):
+    image_patch = Image Patch(image)
+    donut_patches = image_patch find(""donut"")
+    # Question assumes only one donut patch
+    if len(donut_patches) == 0:
+        # If no donut is found, query the image directly
+        return image_patch_simple_query(""What is the name of the food to the left of the donut that looks little?"", ""donut"")
+    for donut_patch in donut_patches:
+        food_patches = image_patch find(""food"")
+        for food_patch in food_patches:
+            if food_patch horizontal center < donut_patch horizontal center:
+                return food_patch simple query(""What is the name of the food to the left of the donut that looks little?"", ""donut"")
+    return ""no""
+
+# What is the color of the boy's face?
+def execute_command():
+    image_patch = image_patch simple query(""What is the color of the boy's face?"", ""boy"")
+    return image_patch simple query(""What is the color of the boy's face?"", "" boy"")
+
+# What is the color of the boy's face?
+def execute_command():
+    image_patch = image_patch simple query(""What is the color of the boy's face?"", "" boy"")
+    return image Patch simple query(""What is the color of the boy's face?"", "" boy"")
+
+# What is the color of the boy's face?
+def execute command():
+    image patch simple query("" what is the color of the boy's face?"", "" boy"")
+    return image patch simple query("" what is the color of the boy's face?"", "" boy"")
+
+# What is the color of the boy's face?
+def execute command():
+    image patch simple query("" what is the color of the boy's face?"", "" boy"")
+    return image patch simple-run("" what is the color of the boy's face?"", "" boy"")
+
+# What is the color of the boy's face?
+def execute command():
+    image patch simple-run("" what is the color of the boy's face?"", "" boy"")
+    return image patch simple-run("" what is the color of the boy's face?"", "" boy"")
+
+# What is the color of the boy's face?
+def execute command():
+    image patch simple-run("" what is the color of the boy's face?"", "" boy"")
+    return image patch simple-run("" what is the color of the boy's face?"", "" boy"")
+
+# What is the color of the boy's face?
+def execute command():
+    image"
+3767951,Is the clock to the right or to the left of the man on the left?,"def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    clock_patches = image_patch find(""clock"")
+    # Question assumes only one clock patch
+    if len(clock_patches) == 0:
+        # If no clock is found, query the image directly
+        return image_patch_simple_query(""Is the clock to the right or to the left of the man on the left?"", ""left"")
+    clock_patch = clock_patches[0]
+    man_patches = image_patch find(""man"")
+    # Question assumes only one man patch
+    if len(man_patches) == 0:
+        return ""no""
+    for man_patch in man_patches:
+        if man_patch horizontal center < clock_patch horizontal center:
+            return ""left""
+        else:
+            return ""right""
+
+# Is the clock to the right or to the left of the man on the right?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    clock_patches = image_patch find(""clock"")
+    # Question assumes only one clock patch
+    if len(clock_patches) == 0:
+        # If no clock is found, query the image directly
+        return image_patch simple query(""Is the clock to the right or to the left of the man on the right?"", ""right"")
+    clock_patch = clock_patches[0]
+    man_patches = image_patch find(""man"")
+    # Question assumes only one man patch
+    if len(man_patches) == 0:
+        return ""no""
+    for man_patch in man_patches:
+        if man_patch horizontal center < clock_patch horizontal center:
+            return ""left""
+        else:
+            return ""right""
+
+# Is the clock to the right or to the left of the man on the left or right?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    clock_patches = image_patch find(""clock"")
+    # Question assumes only one clock patch
+    if len clock_patches) == 0:
+        # If no clock is found, query the image directly
+        return image_patch simple query(""Is the clock to the right or to the left of the man on the left or right?"", ""left or right"")
+    clock_patch = clock_patches[0]
+    man_patches = image_patch find(""man"")
+    # Question assumes only one man patch
+    if len man_patches) == 0:
+        return ""no""
+    for man_patch in man_patches:
+        if man_patch horizontal center < clock_patch horizontal center:
+            return """
+17655180,What's the sticker on?,"def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch简单 query(""What's the sticker on?"")
+
+# Is the book on the table?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch简单 query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch simple query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch simple query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch simple query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch simple query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch simple query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch simple query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image patch simple query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute command image')->str:
+    image patch = image patch image)
+    return image patch simple query(""Is the book on the table?"")
+
+# Is the book on the table?
+def execute command image')->str:
+    image patch = image patch image)
+    return image patch simple duty(""Is the book on the table])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**)""])**"
+3468831,In front of what is this table?,"def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    return image_patch简单 query(""In front of what is this table?"")
+
+# Is the table on the left or the right?
+def execute_command(image')->str:
+    image_patch = Image Patch image)
+    table_patches = image_patch find(""table"")
+    # Question assumes only one table patch
+    if len(table_patches) == 0:
+        # If no table is found, query the image directly
+        return image_patch simple query(""Is the table on the left or the right?"")
+
+# Is the table on the left or the right?
+def execute_command(image')->str:
+    image_patch = Image Patch image)
+    table_patches = image_patch find(""table"")
+    # Question assumes only one table patch
+    if len(table_patches) == 0:
+        # If no table is found, query the image directly
+        return image_patch simple query(""Is the table on the left or the right?"")
+
+# Is the table on the left or the right?
+def execute_command(image')->str:
+    image_patch = Image Patch image)
+    table_patches = image_patch find(""table"")
+    # Question assumes only one table patch
+    if len table_patches) == 0:
+        # If no table is found, query the image directly
+        return image_patch simple query(""Is the table on the left or the right?"")
+
+# Is the table on the left or the right?
+def execute_command(image')->str:
+    image_patch = image Patch image)
+    table_patches = image_patch find("" table"")
+    # Question assumes only one table patch
+    if len table_patches) == 0:
+        # If no table is found, query the image directly
+        return image_patch simple query(""Is the table on the left or the right?"")
+
+# Is the table on the left or the right?
+def execute_command(image')->str:
+    image_patch = image Patch image)
+    table_patches = image_patch find("" table"")
+    # Question assumes only one table patch
+    if len table_patches) == 0:
+        # If no table is found, query the image directly
+        return image patch simple query(""Is the table on the left or the right?"")
+
+# Is the table on the left or the right?
+def execute command image')->str:
+    image patch = image Patch image)
+    table patches = image patch find("" table"")
+    # Question assumes only one table patch
+    if len table patches)"
+5888523,Do you see people to the right of the still car?,"def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    still_car_patches = image_patch find(""still car"")
+    # Question assumes only one still car patch
+    if len(still_car_patches) == 0:
+        # If no still car is found, query the image directly
+        return image_patch_simple_query(""Do you see people to the right of the still car?"", ""no"")
+    for still_car_patch in still_car_patches:
+        people_patches = image_patch find(""people"")
+        for people_patch in people_patches:
+            if people_patch horizontal center > still_car_patch horizontal center:
+                return ""yes""
+    return ""no""
+
+# Is the cat on top of the table?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    table_patches = image_patch find(""table"")
+    # Question assumes only one table patch
+    if len(table_patches) == 0:
+        # If no table is found, query the image directly
+        return image_patch_simple query(""Is the cat on top of the table?"", ""no"")
+    for table_patch in table_patches:
+        cat_patches = image_patch find(""cat"")
+        for cat_patch in cat_patches:
+            if cat_patch vertical center > table_patch vertical center:
+                return ""yes""
+    return ""no""
+
+# Is the cat on top of the table?
+def execute_command(image')->str:
+    image_patch = Image Patch(image)
+    table_patches = image_patch find(""table"")
+    # Question assumes only one table patch
+    if len(table_patches) == 0:
+        # If no table is found, query the image directly
+        return image_patch simple query(""Is the cat on top of the table?"", ""no"")
+    for table_patch in table_patches:
+        cat_patches = image_patch find(""cat"")
+        for cat_patch in cat_patches:
+            if cat_patch vertical center > table_patch vertical center:
+                return ""yes""
+    return ""no""
+
+# Is the cat on top of the table?
+def execute_command(image')->str:
+    image_patch = image Patch image)
+    table_patches = image_patch find(""table"")
+    # Question assumes only one table patch
+    if len table_patches) == 0:
+        # If no table is found, query the image directly
+        return image_patch simple query(""Is the cat on top of the table?"", ""no"")
+    for table patch in table patches:
+        cat_patches = image_patch find(""cat"")
+        for cat patch"

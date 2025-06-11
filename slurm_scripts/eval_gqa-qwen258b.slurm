@@ -14,11 +14,21 @@
 
 source /sorgin1/users/jbarrutia006/venvs/viper_tximista/bin/activate
 
-export LOAD_MODELS=1
+
+export LOAD_MODELS=0
 export DATASET='gqa'
+export EXEC_MODE='codex'
+export CODEX_MODEL='qwen25_inst'
+export PARTITION='val'
+export BATCHSIZE=16
+export TEMP=0
+export NUMINST=
+export CHECKPOINT=''
+
+export CODE=$(basename "$(ls -t results/gqa/codex_results/${PARTITION}/qwen25_inst.csv | head -n 1)")
+export LOAD_MODELS=1
 export EXEC_MODE='cache'
-export TRAIN=True
-export CODE='Qwen257b-post.csv'
 export BATCHSIZE=32
+
 
 srun python src/main_project_slurm.py

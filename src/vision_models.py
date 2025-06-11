@@ -1448,11 +1448,46 @@ class CodexModelInstructedQwen(CodexModel):
             logger.debug("Llegas a la parte de codex")
 
             if isinstance(prompt, list):
+                messages_template = []
+
+                # System prompt
+                system_prompt, few_shot_prompt = base_prompt.split("# Examples of using ImagePatch\n")
+                system_prompt_full = (
+                    "You are an AI that uses a special ImagePatch class to answer questions about images.\n"
+                    "Here is the class definition:\n\n"
+                    f"{system_prompt}\n\n"
+                    "Please use this class to answer queries about images.\n"
+                    "When writing the final solution, you typically define a function:\n\n"
+                    "def execute_command(image)->str:\n"
+                    "    # put your logic here\n"
+                    "Your job is to produce the correct code in that function "
+                    "so that it answers the question or does the operation asked by the user.\n"
+                )
+                #messages_template.append({"role": "system", "content": system_prompt})
+
+                # Few-shot examples
+                few_shot_prompt = few_shot_prompt.split("\n\n")[:-1]
+                for i, example in enumerate(few_shot_prompt):
+                    lines = example.splitlines()
+                    if i==0:
+                        joined_lines = "\n".join(lines[:2])
+                        content = f"{system_prompt}\n\n{joined_lines}"
+                        messages_template.append({"role": "user", "content": content})
+                        messages_template.append({"role": "assistant", "content": "\n".join(lines[2:])})
+                    else:
+                        messages_template.append({"role": "user", "content": "\n".join(lines[:2])})
+                        messages_template.append({"role": "assistant", "content": "\n".join(lines[2:])})
+
                 batch_messages = []
                 for single_prompt in prompt:
-                    messages = [{"role": "system", "content": "You are a coding assistant that must always respond in pure English. Any use of Chinese characters or non-standard code will result in a failure to execute. Answer just the last question."}]
-                    messages.append({"role": "user", "content": base_prompt.replace("INSERT_QUERY_HERE", single_prompt)})
+                    messages = list(messages_template)
+                    messages.append({"role": "user", "content": f"{single_prompt}\ndef execute_command(image)->str:"})
+                    #messages.append({"role": "assistant", "content": ""})
+
                     batch_messages.append(messages)
+
+
+                #logger.info(f"Batch prompts:\n{batch_messages}")
 
                 result = self.forward_(batch_messages)
 
@@ -2182,7 +2217,7 @@ class qwen25_inst(CodexModelInstructedQwen):
             assert os.path.exists(model_name), \
                 f'Model path {model_name} does not exist. If you use the model ID it will be downloaded automatically'
         else:
-            assert model_name in ['Qwen/Qwen2.5-Math-7B-Instruct']
+            assert model_name in ['Qwen/Qwen2.5-7B-Instruct']
 
 
         capability = torch.cuda.get_device_capability(gpu_number)
@@ -2236,7 +2271,7 @@ class qwen25_inst(CodexModelInstructedQwen):
 
             #chat_prompts = extended_prompt
 
-            logger.info(f"Chat prompts: {chat_prompts}")
+            #logger.info(f"Chat prompts: {chat_prompts}")
 
             response = self.run_code_Quantized_llama(chat_prompts)
             return response

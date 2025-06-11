@@ -16,12 +16,13 @@ from omegaconf import OmegaConf
 from rich.console import Console
 from torch.utils.data import DataLoader
 from tqdm import tqdm
+import re
 
 import sys
 
 #Logging
 import logging
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')  
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')  
 logger = logging.getLogger(__name__)
 logging.getLogger("maskrcnn_benchmark").setLevel(logging.WARNING)
 logging.getLogger("vllm").disabled = True
@@ -71,11 +72,15 @@ def run_program(parameters, queues_in_, input_type_, retrying=False):
                   f'ImagePatch, VideoSegment, ' \
                   'llm_query, bool_to_yesno, distance, best_image_match):\n'
 
-    if code.startswith('def execute_command'):
-        # If the code already has a function definition, remove it
-        code = code.split('\n', 1)[1]
+    if 'def execute_command' in code:
+        # Remove everything up to and including the line with 'def execute_command...'
+        code = re.sub(r'^.*?def execute_command[^\n]*\n', '', code, flags=re.DOTALL)
+        # Optionally trim after the triple backticks
+        code = code.split('```')[0]
     logger.debug(f"Code: {code}")
     code = code_header + str(code)
+
+
 
 
     # Define a timeout handler that raises a TimeoutError.

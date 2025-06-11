@@ -6,7 +6,7 @@
 #SBATCH --ntasks-per-node=1
 #SBATCH --mem=50GB
 #SBATCH --gres=gpu:1
-#SBATCH --time=0
+#SBATCH --time=20:00:00
 #SBATCH --output=/sorgin1/users/jbarrutia006/viper/slurm_scripts/outputs/%x-%A.txt
 #SBATCH --mail-type=all
 #SBATCH --mail-user=jbarrutia006@ikasle.ehu.eus
@@ -15,10 +15,10 @@
 source /sorgin1/users/jbarrutia006/venvs/viper_tximista/bin/activate
 
 # Run your SFT script
-srun python scripts/sft/sftrain-codellama.py \
+srun python scripts/sft/sftrain-qwen.py \
     --project_name "viperSFT" \
     --run_name "qwen" \
-    --model_name "Qwen/Qwen2.5-Math-7B-Instruct" \
+    --model_name "Qwen/Qwen2.5-7B-Instruct" \
     --train_dataset_sft "/sorgin1/users/jbarrutia006/viper/syntData/SFTDatasets/sft_dataset_train.arrow" \
     --dev_dataset_sft "/sorgin1/users/jbarrutia006/viper/syntData/SFTDatasets/sft_dataset_dev.arrow" \
     --output_dir "./sft_trained_models" \
