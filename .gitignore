@@ -221,3 +221,4 @@ GLIPNUEVO/
 dpo_trained_models/
 cache-*.arrow
 sft_trained_models/
+slurm_sripts/

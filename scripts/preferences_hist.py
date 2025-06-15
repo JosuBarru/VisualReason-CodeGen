@@ -39,8 +39,8 @@ def get_classification_bits(answer, accuracy):
     return [0, 0, 1, 0]
 
 def main():
-    input_folder = "/sorgin1/users/jbarrutia006/viper/results/gqa/all/train"
-    output_folder = "/sorgin1/users/jbarrutia006/viper/results/gqa/metrics/train"
+    input_folder = "/sorgin1/users/jbarrutia006/viper/results/gqa/all/testdev"
+    output_folder = "/sorgin1/users/jbarrutia006/viper/results/gqa/metrics/testdev"
     os.makedirs(output_folder, exist_ok=True)
     
     csv_files = get_csv_files(input_folder)

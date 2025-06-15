@@ -1,0 +1,143 @@
+sample_id,query,generated_code
+201307251,Is it overcast?," # image is a PIL.Image.Image
+    image_patch = ImagePatch(image)
+    return image_patch.simple_query(""Is it overcast?"")"
+201640614,Who is wearing the dress?," # assumes one person
+    image_patch = ImagePatch(image)
+    person_patches = image_patch.find(""person"")
+    # Question assumes only one person patch
+    if len(person_patches) == 0:
+        # If no person is found, query the image directly
+        return image_patch.simple_query(""Who is wearing the dress?"")
+    return person_patches[0].simple_query(""Who is wearing the dress?"")"
+202225914,Does the utensil on top of the table look clean and black?," # assumes only one utensil on top of the table
+    image_patch = ImagePatch(image)
+    utensil_patches = image_patch.find(""utensil"")
+    # Question assumes only one utensil patch
+    if len(utensil_patches) == 0:
+        # If no utensil is found, query the image directly
+        return image_patch.simple_query(""Does the utensil on top of the table look clean and black?"")
+    utensil_patch = utensil_patches[0]
+    is_clean = utensil_patch.verify_property(""utensil"", ""clean"")
+    is_black = utensil_patch.verify_property(""utensil"", ""black"")
+    return bool_to_yesno(is_clean and is_black)"
+2062325,Is the surfer that looks wet wearing a wetsuit?," # assumes only one surfer patch
+    image_patch = ImagePatch(image)
+    surfer_patches = image_patch.find(""surfer"")
+    if len(surfer_patches) == 0:
+        # If no surfer is found, query the image directly
+        return image_patch.simple_query(""Is the surfer that looks wet wearing a wetsuit?"")
+    for surfer_patch in surfer_patches:
+        if surfer_patch.simple_query(""Is the surfer that looks wet wearing a wetsuit?"") == ""yes"":
+            return ""yes""
+    return ""no"""
+201303229,How tall is the chair in the bottom of the photo?," # returns the height of the chair in the bottom of the photo
+    image_patch = ImagePatch(image)
+    chair_patches = image_patch.find(""chair"")
+    # Question assumes only one chair patch
+    if len(chair_patches) == 0:
+        # If no chair is found, query the image directly
+        return image_patch.simple_query(""How tall is the chair in the bottom of the photo?"")
+    chair_patch = chair_patches[0]
+    return chair_patch.simple_query(""How tall is the chair in the bottom of the photo?"")"
+201902997,What kind of device is on top of the desk?," # assumes only one device
+    image_patch = ImagePatch(image)
+    device_patches = image_patch.find(""device"")
+    # Question assumes only one device patch
+    if len(device_patches) == 0:
+        # If no device is found, query the image directly
+        return image_patch.simple_query(""What kind of device is on top of the desk?"")
+    return device_patches[0].simple_query(""What kind of device is on top of the desk?"")"
+20567512,What is the airplane flying above?," # contains a relation (around, next to, on, near, on top of, in front of, behind, etc), so ask directly
+    image_patch = ImagePatch(image)
+    return image_patch.simple_query(""What is the airplane flying above?"")"
+20136592,What color are the pants?," # assumes only one pair of pants
+    image_patch = ImagePatch(image)
+    pants_patches = image_patch.find(""pants"")
+    if len(pants_patches) == 0:
+        # If no pants are found, query the image directly
+        return image_patch.simple_query(""What color are the pants?"")
+    return pants_patches[0].simple_query(""What color are the pants?"")"
+20602803,Is the ground blue or brown?," # assumes only one ground patch
+    image_patch = ImagePatch(image)
+    ground_patches = image_patch.find(""ground"")
+    if len(ground_patches) == 0:
+        # If no ground is found, query the image directly
+        return image_patch.simple_query(""Is the ground blue or brown?"")
+    return ground_patches[0].best_text_match([""blue"", ""brown""])"
+201079951,What is around the open window?," # contains a relation (around, next to, on, near, on top of, in front of, behind, etc), so ask directly
+    image_patch = ImagePatch(image)
+    return image_patch.simple_query(""What is around the open window?"")"
+201079952,What's around the window?," # contains a relation (around, next to, on, near, on top of, in front of, behind, etc), so ask directly
+    image_patch = ImagePatch(image)
+    return image_patch.simple_query(""What's around the window?"")"
+20982537,Who is standing at the table?," # assumes one table patch
+    image_patch = ImagePatch(image)
+    table_patches = image_patch.find(""table"")
+    # Question assumes only one table patch
+    if len(table_patches) == 0:
+        # If no table is found, query the image directly
+        return image_patch.simple_query(""Who is standing at the table?"")
+    table_patch = table_patches[0]
+    person_patches = image_patch.find(""person"")
+    # Question assumes only one person patch
+    if len(person_patches) == 0:
+        return ""no""
+    person_patch = person_patches[0]
+    if person_patch.horizontal_center > table_patch.horizontal_center:
+        return person_patch.simple_query(""Who is standing at the table?"")
+    return ""no"""
+201079958,Are there drapes to the right of the bed?," # assumes only one bed patch
+    image_patch = ImagePatch(image)
+    bed_patches = image_patch.find(""bed"")
+    if len(bed_patches) == 0:
+        # If no bed is found, query the image directly
+        return image_patch.simple_query(""Are there drapes to the right of the bed?"")
+    bed_patch = bed_patches[0]
+    drape_patches = image_patch.find(""drape"")
+    for drape_patch in drape_patches:
+        if drape_patch.horizontal_center > bed_patch.horizontal_center:
+            return ""yes""
+    return ""no"""
+202218649,What is hanging above the chalkboard?," # assumes only one chalkboard
+    image_patch = ImagePatch(image)
+    chalkboard_patches = image_patch.find(""chalkboard"")
+    # Question assumes only one chalkboard patch
+    if len(chalkboard_patches) == 0:
+        # If no chalkboard is found, query the image directly
+        return image_patch.simple_query(""What is hanging above the chalkboard?"")
+    for chalkboard_patch in chalkboard_patches:
+        hanging_patches = image_patch.find(""hanging"")
+        for hanging_patch in hanging_patches:
+            if hanging_patch.vertical_center < chalkboard_patch.vertical_center:
+                return hanging_patch.simple_query(""What is hanging above the chalkboard?"") # crop would include the hanging so keep it in the query
+    # If no hanging is found, pick the first hanging
+    return hanging_patches[0].simple_query(""What is hanging above the chalkboard?"")"
+20609782,Is the cake on a platter?," # assumes only one cake patch
+    image_patch = ImagePatch(image)
+    cake_patches = image_patch.find(""cake"")
+    if len(cake_patches) == 0:
+        # If no cake is found, query the image directly
+        return image_patch.simple_query(""Is the cake on a platter?"")
+    cake_patch = cake_patches[0]
+    platter_patches = image_patch.find(""platter"")
+    for platter_patch in platter_patches:
+        if platter_patch.horizontal_center > cake_patch.horizontal_center:
+            return ""yes""
+    return ""no"""
+201757757,Is the person to the right of the cup wearing jeans?," # assumes only one person and one cup
+    image_patch = ImagePatch(image)
+    person_patches = image_patch.find(""person"")
+    # Question assumes only one person patch
+    if len(person_patches) == 0:
+        # If no person is found, query the image directly
+        return image_patch.simple_query(""Is the person to the right of the cup wearing jeans?"")
+    person_patch = person_patches[0]
+    cup_patches = image_patch.find(""cup"")
+    # Question assumes only one cup patch
+    if len(cup_patches) == 0:
+        return ""no""
+    cup_patch = cup_patches[0]
+    if person_patch.horizontal_center > cup_patch.horizontal_center:
+        return person_patch.simple_query(""Is the person wearing jeans?"") # crop would include the cup so keep it in the query
+    return ""no"""

@@ -1,6 +1,6 @@
-SELECTED CONFIG FILES: gqa/general_config,gqa/val
+SELECTED CONFIG FILES: gqa/general_config,gqa/testdev
 LOADING MODEL: ENABLED
-INFO 06-09 23:46:31 __init__.py:183] Automatically detected platform cuda.
+INFO 06-12 04:06:08 __init__.py:183] Automatically detected platform cuda.
 modelo: <class 'vision_models.BLIPModel'> , proceso:  blip
 VISION BACKBONE USE GRADIENT CHECKPOINTING:  False
 LANGUAGE BACKBONE USE GRADIENT CHECKPOINTING:  False
@@ -15,5 +15,6 @@ EARLY FUSION ON, USING MHA-B
 modelo: <class 'vision_models.GLIPModel'> , proceso:  glip
 modelo: <class 'vision_models.MaskRCNNModel'> , proceso:  maskrcnn
 modelo: <class 'vision_models.XVLMModel'> , proceso:  xvlm
-{'blip': <function make_fn.<locals>._function at 0x7fbc960dfb00>, 'glip': <function make_fn.<locals>._function at 0x7fbaac908400>, 'maskrcnn': <function make_fn.<locals>._function at 0x7fbaac9082c0>, 'xvlm': <function make_fn.<locals>._function at 0x7fbaac383e20>}
-Final accuracy: 0.479
+{'blip': <function make_fn.<locals>._function at 0x7f4217a8bb00>, 'glip': <function make_fn.<locals>._function at 0x7f4350f74400>, 'maskrcnn': <function make_fn.<locals>._function at 0x7f4350f742c0>, 'xvlm': <function make_fn.<locals>._function at 0x7f4306a6fe20>}
+Error in xvlm model: 'Tensor' object has no attribute 'lower'
+Final accuracy: 0.4145333121322945

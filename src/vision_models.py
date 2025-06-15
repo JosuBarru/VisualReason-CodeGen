@@ -2229,9 +2229,9 @@ class qwen25_inst(CodexModelInstructedQwen):
 
 
         if config.codex.adapter and config.codex.adapter != "":
-            self.llm = LLM(model=model_name, gpu_memory_utilization=0.95, dtype=dtype, enable_lora=True, max_lora_rank=64)
+            self.llm = LLM(model=model_name, gpu_memory_utilization=0.85, dtype=dtype, enable_lora=True, max_lora_rank=64)
         else:
-            self.llm = LLM(model=model_name, gpu_memory_utilization=0.95, dtype=dtype)
+            self.llm = LLM(model=model_name, gpu_memory_utilization=0.85, dtype=dtype)
 
         self.sampling_params = SamplingParams(
             max_tokens=512,
